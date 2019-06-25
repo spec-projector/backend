@@ -15,7 +15,6 @@ stages:
   - build
   - test
   - publish
-  - deploy
 
 quality:
   image: junte/python-quality
