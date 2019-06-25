@@ -1,0 +1,7 @@
+*.py[cod]
+.idea/
+.venv
+*.iml
+run/
+*.mo
+.pytest_cache
