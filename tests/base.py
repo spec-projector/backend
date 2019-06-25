@@ -56,6 +56,8 @@ class BaseTestMixin:
 
         self.opened_files.append(f)
         return f
+
+
 class BaseAPITest(BaseTestMixin, APITestCase):
     def set_credentials(self, user=None, token=None):
         if not user:

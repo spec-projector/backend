@@ -54,7 +54,7 @@ test:
   artifacts:
     paths:
       - coverage
-
+      
 publish-dev:
   stage: publish
   dependencies: []
@@ -66,7 +66,7 @@ publish-dev:
   only:
     - master
 
-.publish-prod:
+publish-prod:
   stage: publish
   dependencies: []
   script:
@@ -77,16 +77,3 @@ publish-dev:
   only:
     - prod
 
-deploy-dev:
-  stage: deploy
-  image: junte/ssh-agent
-  dependencies: []
-  variables:
-    SSH_PRIVATE_KEY: $SSH_DEV_PRIVATE_KEY
-  script:
-    - ssh deploy@${DEV_HOST} "/opt/deploy/deploy.sh"
-  environment:
-    name: dev
-    url: https://${DEV_HOST}/admin/
-  only:
-    - master

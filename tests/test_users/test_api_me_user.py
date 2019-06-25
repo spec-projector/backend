@@ -14,4 +14,3 @@ class MeUserTests(BaseAPITest):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['id'], self.user.id)
         self.assertEqual(response.data['name'], self.user.name)
-

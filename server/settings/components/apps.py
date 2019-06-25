@@ -28,5 +28,6 @@ INSTALLED_APPS = (
 
     # apps
     'apps.core',
+    'apps.projects',
     'apps.users',
 )
