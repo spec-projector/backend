@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('api/', include((get_module_url_patterns(
         'apps.users.rest.urls',
+        'apps.projects.rest.urls',
     ), 'urls'), namespace='api')),
     re_path(r'^api/swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='swagger-json'),
     path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
