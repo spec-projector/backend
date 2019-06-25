@@ -54,3 +54,26 @@ test:
   artifacts:
     paths:
       - coverage
+      
+publish-dev:
+  stage: publish
+  dependencies: []
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker pull $DOCKER_TEST_IMAGE
+    - docker tag $DOCKER_TEST_IMAGE $DOCKER_DEV_IMAGE
+    - docker push $DOCKER_DEV_IMAGE
+  only:
+    - master
+
+publish-prod:
+  stage: publish
+  dependencies: []
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker pull $DOCKER_TEST_IMAGE
+    - docker tag $DOCKER_TEST_IMAGE $DOCKER_PROD_IMAGE
+    - docker push $DOCKER_PROD_IMAGE
+  only:
+    - prod
+
