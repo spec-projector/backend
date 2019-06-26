@@ -24,6 +24,8 @@ celery = "4.1.*"
 flower = "*"
 redis = "*"
 psycopg2-binary = "*"
+social-auth-app-django = "^3.1"
+social-auth-core = "^3.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
