@@ -21,6 +21,7 @@ INSTALLED_APPS = (
     'drf_yasg',
     'corsheaders',
     'admin_auto_filters',
+    'social_django',
     'health_check',
     'health_check.db',
     'health_check.cache',

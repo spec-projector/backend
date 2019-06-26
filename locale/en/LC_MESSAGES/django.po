@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-19 22:03+0300\n"
+"POT-Creation-Date: 2019-06-26 12:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: server/apps/projects/apps.py:8 server/apps/projects/models/project.py:16
+msgid "VN__PROJECTS"
+msgstr "Projects"
+
+#: server/apps/projects/models/project.py:10
+msgid "VN__TITLE"
+msgstr "Title"
+
+#: server/apps/projects/models/project.py:11
+msgid "HT__TITLE"
+msgstr "Title"
+
+#: server/apps/projects/models/project.py:15
+msgid "VN__PROJECT"
+msgstr "Project"
 
 #: server/apps/users/apps.py:8 server/apps/users/models/user.py:54
 msgid "VN__USERS"
@@ -78,10 +94,18 @@ msgstr "Is active"
 msgid "VN__USER"
 msgstr "User"
 
+#: server/apps/users/rest/serializers.py:24
+msgid "MESSAGE_UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
+msgstr ""
+
+#: server/apps/users/rest/serializers.py:26
+msgid "MESSAGE_MUST_INCLUDE_LOGIN_AND_PASSWORD"
+msgstr ""
+
 #: server/settings/components/i18n.py:14
 msgid "MESSAGE__ENGLISH"
 msgstr "English"
 
-#: server/urls.py:7
+#: server/urls.py:12
 msgid "VN__ADMIN_DASHBOARD"
 msgstr "Admin dashboard"
