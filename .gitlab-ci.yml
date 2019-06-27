@@ -15,6 +15,7 @@ stages:
   - build
   - test
   - publish
+  - deploy
 
 quality:
   image: junte/python-quality
@@ -77,3 +78,16 @@ publish-prod:
   only:
     - prod
 
+deploy_dev:
+  image: junte/ssh-agent
+  stage: deploy
+  dependencies: []
+  variables:
+    SSH_PRIVATE_KEY: $SSH_DEV_PRIVATE_KEY
+  script:
+  - ssh deploy@${DEV_HOST} "/opt/junte/deploy/spec_projector/deploy.sh"
+  environment:
+    name: dev
+    url: https://${DEV_HOST}
+  only:
+  - master
