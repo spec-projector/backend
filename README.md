@@ -19,6 +19,4 @@ https://specprojector.com/login
 
 `SOCIAL_AUTH_GITLAB_SECRET` - "Secret"
 
-`SOCIAL_AUTH_GITLAB_REDIRECT_URI` - 'https://specprojector.com/login'
-
 * Login: https://specprojector.com/api/login/gitlab/
