@@ -2,7 +2,7 @@ import os
 import sys
 
 from apps.users.models import User
-from apps.users.utils.token import create_user_token
+from apps.users.services.token import create_user_token
 from django.db import transaction
 from rest_framework.test import APITestCase
 

@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.admin.utils import get_fields_from_path
-from django.contrib.admin.widgets import AutocompleteSelectMultiple, AutocompleteSelect
+from django.contrib.admin.widgets import (
+    AutocompleteSelectMultiple, AutocompleteSelect
+)
 from django.utils.safestring import mark_safe
 
 
@@ -32,9 +34,14 @@ class AutocompleteChangeListFilter(admin.SimpleListFilter):
 
         self.request = request
 
-        rel = field_for_model.remote_field if field_for_model.remote_field else field_for_model
+        rel = field_for_model.remote_field if field_for_model.remote_field \
+            else field_for_model
         widget = self.get_widget_class()(rel, admin.site)
-        field = self.get_field_class()(queryset=self.get_field_queryset(model), widget=widget, required=False)
+        field = self.get_field_class()(
+            queryset=self.get_field_queryset(model),
+            widget=widget,
+            required=False
+        )
 
         value = self.get_value(request)
 
@@ -43,8 +50,14 @@ class AutocompleteChangeListFilter(admin.SimpleListFilter):
             'data-parameter': self.parameter_name,
         }
 
-        self.rendered_widget = field.widget.render(name=self.parameter_name, value=value, attrs=attrs)
-        self.rendered_widget = self.rendered_widget.replace('class="admin-autocomplete"', 'class="filter-autocomplete"')
+        self.rendered_widget = field.widget.render(
+            name=self.parameter_name,
+            value=value,
+            attrs=attrs
+        )
+        self.rendered_widget = self.rendered_widget.replace(
+            'class="admin-autocomplete"', 'class="filter-autocomplete"'
+        )
         self.rendered_widget = mark_safe(self.rendered_widget)
 
         self.media = self.get_media(field.widget)
@@ -70,17 +83,23 @@ class AutocompleteChangeListFilter(admin.SimpleListFilter):
         return request.GET.getlist(self.parameter_name)
 
     def get_field_queryset(self, model):
-        return get_fields_from_path(model, self.parameter_name)[-1].target_field.model.objects.all()
+        return get_fields_from_path(
+            model, self.parameter_name
+        )[-1].target_field.model.objects.all()
 
     def get_widget_class(self):
-        return AutocompleteSelectMultiple if self.is_multiple else AutocompleteSelect
+        return AutocompleteSelectMultiple if self.is_multiple \
+            else AutocompleteSelect
 
     def get_field_class(self):
-        return forms.ModelMultipleChoiceField if self.is_multiple else forms.ModelChoiceField
+        return forms.ModelMultipleChoiceField if self.is_multiple \
+            else forms.ModelChoiceField
 
     def get_media(self, widget):
         media = widget.media
-        media._js_lists[0] = tuple(list(media._js_lists[0]) + list(self.Media.js))
+        media._js_lists[0] = tuple(
+            list(media._js_lists[0]) + list(self.Media.js)
+        )
 
         return media
 
