@@ -1,7 +1,12 @@
 *.py[cod]
 .idea/
+logs/
+env
 .venv
+.mypy_cache
+.pytest_cache
 *.iml
 run/
 *.mo
-.pytest_cache
+dev.py
+venv
