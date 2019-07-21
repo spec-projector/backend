@@ -15,6 +15,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     # vendors
+    'graphene_django',
     'django_extensions',
     'django_filters',
     'rest_framework',
