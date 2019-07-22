@@ -3,7 +3,9 @@ from rest_framework import mixins
 from apps.core.rest.mixins.views import CreateModelMixin, UpdateModelMixin
 from apps.core.rest.views import BaseGenericViewSet
 from apps.projects.models import Project
-from apps.projects.rest.serializers import ProjectSerializer, ProjectCardSerializer, ProjectUpdateSerializer
+from apps.projects.rest.serializers import (
+    ProjectSerializer, ProjectCardSerializer, ProjectUpdateSerializer
+)
 
 
 class ProjectViewset(mixins.RetrieveModelMixin,
