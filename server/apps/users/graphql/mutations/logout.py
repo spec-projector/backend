@@ -8,6 +8,6 @@ class LogoutMutation(BaseMutation):
 
     @classmethod
     def do_mutate(cls, root, info):
-        info.context.user.token_set.all().delete()
+        info.context.auth.delete()
 
         return LogoutMutation(ok=True)
