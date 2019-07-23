@@ -8,26 +8,18 @@ from apps.projects.rest.serializers import (
 )
 
 
-class ProjectViewset(mixins.RetrieveModelMixin,
-                     mixins.DestroyModelMixin,
-                     UpdateModelMixin,
-                     BaseGenericViewSet):
-    serializer_classes = {
-        'retrieve': ProjectSerializer,
-        'update': ProjectSerializer,
-        'partial_update': ProjectSerializer,
-    }
-    update_serializer_class = ProjectUpdateSerializer
-
-    queryset = Project.objects.all()
-
-
 class ProjectsViewset(mixins.ListModelMixin,
                       CreateModelMixin,
+                      mixins.RetrieveModelMixin,
+                      mixins.DestroyModelMixin,
+                      UpdateModelMixin,
                       BaseGenericViewSet):
     serializer_classes = {
         'create': ProjectCardSerializer,
         'list': ProjectCardSerializer,
+        'partial_update': ProjectSerializer,
+        'retrieve': ProjectSerializer,
+        'update': ProjectSerializer,
     }
     update_serializer_class = ProjectUpdateSerializer
 
