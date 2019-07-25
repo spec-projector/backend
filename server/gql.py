@@ -1,12 +1,15 @@
 import graphene
 from graphene_django.debug import DjangoDebug
 
-from apps.core.graphql.views import PrivateGraphQLView, \
-    DrfAuthenticatedGraphQLView
+from apps.core.graphql.views import (
+    PrivateGraphQLView, DrfAuthenticatedGraphQLView
+)
 from apps.users.graphql.mutations import AuthMutations
+from apps.users.graphql.queries import UsersQueries
 
 
-class Query(graphene.ObjectType):
+class Query(UsersQueries,
+            graphene.ObjectType):
     debug = graphene.Field(DjangoDebug, name='_debug')
 
 
