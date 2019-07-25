@@ -3,14 +3,18 @@ from graphene_django.debug import DjangoDebug
 
 from apps.core.graphql.views import PrivateGraphQLView, \
     DrfAuthenticatedGraphQLView
+from apps.projects.graphql.queries import ProjectsQueries
+from apps.projects.graphql.mutations import ProjectMutations
 from apps.users.graphql.mutations import AuthMutations
 
 
-class Query(graphene.ObjectType):
+class Query(ProjectsQueries,
+            graphene.ObjectType):
     debug = graphene.Field(DjangoDebug, name='_debug')
 
 
-class Mutation(AuthMutations,
+class Mutation(ProjectMutations,
+               AuthMutations,
                graphene.ObjectType):
     pass
 
