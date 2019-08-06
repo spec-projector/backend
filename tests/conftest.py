@@ -1,5 +1,7 @@
 import pytest
 
+from .base import Client, create_user
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -20,6 +22,11 @@ def pytest_collection_modifyitems(config, items):
                 item.add_marker(skip)
 
 
+@pytest.fixture(scope='module')
+def client():
+    return Client()
+
+
 @pytest.fixture(autouse=True, scope='function')
 def media_root(settings, tmpdir_factory):
     """Forces django to save media files into temp folder."""
@@ -32,3 +39,8 @@ def password_hashers(settings):
     settings.PASSWORD_HASHERS = [
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ]
+
+
+@pytest.fixture()
+def user(db):
+    return create_user()
