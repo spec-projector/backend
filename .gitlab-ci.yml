@@ -70,27 +70,21 @@ publish_master:
     - master
 
 deploy_master:
-  image: dtzar/helm-kubectl:2.16.1
+  image: junte/helm-deploy:1.1-helm2.16.1
   stage: deploy
   dependencies: []
   variables:
     GIT_DEPTH: 5
     GIT_STRATEGY: fetch
-  before_script:
-    - kubectl config set-cluster prod --server="${K8S_URL}" --insecure-skip-tls-verify
-    - kubectl config set-credentials deploy --token="$K8S_TOKEN"
-    - kubectl config set-context default-context --cluster=prod --user=deploy
-    - kubectl config use-context default-context
-    - helm init --client-only
-    - cd deploy/helm
-    - helm repo update
+    K8S_URL: $K8S_URL
+    K8S_TOKEN: $K8S_TOKEN
+    HELM_RELEASE: spec-projector--backend
+    HELM_IMAGE_TAG: $CI_PIPELINE_IID
+    HELM_OVERRIDES: $K8S_HELM_OVERRIDES
+    HELM_NAMESPACE: $K8S_NAMESPACE
+    HELM_CHART_PATH: deploy/helm
   script:
-    - export RELEASE_NAME=spec-projector--backend
-    - echo $RELEASE_NAME
-    - ls -l
-    - echo $K8S_NS
-    - export DEPLOYS=$(helm ls | grep $RELEASE_NAME | wc -l)
-    - if [ ${DEPLOYS} -eq 0 ]; then helm install --set image.tag=$CI_PIPELINE_IID --name=${RELEASE_NAME} -f $K8S_HELM_OVERRIDES --namespace $K8S_NS . ; else helm upgrade ${RELEASE_NAME} --set image.tag=$CI_PIPELINE_IID -f $K8S_HELM_OVERRIDES --namespace $K8S_NS .; fi
+    - helm_deploy
   environment:
     name: production
     url: $SITE_ADDRESS
