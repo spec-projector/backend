@@ -87,8 +87,8 @@ deploy_master:
     - echo $K8S_HELM_OVERRIDES
     - ls -l /builds/junte/spec-projector/backend.tmp/
     - _HELM_OPTS="--set image.tag=$HELM_IMAGE_TAG"
-    - if [ "$HELM_OVERRIDES" ]; then _HELM_OPTS="$_HELM_OPTS -f $HELM_OVERRIDES" fi
-    - if [ "$HELM_NAMESPACE" ]; then _HELM_OPTS="$_HELM_OPTS --namespace $HELM_NAMESPACE" fi
+    - if [ "$HELM_OVERRIDES" ]; then _HELM_OPTS="$_HELM_OPTS -f $HELM_OVERRIDES"; fi
+    - if [ "$HELM_NAMESPACE" ]; then _HELM_OPTS="$_HELM_OPTS --namespace $HELM_NAMESPACE"; fi
     - echo $_HELM_OPTS
     - helm_deploy
   environment:
