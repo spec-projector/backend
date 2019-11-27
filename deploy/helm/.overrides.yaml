@@ -1,0 +1,4 @@
+secrets:
+  secret_key: KCDMwCUDrkBS8P82auDLLmrGr7LAKTqJ
+  social_auth_gitlab_key: 6203f0762487a71648d573efb0324eb3ee2ccfca7b9e08a3d0d25c0ede130e48
+  social_auth_gitlab_secret: 917311b2e0695413a05d4b634b883968c98a71c346766b3f2007e3a535537bb2
