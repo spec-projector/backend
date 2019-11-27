@@ -76,23 +76,9 @@ deploy_master:
   variables:
     GIT_DEPTH: 5
     GIT_STRATEGY: fetch
-    K8S_URL: $K8S_URL
-    K8S_TOKEN: $K8S_TOKEN
-    HELM_RELEASE: spec-projector--backend
     HELM_IMAGE_TAG: $CI_PIPELINE_IID
-    HELM_OVERRIDES: $K8S_HELM_OVERRIDES
-    HELM_NAMESPACE: $K8S_NAMESPACE
-    HELM_CHART_PATH: deploy/helm
   script:
-    - echo $K8S_HELM_OVERRIDES
-    - echo $HELM_OVERRIDES
-    - export $HELM_OVERRIDES=$K8S_HELM_OVERRIDES
-    - echo $HELM_OVERRIDES
-    - ls -l /builds/junte/spec-projector/backend.tmp/
-    - _HELM_OPTS="--set image.tag=$HELM_IMAGE_TAG"
-    - if [ "${HELM_OVERRIDES}" ]; then _HELM_OPTS="${_HELM_OPTS} -f ${HELM_OVERRIDES}"; fi
-    - if [ "${HELM_NAMESPACE}" ]; then _HELM_OPTS="${_HELM_OPTS} --namespace ${HELM_NAMESPACE}"; fi
-    - echo $_HELM_OPTS
+    - echo $HELM_IMAGE_TAG
     - helm_deploy
   environment:
     name: production
