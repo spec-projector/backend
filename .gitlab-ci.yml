@@ -29,7 +29,7 @@ build:
     - docker push $DOCKER_IMAGE
     - docker push $DOCKER_CACHE_IMAGE
 
-.quality:
+quality:
   image: $DOCKER_TEST_IMAGE
   stage: test
   script:
@@ -37,7 +37,7 @@ build:
     - export PATH="$PATH:$HOME/.poetry/bin"
     - make check_quality
 
-.test:
+test:
   image: $DOCKER_TEST_IMAGE
   stage: test
   variables:
@@ -78,7 +78,6 @@ deploy_master:
     GIT_STRATEGY: fetch
     HELM_IMAGE_TAG: $CI_PIPELINE_IID
   script:
-    - echo $HELM_IMAGE_TAG
     - helm_deploy
   environment:
     name: production
