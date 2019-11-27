@@ -96,11 +96,11 @@ msgstr "User"
 
 #: server/apps/users/rest/serializers.py:24
 msgid "MESSAGE_UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
-msgstr ""
+msgstr "Unable login with provided credentials"
 
 #: server/apps/users/rest/serializers.py:26
 msgid "MESSAGE_MUST_INCLUDE_LOGIN_AND_PASSWORD"
-msgstr ""
+msgstr "Must include login and password"
 
 #: server/settings/components/i18n.py:14
 msgid "MESSAGE__ENGLISH"

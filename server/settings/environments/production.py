@@ -1,9 +1,9 @@
-from settings import config
+from decouple import config
 
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 DOMAIN_NAME = config('DOMAIN_NAME')
 
-ALLOWED_HOSTS = [DOMAIN_NAME]
+ALLOWED_HOSTS = ['localhost', DOMAIN_NAME]
 
 DATABASES = {
     'default': {
@@ -17,5 +17,5 @@ DATABASES = {
     },
 }
 
-STATIC_ROOT = '/var/www/server/static'
-MEDIA_ROOT = '/var/www/server/media'
+STATIC_ROOT = '/var/www/static'
+MEDIA_ROOT = '/var/www/media'

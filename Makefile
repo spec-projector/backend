@@ -1,13 +1,8 @@
-flake8:
-	@flake8 server
-
-mypy:
-	@mypy server
-
-check_quality: flake8 mypy
+check_quality:
+	@./scripts/quality.sh
 
 make_messages:
-	@./manage.py makemessages --ignore=.venv/* -l en
+	@./manage.py makemessages --ignore=.venv/* -l en --no-location
 
 compile_messages:
 	@./manage.py compilemessages
