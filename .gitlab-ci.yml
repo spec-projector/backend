@@ -84,6 +84,7 @@ deploy_master:
     HELM_NAMESPACE: $K8S_NAMESPACE
     HELM_CHART_PATH: deploy/helm
   script:
+    - echo $K8S_HELM_OVERRIDES
     - helm_deploy
   environment:
     name: production
