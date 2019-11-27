@@ -85,6 +85,7 @@ deploy_master:
     HELM_CHART_PATH: deploy/helm
   script:
     - echo $K8S_HELM_OVERRIDES
+    - echo $HELM_OVERRIDES
     - ls -l /builds/junte/spec-projector/backend.tmp/
     - _HELM_OPTS="--set image.tag=$HELM_IMAGE_TAG"
     - if [ "${HELM_OVERRIDES}" ]; then _HELM_OPTS="${_HELM_OPTS} -f ${HELM_OVERRIDES}"; fi
