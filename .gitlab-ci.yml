@@ -85,7 +85,7 @@ deploy_master:
     HELM_CHART_PATH: deploy/helm
   script:
     - echo $K8S_HELM_OVERRIDES
-    - echo "test"
+    - ls -l /builds/junte/spec-projector/backend.tmp/
     - helm_deploy
   environment:
     name: production
