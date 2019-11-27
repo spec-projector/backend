@@ -1,4 +1,9 @@
 {{- define "env" -}}
+- name: DOMAIN_NAME
+  valueFrom:
+    configMapKeyRef:
+      name: global-config
+      key: global.domain
 - name: POSTGRES_DB
   valueFrom:
     configMapKeyRef:
