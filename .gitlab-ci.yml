@@ -85,6 +85,7 @@ deploy_master:
     HELM_CHART_PATH: deploy/helm
   script:
     - echo $K8S_HELM_OVERRIDES
+    - echo "test"
     - helm_deploy
   environment:
     name: production
