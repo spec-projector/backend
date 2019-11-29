@@ -1,5 +1,5 @@
-from apps.users.models import User
 from apps.users.graphql.types.user import UserType
+from apps.users.models import User
 from tests.base import AttrDict
 from tests.test_users.factories import UserFactory
 

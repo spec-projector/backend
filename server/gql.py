@@ -10,9 +10,11 @@ from apps.users.graphql.mutations import AuthMutations
 from apps.users.graphql.queries import UsersQueries
 
 
-class Query(ProjectsQueries,
-            UsersQueries,
-            graphene.ObjectType):
+class Query(
+    ProjectsQueries,
+    UsersQueries,
+    graphene.ObjectType,
+):
     debug = graphene.Field(DjangoDebug, name='_debug')
 
 
