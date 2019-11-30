@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.users.db.managers import CustomUserManager
+from apps.users.db.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -47,7 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'login'
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
     class Meta:
         verbose_name = _('VN__USER')

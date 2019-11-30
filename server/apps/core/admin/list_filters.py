@@ -1,8 +1,11 @@
+from typing import Iterable, Tuple
+
 from django import forms
 from django.contrib import admin
 from django.contrib.admin.utils import get_fields_from_path
 from django.contrib.admin.widgets import (
-    AutocompleteSelectMultiple, AutocompleteSelect
+    AutocompleteSelect,
+    AutocompleteSelectMultiple,
 )
 from django.utils.safestring import mark_safe
 
@@ -62,8 +65,10 @@ class AutocompleteChangeListFilter(admin.SimpleListFilter):
 
         self.media = self.get_media(field.widget)
 
-    def lookups(self, request, model_admin):
-        return (('__id__in', 'in list'),)
+    def lookups(self, request, model_admin) -> Tuple[Tuple[str, str]]:
+        return (
+            ('__id__in', 'in list'),
+        )
 
     def queryset(self, request, queryset):
         value = self.get_value(request)
@@ -79,7 +84,7 @@ class AutocompleteChangeListFilter(admin.SimpleListFilter):
 
         return queryset
 
-    def get_value(self, request):
+    def get_value(self, request) -> Iterable[int]:
         return request.GET.getlist(self.parameter_name)
 
     def get_field_queryset(self, model):

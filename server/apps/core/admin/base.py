@@ -1,15 +1,18 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.contenttypes.admin import (
-    GenericStackedInline, GenericTabularInline
+    GenericStackedInline,
+    GenericTabularInline,
 )
 
 from apps.core.admin.list_filters import AutocompleteChangeListFilter
 from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
 
 
-class BaseModelAdmin(AdminFormFieldsOverridesMixin,
-                     admin.ModelAdmin):
+class BaseModelAdmin(
+    AdminFormFieldsOverridesMixin,
+    admin.ModelAdmin,
+):
     list_per_page = 20
 
     def changelist_view(self, request, extra_context=None):
@@ -19,9 +22,13 @@ class BaseModelAdmin(AdminFormFieldsOverridesMixin,
         self._update_media(changelist_view)
         return changelist_view
 
-    def _update_media(self, changelist):
-        if not hasattr(changelist.context_data['cl'], 'filter_specs') \
-                or not changelist.context_data['cl'].filter_specs:
+    def _update_media(self, changelist) -> None:
+        skip_update = (
+            not hasattr(changelist.context_data['cl'], 'filter_specs')
+            or not changelist.context_data['cl'].filter_specs
+        )
+
+        if skip_update:
             return
 
         for list_filter in changelist.context_data['cl'].filter_specs:
@@ -29,7 +36,7 @@ class BaseModelAdmin(AdminFormFieldsOverridesMixin,
                 self._update_static(changelist, list_filter)
 
     @staticmethod
-    def _update_static(changelist, filter):
+    def _update_static(changelist, filter) -> None:
         for js in filter.media._js_lists:
             changelist.context_data['media']._js_lists.append(js)
 
@@ -40,26 +47,28 @@ class BaseModelAdmin(AdminFormFieldsOverridesMixin,
         pass
 
 
-class BaseStackedInline(AdminFormFieldsOverridesMixin,
-                        admin.StackedInline):
+class BaseStackedInline(AdminFormFieldsOverridesMixin, admin.StackedInline):
     extra = 0
     show_change_link = True
 
 
-class BaseTabularInline(AdminFormFieldsOverridesMixin,
-                        admin.TabularInline):
+class BaseTabularInline(AdminFormFieldsOverridesMixin, admin.TabularInline):
     extra = 0
     show_change_link = True
 
 
-class BaseGenericStackedInline(AdminFormFieldsOverridesMixin,
-                               GenericStackedInline):
+class BaseGenericStackedInline(
+    AdminFormFieldsOverridesMixin,
+    GenericStackedInline,
+):
     extra = 0
     show_change_link = True
 
 
-class BaseGenericTabularInline(AdminFormFieldsOverridesMixin,
-                               GenericTabularInline):
+class BaseGenericTabularInline(
+    AdminFormFieldsOverridesMixin,
+    GenericTabularInline,
+):
     extra = 0
     show_change_link = True
 

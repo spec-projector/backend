@@ -18,9 +18,11 @@ class Query(
     debug = graphene.Field(DjangoDebug, name='_debug')
 
 
-class Mutation(ProjectMutations,
-               AuthMutations,
-               graphene.ObjectType):
+class Mutation(
+    ProjectMutations,
+    AuthMutations,
+    graphene.ObjectType,
+):
     pass
 
 

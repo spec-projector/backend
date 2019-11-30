@@ -19,10 +19,10 @@ class BaseMutation(AuthMutation,
         return cls.do_mutate(root, info, **kwargs)
 
     @classmethod
-    def check_premissions(cls, root, info, **kwargs):
+    def check_premissions(cls, root, info, **kwargs) -> None:
         if not cls.has_permission(root, info, **kwargs):
             raise PermissionDenied()
 
     @classmethod
-    def do_mutate(cls, root, info, **kwargs):
+    def do_mutate(cls, root, info, **kwargs) -> None:
         raise NotImplementedError

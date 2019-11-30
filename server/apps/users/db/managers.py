@@ -2,8 +2,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
 
-class CustomUserManager(BaseUserManager):
-    def create_user(self, login, password=None, **kwargs):
+class UserManager(BaseUserManager):
+    def create_user(self, login: str, password: str = None, **kwargs):
         if not login:
             raise ValueError(_('VN__USER_MUST_HAVE_A_LOGIN'))
 
@@ -13,7 +13,7 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, login, password):
+    def create_superuser(self, login: str, password: str):
         user = self.create_user(
             login,
             password=password
