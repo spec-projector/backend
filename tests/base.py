@@ -2,11 +2,7 @@ from typing import Dict
 
 from rest_framework.test import APIRequestFactory
 
-from apps.users.models import User
 from apps.users.services.token import create_user_token
-
-DEFAULT_USER_PASSWORD = 'password'
-DEFAULT_USER_LOGIN = 'user'
 
 
 class MockStorageMessages:
@@ -68,22 +64,3 @@ class Client:
         self._credentials = {
             'HTTP_AUTHORIZATION': f'Bearer {token.key}',
         }
-
-
-def create_user(login=DEFAULT_USER_LOGIN, **kwargs) -> User:
-    user = User.objects.filter(login=login).first()
-
-    if not user:
-        if 'password' not in kwargs:
-            kwargs['password'] = DEFAULT_USER_PASSWORD
-
-        user = User.objects.create_user(
-            login=login,
-            is_staff=False,
-            **kwargs
-        )
-    elif 'password' in kwargs:
-        user.set_password(kwargs.get('password'))
-        user.save()
-
-    return user

@@ -1,7 +1,9 @@
 import pytest
 
-from apps.users.models import User
-from .base import Client, create_user
+from .base import Client
+
+DEFAULT_USERNAME = 'user'
+DEFAULT_USER_PASSWORD = 'password'
 
 
 def pytest_addoption(parser):
@@ -35,18 +37,35 @@ def client() -> Client:
 
 @pytest.fixture(autouse=True, scope='function')  # type: ignore
 def media_root(settings, tmpdir_factory) -> None:
-    """Forces django to save media files into temp folder."""
+    '''Forces django to save media files into temp folder.'''
     settings.MEDIA_ROOT = tmpdir_factory.mktemp('media', numbered=True)
 
 
 @pytest.fixture(autouse=True, scope='function')
 def password_hashers(settings):
-    """Forces django to use fast password hashers for tests."""
+    '''Forces django to use fast password hashers for tests.'''
     settings.PASSWORD_HASHERS = [
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ]
 
 
 @pytest.fixture()  # type: ignore
-def user(db) -> User:
-    return create_user()
+def user(db, django_user_model, django_username_field):
+    """A Django user.
+
+    This uses an existing user with username 'user', or creates a new one with
+    password 'password'.
+    """
+    UserModel = django_user_model
+    username_field = django_username_field
+
+    try:
+        user = UserModel._default_manager.get(
+            **{username_field: DEFAULT_USERNAME},
+        )
+    except UserModel.DoesNotExist:
+        user = UserModel._default_manager.create_user(
+            DEFAULT_USERNAME,
+            DEFAULT_USER_PASSWORD,
+        )
+    return user

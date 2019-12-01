@@ -1,7 +1,7 @@
 from apps.core.utils.objects import dict2obj
 from apps.users.graphql.mutations.login import LoginMutation
 from apps.users.models import Token
-from tests.base import DEFAULT_USER_PASSWORD
+from tests.conftest import DEFAULT_USER_PASSWORD
 
 
 def test_login(user, client):
