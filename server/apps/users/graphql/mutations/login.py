@@ -16,13 +16,7 @@ class LoginMutation(BaseMutation):
         password = graphene.String(required=True)
 
     @classmethod
-    def do_mutate(cls, root, info, login, password):
-        token = login_user(
-            login,
-            password,
-            info.context
-        )
+    def do_mutate(cls, root, info, login, password) -> 'LoginMutation':
+        token = login_user(login, password)
 
-        return LoginMutation(
-            token=token
-        )
+        return cls(token=token)

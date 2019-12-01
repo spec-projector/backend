@@ -1,7 +1,7 @@
 from apps.core.utils.objects import dict2obj
 from apps.users.graphql.types.user import UserType
 from apps.users.models import User
-from tests.test_users.factories import UserFactory
+from tests.test_users.factories.user import UserFactory
 
 
 def test_user(user, client):

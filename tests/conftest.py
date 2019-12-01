@@ -1,5 +1,6 @@
 import pytest
 
+from tests.ghl_request_factory import GraphQLRequestFactory
 from tests.request_factory import RequestFactory
 
 DEFAULT_USERNAME = 'user'
@@ -69,3 +70,8 @@ def user(db, django_user_model, django_username_field):
 @pytest.fixture()  # type: ignore
 def rf() -> RequestFactory:
     return RequestFactory()
+
+
+@pytest.fixture()  # type: ignore
+def ghl_rf() -> GraphQLRequestFactory:
+    return GraphQLRequestFactory()

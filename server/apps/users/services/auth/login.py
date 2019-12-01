@@ -8,9 +8,9 @@ from apps.users.services.token import create_user_token
 
 
 def login_user(
-        login: str,
-        password: str,
-        request,
+    login: str,
+    password: str,
+    request=None,
 ) -> Token:
     if login and password:
         user = authenticate(
