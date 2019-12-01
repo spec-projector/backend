@@ -49,7 +49,7 @@ def password_hashers(settings):
     ]
 
 
-@pytest.fixture()  # type: ignore
+@pytest.fixture()
 def user(db, django_user_model, django_username_field):
     """A Django user.
 
