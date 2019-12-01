@@ -1,16 +1,12 @@
+from typing import Dict
+
 from rest_framework.test import APIRequestFactory
 
 from apps.users.models import User
 from apps.users.services.token import create_user_token
 
-USER_LOGIN = 'test_test'
-USER_PASSWORD = '1234560'
-
-
-class AttrDict(dict):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__dict__ = self
+DEFAULT_USER_PASSWORD = 'password'
+DEFAULT_USER_LOGIN = 'user'
 
 
 class MockStorageMessages:
@@ -19,10 +15,10 @@ class MockStorageMessages:
 
 
 class Client:
-    def __init__(self, user=None):
+    def __init__(self, user=None) -> None:
         self.user = user
         self._factory = APIRequestFactory()
-        self._credentials = {}
+        self._credentials: Dict[str, str] = {}
 
     def get(self, url, data=None, **extra):
         request = self._factory.get(url, data, **extra)
@@ -69,15 +65,17 @@ class Client:
         if token is None:
             token = create_user_token(user)
 
-        self._credentials = {'HTTP_AUTHORIZATION': f'Bearer {token.key}'}
+        self._credentials = {
+            'HTTP_AUTHORIZATION': f'Bearer {token.key}',
+        }
 
 
-def create_user(login=USER_LOGIN, **kwargs):
+def create_user(login=DEFAULT_USER_LOGIN, **kwargs) -> User:
     user = User.objects.filter(login=login).first()
 
     if not user:
         if 'password' not in kwargs:
-            kwargs['password'] = USER_PASSWORD
+            kwargs['password'] = DEFAULT_USER_PASSWORD
 
         user = User.objects.create_user(
             login=login,

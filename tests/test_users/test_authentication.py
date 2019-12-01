@@ -9,13 +9,13 @@ from apps.core.graphql.security.authentication import TokenAuthentication
 from apps.users.models import Token
 from apps.users.services.auth import login_user
 from apps.users.services.token import create_user_token
-from tests.base import USER_PASSWORD
+from tests.base import DEFAULT_USER_PASSWORD
 
 
 def test_login_user(user):
     assert Token.objects.count() == 0
 
-    token = login_user(user.login, USER_PASSWORD, None)
+    token = login_user(user.login, DEFAULT_USER_PASSWORD, None)
 
     assert token is not None
     assert Token.objects.count() == 1
@@ -26,12 +26,12 @@ def test_login_user_not_active(user):
     user.save()
 
     with raises(AuthenticationFailed):
-        login_user(user.login, USER_PASSWORD, None)
+        login_user(user.login, DEFAULT_USER_PASSWORD, None)
 
 
 def test_login_user_invalid_password(user):
     with raises(AuthenticationFailed):
-        login_user(user.login, f'{USER_PASSWORD}bla', None)
+        login_user(user.login, f'{DEFAULT_USER_PASSWORD}bla', None)
 
     with raises(AuthenticationFailed):
         login_user(user.login, '', None)
@@ -39,20 +39,20 @@ def test_login_user_invalid_password(user):
 
 def test_login_user_invalid_login(user):
     with raises(AuthenticationFailed):
-        login_user(f'{user.login}bla', USER_PASSWORD, None)
+        login_user(f'{user.login}bla', DEFAULT_USER_PASSWORD, None)
 
     with raises(AuthenticationFailed):
-        login_user('', USER_PASSWORD, None)
+        login_user('', DEFAULT_USER_PASSWORD, None)
 
 
 def test_multitokens(user):
     assert Token.objects.count() == 0
 
-    login_user(user.login, USER_PASSWORD, None)
+    login_user(user.login, DEFAULT_USER_PASSWORD, None)
 
     assert Token.objects.filter(user=user).count() == 1
 
-    login_user(user.login, USER_PASSWORD, None)
+    login_user(user.login, DEFAULT_USER_PASSWORD, None)
 
     assert Token.objects.filter(user=user).count() == 2
 

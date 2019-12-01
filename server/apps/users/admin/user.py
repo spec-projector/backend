@@ -1,17 +1,12 @@
 from admin_tools.decorators import admin_field
-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjUserAdmin
 from django.contrib.auth.forms import AdminPasswordChangeForm
-from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.utils.html import format_html
 
-from apps.core.admin.base import BaseModelAdmin
 from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
-from ..models import User
-
-admin.site.unregister(Group)
+from apps.users.models import User
 
 
 @admin.register(User)
@@ -50,9 +45,3 @@ class UserAdmin(AdminFormFieldsOverridesMixin,
         )
 
     change_password_form = AdminPasswordChangeForm
-
-
-@admin.register(Group)
-class GroupAdmin(BaseModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from typing import Optional
 
 from django.db.models import QuerySet
 from graphene import Connection, Int, PageInfo
@@ -77,7 +78,7 @@ class DataSourceConnectionField(
         pageinfo_type=PageInfo,
         slice_start: int = 0,
         list_length: int = 0,
-        list_slice_length: int = None,
+        list_slice_length: Optional[int] = None,
     ) -> Connection:
 
         # implemented support for offsets

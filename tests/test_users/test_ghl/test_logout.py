@@ -1,14 +1,14 @@
+from apps.core.utils.objects import dict2obj
+from apps.users.graphql.mutations.logout import LogoutMutation
 from apps.users.models import Token
 from apps.users.services.token import create_user_token
-from apps.users.graphql.mutations.logout import LogoutMutation
-from tests.base import AttrDict
 
 
 def test_logout(user, client):
     client.user = user
     client.auth = create_user_token(user)
 
-    info = AttrDict({'context': client})
+    info = dict2obj({'context': client})
 
     assert Token.objects.filter(user=user).exists() is True
 

@@ -1,12 +1,12 @@
+from apps.core.utils.objects import dict2obj
 from apps.users.graphql.types.user import UserType
 from apps.users.models import User
-from tests.base import AttrDict
 from tests.test_users.factories import UserFactory
 
 
 def test_user(user, client):
     client.user = user
-    info = AttrDict({'context': client})
+    info = dict2obj({'context': client})
 
     assert user.is_active is True
     assert UserType().get_node(info, user.id) == user
@@ -17,14 +17,14 @@ def test_user_inactive(user, client):
     user.save(update_fields=['is_active'])
 
     client.user = user
-    info = AttrDict({'context': client})
+    info = dict2obj({'context': client})
 
     assert UserType().get_node(info, user.id) is None
 
 
 def test_users(user, client):
     client.user = user
-    info = AttrDict({'context': client})
+    info = dict2obj({'context': client})
 
     user_active = UserFactory.create()
     UserFactory.create_batch(3, is_active=False)

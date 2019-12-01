@@ -1,9 +1,9 @@
+from apps.core.utils.objects import dict2obj
 from apps.users.graphql.resolvers import resolve_me_user
-from tests.base import AttrDict
 
 
 def test_me_user(user, client):
     client.user = user
-    info = AttrDict({'context': client})
+    info = dict2obj({'context': client})
 
     assert resolve_me_user(None, info) == user
