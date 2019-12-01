@@ -1,6 +1,6 @@
 import pytest
 
-from .base import Client
+from tests.request_factory import RequestFactory
 
 DEFAULT_USERNAME = 'user'
 DEFAULT_USER_PASSWORD = 'password'
@@ -30,18 +30,13 @@ def pytest_collection_modifyitems(config, items):
                 item.add_marker(skip)
 
 
-@pytest.fixture(scope='module')  # type: ignore
-def client() -> Client:
-    return Client()
-
-
-@pytest.fixture(autouse=True, scope='function')  # type: ignore
+@pytest.fixture(autouse=True)  # type: ignore
 def media_root(settings, tmpdir_factory) -> None:
     '''Forces django to save media files into temp folder.'''
     settings.MEDIA_ROOT = tmpdir_factory.mktemp('media', numbered=True)
 
 
-@pytest.fixture(autouse=True, scope='function')
+@pytest.fixture(autouse=True)
 def password_hashers(settings):
     '''Forces django to use fast password hashers for tests.'''
     settings.PASSWORD_HASHERS = [
@@ -69,3 +64,8 @@ def user(db, django_user_model, django_username_field):
             DEFAULT_USER_PASSWORD,
         )
     return user
+
+
+@pytest.fixture()  # type: ignore
+def rf() -> RequestFactory:
+    return RequestFactory()
