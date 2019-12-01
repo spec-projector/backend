@@ -2,11 +2,14 @@
 .idea/
 logs/
 env
-.venv
 .mypy_cache
 .pytest_cache
 *.iml
 run/
 *.mo
 dev.py
+.venv
 venv
+
+htmlcov
+.coverage
