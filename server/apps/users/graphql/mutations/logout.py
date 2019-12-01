@@ -10,4 +10,4 @@ class LogoutMutation(BaseMutation):
     def do_mutate(cls, root, info):
         info.context.auth.delete()
 
-        return LogoutMutation(ok=True)
+        return cls(ok=True)

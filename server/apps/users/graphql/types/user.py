@@ -15,9 +15,11 @@ class UserType(BaseDjangoObjectType):
         name = 'User'
 
     @classmethod
-    def get_queryset(cls,
-                     queryset: QuerySet,
-                     info) -> QuerySet:
+    def get_queryset(
+        cls,
+        queryset: QuerySet,
+        info,
+    ) -> QuerySet:
         if issubclass(queryset.model, User):
             queryset = queryset.filter(is_active=True)
 

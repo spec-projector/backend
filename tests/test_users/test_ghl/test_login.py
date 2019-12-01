@@ -19,30 +19,29 @@ mutation {{
 def test_query(user, ghl_rf):
     assert not Token.objects.filter(user=user).exists()
 
-    executed = ghl_rf.execute(GHL_QUERY_LOGIN.format(
+    result = ghl_rf.execute(GHL_QUERY_LOGIN.format(
         login=DEFAULT_USERNAME,
         password=DEFAULT_USER_PASSWORD,
     ))
 
-    assert 'errors' not in executed
+    assert 'errors' not in result
 
     token = Token.objects.filter(user=user).first()
     assert token is not None
-    assert executed['data']['login']['token']['key'] == token.key
+    assert result['data']['login']['token']['key'] == token.key
 
 
 def test_mutation_success(user):
     assert not Token.objects.filter(user=user).exists()
 
-    token = LoginMutation().do_mutate(
+    result = LoginMutation().do_mutate(
         None,
         None,
         DEFAULT_USERNAME,
         DEFAULT_USER_PASSWORD,
     )
 
-    assert token is not None
-    assert Token.objects.filter(user=user).exists()
+    assert Token.objects.filter(pk=result.token.pk, user=user).exists()
 
 
 def test_mutation_fail(user):
