@@ -20,7 +20,7 @@ query {
 
 
 def test_query(user, ghl_client):
-    """Test getting all projects query."""
+    """Test getting all projects raw query."""
     ghl_client.set_user(user)
 
     ProjectFactory.create_batch(5)
@@ -31,10 +31,10 @@ def test_query(user, ghl_client):
     assert result['data']['allProjects']['count'] == 5
 
 
-def test_success(ghl_auth_mock_info, all_projects_resolver):
+def test_success(ghl_auth_mock_info, all_projects_query):
     """Test success list project."""
     ProjectFactory.create_batch(5)
-    resolved = all_projects_resolver(
+    resolved = all_projects_query(
         root=None,
         info=ghl_auth_mock_info,
     )
@@ -42,12 +42,12 @@ def test_success(ghl_auth_mock_info, all_projects_resolver):
     assert resolved.length == 5
 
 
-def test_unauth(ghl_mock_info, all_projects_resolver):
+def test_unauth(ghl_mock_info, all_projects_query):
     """Test unauth list project access."""
     ProjectFactory.create_batch(5)
 
     with raises(PermissionDenied):
-        all_projects_resolver(
+        all_projects_query(
             root=None,
             info=ghl_mock_info,
         )

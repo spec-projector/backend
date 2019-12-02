@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from apps.users.graphql.resolvers import resolve_me_user
-
 GHL_QUERY_ME = """
 query {
     me {
@@ -13,7 +11,7 @@ query {
 
 
 def test_query(user, ghl_client):
-    """Test me query."""
+    """Test me raw query."""
     ghl_client.set_user(user)
 
     result = ghl_client.execute(GHL_QUERY_ME)
@@ -22,8 +20,8 @@ def test_query(user, ghl_client):
     assert result['data']['me']['id'] == str(user.id)
 
 
-def test_resolver(user, ghl_auth_mock_info):
-    """Test me resolver."""
-    resolved_user = resolve_me_user(None, ghl_auth_mock_info)
+def test_resolver(user, ghl_auth_mock_info, me_query):
+    """Test me query."""
+    resolved = me_query(root=None, info=ghl_auth_mock_info)
 
-    assert resolved_user == user
+    assert resolved == user

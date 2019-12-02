@@ -12,28 +12,14 @@ DEFAULT_USERNAME = 'user'
 DEFAULT_USER_PASSWORD = 'password'
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        '--runslow',
-        action='store_true',
-        default=False,
-        help='run slow tests',
-    )
+@pytest.fixture(scope='session')
+def ghl_queries():
+    return schema.get_query_type()
 
 
-def pytest_collection_modifyitems(config, items):
-    if config.getoption('--runslow'):
-        skip = pytest.mark.skip(
-            reason='--runslow runs only marked as slow tests',
-        )
-        for item in items:
-            if 'slow' not in item.keywords:
-                item.add_marker(skip)
-    else:
-        skip = pytest.mark.skip(reason='need --runslow option to run')
-        for item in items:
-            if 'slow' in item.keywords:
-                item.add_marker(skip)
+@pytest.fixture(scope='session')
+def ghl_mutations():
+    return schema.get_mutation_type()
 
 
 @pytest.fixture()
@@ -87,16 +73,6 @@ def ghl_mock_info(user, rf) -> ResolveInfo:
     info.context = request
 
     return info
-
-
-@pytest.fixture(scope='session')
-def ghl_queries():
-    return schema.get_query_type()
-
-
-@pytest.fixture(scope='session')
-def ghl_mutations():
-    return schema.get_mutation_type()
 
 
 @pytest.fixture(autouse=True)  # type: ignore

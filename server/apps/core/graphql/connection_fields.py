@@ -42,24 +42,24 @@ class DataSourceConnectionField(
         """Resolve connection."""
         iterable = maybe_queryset(iterable)
         if isinstance(iterable, QuerySet):
-            _len = iterable.count()
+            items_count = iterable.count()
         else:
-            _len = len(iterable)
+            items_count = len(iterable)
 
         connection = cls._connection_from_list_slice(
             iterable,
             args,
             # differences from original function
             slice_start=args.get('offset', 0),
-            list_length=_len,
-            list_slice_length=_len,
+            list_length=items_count,
+            list_slice_length=items_count,
             connection_type=connection,
             edge_type=connection.Edge,
             pageinfo_type=PageInfo,
         )
 
         connection.iterable = iterable
-        connection.length = _len
+        connection.length = items_count
         return connection
 
     @classmethod  # noqa: WPS211

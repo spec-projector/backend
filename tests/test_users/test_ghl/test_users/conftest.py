@@ -4,5 +4,5 @@ import pytest
 
 
 @pytest.fixture(scope='session')
-def user_resolver(ghl_queries):
+def user_query(ghl_queries):
     return ghl_queries.fields['user'].resolver

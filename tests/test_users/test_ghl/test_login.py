@@ -18,7 +18,7 @@ mutation {{
 
 
 def test_query(user, ghl_client):
-    """Test login query."""
+    """Test login raw query."""
     assert not Token.objects.filter(user=user).exists()
 
     result = ghl_client.execute(GHL_QUERY_LOGIN.format(
