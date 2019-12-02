@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from graphql import ResolveInfo
 from typing import Any
+
+from graphql import ResolveInfo
 
 from apps.core.graphql.security.permissions import AllowAny
 
 
 class AuthMutation:
-    """
-    Permission mixin for ClientIdMutation.
-    """
+    """Permission mixin for ClientIdMutation."""
+
     permission_classes = (AllowAny,)
 
     @classmethod
@@ -20,8 +20,6 @@ class AuthMutation:
         **kwargs,
     ) -> bool:
         return all(
-            (
-                perm().has_mutation_permission(root, info, **kwargs)
-                for perm in cls.permission_classes
-            )
+            perm().has_mutation_permission(root, info, **kwargs)
+            for perm in cls.permission_classes
         )

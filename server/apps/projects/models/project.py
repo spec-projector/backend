@@ -10,7 +10,7 @@ class Project(Timestamps):
     title = models.CharField(
         max_length=255,
         verbose_name=_('VN__TITLE'),
-        help_text=_('HT__TITLE')
+        help_text=_('HT__TITLE'),
     )
 
     class Meta:

@@ -13,7 +13,7 @@ DATABASES = {
         'PASSWORD': '229835',
         'HOST': 'localhost',
         'PORT': '5432',
-    }
+    },
 }
 
 CELERY_TASK_ALWAYS_EAGER = True

@@ -5,7 +5,7 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from apps.users.graphql.mutations.login import LoginMutation
 from apps.users.models import Token
-from tests.conftest import DEFAULT_USERNAME, DEFAULT_USER_PASSWORD
+from tests.conftest import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
 
 GHL_QUERY_LOGIN = """
 mutation {{
@@ -50,7 +50,6 @@ def test_success(user, ghl_mock_info):
 
 def test_fail(user, ghl_mock_info):
     """Test wrong login case."""
-
     assert not Token.objects.filter(user=user).exists()
 
     with raises(AuthenticationFailed):

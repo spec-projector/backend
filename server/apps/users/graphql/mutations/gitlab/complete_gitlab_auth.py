@@ -7,8 +7,8 @@ from social_django.views import _do_login
 
 from apps.core.graphql.mutations import BaseMutation
 from apps.core.graphql.security.permissions import AllowAny
+from apps.users.graphql.mutations.gitlab.utils import psa
 from apps.users.graphql.types import TokenType
-from .utils import psa
 
 
 class CompleteGitlabAuthMutation(BaseMutation):
@@ -30,9 +30,7 @@ class CompleteGitlabAuthMutation(BaseMutation):
             _do_login,
             user=None,
             redirect_name=REDIRECT_FIELD_NAME,
-            request=request
+            request=request,
         )
 
-        return CompleteGitlabAuthMutation(
-            token=token
-        )
+        return cls(token=token)

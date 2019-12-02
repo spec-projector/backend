@@ -11,8 +11,10 @@ from apps.core.graphql.security.permissions import AllowAny
 class AuthNode:
     """
     Permission mixin for queries (nodes).
+
     Allows for simple configuration of access to nodes via class system.
     """
+
     permission_classes = (AllowAny,)
 
     @classmethod
@@ -26,12 +28,12 @@ class AuthNode:
             try:
                 queryset = cls.get_queryset(  # type: ignore
                     cls._meta.model.objects,  # type: ignore
-                    info
+                    info,
                 )
 
                 object_instance = queryset.get(id=id)
             except cls._meta.model.DoesNotExist:  # type: ignore
                 object_instance = None
             return object_instance
-        else:
-            return None
+
+        return None

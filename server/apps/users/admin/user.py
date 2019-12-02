@@ -15,7 +15,7 @@ from apps.users.models import User
 class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
     list_display = (
         'login', 'name', 'email', 'last_login', 'is_active', 'is_staff',
-        'change_password_link'
+        'change_password_link',
     )
     list_filter = ('is_active', 'is_staff', 'is_active')
     ordering = ('login',)
@@ -23,17 +23,21 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
     autocomplete_fields = ('groups',)
     search_fields = ('login',)
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('login', 'password1', 'password2')}
-         ),
+        (
+            None, {
+                'classes': ('wide',),
+                'fields': ('login', 'password1', 'password2'),
+            },
+        ),
     )
 
     exclude = ('user_permissions',)
     fieldsets = (
         (None, {
-            'fields': ('login', 'email', 'name', 'is_superuser', 'is_staff',
-                       'is_active', 'last_login')
+            'fields': (
+                'login', 'email', 'name', 'is_superuser', 'is_staff',
+                'is_active', 'last_login',
+            ),
         }),
     )
     readonly_fields = ('last_login',)
@@ -42,7 +46,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
     def change_password_link(self, obj):
         return format_html(
             '<a href="{0}">change password</a>',
-            reverse('admin:auth_user_password_change', kwargs={'id': obj.pk})
+            reverse('admin:auth_user_password_change', kwargs={'id': obj.pk}),
         )
 
     change_password_form = AdminPasswordChangeForm

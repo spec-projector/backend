@@ -13,21 +13,15 @@ def collect_fields(node, fragments) -> Dict[str, Any]:
         fragments (dict): Fragment definitions
     Returns:
         A dict mapping each field found, along with their sub fields.
-        {'name': {},
-         'sentimentsPerLanguage': {'id': {},
-                                   'name': {},
-                                   'totalSentiments': {}},
-         'slug': {}}
 
     """
-
     field = {}
 
     if node.get('selection_set'):
         for leaf in node['selection_set']['selections']:
             if leaf['kind'] == 'Field':
                 field.update({
-                    leaf['name']['value']: collect_fields(leaf, fragments)
+                    leaf['name']['value']: collect_fields(leaf, fragments),
                 })
             elif leaf['kind'] == 'FragmentSpread':
                 field.update(collect_fields(
@@ -48,7 +42,6 @@ def get_fields_from_info(info) -> dict:
         dict: Returned from collect_fields
 
     """
-
     fragments = {}
     node = ast_to_dict(info.field_asts[0])
 

@@ -9,3 +9,10 @@ class Timestamps(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        """String representation."""
+        return 'created_at: {0}, updated_at: {1}'.format(
+            self.created_at,
+            self.updated_at,
+        )

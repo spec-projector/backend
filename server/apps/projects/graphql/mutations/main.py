@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from .projects import CreateProject, UpdateProject, DeleteProject
+from apps.projects.graphql.mutations.projects import (
+    CreateProject,
+    DeleteProject,
+    UpdateProject,
+)
 
 
 class ProjectMutations:

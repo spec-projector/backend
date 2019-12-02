@@ -6,9 +6,7 @@ from graphql import ResolveInfo
 
 
 class AllowStaff:
-    """
-    Allow performing action only for staff users.
-    """
+    """Allow performing action only for staff users."""
 
     def has_node_permission(self, info: ResolveInfo, id: str) -> bool:
         return info.context.user.is_staff

@@ -31,7 +31,6 @@ def test_query(user, ghl_client):
 
 def test_success(user, ghl_auth_mock_info):
     """Test success logout."""
-
     assert Token.objects.filter(user=user).exists()
 
     LogoutMutation().mutate(None, ghl_auth_mock_info)

@@ -18,6 +18,6 @@ urlpatterns = [
     path(
         'disconnect/<slug:backend>/<int:association_id>/',
         views.disconnect,
-        name='disconnect_individual'
+        name='disconnect_individual',
     ),
 ]

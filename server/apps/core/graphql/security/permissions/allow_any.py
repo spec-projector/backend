@@ -8,6 +8,7 @@ from graphql import ResolveInfo
 class AllowAny:
     """
     Default authentication class.
+
     Allows any user for any action.
     Subclass it and override methods below.
     """

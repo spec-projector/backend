@@ -4,8 +4,8 @@ import graphene
 from rest_framework.generics import get_object_or_404
 
 from apps.core.graphql.mutations import BaseMutation
-from apps.projects.models.project import Project
 from apps.projects.graphql.types.project import ProjectType
+from apps.projects.models.project import Project
 
 
 class CreateProject(BaseMutation):
@@ -33,7 +33,7 @@ class UpdateProject(BaseMutation):
     def mutate(cls, root, info, id, title):
         project = get_object_or_404(
             Project.objects.all(),
-            pk=id
+            pk=id,
         )
 
         project.title = title
@@ -50,11 +50,7 @@ class DeleteProject(BaseMutation):
 
     @classmethod
     def mutate(cls, root, info, id):
-        project = get_object_or_404(
-            Project.objects.all(),
-            pk=id
-        )
-
+        project = get_object_or_404(Project.objects.all(), pk=id)
         project.delete()
 
-        return DeleteProject(ok=True)
+        return cls(ok=True)

@@ -18,12 +18,12 @@ def login_user(
         user = authenticate(
             request=request,
             login=login,
-            password=password
+            password=password,
         )
 
         if not user:
             raise AuthenticationFailed(
-                _('MSG_UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS')
+                _('MSG_UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS'),
             )
 
         token = create_user_token(user)
@@ -32,5 +32,5 @@ def login_user(
         user.save(update_fields=['last_login'])
 
         return token
-    else:
-        raise AuthenticationFailed(_('MSG_MUST_INCLUDE_LOGIN_AND_PASSWORD'))
+
+    raise AuthenticationFailed(_('MSG_MUST_INCLUDE_LOGIN_AND_PASSWORD'))

@@ -6,7 +6,6 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from social_core.actions import do_complete
 from social_core.utils import setting_name
-
 from social_django.utils import psa
 from social_django.views import _do_login
 
@@ -25,5 +24,5 @@ def auth_complete(request, backend, *args, **kwargs):
         redirect_name=REDIRECT_FIELD_NAME,
         request=request,
         *args,
-        **kwargs
+        **kwargs,
     )

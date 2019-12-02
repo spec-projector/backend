@@ -11,5 +11,5 @@ class UsersQueries(graphene.ObjectType):
     user = DatasourceRelayNode.Field(UserType)
     me = graphene.Field(
         UserType,
-        resolver=resolve_me_user
+        resolver=resolve_me_user,
     )

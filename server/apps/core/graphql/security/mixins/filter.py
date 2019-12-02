@@ -8,16 +8,15 @@ from apps.core.graphql.security.permissions import AllowAny
 
 
 class AuthFilter(DjangoFilterConnectionField):
-    """
-    Custom ConnectionField for permission system.
-    """
+    """Custom ConnectionField for permission system."""
+
     permission_classes = (AllowAny,)
 
     @classmethod
     def has_permission(cls, info: ResolveInfo) -> bool:
         return all(
-            (perm().has_filter_permission(info) for perm in
-             cls.permission_classes)
+            perm().has_filter_permission(info)
+            for perm in cls.permission_classes
         )
 
     @classmethod
@@ -48,5 +47,5 @@ class AuthFilter(DjangoFilterConnectionField):
             enforce_first_or_last,
             root,
             info,
-            **args
+            **args,
         )

@@ -14,7 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         unique=True,
         verbose_name=_('VN__LOGIN'),
-        help_text=_('HT__LOGIN')
+        help_text=_('HT__LOGIN'),
     )
 
     name = models.CharField(
@@ -23,7 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         unique=True,
         verbose_name=_('VN__NAME'),
-        help_text=_('HT__NAME')
+        help_text=_('HT__NAME'),
     )
 
     email = models.EmailField(
@@ -32,19 +32,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         unique=True,
         verbose_name=_('VN__EMAIL'),
-        help_text=_('HT__EMAIL')
+        help_text=_('HT__EMAIL'),
     )
 
     is_staff = models.BooleanField(
         default=True,
         verbose_name=_('VN__IS_STAFF'),
-        help_text=_('HT__IS_STAFF')
+        help_text=_('HT__IS_STAFF'),
     )
 
     is_active = models.BooleanField(
         default=True,
         verbose_name=_('VN__IS_ACTIVE'),
-        help_text=_('HT__IS_ACTIVE')
+        help_text=_('HT__IS_ACTIVE'),
     )
 
     USERNAME_FIELD = 'login'
