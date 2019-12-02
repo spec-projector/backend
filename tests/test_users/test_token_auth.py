@@ -57,7 +57,7 @@ def test_expired_token(rf, auth, user_token):
 
 
 def test_invalid_token(rf, auth, user_token):
-    user_token.key += '123456'
+    user_token.key = '{0}123456'.format(user_token.key)
 
     request = rf.get('/')
     set_http_auth_header(request, user_token)

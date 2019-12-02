@@ -23,8 +23,12 @@ class AuthNode:
         info: ResolveInfo,
         id: str,
     ) -> Optional[Model]:
-        if all((perm().has_node_permission(info, id) for perm in
-                cls.permission_classes)):
+        has_node_permission = all((
+            perm().has_node_permission(info, id)
+            for perm in cls.permission_classes
+        ))
+
+        if has_node_permission:
             try:
                 queryset = cls.get_queryset(  # type: ignore
                     cls._meta.model.objects,  # type: ignore
