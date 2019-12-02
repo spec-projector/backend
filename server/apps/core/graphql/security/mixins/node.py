@@ -4,6 +4,7 @@ from typing import Optional
 
 from django.db.models import Model
 from graphql import ResolveInfo
+from rest_framework.exceptions import PermissionDenied
 
 from apps.core.graphql.security.permissions import AllowAny
 
@@ -28,16 +29,16 @@ class AuthNode:
             for perm in cls.permission_classes
         ))
 
-        if has_node_permission:
-            try:
-                queryset = cls.get_queryset(  # type: ignore
-                    cls._meta.model.objects,  # type: ignore
-                    info,
-                )
+        if not has_node_permission:
+            raise PermissionDenied()
 
-                object_instance = queryset.get(id=id)
-            except cls._meta.model.DoesNotExist:  # type: ignore
-                object_instance = None
-            return object_instance
+        queryset = cls.get_queryset(  # type: ignore
+            cls._meta.model.objects,  # type: ignore
+            info,
+        )
 
-        return None
+        try:
+            object_instance = queryset.get(id=id)
+        except cls._meta.model.DoesNotExist:  # type: ignore
+            object_instance = None
+        return object_instance

@@ -23,15 +23,15 @@ def test_query(user, ghl_client):
 
 
 def test_success(user, ghl_auth_mock_info):
-    retrieved_user = UserType().get_node(ghl_auth_mock_info, user.id)
+    retrieved = UserType().get_node(ghl_auth_mock_info, user.id)
 
-    assert retrieved_user == user
+    assert retrieved == user
 
 
 def test_inactive(user, ghl_auth_mock_info):
     user.is_active = False
     user.save(update_fields=['is_active'])
 
-    retrieved_user = UserType().get_node(ghl_auth_mock_info, user.id)
+    retrieved = UserType().get_node(ghl_auth_mock_info, user.id)
 
-    assert retrieved_user is None
+    assert retrieved is None
