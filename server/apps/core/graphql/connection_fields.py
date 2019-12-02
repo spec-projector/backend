@@ -35,37 +35,30 @@ class DataSourceConnectionField(
     def resolve_connection(
         cls,
         connection,
-        default_manager,
         args,
         iterable,
     ):
         """Resolve connection."""
-        if iterable is None:
-            iterable = default_manager
-
         iterable = maybe_queryset(iterable)
         if isinstance(iterable, QuerySet):
-            if iterable.model.objects is not default_manager:
-                default_queryset = maybe_queryset(default_manager)
-                iterable = cls.merge_querysets(default_queryset, iterable)
-            items_count = iterable.count()
+            _len = iterable.count()
         else:
-            items_count = len(iterable)
+            _len = len(iterable)
 
         connection = cls._connection_from_list_slice(
             iterable,
             args,
             # differences from original function
             slice_start=args.get('offset', 0),
-            list_length=items_count,
-            list_slice_length=items_count,
+            list_length=_len,
+            list_slice_length=_len,
             connection_type=connection,
             edge_type=connection.Edge,
             pageinfo_type=PageInfo,
         )
 
         connection.iterable = iterable
-        connection.length = items_count
+        connection.length = _len
         return connection
 
     @classmethod  # noqa: WPS211
@@ -132,7 +125,6 @@ class DataSourceConnectionField(
         start_offset,
         end_offset,
     ) -> list:
-
         slice_fragment = list_slice[start_offset:end_offset]
 
         return [

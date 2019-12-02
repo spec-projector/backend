@@ -2,7 +2,8 @@ import graphene
 from graphene_django.debug import DjangoDebug
 
 from apps.core.graphql.views import (
-    PrivateGraphQLView, DrfAuthenticatedGraphQLView
+    PrivateGraphQLView,
+    DrfAuthenticatedGraphQLView,
 )
 from apps.projects.graphql.queries import ProjectsQueries
 from apps.projects.graphql.mutations import ProjectMutations
