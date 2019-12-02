@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from pytest import raises
 from rest_framework.exceptions import PermissionDenied
 

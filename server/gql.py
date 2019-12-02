@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import graphene
 from graphene_django.debug import DjangoDebug
 
@@ -13,6 +15,7 @@ class Query(
     UsersQueries,
     graphene.ObjectType,
 ):
+    """Graphql queiries."""
     debug = graphene.Field(DjangoDebug, name='_debug')
 
 
@@ -21,7 +24,7 @@ class Mutation(
     AuthMutations,
     graphene.ObjectType,
 ):
-    pass
+    """Graphql mutations."""
 
 
 schema = graphene.Schema(
@@ -31,12 +34,14 @@ schema = graphene.Schema(
 
 
 def get_api_graphql_view():
+    """Provide graphql api view."""
     return ApiGraphQLView.as_view(
         schema=schema
     )
 
 
 def get_graphql_view():
+    """Provide graphql playground view."""
     return PlaygroundGraphQLView.as_view(
         graphiql=True,
         schema=schema

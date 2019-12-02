@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql import ResolveInfo
 from rest_framework.exceptions import PermissionDenied
@@ -34,7 +36,10 @@ class AuthFilter(DjangoFilterConnectionField):
         if not cls.has_permission(info):
             raise PermissionDenied()
 
-        return super(DjangoFilterConnectionField, cls).connection_resolver(
+        return super(  # noqa: WPS608
+            DjangoFilterConnectionField,
+            cls,
+        ).connection_resolver(
             resolver,
             connection,
             default_manager,

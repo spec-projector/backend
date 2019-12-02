@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from admin_tools.decorators import admin_field
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjUserAdmin
@@ -10,8 +12,7 @@ from apps.users.models import User
 
 
 @admin.register(User)
-class UserAdmin(AdminFormFieldsOverridesMixin,
-                DjUserAdmin):
+class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
     list_display = (
         'login', 'name', 'email', 'last_login', 'is_active', 'is_staff',
         'change_password_link'

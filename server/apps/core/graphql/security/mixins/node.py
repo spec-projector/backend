@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from typing import Optional
 
 from django.db.models import Model
@@ -14,9 +16,11 @@ class AuthNode:
     permission_classes = (AllowAny,)
 
     @classmethod
-    def get_node(cls,
-                 info: ResolveInfo,
-                 id: str) -> Optional[Model]:
+    def get_node(
+        cls,
+        info: ResolveInfo,
+        id: str,
+    ) -> Optional[Model]:
         if all((perm().has_node_permission(info, id) for perm in
                 cls.permission_classes)):
             try:

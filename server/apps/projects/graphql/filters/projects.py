@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import django_filters
 
 from apps.projects.models.project import Project

@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+
 from typing import Any, Dict
 
 from graphql.utils.ast_to_dict import ast_to_dict
 
 
 def collect_fields(node, fragments) -> Dict[str, Any]:
-    """Recursively collects fields from the AST
+    """Recursively collects fields from the AST.
+
     Args:
         node (dict): A node in the AST
         fragments (dict): Fragment definitions
@@ -15,6 +18,7 @@ def collect_fields(node, fragments) -> Dict[str, Any]:
                                    'name': {},
                                    'totalSentiments': {}},
          'slug': {}}
+
     """
 
     field = {}
@@ -35,11 +39,14 @@ def collect_fields(node, fragments) -> Dict[str, Any]:
 
 
 def get_fields_from_info(info) -> dict:
-    """A convenience function to call collect_fields with info
+    """
+    A convenience function to call collect_fields with info.
+
     Args:
         info (ResolveInfo)
     Returns:
         dict: Returned from collect_fields
+
     """
 
     fragments = {}

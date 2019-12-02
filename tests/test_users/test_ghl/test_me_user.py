@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from apps.core.utils.objects import dict2obj
 from apps.users.graphql.resolvers import resolve_me_user
 

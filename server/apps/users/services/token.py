@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from datetime import timedelta
 
 from django.conf import settings
@@ -14,7 +16,8 @@ def clear_tokens() -> None:
     if settings.REST_FRAMEWORK_TOKEN_EXPIRE is None:
         return
 
-    Token.objects.filter(
-        created__lt=timezone.now() -  # noqa W504
-                    timedelta(minutes=settings.REST_FRAMEWORK_TOKEN_EXPIRE)
-    ).delete()
+    created = (
+        timezone.now() - timedelta(minutes=settings.REST_FRAMEWORK_TOKEN_EXPIRE)
+    )
+
+    Token.objects.filter(created__lt=created).delete()

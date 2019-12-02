@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 
 
 class BaseModelForm(forms.ModelForm):
-    pass
+    """Base model form class."""

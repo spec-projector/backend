@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from apps.core.utils.objects import dict2obj
 from apps.users.graphql.types.user import UserType
 from apps.users.models import User

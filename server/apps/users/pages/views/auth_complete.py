@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.views.decorators.cache import never_cache
@@ -15,7 +17,7 @@ NAMESPACE = getattr(settings, setting_name('URL_NAMESPACE'), None) or 'social'
 @csrf_exempt
 @psa('{0}:complete'.format(NAMESPACE))
 def auth_complete(request, backend, *args, **kwargs):
-    """Authentication complete view"""
+    """Authentication complete view."""
     return do_complete(
         request.backend,
         _do_login,
