@@ -3,7 +3,6 @@
 from pytest import raises
 from rest_framework.exceptions import AuthenticationFailed
 
-from apps.users.graphql.mutations.login import LoginMutation
 from apps.users.models import Token
 from tests.conftest import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
 
@@ -34,13 +33,13 @@ def test_query(user, ghl_client):
     assert result['data']['login']['token']['key'] == token.key
 
 
-def test_success(user, ghl_mock_info):
+def test_success(user, ghl_mock_info, login_mutation):
     """Test success login."""
     assert not Token.objects.filter(user=user).exists()
 
-    result = LoginMutation().mutate(
-        None,
-        ghl_mock_info,
+    result = login_mutation(
+        root=None,
+        info=ghl_mock_info,
         login=DEFAULT_USERNAME,
         password=DEFAULT_USER_PASSWORD,
     )
@@ -48,12 +47,12 @@ def test_success(user, ghl_mock_info):
     assert Token.objects.filter(pk=result.token.pk, user=user).exists()
 
 
-def test_fail(user, ghl_mock_info):
+def test_fail(user, ghl_mock_info, login_mutation):
     """Test wrong login case."""
     assert not Token.objects.filter(user=user).exists()
 
     with raises(AuthenticationFailed):
-        LoginMutation().mutate(
+        login_mutation(
             None,
             ghl_mock_info,
             login='wrong{0}'.format(DEFAULT_USERNAME),

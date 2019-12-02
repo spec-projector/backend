@@ -94,6 +94,11 @@ def ghl_queries():
     return schema.get_query_type()
 
 
+@pytest.fixture(scope='session')
+def ghl_mutations():
+    return schema.get_mutation_type()
+
+
 @pytest.fixture(autouse=True)  # type: ignore
 def _media_root(settings, tmpdir_factory) -> None:
     """Forces django to save media files into temp folder."""

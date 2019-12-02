@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from apps.users.graphql.types.user import UserType
-
 GHL_QUERY_USER = """
 query {{
   user(id: {0}) {{
@@ -22,16 +20,26 @@ def test_query(user, ghl_client):
     assert result['data']['user']['id'] == str(user.id)
 
 
-def test_success(user, ghl_auth_mock_info):
-    retrieved = UserType().get_node(ghl_auth_mock_info, user.id)
+def test_success(user, ghl_auth_mock_info, user_resolver):
+    """Test success user retrieving."""
+    retrieved = user_resolver(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=user.id,
+    )
 
     assert retrieved == user
 
 
-def test_inactive(user, ghl_auth_mock_info):
+def test_inactive(user, ghl_auth_mock_info, user_resolver):
+    """Test success inactive user retrieving."""
     user.is_active = False
     user.save(update_fields=['is_active'])
 
-    retrieved = UserType().get_node(ghl_auth_mock_info, user.id)
+    retrieved = user_resolver(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=user.id,
+    )
 
     assert retrieved is None
