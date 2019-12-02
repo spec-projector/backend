@@ -33,20 +33,6 @@ def pytest_collection_modifyitems(config, items):
                 item.add_marker(skip)
 
 
-@pytest.fixture(autouse=True)  # type: ignore
-def media_root(settings, tmpdir_factory) -> None:
-    '''Forces django to save media files into temp folder.'''
-    settings.MEDIA_ROOT = tmpdir_factory.mktemp('media', numbered=True)
-
-
-@pytest.fixture(autouse=True)
-def password_hashers(settings):
-    '''Forces django to use fast password hashers for tests.'''
-    settings.PASSWORD_HASHERS = [
-        'django.contrib.auth.hashers.MD5PasswordHasher',
-    ]
-
-
 @pytest.fixture()
 def user(db, django_user_model, django_username_field):
     """A Django user.
@@ -98,3 +84,17 @@ def ghl_mock_info(user, rf) -> ResolveInfo:
     info.context = request
 
     return info
+
+
+@pytest.fixture(autouse=True)  # type: ignore
+def _media_root(settings, tmpdir_factory) -> None:
+    """Forces django to save media files into temp folder."""
+    settings.MEDIA_ROOT = tmpdir_factory.mktemp('media', numbered=True)
+
+
+@pytest.fixture(autouse=True)
+def _password_hashers(settings):
+    """Forces django to use fast password hashers for tests."""
+    settings.PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    ]

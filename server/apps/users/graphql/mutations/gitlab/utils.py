@@ -1,12 +1,12 @@
 from django.http import Http404, HttpRequest
 from social_core.exceptions import MissingBackend
 from social_django.compat import reverse
+from social_django.utils import load_backend, load_strategy
 from social_django.views import NAMESPACE
-from social_django.utils import load_strategy, load_backend
 
 
 def psa(request: HttpRequest) -> HttpRequest:
-    uri = reverse(f'{NAMESPACE}:complete', args=('gitlab',))
+    uri = reverse('{0}:complete'.format(NAMESPACE), args=('gitlab',))
     request.social_strategy = load_strategy(request)
 
     if not hasattr(request, 'strategy'):

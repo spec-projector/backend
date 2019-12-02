@@ -9,4 +9,7 @@ class UniqueField(factory.Sequence):
 
     @staticmethod
     def wrapper(provider, kwargs, step):
-        return f'{factory.Faker(provider, **kwargs).generate({})}{step}'
+        return '{0}{1}'.format(
+            factory.Faker(provider, **kwargs).generate({}),
+            step,
+        )

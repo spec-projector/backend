@@ -4,13 +4,13 @@ from rest_framework.exceptions import PermissionDenied
 from apps.users.graphql.mutations.logout import LogoutMutation
 from apps.users.models import Token
 
-GHL_QUERY_LOGOUT = '''
+GHL_QUERY_LOGOUT = """
 mutation {
     logout {
         ok
     }
 }
-'''
+"""
 
 
 def test_query(user, ghl_client):

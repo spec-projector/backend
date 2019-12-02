@@ -40,7 +40,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin,
     @admin_field('Change password')
     def change_password_link(self, obj):
         return format_html(
-            '<a href="{}">change password</a>',
+            '<a href="{0}">change password</a>',
             reverse('admin:auth_user_password_change', kwargs={'id': obj.pk})
         )
 

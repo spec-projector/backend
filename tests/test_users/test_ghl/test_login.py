@@ -5,7 +5,7 @@ from apps.users.graphql.mutations.login import LoginMutation
 from apps.users.models import Token
 from tests.conftest import DEFAULT_USERNAME, DEFAULT_USER_PASSWORD
 
-GHL_QUERY_LOGIN = '''
+GHL_QUERY_LOGIN = """
 mutation {{
     login(login: "{login}", password: "{password}") {{
         token {{
@@ -13,7 +13,7 @@ mutation {{
         }}
     }}
 }}
-'''
+"""
 
 
 def test_query(user, ghl_client):
