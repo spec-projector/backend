@@ -9,16 +9,26 @@ class AllowAuthenticated:
     """
 
     @staticmethod
-    def has_node_permission(info: ResolveInfo,
-                            id: str) -> bool:
+    def has_node_permission(info: ResolveInfo, id: str) -> bool:
+        if not info.context:
+            return False
+
         return info.context.user.is_authenticated
 
     @staticmethod
-    def has_mutation_permission(root: Any,
-                                info: ResolveInfo,
-                                **kwargs) -> bool:
+    def has_mutation_permission(
+        root: Any,
+        info: ResolveInfo,
+        **kwargs,
+    ) -> bool:
+        if not info.context:
+            return False
+
         return info.context.user.is_authenticated
 
     @staticmethod
     def has_filter_permission(info: ResolveInfo) -> bool:
+        if not info.context:
+            return False
+
         return info.context.user.is_authenticated

@@ -16,10 +16,11 @@ mutation {{
 '''
 
 
-def test_query(user, ghl_rf):
+def test_query(user, ghl_client):
+    """Test login query."""
     assert not Token.objects.filter(user=user).exists()
 
-    result = ghl_rf.execute(GHL_QUERY_LOGIN.format(
+    result = ghl_client.execute(GHL_QUERY_LOGIN.format(
         login=DEFAULT_USERNAME,
         password=DEFAULT_USER_PASSWORD,
     ))
@@ -31,28 +32,31 @@ def test_query(user, ghl_rf):
     assert result['data']['login']['token']['key'] == token.key
 
 
-def test_mutation_success(user):
+def test_success(user, ghl_mock_info):
+    """Test success login."""
     assert not Token.objects.filter(user=user).exists()
 
-    result = LoginMutation().do_mutate(
+    result = LoginMutation().mutate(
         None,
-        None,
-        DEFAULT_USERNAME,
-        DEFAULT_USER_PASSWORD,
+        ghl_mock_info,
+        login=DEFAULT_USERNAME,
+        password=DEFAULT_USER_PASSWORD,
     )
 
     assert Token.objects.filter(pk=result.token.pk, user=user).exists()
 
 
-def test_mutation_fail(user):
+def test_fail(user, ghl_mock_info):
+    """Test wrong login case."""
+
     assert not Token.objects.filter(user=user).exists()
 
     with raises(AuthenticationFailed):
-        LoginMutation().do_mutate(
+        LoginMutation().mutate(
             None,
-            None,
-            'wrong{0}'.format(DEFAULT_USERNAME),
-            DEFAULT_USER_PASSWORD,
+            ghl_mock_info,
+            login='wrong{0}'.format(DEFAULT_USERNAME),
+            password=DEFAULT_USER_PASSWORD,
         )
 
     assert not Token.objects.filter(user=user).exists()

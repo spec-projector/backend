@@ -5,7 +5,7 @@ from apps.projects.models.project import Project
 
 class ProjectsFilterSet(django_filters.FilterSet):
     order_by = django_filters.OrderingFilter(
-        fields=('created_at',)
+        fields=('created_at',),
     )
 
     class Meta:

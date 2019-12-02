@@ -2,8 +2,8 @@ import graphene
 
 from apps.core.graphql.connection_fields import DataSourceConnectionField
 from apps.core.graphql.relay_nodes import DatasourceRelayNode
-from apps.projects.graphql.types import ProjectType
 from apps.projects.graphql.filters import ProjectsFilterSet
+from apps.projects.graphql.types import ProjectType
 
 
 class ProjectsQueries(graphene.ObjectType):

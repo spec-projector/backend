@@ -1,14 +1,15 @@
 from typing import Optional
 
-from django.http import HttpRequest
+from django.contrib.auth.models import AnonymousUser
 from graphene.test import Client
 
+from apps.core.utils.objects import dict2obj
 from apps.users.models import Token, User
 from apps.users.services.token import create_user_token
 from gql import schema
 
 
-class GraphQLRequestFactory(Client):
+class GraphQLClient(Client):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(schema, *args, **kwargs)
 
@@ -24,10 +25,12 @@ class GraphQLRequestFactory(Client):
 
         self._token = token
 
-    def _auth_if_need(self, request: HttpRequest) -> None:
-        if not self._token:
-            return
+    def execute(self, *args, **kwargs):
+        """Execute graphql request."""
 
-        request.META.update(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self._token.key),
-        )
+        kwargs['context'] = dict2obj({
+            'user': self._user or AnonymousUser(),
+            'auth': self._token,
+        })
+
+        return super().execute(*args, **kwargs)

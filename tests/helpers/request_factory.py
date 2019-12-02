@@ -1,5 +1,6 @@
 from typing import Optional
 
+from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
 from django.test.client import RequestFactory as DjangoRequestFactory
 
@@ -38,9 +39,5 @@ class RequestFactory(DjangoRequestFactory):
         return request
 
     def _auth_if_need(self, request: HttpRequest) -> None:
-        if not self._token:
-            return
-
-        request.META.update(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self._token.key),
-        )
+        request.user = self._user or AnonymousUser()
+        request.auth = self._token
