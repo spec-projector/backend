@@ -4,6 +4,7 @@ import pytest
 from graphene_django.rest_framework.tests.test_mutation import mock_info
 from graphql import ResolveInfo
 
+from gql import schema
 from tests.helpers.ghl_client import GraphQLClient
 from tests.helpers.request_factory import RequestFactory
 
@@ -86,6 +87,11 @@ def ghl_mock_info(user, rf) -> ResolveInfo:
     info.context = request
 
     return info
+
+
+@pytest.fixture(scope='session')
+def ghl_queries():
+    return schema.get_query_type()
 
 
 @pytest.fixture(autouse=True)  # type: ignore

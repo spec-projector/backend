@@ -3,7 +3,6 @@
 from pytest import raises
 from rest_framework.exceptions import PermissionDenied
 
-from apps.projects.graphql.types import ProjectType
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_PROJECT = """
@@ -28,27 +27,34 @@ def test_query(user, ghl_client):
     assert result['data']['project']['id'] == str(project.id)
 
 
-def test_success(ghl_auth_mock_info):
+def test_success(ghl_auth_mock_info, project_resolver):
     """Test success getting project."""
     project = ProjectFactory.create()
+    resolved = project_resolver(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.id,
+    )
 
-    retrieved = ProjectType().get_node(ghl_auth_mock_info, project.id)
-
-    assert retrieved == project
+    assert resolved == project
 
 
-def test_not_found(ghl_auth_mock_info):
+def test_not_found(ghl_auth_mock_info, project_resolver):
     """Test project not found."""
     project = ProjectFactory.create()
 
-    retrieved = ProjectType().get_node(ghl_auth_mock_info, project.id + 1)
+    resolved = project_resolver(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.id + 1,
+    )
 
-    assert retrieved is None
+    assert resolved is None
 
 
-def test_unauth(ghl_mock_info):
+def test_unauth(ghl_mock_info, project_resolver):
     """Test non authorized user."""
     project = ProjectFactory.create()
 
     with raises(PermissionDenied):
-        ProjectType().get_node(ghl_mock_info, project.id)
+        project_resolver(root=None, info=ghl_mock_info, id=project.id)
