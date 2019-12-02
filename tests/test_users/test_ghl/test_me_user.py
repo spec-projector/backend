@@ -6,7 +6,7 @@ GHL_QUERY_ME = """
 query {
     me {
         id
-      	login
+        login
     }
 }
 """
