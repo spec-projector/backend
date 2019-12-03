@@ -8,7 +8,7 @@ from graphql import ResolveInfo
 class AllowStaff:
     """Allow performing action only for staff users."""
 
-    def has_node_permission(self, info: ResolveInfo, id: str) -> bool:
+    def has_node_permission(self, info: ResolveInfo, obj_id: str) -> bool:
         return info.context.user.is_staff
 
     def has_mutation_permission(

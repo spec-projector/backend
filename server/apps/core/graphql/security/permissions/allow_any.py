@@ -13,7 +13,7 @@ class AllowAny:
     Subclass it and override methods below.
     """
 
-    def has_node_permission(self, info: ResolveInfo, id: str) -> bool:
+    def has_node_permission(self, info: ResolveInfo, obj_id: str) -> bool:
         return True
 
     def has_mutation_permission(

@@ -32,11 +32,11 @@ def user(db, django_user_model, django_username_field):
     username_field = django_username_field
 
     try:
-        return django_user_model._default_manager.get(
+        return django_user_model.objects.get(
             **{username_field: DEFAULT_USERNAME},
         )
     except django_user_model.DoesNotExist:
-        return django_user_model._default_manager.create_user(
+        return django_user_model.objects.create_user(
             DEFAULT_USERNAME,
             DEFAULT_USER_PASSWORD,
         )

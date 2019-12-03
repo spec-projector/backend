@@ -22,10 +22,10 @@ class AuthNode:
     def get_node(
         cls,
         info: ResolveInfo,
-        id: str,
+        id: str,  # noqa: A002
     ) -> Optional[Model]:
         has_node_permission = all((
-            perm().has_node_permission(info, id)
+            perm().has_node_permission(info, id)  # noqa: A003
             for perm in cls.permission_classes
         ))
 

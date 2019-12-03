@@ -8,7 +8,7 @@ from graphql import ResolveInfo
 class AllowSuperuser:
     """Allow performing action only for superusers."""
 
-    def has_node_permission(self, info: ResolveInfo, id: str) -> bool:
+    def has_node_permission(self, info: ResolveInfo, obj_id: str) -> bool:
         return info.context.user.is_superuser
 
     def has_mutation_permission(

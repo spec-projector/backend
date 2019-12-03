@@ -8,7 +8,7 @@ from graphql import ResolveInfo
 class AllowAuthenticated:
     """Allows performing action only for logged in users."""
 
-    def has_node_permission(self, info: ResolveInfo, id: str) -> bool:
+    def has_node_permission(self, info: ResolveInfo, obj_id: str) -> bool:
         if not info.context:
             return False
 

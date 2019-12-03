@@ -19,38 +19,34 @@ class CreateProject(BaseMutation):
         project = Project(title=title)
         project.save()
 
-        return CreateProject(project=project)
+        return cls(project=project)
 
 
 class UpdateProject(BaseMutation):
     class Arguments:
-        id = graphene.ID()
+        id = graphene.ID()  # noqa: A003
         title = graphene.String()
 
     project = graphene.Field(ProjectType)
 
     @classmethod
-    def mutate(cls, root, info, id, title):
-        project = get_object_or_404(
-            Project.objects.all(),
-            pk=id,
-        )
-
+    def mutate(cls, root, info, id, title):  # noqa: A002
+        project = get_object_or_404(Project.objects.all(), pk=id)  # noqa: A003
         project.title = title
         project.save(update_fields=['title'])
 
-        return UpdateProject(project=project)
+        return cls(project=project)
 
 
 class DeleteProject(BaseMutation):
     class Arguments:
-        id = graphene.ID()
+        id = graphene.ID()  # noqa: A003
 
     ok = graphene.Boolean()
 
     @classmethod
-    def mutate(cls, root, info, id):
-        project = get_object_or_404(Project.objects.all(), pk=id)
+    def mutate(cls, root, info, id):  # noqa: A002
+        project = get_object_or_404(Project.objects.all(), pk=id)  # noqa: A003
         project.delete()
 
         return cls(ok=True)
