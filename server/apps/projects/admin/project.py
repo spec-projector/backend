@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from admin_tools.mixins import AdminAutocompleteFieldsMixin
 from django.contrib import admin
 
 from apps.core.admin.base import BaseModelAdmin
+from apps.projects.admin.autocomplete_filters import OwnerAutocompleteFilter
 from apps.projects.models import Project
 
 
 @admin.register(Project)
-class ProjectAdmin(BaseModelAdmin):
-    list_display = ('title', 'created_at')
+class ProjectAdmin(AdminAutocompleteFieldsMixin, BaseModelAdmin):
+    list_display = ('title', 'owner', 'created_at')
     search_fields = ('title',)
+    list_filter = (OwnerAutocompleteFilter,)

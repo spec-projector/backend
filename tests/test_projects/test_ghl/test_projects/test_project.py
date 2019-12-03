@@ -19,7 +19,7 @@ def test_query(user, ghl_client):
     """Test getting project raw query."""
     ghl_client.set_user(user)
 
-    project = ProjectFactory.create()
+    project = ProjectFactory.create(owner=user)
 
     result = ghl_client.execute(GHL_QUERY_PROJECT.format(project.id))
 
@@ -29,7 +29,7 @@ def test_query(user, ghl_client):
 
 def test_success(ghl_auth_mock_info, project_query):
     """Test success getting project."""
-    project = ProjectFactory.create()
+    project = ProjectFactory.create(owner=ghl_auth_mock_info.context.user)
     resolved = project_query(
         root=None,
         info=ghl_auth_mock_info,

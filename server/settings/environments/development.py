@@ -9,10 +9,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'spec_projector',
-        'USER': 'admin',
-        'PASSWORD': '229835',
+        'USER': 'postgres',
         'HOST': 'localhost',
-        'PORT': '5432',
     },
 }
 
