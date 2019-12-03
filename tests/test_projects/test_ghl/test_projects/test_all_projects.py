@@ -23,7 +23,7 @@ def test_query(user, ghl_client):
     """Test getting all projects raw query."""
     ghl_client.set_user(user)
 
-    ProjectFactory.create_batch(5)
+    ProjectFactory.create_batch(5, owner=user)
 
     result = ghl_client.execute(GHL_QUERY_ALL_PROJECTS)
 
@@ -33,7 +33,7 @@ def test_query(user, ghl_client):
 
 def test_success(ghl_auth_mock_info, all_projects_query):
     """Test success list project."""
-    ProjectFactory.create_batch(5)
+    ProjectFactory.create_batch(5, owner=ghl_auth_mock_info.context.user)
     resolved = all_projects_query(
         root=None,
         info=ghl_auth_mock_info,

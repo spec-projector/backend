@@ -7,7 +7,7 @@ env
 *.iml
 run/
 *.mo
-dev.py
+development.py
 .venv
 venv
 
