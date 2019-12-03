@@ -9,7 +9,7 @@ from tests.helpers.ghl_client import GraphQLClient
 from tests.helpers.request_factory import RequestFactory
 
 DEFAULT_USERNAME = 'user'
-DEFAULT_USER_PASSWORD = 'password'
+DEFAULT_USER_PASSWORD = 'password'  # noqa: S105
 
 
 @pytest.fixture(scope='session')
@@ -29,15 +29,14 @@ def user(db, django_user_model, django_username_field):
     This uses an existing user with username 'user', or creates a new one with
     password 'password'.
     """
-    UserModel = django_user_model
     username_field = django_username_field
 
     try:
-        return UserModel._default_manager.get(
+        return django_user_model._default_manager.get(
             **{username_field: DEFAULT_USERNAME},
         )
-    except UserModel.DoesNotExist:
-        return UserModel._default_manager.create_user(
+    except django_user_model.DoesNotExist:
+        return django_user_model._default_manager.create_user(
             DEFAULT_USERNAME,
             DEFAULT_USER_PASSWORD,
         )

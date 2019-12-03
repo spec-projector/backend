@@ -20,4 +20,4 @@ CELERY_TASK_ALWAYS_EAGER = True
 
 STATIC_ROOT = BASE_DIR.joinpath('static')
 
-SECRET_KEY = 'dev'
+SECRET_KEY = 'dev'  # noqa: S105
