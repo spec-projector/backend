@@ -12,7 +12,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     login = models.CharField(
         max_length=150,
-        null=True,
         blank=True,
         unique=True,
         verbose_name=_('VN__LOGIN'),
@@ -21,7 +20,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     name = models.CharField(
         max_length=150,
-        null=True,
         blank=True,
         unique=True,
         verbose_name=_('VN__NAME'),
@@ -30,7 +28,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(
         max_length=150,
-        null=True,
         blank=True,
         unique=True,
         verbose_name=_('VN__EMAIL'),
