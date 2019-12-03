@@ -38,7 +38,6 @@ class AuthNode:
         )
 
         try:
-            object_instance = queryset.get(id=id)
+            return queryset.get(id=id)
         except cls._meta.model.DoesNotExist:  # type: ignore
-            object_instance = None
-        return object_instance
+            return None

@@ -33,15 +33,14 @@ def user(db, django_user_model, django_username_field):
     username_field = django_username_field
 
     try:
-        user = UserModel._default_manager.get(
+        return UserModel._default_manager.get(
             **{username_field: DEFAULT_USERNAME},
         )
     except UserModel.DoesNotExist:
-        user = UserModel._default_manager.create_user(
+        return UserModel._default_manager.create_user(
             DEFAULT_USERNAME,
             DEFAULT_USER_PASSWORD,
         )
-    return user
 
 
 @pytest.fixture()  # type: ignore

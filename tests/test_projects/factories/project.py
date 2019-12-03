@@ -6,7 +6,7 @@ from apps.projects.models import Project
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
-    title = factory.Sequence(lambda n: 'Project {0}'.format(n))
+    title = factory.Sequence(lambda index: 'Project {0}'.format(index))
 
     class Meta:
         model = Project

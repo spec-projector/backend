@@ -12,9 +12,9 @@ def deep_getattr(obj: object, attr: str, default: Any = None) -> Any:
 
 
 class ObjectView(object):
-    def __init__(self, d: Dict):
-        self.__dict__ = d
+    def __init__(self, source_dict: Dict):
+        self.__dict__ = source_dict
 
 
-def dict2obj(d: Dict) -> ObjectView:
-    return ObjectView(d)
+def dict2obj(source_dict: Dict) -> ObjectView:
+    return ObjectView(source_dict)

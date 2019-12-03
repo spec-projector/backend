@@ -52,8 +52,7 @@ def test_expired_token(rf, auth, user_token):
 
     with raises(AuthenticationFailed) as error:
         auth.authenticate(request)
-
-    assert str(error.value.detail) == 'Token has expired'
+        assert str(error.value.detail) == 'Token has expired'
 
 
 def test_invalid_token(rf, auth, user_token):
@@ -64,5 +63,4 @@ def test_invalid_token(rf, auth, user_token):
 
     with raises(AuthenticationFailed) as error:
         auth.authenticate(request)
-
-    assert str(error.value.detail) == 'Invalid token.'
+        assert str(error.value.detail) == 'Invalid token.'

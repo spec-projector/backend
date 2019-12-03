@@ -7,7 +7,7 @@ import sys
 
 def _check_django_installed() -> None:
     try:
-        import django  # noqa: F401
+        import django  # noqa: F401, WPS433
     except ImportError:
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
@@ -19,7 +19,9 @@ def _check_django_installed() -> None:
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
     try:
-        from django.core.management import execute_from_command_line
+        from django.core.management import (  # noqa: WPS433
+            execute_from_command_line,
+        )
     except ImportError:
         # The above import may fail for some other reason. Ensure that the
         # issue is really that Django is missing to avoid masking other

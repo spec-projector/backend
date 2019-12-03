@@ -6,7 +6,7 @@ from apps.users.models import User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-    login = factory.Sequence(lambda n: 'User {0}'.format(n))
+    login = factory.Sequence(lambda index: 'User {0}'.format(index))
     name = factory.Faker('name')
     is_staff = False
     is_active = True

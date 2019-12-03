@@ -9,11 +9,7 @@ from apps.users.models import Token
 from apps.users.services.token import create_user_token
 
 
-def login_user(
-    login: str,
-    password: str,
-    request=None,
-) -> Token:
+def login_user(login: str, password: str, request=None) -> Token:
     if login and password:
         user = authenticate(
             request=request,
@@ -31,6 +27,6 @@ def login_user(
         user.last_login = timezone.now()
         user.save(update_fields=['last_login'])
 
-        return token
+        return token  # noqa: WPS331
 
     raise AuthenticationFailed(_('MSG_MUST_INCLUDE_LOGIN_AND_PASSWORD'))

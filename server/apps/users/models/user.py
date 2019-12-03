@@ -8,6 +8,8 @@ from apps.users.models.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    USERNAME_FIELD = 'login'  # noqa: WPS115
+
     login = models.CharField(
         max_length=150,
         null=True,
@@ -46,8 +48,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name=_('VN__IS_ACTIVE'),
         help_text=_('HT__IS_ACTIVE'),
     )
-
-    USERNAME_FIELD = 'login'
 
     objects = UserManager()
 

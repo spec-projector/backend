@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
+STANDARD_FORMAT = (
+    '[%(asctime)s]|%(levelname)s|%(module)s.%(funcName)s:%(lineno)s|%(message)s'
+)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
-            'format': '[%(asctime)s]|%(levelname)s|%(module)s'
-                      + '.%(funcName)s:%(lineno)s|%(message)s',
+            'format': STANDARD_FORMAT,
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
