@@ -7,9 +7,10 @@ env
 *.iml
 run/
 *.mo
-development.py
 .venv
 venv
 
 htmlcov
 .coverage
+
+development.py

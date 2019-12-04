@@ -7,7 +7,7 @@ from social_django.views import _do_login  # noqa: WPS436
 
 from apps.core.graphql.mutations import BaseMutation
 from apps.core.graphql.security.permissions import AllowAny
-from apps.users.graphql.mutations.gitlab.utils import psa
+from apps.users.graphql.mutations.gitlab.psa import page_social_auth
 from apps.users.graphql.types import TokenType
 
 
@@ -22,7 +22,7 @@ class CompleteGitlabAuthMutation(BaseMutation):
 
     @classmethod
     def do_mutate(cls, root, info, code, state):
-        request = psa(info.context)
+        request = page_social_auth(info.context)
         request.backend.set_data(code=code, state=state)
 
         token = do_complete(

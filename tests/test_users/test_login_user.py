@@ -5,7 +5,7 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from apps.users.models import Token
 from apps.users.services.auth import login_user
-from tests.conftest import DEFAULT_USER_PASSWORD
+from tests.fixtures.users import DEFAULT_USER_PASSWORD
 
 
 def test_success(user):

@@ -6,7 +6,7 @@ from social_core.actions import do_auth
 
 from apps.core.graphql.mutations import BaseMutation
 from apps.core.graphql.security.permissions import AllowAny
-from apps.users.graphql.mutations.gitlab.utils import psa
+from apps.users.graphql.mutations.gitlab.psa import page_social_auth
 
 
 class LoginGitlabMutation(BaseMutation):
@@ -16,10 +16,8 @@ class LoginGitlabMutation(BaseMutation):
 
     @classmethod
     def do_mutate(cls, root, info):
-        request = psa(info.context)
+        request = page_social_auth(info.context)
 
         response = do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
 
-        return LoginGitlabMutation(
-            redirect_url=response.url,
-        )
+        return LoginGitlabMutation(redirect_url=response.url)
