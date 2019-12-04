@@ -9,7 +9,7 @@ from apps.core.models.mixins import Timestamps
 
 class Project(Timestamps):
     title = models.CharField(
-        max_length=255,
+        max_length=255,  # noqa: WPS432
         verbose_name=_('VN__TITLE'),
         help_text=_('HT__TITLE'),
     )
