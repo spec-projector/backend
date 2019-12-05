@@ -2,10 +2,10 @@
 
 import graphene
 
-from apps.core.graphql.mutations import BaseMutation
+from apps.core.graphql.mutations import OldBaseMutation
 
 
-class LogoutMutation(BaseMutation):
+class LogoutMutation(OldBaseMutation):
     ok = graphene.Boolean()
 
     @classmethod

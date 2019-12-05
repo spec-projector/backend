@@ -8,7 +8,7 @@ from tests.fixtures.users import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
 
 GHL_QUERY_LOGIN = """
 mutation {{
-    login(login: "{login}", password: "{password}") {{
+    login(input: {{ username: "{login}", password: "{password}" }} ) {{
         token {{
           key
         }}
@@ -40,8 +40,10 @@ def test_success(user, ghl_mock_info, login_mutation):
     result = login_mutation(
         root=None,
         info=ghl_mock_info,
-        login=DEFAULT_USERNAME,
-        password=DEFAULT_USER_PASSWORD,
+        input={
+            'username': DEFAULT_USERNAME,
+            'password': DEFAULT_USER_PASSWORD,
+        },
     )
 
     assert Token.objects.filter(pk=result.token.pk, user=user).exists()
@@ -55,8 +57,10 @@ def test_fail(user, ghl_mock_info, login_mutation):
         login_mutation(
             None,
             ghl_mock_info,
-            login='wrong{0}'.format(DEFAULT_USERNAME),
-            password=DEFAULT_USER_PASSWORD,
+            input={
+                'username': 'wrong{0}'.format(DEFAULT_USERNAME),
+                'password': DEFAULT_USER_PASSWORD,
+            },
         )
 
     assert not Token.objects.filter(user=user).exists()

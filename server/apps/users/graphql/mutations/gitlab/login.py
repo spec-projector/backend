@@ -4,12 +4,12 @@ import graphene
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from social_core.actions import do_auth
 
-from apps.core.graphql.mutations import BaseMutation
+from apps.core.graphql.mutations import OldBaseMutation
 from apps.core.graphql.security.permissions import AllowAny
 from apps.users.graphql.mutations.gitlab.psa import page_social_auth
 
 
-class LoginGitlabMutation(BaseMutation):
+class LoginGitlabMutation(OldBaseMutation):
     permission_classes = (AllowAny,)
 
     redirect_url = graphene.String()

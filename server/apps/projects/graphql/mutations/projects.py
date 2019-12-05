@@ -3,12 +3,12 @@
 import graphene
 from rest_framework.generics import get_object_or_404
 
-from apps.core.graphql.mutations import BaseMutation
+from apps.core.graphql.mutations import OldBaseMutation
 from apps.projects.graphql.types.project import ProjectType
 from apps.projects.models.project import Project
 
 
-class CreateProject(BaseMutation):
+class CreateProject(OldBaseMutation):
     class Arguments:
         title = graphene.String()
 
@@ -22,7 +22,7 @@ class CreateProject(BaseMutation):
         return cls(project=project)
 
 
-class UpdateProject(BaseMutation):
+class UpdateProject(OldBaseMutation):
     class Arguments:
         id = graphene.ID()  # noqa: A003
         title = graphene.String()
@@ -38,7 +38,7 @@ class UpdateProject(BaseMutation):
         return cls(project=project)
 
 
-class DeleteProject(BaseMutation):
+class DeleteProject(OldBaseMutation):
     class Arguments:
         id = graphene.ID()  # noqa: A003
 
