@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from typing import Optional
+from typing import List, Optional
 
 from django.db.models import QuerySet
-from graphene import Connection, Int, PageInfo
+from graphene import Connection, Int, ObjectType, PageInfo
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.settings import graphene_settings
 from graphene_django.utils import maybe_queryset
@@ -125,7 +125,7 @@ class DataSourceConnectionField(
         list_slice,
         start_offset,
         end_offset,
-    ) -> list:
+    ) -> List[ObjectType]:
         slice_fragment = list_slice[start_offset:end_offset]
 
         return [
