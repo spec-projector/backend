@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from functools import reduce
-from typing import Any, Dict
+from typing import Dict, Optional
 
 
-def deep_getattr(obj: object, attr: str, default: Any = None) -> Any:
+def deep_getattr(
+    obj: object,
+    attr: str,
+    default: Optional[object] = None,
+) -> Optional[object]:
     try:
         return reduce(getattr, attr.split('.'), obj)
     except AttributeError:

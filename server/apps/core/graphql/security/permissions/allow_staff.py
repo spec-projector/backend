@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from typing import Any
+from typing import Optional
 
 from graphql import ResolveInfo
 
@@ -13,7 +13,7 @@ class AllowStaff:
 
     def has_mutation_permission(
         self,
-        root: Any,
+        root: Optional[object],
         info: ResolveInfo,
         **kwargs,
     ) -> bool:
