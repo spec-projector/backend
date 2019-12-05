@@ -8,7 +8,7 @@ from apps.users.models import Token
 GHL_QUERY_LOGOUT = """
 mutation {
     logout {
-        ok
+        status
     }
 }
 """
@@ -23,7 +23,7 @@ def test_query(user, ghl_client):
     result = ghl_client.execute(GHL_QUERY_LOGOUT)
 
     assert 'errors' not in result
-    assert result['data']['logout']['ok']
+    assert result['data']['logout']['status'] == 'success'
 
     assert not Token.objects.filter(user=user).exists()
 

@@ -16,36 +16,11 @@ from apps.core.graphql.security.mixins.mutation import AuthMutation
 from apps.core.graphql.security.permissions import AllowAuthenticated
 
 
-class OldBaseMutation(
-    AuthMutation,
-    graphene.Mutation,
-):
-    permission_classes = (AllowAuthenticated,)
-
-    class Meta:
-        abstract = True
-
-    @classmethod
-    def mutate(cls, root, info, **kwargs):
-        cls.check_premissions(root, info, **kwargs)
-
-        return cls.do_mutate(root, info, **kwargs)
-
-    @classmethod
-    def check_premissions(cls, root, info, **kwargs) -> None:
-        if not cls.has_permission(root, info, **kwargs):
-            raise PermissionDenied()
-
-    @classmethod
-    def do_mutate(cls, root, info, **kwargs) -> None:
-        raise NotImplementedError
-
-
 class SerializerMutationOptions(MutationOptions):
     serializer_class = None
 
 
-class BaseMutation(AuthMutation, graphene.Mutation):
+class SerializerMutation(AuthMutation, graphene.Mutation):
     permission_classes = (AllowAuthenticated,)
 
     errors = graphene.List(
@@ -126,12 +101,12 @@ class BaseMutation(AuthMutation, graphene.Mutation):
         root: Optional[object],
         info: ResolveInfo,
         **input,
-    ) -> 'BaseMutation':
+    ) -> 'SerializerMutation':
         kwargs = cls.get_serializer_kwargs(root, info, **input)
         serializer = cls._meta.serializer_class(**kwargs)
 
         if serializer.is_valid():
-            return cls.perform_mutate(serializer, info)
+            return cls.perform_mutate(root, info, serializer)
 
         return cls(
             errors=ErrorType.from_errors(serializer.errors),
@@ -152,5 +127,10 @@ class BaseMutation(AuthMutation, graphene.Mutation):
         }
 
     @classmethod
-    def perform_mutate(cls, serializer, info: ResolveInfo):
+    def perform_mutate(
+        cls,
+        root: Optional[object],
+        serializer,
+        info: ResolveInfo,
+    ) -> 'SerializerMutation':
         raise NotImplementedError

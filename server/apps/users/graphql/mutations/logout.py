@@ -1,15 +1,22 @@
 # -*- coding: utf-8 -*-
 
+from typing import Optional
+
 import graphene
+from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import OldBaseMutation
+from apps.core.graphql.mutations import NoInputMutation
 
 
-class LogoutMutation(OldBaseMutation):
-    ok = graphene.Boolean()
+class LogoutMutation(NoInputMutation):
+    status = graphene.String()
 
     @classmethod
-    def do_mutate(cls, root, info):
+    def perform_mutate(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,
+    ) -> 'LogoutMutation':
         info.context.auth.delete()
 
-        return cls(ok=True)
+        return cls(status='success')

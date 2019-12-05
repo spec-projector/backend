@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import graphene
+from typing import Optional
 
-from apps.core.graphql.mutations import BaseMutation
+import graphene
+from graphql import ResolveInfo
+
+from apps.core.graphql.mutations.serializer import SerializerMutation
 from apps.core.graphql.security.permissions import AllowAny
 from apps.users.graphql.mutations.inputs.login import LoginMutationInput
 from apps.users.graphql.types import TokenType
 from apps.users.services.auth import login_user
 
 
-class LoginMutation(BaseMutation):
+class LoginMutation(SerializerMutation):
     permission_classes = (AllowAny,)
+
     token = graphene.Field(TokenType)
 
     class Meta:
@@ -19,8 +23,9 @@ class LoginMutation(BaseMutation):
     @classmethod
     def perform_mutate(
         cls,
+        root: Optional[object],
+        info: ResolveInfo,
         serializer: LoginMutationInput,
-        info,
     ) -> 'LoginMutation':
         token = login_user(
             serializer.validated_data['username'],
