@@ -1,23 +1,30 @@
 # -*- coding: utf-8 -*-
 
+from typing import Optional
+
 import graphene
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from graphql import ResolveInfo
 from social_core.actions import do_auth
 
-from apps.core.graphql.mutations import OldBaseMutation
+from apps.core.graphql.mutations import NoInputMutation
 from apps.core.graphql.security.permissions import AllowAny
-from apps.users.graphql.mutations.gitlab.psa import page_social_auth
+from apps.users.graphql.mutations.helpers.psa import page_social_auth
 
 
-class LoginGitlabMutation(OldBaseMutation):
+class GitLabLoginMutation(NoInputMutation):
     permission_classes = (AllowAny,)
 
     redirect_url = graphene.String()
 
     @classmethod
-    def do_mutate(cls, root, info):
+    def perform_mutate(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,
+    ) -> 'GitLabLoginMutation':
         request = page_social_auth(info.context)
 
         response = do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
 
-        return LoginGitlabMutation(redirect_url=response.url)
+        return cls(redirect_url=response.url)

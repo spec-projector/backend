@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from typing import Optional
+from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
@@ -25,11 +25,11 @@ class LoginMutation(SerializerMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,
-        serializer: LoginMutationInput,
+        validated_data: Dict[str, str],
     ) -> 'LoginMutation':
         token = login_user(
-            serializer.validated_data['username'],
-            serializer.validated_data['password'],
+            validated_data['username'],
+            validated_data['password'],
         )
 
         return cls(token=token)

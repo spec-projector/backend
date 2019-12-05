@@ -106,7 +106,11 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         serializer = cls._meta.serializer_class(**kwargs)
 
         if serializer.is_valid():
-            return cls.perform_mutate(root, info, serializer)
+            return cls.perform_mutate(
+                root,
+                info,
+                serializer.validated_data,
+            )
 
         return cls(
             errors=ErrorType.from_errors(serializer.errors),
@@ -130,7 +134,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
     def perform_mutate(
         cls,
         root: Optional[object],
-        serializer,
         info: ResolveInfo,
+        validated_data: Dict[str, object],
     ) -> 'SerializerMutation':
         raise NotImplementedError
