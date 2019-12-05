@@ -5,12 +5,13 @@ from graphene_django.debug import DjangoDebug
 
 from apps.core.graphql.views import ApiGraphQLView, PlaygroundGraphQLView
 from apps.projects.graphql.mutations import ProjectMutations
-from apps.projects.graphql.queries import ProjectsQueries
+from apps.projects.graphql.queries import IssuesQueries, ProjectsQueries
 from apps.users.graphql.mutations import AuthMutations
 from apps.users.graphql.queries import UsersQueries
 
 
-class Query(
+class Query(  # noqa: WPS215
+    IssuesQueries,
     ProjectsQueries,
     UsersQueries,
     graphene.ObjectType,
