@@ -14,6 +14,11 @@ class Project(Timestamps):
         help_text=_('HT__TITLE'),
     )
 
+    description = models.TextField(
+        verbose_name=_('VN__DESCRIPTION'),
+        help_text=_('HT__DESCRIPTION'),
+    )
+
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         models.CASCADE,

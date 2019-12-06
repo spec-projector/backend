@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from apps.projects.graphql.mutations.projects import (
-    CreateProject,
-    DeleteProject,
-    UpdateProject,
+    CreateProjectMutation,
+    DeleteProjectMutation,
+    UpdateProjectMutation,
 )
 
 
-class ProjectMutations:
-    create_project = CreateProject.Field()
-    update_project = UpdateProject.Field()
-    delete_project = DeleteProject.Field()
+class ProjectsMutations:
+    create_project = CreateProjectMutation.Field()
+    update_project = UpdateProjectMutation.Field()
+    delete_project = DeleteProjectMutation.Field()

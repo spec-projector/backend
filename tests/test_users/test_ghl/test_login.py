@@ -49,8 +49,8 @@ def test_success(user, ghl_mock_info, login_mutation):
     assert Token.objects.filter(pk=result.token.pk, user=user).exists()
 
 
-def test_fail(user, ghl_mock_info, login_mutation):
-    """Test wrong login case."""
+def test_wrong_username(user, ghl_mock_info, login_mutation):
+    """Test wrong username case."""
     assert not Token.objects.filter(user=user).exists()
 
     with raises(AuthenticationFailed):
@@ -60,6 +60,23 @@ def test_fail(user, ghl_mock_info, login_mutation):
             input={
                 'username': 'wrong{0}'.format(DEFAULT_USERNAME),
                 'password': DEFAULT_USER_PASSWORD,
+            },
+        )
+
+    assert not Token.objects.filter(user=user).exists()
+
+
+def test_wrong_password(user, ghl_mock_info, login_mutation):
+    """Test wrong password case."""
+    assert not Token.objects.filter(user=user).exists()
+
+    with raises(AuthenticationFailed):
+        login_mutation(
+            None,
+            ghl_mock_info,
+            input={
+                'username': DEFAULT_USERNAME,
+                'password': 'wrong{0}'.format(DEFAULT_USER_PASSWORD),
             },
         )
 
