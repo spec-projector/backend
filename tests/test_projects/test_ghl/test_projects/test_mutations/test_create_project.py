@@ -8,6 +8,9 @@ from apps.projects.models import Project
 GHL_QUERY_CREATE_PROJECT = """
 mutation {{
     createProject(input: {{ title: "{title}" }} ) {{
+        errors {{
+            field
+        }}
         project {{
           id
           title

@@ -9,6 +9,9 @@ from tests.fixtures.users import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
 GHL_QUERY_LOGIN = """
 mutation {{
     login(input: {{ username: "{login}", password: "{password}" }} ) {{
+        errors {{
+            field
+        }}
         token {{
           key
         }}

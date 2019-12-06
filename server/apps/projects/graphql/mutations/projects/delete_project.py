@@ -1,21 +1,28 @@
 # -*- coding: utf-8 -*-
 
+from typing import Dict, Optional
+
 import graphene
-from rest_framework.generics import get_object_or_404
+from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import OldBaseMutation
-from apps.projects.models.project import Project
+from apps.core.graphql.mutations import SerializerMutation
+from apps.projects.graphql.mutations.projects.inputs import DeleteProjectInput
+from apps.projects.models import Project
 
 
-class DeleteProjectMutation(OldBaseMutation):
-    class Arguments:
-        id = graphene.ID()  # noqa: A003
+class DeleteProjectMutation(SerializerMutation):
+    status = graphene.String()
 
-    ok = graphene.Boolean()
+    class Meta:
+        serializer_class = DeleteProjectInput
 
     @classmethod
-    def mutate(cls, root, info, id):  # noqa: A002
-        project = get_object_or_404(Project.objects.all(), pk=id)  # noqa: A003
-        project.delete()
+    def perform_mutate(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,
+        validated_data: Dict[str, Project],
+    ) -> 'DeleteProjectMutation':
+        validated_data['project'].delete()
 
-        return cls(ok=True)
+        return cls(status='success')

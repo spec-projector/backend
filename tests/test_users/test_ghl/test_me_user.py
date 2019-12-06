@@ -16,7 +16,6 @@ def test_query(user, ghl_client):
 
     result = ghl_client.execute(GHL_QUERY_ME)
 
-    assert 'errors' not in result
     assert result['data']['me']['id'] == str(user.id)
 
 
