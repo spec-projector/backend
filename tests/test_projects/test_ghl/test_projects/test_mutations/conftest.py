@@ -11,3 +11,8 @@ def create_project_mutation(ghl_mutations):
 @pytest.fixture(scope='session')
 def delete_project_mutation(ghl_mutations):
     return ghl_mutations.fields['deleteProject'].resolver
+
+
+@pytest.fixture(scope='session')
+def update_project_mutation(ghl_mutations):
+    return ghl_mutations.fields['updateProject'].resolver
