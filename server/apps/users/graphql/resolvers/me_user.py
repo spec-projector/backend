@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from typing import Optional
 
-def resolve_me_user(root, info):
+from graphql import ResolveInfo
+
+
+def resolve_me_user(
+    root: Optional[object],
+    info: ResolveInfo,  # noqa: WPS110
+):
     return info.context.user

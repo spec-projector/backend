@@ -29,7 +29,7 @@ class GitLabCompleteAuthMutation(SerializerMutation):
     def perform_mutate(
         cls,
         root: Optional[object],
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
     ) -> 'GitLabCompleteAuthMutation':
         request = page_social_auth(info.context)

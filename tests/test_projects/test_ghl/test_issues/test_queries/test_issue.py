@@ -14,10 +14,10 @@ def test_query(user, ghl_client):
     """Test getting issue raw query."""
     ghl_client.set_user(user)
 
-    result = ghl_client.execute(
+    response = ghl_client.execute(
         GHL_QUERY_ISSUE.format('https://dummy.com', 'dummy_token', 'DUMMY'),
     )
 
-    assert 'errors' not in result
-    assert result['data']['issue']['title'] is None
-    assert result['data']['issue']['status'] is None
+    assert 'errors' not in response
+    assert response['data']['issue']['title'] is None
+    assert response['data']['issue']['status'] is None

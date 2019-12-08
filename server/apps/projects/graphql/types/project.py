@@ -20,7 +20,7 @@ class ProjectType(BaseDjangoObjectType):
     def get_queryset(
         cls,
         queryset: QuerySet,
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Get queryset."""
         return queryset.filter(owner=info.context.user)

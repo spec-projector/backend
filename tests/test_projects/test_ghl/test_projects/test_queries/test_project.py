@@ -21,35 +21,35 @@ def test_query(user, ghl_client):
 
     project = ProjectFactory.create(owner=user)
 
-    result = ghl_client.execute(GHL_QUERY_PROJECT.format(project.id))
+    response = ghl_client.execute(GHL_QUERY_PROJECT.format(project.id))
 
-    assert 'errors' not in result
-    assert result['data']['project']['id'] == str(project.id)
+    assert 'errors' not in response
+    assert response['data']['project']['id'] == str(project.id)
 
 
 def test_success(ghl_auth_mock_info, project_query):
     """Test success getting project."""
     project = ProjectFactory.create(owner=ghl_auth_mock_info.context.user)
-    resolved = project_query(
+    response = project_query(
         root=None,
         info=ghl_auth_mock_info,
         id=project.id,
     )
 
-    assert resolved == project
+    assert response == project
 
 
 def test_not_found(ghl_auth_mock_info, project_query):
     """Test project not found."""
     project = ProjectFactory.create()
 
-    resolved = project_query(
+    response = project_query(
         root=None,
         info=ghl_auth_mock_info,
         id=project.id + 1,
     )
 
-    assert resolved is None
+    assert response is None
 
 
 def test_unauth(ghl_mock_info, project_query):

@@ -24,23 +24,23 @@ def test_query(user, ghl_client):
     """Test login raw query."""
     assert not Token.objects.filter(user=user).exists()
 
-    result = ghl_client.execute(GHL_QUERY_LOGIN.format(
+    response = ghl_client.execute(GHL_QUERY_LOGIN.format(
         login=DEFAULT_USERNAME,
         password=DEFAULT_USER_PASSWORD,
     ))
 
-    assert 'errors' not in result
+    assert 'errors' not in response
 
     token = Token.objects.filter(user=user).first()
     assert token is not None
-    assert result['data']['login']['token']['key'] == token.key
+    assert response['data']['login']['token']['key'] == token.key
 
 
 def test_success(user, ghl_mock_info, login_mutation):
     """Test success login."""
     assert not Token.objects.filter(user=user).exists()
 
-    result = login_mutation(
+    response = login_mutation(
         root=None,
         info=ghl_mock_info,
         input={
@@ -49,7 +49,7 @@ def test_success(user, ghl_mock_info, login_mutation):
         },
     )
 
-    assert Token.objects.filter(pk=result.token.pk, user=user).exists()
+    assert Token.objects.filter(pk=response.token.pk, user=user).exists()
 
 
 def test_wrong_username(user, ghl_mock_info, login_mutation):

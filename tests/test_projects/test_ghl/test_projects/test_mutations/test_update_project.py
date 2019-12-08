@@ -30,21 +30,21 @@ def test_query(user, ghl_client, project):
     """Test update raw query."""
     ghl_client.set_user(user)
 
-    result = ghl_client.execute(GHL_QUERY_UPDATE_PROJECT.format(
+    response = ghl_client.execute(GHL_QUERY_UPDATE_PROJECT.format(
         project=project.pk,
         opts=', title: "new_{0}"'.format(project.title),
     ))
 
-    assert 'errors' not in result
+    assert 'errors' not in response
 
-    dto = result['data']['updateProject']['project']
+    dto = response['data']['updateProject']['project']
     assert dto['id'] == str(project.id)
     assert dto['title'] == 'new_{0}'.format(project.title)
 
 
 def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
     """Test success update."""
-    result = update_project_mutation(
+    response = update_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
         input={
@@ -54,9 +54,9 @@ def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
         },
     )
 
-    assert result.project is not None
-    assert result.project.title == 'new title'
-    assert result.project.description == 'new description'
+    assert response.project is not None
+    assert response.project.title == 'new title'
+    assert response.project.description == 'new description'
 
 
 def test_unauth(user, ghl_mock_info, update_project_mutation, project):
@@ -75,7 +75,7 @@ def test_unauth(user, ghl_mock_info, update_project_mutation, project):
 
 def test_empty_data(user, ghl_auth_mock_info, update_project_mutation, project):
     """Test empty input data."""
-    result = update_project_mutation(
+    response = update_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
         input={
@@ -85,4 +85,4 @@ def test_empty_data(user, ghl_auth_mock_info, update_project_mutation, project):
         },
     )
 
-    assert len(result.errors) == 2
+    assert len(response.errors) == 2

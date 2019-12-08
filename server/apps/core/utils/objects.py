@@ -5,12 +5,12 @@ from typing import Dict, Optional
 
 
 def deep_getattr(
-    obj: object,
+    instance: object,
     attr: str,
     default: Optional[object] = None,
 ) -> Optional[object]:
     try:
-        return reduce(getattr, attr.split('.'), obj)
+        return reduce(getattr, attr.split('.'), instance)
     except AttributeError:
         return default
 

@@ -12,16 +12,16 @@ from apps.projects.models.project import Project
 
 
 class CreateProjectMutation(SerializerMutation):
+    project = graphene.Field(ProjectType)
+
     class Meta:
         serializer_class = CreateProjectInput
-
-    project = graphene.Field(ProjectType)
 
     @classmethod
     def perform_mutate(
         cls,
         root: Optional[object],
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
     ) -> 'CreateProjectMutation':
         project = Project.objects.create(

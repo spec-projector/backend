@@ -21,7 +21,7 @@ class AuthNode:
     @classmethod
     def get_node(
         cls,
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110
         id: str,  # noqa: A002
     ) -> Optional[Model]:
         has_node_permission = all((

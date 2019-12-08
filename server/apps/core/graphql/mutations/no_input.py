@@ -17,13 +17,21 @@ class NoInputMutation(AuthMutation, graphene.Mutation):
         abstract = True
 
     @classmethod
-    def mutate(cls, root, info):
+    def mutate(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+    ):
         cls.check_premissions(root, info)
 
         return cls.perform_mutate(root, info)
 
     @classmethod
-    def check_premissions(cls, root, info) -> None:
+    def check_premissions(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+    ) -> None:
         if not cls.has_permission(root, info):
             raise PermissionDenied()
 
@@ -31,6 +39,6 @@ class NoInputMutation(AuthMutation, graphene.Mutation):
     def perform_mutate(
         cls,
         root: Optional[object],
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110
     ) -> 'NoInputMutation':
         raise NotImplementedError

@@ -25,21 +25,21 @@ def test_query(user, ghl_client):
 
     ProjectFactory.create_batch(5, owner=user)
 
-    result = ghl_client.execute(GHL_QUERY_ALL_PROJECTS)
+    response = ghl_client.execute(GHL_QUERY_ALL_PROJECTS)
 
-    assert 'errors' not in result
-    assert result['data']['allProjects']['count'] == 5
+    assert 'errors' not in response
+    assert response['data']['allProjects']['count'] == 5
 
 
 def test_success(ghl_auth_mock_info, all_projects_query):
     """Test success list project."""
     ProjectFactory.create_batch(5, owner=ghl_auth_mock_info.context.user)
-    resolved = all_projects_query(
+    response = all_projects_query(
         root=None,
         info=ghl_auth_mock_info,
     )
 
-    assert resolved.length == 5
+    assert response.length == 5
 
 
 def test_unauth(ghl_mock_info, all_projects_query):

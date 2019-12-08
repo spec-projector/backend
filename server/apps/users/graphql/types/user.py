@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db.models import QuerySet
+from graphql import ResolveInfo
 
 from apps.core.graphql.connections import DataSourceConnection
 from apps.core.graphql.relay_nodes import DatasourceRelayNode
@@ -20,7 +21,7 @@ class UserType(BaseDjangoObjectType):
     def get_queryset(
         cls,
         queryset: QuerySet,
-        info,
+        info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         if issubclass(queryset.model, User):
             queryset = queryset.filter(is_active=True)

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from typing import Optional
+
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql import ResolveInfo
 from rest_framework.exceptions import PermissionDenied
@@ -13,7 +15,10 @@ class AuthFilter(DjangoFilterConnectionField):
     permission_classes = (AllowAny,)
 
     @classmethod
-    def has_permission(cls, info: ResolveInfo) -> bool:
+    def has_permission(
+        cls,
+        info: ResolveInfo,  # noqa: WPS110
+    ) -> bool:
         return all(
             perm().has_filter_permission(info)
             for perm in cls.permission_classes
@@ -28,8 +33,8 @@ class AuthFilter(DjangoFilterConnectionField):
         queryset_resolver,
         max_limit,
         enforce_first_or_last,
-        root,
-        info,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
         **args,
     ):
         if not cls.has_permission(info):

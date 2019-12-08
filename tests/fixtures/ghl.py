@@ -28,17 +28,17 @@ def ghl_auth_mock_info(user, rf) -> ResolveInfo:
     rf.set_user(user)
     request = rf.get('/graphql/')
 
-    info = mock_info()
-    info.context = request
+    resolve_info = mock_info()
+    resolve_info.context = request
 
-    return info
+    return resolve_info
 
 
 @pytest.fixture()  # type: ignore
 def ghl_mock_info(user, rf) -> ResolveInfo:
     request = rf.get('/graphql/')
 
-    info = mock_info()
-    info.context = request
+    resolve_info = mock_info()
+    resolve_info.context = request
 
-    return info
+    return resolve_info

@@ -43,10 +43,14 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
     readonly_fields = ('last_login',)
 
     @admin_field('Change password')
-    def change_password_link(self, obj):
+    def change_password_link(self, instance):
         return format_html(
             '<a href="{0}">change password</a>',
-            reverse('admin:auth_user_password_change', kwargs={'id': obj.pk}),
+            reverse(
+                'admin:auth_user_password_change',
+                kwargs={
+                    'id': instance.pk,
+                }),
         )
 
     change_password_form = AdminPasswordChangeForm

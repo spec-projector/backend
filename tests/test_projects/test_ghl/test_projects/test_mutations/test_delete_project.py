@@ -28,19 +28,19 @@ def test_query(user, ghl_client, project):
     """Test delete project raw query."""
     ghl_client.set_user(user)
 
-    result = ghl_client.execute(GHL_QUERY_DELETE_PROJECT.format(
+    response = ghl_client.execute(GHL_QUERY_DELETE_PROJECT.format(
         pk=project.pk,
     ))
 
-    assert 'errors' not in result
+    assert 'errors' not in response
 
     assert not Project.objects.exists()
-    assert result['data']['deleteProject']['status'] == 'success'
+    assert response['data']['deleteProject']['status'] == 'success'
 
 
 def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
     """Test success delete."""
-    result = delete_project_mutation(
+    response = delete_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
         input={
@@ -48,8 +48,8 @@ def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
         },
     )
 
-    assert result.errors is None
-    assert result.status == 'success'
+    assert response.errors is None
+    assert response.status == 'success'
     assert not Project.objects.exists()
 
 
@@ -67,7 +67,7 @@ def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
 
 def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     """Test project not found."""
-    result = delete_project_mutation(
+    response = delete_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
         input={
@@ -75,5 +75,5 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
         },
     )
 
-    assert len(result.errors) == 1
-    assert result.errors[0].field == 'project'
+    assert len(response.errors) == 1
+    assert response.errors[0].field == 'project'

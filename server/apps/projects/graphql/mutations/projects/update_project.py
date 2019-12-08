@@ -23,7 +23,7 @@ class UpdateProjectMutation(SerializerMutation):
     def perform_mutate(
         cls,
         root: Optional[object],
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110ø
         validated_data: Dict[str, object],
     ) -> 'UpdateProjectMutation':
         project = validated_data.pop('project')

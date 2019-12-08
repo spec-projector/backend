@@ -24,7 +24,7 @@ class LoginMutation(SerializerMutation):
     def perform_mutate(
         cls,
         root: Optional[object],
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
     ) -> 'LoginMutation':
         token = login_user(

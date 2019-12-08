@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text=_('HT__IS_ACTIVE'),
     )
 
-    objects = UserManager()
+    objects = UserManager()  # noqa: WPS110
 
     class Meta:
         verbose_name = _('VN__USER')

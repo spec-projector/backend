@@ -19,7 +19,7 @@ class IssuesQueries(graphene.ObjectType):
 
     def resolve_issue(
         self,
-        info: ResolveInfo,
+        info: ResolveInfo,  # noqa: WPS110
         url: str,
         token: str,
         system: System,
