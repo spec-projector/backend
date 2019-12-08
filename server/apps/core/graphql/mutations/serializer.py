@@ -53,24 +53,17 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
             is_input=True,
         )
 
-        input_fields = yank_fields_from_attrs(
-            input_fields,
-            _as=graphene.InputField,
-        )
+        input_fields = yank_fields_from_attrs(input_fields)
 
         base_name = re.sub('Payload$', '', cls.__name__)
 
         if not input_fields:
             input_fields = {}
 
-        cls.Input = type(
-            '{0}Input'.format(base_name),
-            (graphene.InputObjectType,),
+        cls.Arguments = type(
+            '{0}Arguments'.format(base_name),
+            (object,),
             OrderedDict(input_fields),
-        )
-
-        arguments = OrderedDict(
-            input=cls.Input(required=True),
         )
 
         meta_options = SerializerMutationOptions(cls)
@@ -78,7 +71,6 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
 
         super().__init_subclass_with_meta__(
             output=None,
-            arguments=arguments,
             name='{0}Payload'.format(base_name),
             _meta=meta_options,
             **options,
@@ -89,9 +81,9 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        input,  # noqa: A002
+        **input,  # noqa: A002
     ) -> 'SerializerMutation':
-        cls.check_premissions(root, info, input)
+        cls.check_premissions(root, info, **input)
 
         return cls.mutate_and_get_payload(root, info, **input)
 
@@ -100,9 +92,9 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        input,  # noqa: A002
+        **input,  # noqa: A002
     ) -> None:
-        if not cls.has_permission(root, info, input=input):
+        if not cls.has_permission(root, info, **input):
             raise PermissionDenied()
 
     @classmethod
@@ -119,7 +111,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
             return cls.perform_mutate(
                 root,
                 info,
-                serializer.validated_data,
+                **serializer.validated_data,
             )
 
         return cls(
@@ -145,6 +137,6 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        validated_data: Dict[str, object],
+        **validated_data,
     ) -> 'SerializerMutation':
         raise NotImplementedError
