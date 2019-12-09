@@ -25,9 +25,11 @@ class LoginMutation(SerializerMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        username: str,
-        password: str,
+        validated_data: Dict[str, str],
     ) -> 'LoginMutation':
-        token = login_user(username, password)
+        token = login_user(
+            validated_data['username'],
+            validated_data['password'],
+        )
 
         return cls(token=token)

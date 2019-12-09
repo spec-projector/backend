@@ -111,7 +111,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
             return cls.perform_mutate(
                 root,
                 info,
-                **serializer.validated_data,
+                serializer.validated_data,
             )
 
         return cls(
@@ -137,6 +137,6 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        **validated_data,
+        validated_data,
     ) -> 'SerializerMutation':
         raise NotImplementedError

@@ -7,7 +7,7 @@ from apps.projects.models import Project
 
 GHL_QUERY_CREATE_PROJECT = """
 mutation {{
-    createProject(input: {{ title: "{title}" }} ) {{
+    createProject(title: "{title}") {{
         errors {{
             field
         }}
@@ -44,9 +44,7 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
     response = create_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        input={
-            'title': 'my project',
-        },
+        title='my project',
     )
 
     assert response.project is not None
@@ -59,9 +57,7 @@ def test_unauth(user, ghl_mock_info, create_project_mutation):
         create_project_mutation(
             root=None,
             info=ghl_mock_info,
-            input={
-                'title': 'my project',
-            },
+            title='my project',
         )
 
 
@@ -70,9 +66,7 @@ def test_empty_title(user, ghl_auth_mock_info, create_project_mutation):
     response = create_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        input={
-            'title': '',
-        },
+        title='',
     )
 
     assert response.errors is not None

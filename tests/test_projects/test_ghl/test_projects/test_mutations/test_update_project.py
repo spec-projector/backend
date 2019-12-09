@@ -8,7 +8,7 @@ from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_UPDATE_PROJECT = """
 mutation {{
-    updateProject(input: {{ project: "{project}" {opts} }} ) {{
+    updateProject(project: "{project}" {opts}) {{
         errors {{
             field
         }}
@@ -47,11 +47,9 @@ def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
     response = update_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        input={
-            'project': project.pk,
-            'title': 'new title',
-            'description': 'new description',
-        },
+        project=project.pk,
+        title='new title',
+        description='new description',
     )
 
     assert response.project is not None
@@ -65,11 +63,9 @@ def test_unauth(user, ghl_mock_info, update_project_mutation, project):
         update_project_mutation(
             root=None,
             info=ghl_mock_info,
-            input={
-                'project': project.pk,
-                'title': 'new title',
-                'description': 'new description',
-            },
+            project=project.pk,
+            title='new title',
+            description='new description',
         )
 
 
@@ -78,11 +74,9 @@ def test_empty_data(user, ghl_auth_mock_info, update_project_mutation, project):
     response = update_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        input={
-            'project': project.pk,
-            'title': '',
-            'description': '',
-        },
+        project=project.pk,
+        title='',
+        description='',
     )
 
     assert len(response.errors) == 2

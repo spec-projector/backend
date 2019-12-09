@@ -9,7 +9,7 @@ from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_DELETE_PROJECT = """
 mutation {{
-    deleteProject(input: {{ project: "{pk}" }} ) {{
+    deleteProject(project: "{pk}") {{
         errors {{
             field
         }}
@@ -43,9 +43,7 @@ def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
     response = delete_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        input={
-            'project': project.pk,
-        },
+        project=project.pk,
     )
 
     assert response.errors is None
@@ -59,9 +57,7 @@ def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
         delete_project_mutation(
             root=None,
             info=ghl_mock_info,
-            input={
-                'project': project.pk,
-            },
+            project=project.pk,
         )
 
 
@@ -70,9 +66,7 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     response = delete_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        input={
-            'project': project.pk + 1,
-        },
+        project=project.pk + 1,
     )
 
     assert len(response.errors) == 1
