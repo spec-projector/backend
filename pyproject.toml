@@ -24,6 +24,8 @@ social-auth-app-django = "^3.*"
 social-auth-core = "^3.*"
 graphene-django = "^2.*"
 uWSGI = "*"
+python-gitlab = "^1.14"
+httpretty = "^0.9.7"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
