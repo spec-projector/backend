@@ -47,3 +47,35 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
     assert 'errors' not in response
     assert response['data']['issue']['title'] == gl_issue['title']
     assert response['data']['issue']['status'] == gl_issue['state']
+
+
+def test_githab_issue(user, ghl_client, gh_mocker):
+    """Test getting gitlab issue."""
+    gh_repo = {
+        'id': 12345,
+        'name': 'django_issue',
+        'full_name': 'owner/django_issue',
+        'url': 'https://api.github.com/repos/owner/django_issue',
+    }
+
+    gh_issue = {
+        'title': 'Test issue for check gpl',
+        'state': 'open',
+    }
+
+    gh_mocker.registry_get('/repos/owner/django_issue', gh_repo)
+    gh_mocker.registry_get('/repos/owner/django_issue/issues/5', gh_issue)
+
+    ghl_client.set_user(user)
+
+    response = ghl_client.execute(
+        GHL_QUERY_ISSUE.format(
+            'https://github.com/owner/django_issue/issues/5',
+            'GITHUB_TOKEN',
+            'GITHUB',
+        ),
+    )
+
+    assert 'errors' not in response
+    assert response['data']['issue']['title'] == gh_issue['title']
+    assert response['data']['issue']['status'] == gh_issue['state']
