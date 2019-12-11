@@ -1,25 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import json
-import re
+from http import HTTPStatus
 from typing import Dict, List, Optional
 
 import httpretty
-from django.conf import settings
 from httpretty.core import HTTPrettyRequest
-from rest_framework.status import HTTP_200_OK
-
-RE_GITLAB_URL = re.compile(r'https://gitlab\.com.*')
-BASE_GL_API_URL = '{0}/api/v4'.format(settings.GITLAB_HOST)
 
 
-class _GitlabRequestCallback:
+class _RequestCallbackFactory:
     """Create request callback."""
 
     def __init__(
         self,
         body: Optional[object] = None,
-        status: int = HTTP_200_OK,
+        status: int = HTTPStatus.OK,
     ) -> None:
         self._body = body or {}
         self._status = status
@@ -35,8 +30,10 @@ class _GitlabRequestCallback:
         return [self._status, response_headers, json.dumps(self._body)]
 
 
-class GitlabMock:
-    """Gitlab mocker."""
+class HttprettyMock:
+    """Httpretty mocker."""
+
+    _base_api_url = ''
 
     def __init__(self) -> None:
         assert httpretty.is_enabled()
@@ -45,12 +42,27 @@ class GitlabMock:
         self,
         path: str,
         body: Optional[object] = None,
-        status: int = HTTP_200_OK,
+        status: int = HTTPStatus.OK,
     ) -> None:
+        """Registry url for mock get-query."""
         self._registry_url(
             method=httpretty.GET,
             uri=self._prepare_uri(path),
-            request_callback=_GitlabRequestCallback(body, status),
+            request_callback=_RequestCallbackFactory(body, status),
+            priority=1,
+        )
+
+    def registry_post(
+        self,
+        path: str,
+        body: Optional[object] = None,
+        status: int = HTTPStatus.OK,
+    ) -> None:
+        """Registry url for mock post-query."""
+        self._registry_url(
+            method=httpretty.POST,
+            uri=self._prepare_uri(path),
+            request_callback=_RequestCallbackFactory(body, status),
             priority=1,
         )
 
@@ -58,7 +70,7 @@ class GitlabMock:
         self,
         method: str,
         uri: str,
-        request_callback: _GitlabRequestCallback,
+        request_callback: _RequestCallbackFactory,
         priority: int = 0,
     ) -> None:
         httpretty.register_uri(
@@ -69,4 +81,4 @@ class GitlabMock:
         )
 
     def _prepare_uri(self, path: str) -> str:
-        return '{0}{1}'.format(BASE_GL_API_URL, path)
+        return '{0}{1}'.format(self._base_api_url, path)

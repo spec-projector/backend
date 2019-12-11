@@ -26,6 +26,7 @@ graphene-django = "^2.*"
 uWSGI = "*"
 python-gitlab = "^1.14"
 httpretty = "^0.9.7"
+PyGithub = "^1.44"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
