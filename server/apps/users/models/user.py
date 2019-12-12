@@ -21,7 +21,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(
         max_length=50,  # noqa:  WPS432
         blank=True,
-        unique=True,
         verbose_name=_('VN__NAME'),
         help_text=_('HT__NAME'),
     )
