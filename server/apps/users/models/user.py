@@ -29,7 +29,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         max_length=50,  # noqa:  WPS432
         blank=True,
-        unique=True,
         verbose_name=_('VN__EMAIL'),
         help_text=_('HT__EMAIL'),
     )
