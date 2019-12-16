@@ -1,25 +1,28 @@
 # -*- coding: utf-8 -*-
 
-from typing import Tuple
+from typing import Optional, Tuple
 from urllib.parse import urlparse
 
 import gitlab
 from django.conf import settings
 from gitlab.v4.objects import Issue
 
-from apps.projects.graphql.types import IssueType
+from apps.projects.services.issues.meta import AssigneeMeta, IssueMeta
 from apps.projects.services.issues.providers.base import BaseProvider
 
 
 class GitlabProvider(BaseProvider):
     """Gitlab provider."""
 
-    def get_issue(self) -> IssueType:
+    def get_issue(self) -> IssueMeta:
         gl_issue = self._get_gitlab_issue()
 
-        return IssueType(
+        return IssueMeta(
             title=gl_issue.title,
-            status=gl_issue.state,
+            state=gl_issue.state,
+            due_date=gl_issue.due_date,
+            assignee=self._get_assignee(gl_issue),
+            spent=gl_issue.time_stats().get('total_time_spent', 0),
         )
 
     def _get_gitlab_issue(self) -> Issue:
@@ -43,3 +46,11 @@ class GitlabProvider(BaseProvider):
         issue_id = parts[-1:][0]
 
         return project_id, issue_id
+
+    def _get_assignee(self, issue: Issue) -> Optional[AssigneeMeta]:
+        if issue.assignee:
+            return AssigneeMeta(
+                name=issue.assignee['name'],
+                avatar=issue.assignee['avatar_url'],
+            )
+        return None

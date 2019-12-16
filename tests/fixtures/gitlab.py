@@ -8,7 +8,7 @@ from tests.helpers.httppretty_client import HttprettyMock
 
 
 class GitlabMock(HttprettyMock):
-    _base_api_url = '{0}/api/v4'.format(settings.GITLAB_HOST)
+    base_api_url = '{0}/api/v4'.format(settings.GITLAB_HOST)
 
 
 @pytest.fixture()

@@ -8,7 +8,7 @@ from tests.helpers.httppretty_client import HttprettyMock
 
 
 class GithubMock(HttprettyMock):
-    _base_api_url = settings.GITHUB_HOST
+    base_api_url = settings.GITHUB_HOST
 
 
 @pytest.fixture()

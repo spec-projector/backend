@@ -3,7 +3,7 @@
 import graphene
 from graphql import ResolveInfo
 
-from apps.projects.graphql.types import IssueType
+from apps.projects.graphql.types import AssigneeType, IssueType
 from apps.projects.services.issues.retriever import System, get_issue
 
 
@@ -24,4 +24,20 @@ class IssuesQueries(graphene.ObjectType):
         token: str,
         system: System,
     ) -> IssueType:
-        return get_issue(url, token, system)
+        issue_meta = get_issue(url, token, system)
+
+        assignee = None
+
+        if issue_meta.assignee:
+            assignee = AssigneeType(
+                name=issue_meta.assignee.name,
+                avatar=issue_meta.assignee.avatar,
+            )
+
+        return IssueType(
+            title=issue_meta.title,
+            state=issue_meta.state.upper() if issue_meta.state else None,
+            due_date=issue_meta.due_date,
+            spent=issue_meta.spent,
+            assignee=assignee,
+        )
