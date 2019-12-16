@@ -1,26 +1,29 @@
 # -*- coding: utf-8 -*-
 
 import re
-from typing import Tuple
+from typing import Optional, Tuple
 
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from github import Github, Issue
 from rest_framework.exceptions import ValidationError
 
-from apps.projects.graphql.types import IssueType
+from apps.projects.services.issues.meta import AssigneeMeta, IssueMeta
 from apps.projects.services.issues.providers.base import BaseProvider
 
 
 class GithubProvider(BaseProvider):
     """Github provider."""
 
-    def get_issue(self) -> IssueType:
+    def get_issue(self) -> IssueMeta:
         gh_issue = self._get_github_issue()
 
-        return IssueType(
+        return IssueMeta(
             title=gh_issue.title,
-            status=gh_issue.state,
+            state=gh_issue.state,
+            assignee=self._get_assignee(gh_issue),
+            spent=None,
+            due_date=None,
         )
 
     def _get_github_issue(self) -> Issue:
@@ -42,3 +45,12 @@ class GithubProvider(BaseProvider):
             raise ValidationError(_('MSG_GITHUB_ISSUE_URL_NOT_VALID'))
 
         return issue_data[0]
+
+    def _get_assignee(self, issue: Issue) -> Optional[AssigneeMeta]:
+        if issue.assignee:
+            return AssigneeMeta(
+                name=issue.assignee.name,
+                avatar=issue.assignee.avatar_url,
+            )
+
+        return None
