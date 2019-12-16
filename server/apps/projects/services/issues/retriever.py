@@ -10,10 +10,15 @@ from apps.projects.services.issues.providers import (
 )
 
 System = Enum('System', ('GITHUB', 'GITLAB', 'DUMMY'))
-Providers = [GithubProvider, GitlabProvider, DummyProvider]
+Providers = (
+    GithubProvider,
+    GitlabProvider,
+    DummyProvider,
+)
 
 PROVIDERS = {  # noqa: WPS407
-    system.value: provider for system, provider in zip(System, Providers)
+    system.value: provider
+    for system, provider in zip(System, Providers)
 }
 
 
