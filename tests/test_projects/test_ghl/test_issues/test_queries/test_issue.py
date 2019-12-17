@@ -3,8 +3,14 @@
 GHL_QUERY_ISSUE = """
 {{
   issue(url: "{0}", token: "{1}", system: {2}) {{
-    status
     title
+    state
+    dueDate
+    spent
+    assignee {{
+      name
+      avatar
+    }}
   }}
 }}
 """
@@ -20,16 +26,27 @@ def test_query(user, ghl_client):
 
     assert 'errors' not in response
     assert response['data']['issue']['title'] is None
-    assert response['data']['issue']['status'] is None
+    assert response['data']['issue']['state'] is None
 
 
 def test_gitlab_issue(user, ghl_client, gl_mocker):
     """Test getting gitlab issue."""
     gl_issue = {
         'title': 'Test issue',
-        'state': 'opened',
+        'state': 'OPENED',
         'id': 44,
         'iid': 33,
+        'due_date': '2015-10-08',
+        'assignee': {
+            'name': 'Joe',
+            'avatar_url': 'https://images.com/image/23',
+        },
+        'time_stats': {
+            'time_estimate': 100,
+            'total_time_spent': 100,
+            'human_time_estimate': '1m40s',
+            'human_total_time_spent': '1m40s',
+        },
     }
 
     gl_mocker.registry_get('/projects/test-project/issues/33', gl_issue)
@@ -45,8 +62,14 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
     )
 
     assert 'errors' not in response
-    assert response['data']['issue']['title'] == gl_issue['title']
-    assert response['data']['issue']['status'] == gl_issue['state']
+
+    issue = response['data']['issue']
+    assignee = response['data']['issue']['assignee']
+
+    assert issue['title'] == gl_issue['title']
+    assert issue['state'] == gl_issue['state']
+    assert issue['spent'] == gl_issue['time_stats']['total_time_spent']
+    assert assignee['name'] == gl_issue['assignee']['name']
 
 
 def test_githab_issue(user, ghl_client, gh_mocker):
@@ -60,7 +83,11 @@ def test_githab_issue(user, ghl_client, gh_mocker):
 
     gh_issue = {
         'title': 'Test issue for check gpl',
-        'state': 'open',
+        'state': 'OPEN',
+        'assignee': {
+            'name': 'Joe',
+            'avatar_url': 'https://images.com/image/23',
+        },
     }
 
     gh_mocker.registry_get('/repos/owner/django_issue', gh_repo)
@@ -77,5 +104,10 @@ def test_githab_issue(user, ghl_client, gh_mocker):
     )
 
     assert 'errors' not in response
-    assert response['data']['issue']['title'] == gh_issue['title']
-    assert response['data']['issue']['status'] == gh_issue['state']
+
+    issue = response['data']['issue']
+    assignee = response['data']['issue']['assignee']
+
+    assert issue['title'] == gh_issue['title']
+    assert issue['state'] == gh_issue['state']
+    assert assignee['name'] == gh_issue['assignee']['name']
