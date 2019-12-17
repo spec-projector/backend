@@ -3,6 +3,7 @@
 import graphene
 from graphql import ResolveInfo
 
+from apps.core.utils.date import seconds_to_hours
 from apps.projects.graphql.types import AssigneeType, IssueType
 from apps.projects.services.issues.retriever import System, get_issue
 
@@ -34,10 +35,14 @@ class IssuesQueries(graphene.ObjectType):
                 avatar=issue_meta.assignee.avatar,
             )
 
+        spent = issue_meta.spent
+        if spent:
+            spent = seconds_to_hours(issue_meta.spent)
+
         return IssueType(
             title=issue_meta.title,
             state=issue_meta.state.upper() if issue_meta.state else None,
             due_date=issue_meta.due_date,
-            spent=issue_meta.spent,
+            spent=spent,
             assignee=assignee,
         )
