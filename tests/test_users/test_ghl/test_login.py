@@ -7,16 +7,16 @@ from apps.users.models import Token
 from tests.fixtures.users import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
 
 GHL_QUERY_LOGIN = """
-mutation {{
-    login(username: "{login}", password: "{password}") {{
-        errors {{
+mutation ($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+        errors {
             field
-        }}
-        token {{
+        }
+        token {
           key
-        }}
-    }}
-}}
+        }
+    }
+}
 """
 
 
@@ -24,10 +24,13 @@ def test_query(user, ghl_client):
     """Test login raw query."""
     assert not Token.objects.filter(user=user).exists()
 
-    response = ghl_client.execute(GHL_QUERY_LOGIN.format(
-        login=DEFAULT_USERNAME,
-        password=DEFAULT_USER_PASSWORD,
-    ))
+    response = ghl_client.execute(
+        GHL_QUERY_LOGIN,
+        variables={
+            'username': DEFAULT_USERNAME,
+            'password': DEFAULT_USER_PASSWORD,
+        },
+    )
 
     assert 'errors' not in response
 

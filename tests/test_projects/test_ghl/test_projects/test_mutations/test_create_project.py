@@ -6,17 +6,17 @@ from rest_framework.exceptions import PermissionDenied
 from apps.projects.models import Project
 
 GHL_QUERY_CREATE_PROJECT = """
-mutation {{
-    createProject(title: "{title}") {{
-        errors {{
+mutation ($title: String!) {
+    createProject(title: $title) {
+        errors {
             field
-        }}
-        project {{
+        }
+        project {
           id
           title
-        }}
-    }}
-}}
+        }
+    }
+}
 """
 
 
@@ -24,9 +24,12 @@ def test_query(user, ghl_client):
     """Test create raw query."""
     ghl_client.set_user(user)
 
-    response = ghl_client.execute(GHL_QUERY_CREATE_PROJECT.format(
-        title='my project',
-    ))
+    response = ghl_client.execute(
+        GHL_QUERY_CREATE_PROJECT,
+        variables={
+            'title': 'my project',
+        },
+    )
 
     assert 'errors' not in response
 

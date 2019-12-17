@@ -8,14 +8,14 @@ from apps.projects.models import Project
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_DELETE_PROJECT = """
-mutation {{
-    deleteProject(project: "{pk}") {{
-        errors {{
+mutation ($id: String!) {
+    deleteProject(project: $id) {
+        errors {
             field
-        }}
+        }
         status
-    }}
-}}
+    }
+}
 """
 
 
@@ -28,9 +28,11 @@ def test_query(user, ghl_client, project):
     """Test delete project raw query."""
     ghl_client.set_user(user)
 
-    response = ghl_client.execute(GHL_QUERY_DELETE_PROJECT.format(
-        pk=project.pk,
-    ))
+    response = ghl_client.execute(
+        GHL_QUERY_DELETE_PROJECT, variables={
+            'id': project.pk,
+        },
+    )
 
     assert 'errors' not in response
 

@@ -6,12 +6,12 @@ from rest_framework.exceptions import PermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_PROJECT = """
-query {{
-  project(id: {0}) {{
+query ($id: ID!) {
+  project(id: $id) {
     id
     title
-  }}
-}}
+  }
+}
 """
 
 
@@ -21,7 +21,12 @@ def test_query(user, ghl_client):
 
     project = ProjectFactory.create(owner=user)
 
-    response = ghl_client.execute(GHL_QUERY_PROJECT.format(project.id))
+    response = ghl_client.execute(
+        GHL_QUERY_PROJECT,
+        variables={
+            'id': project.id,
+        },
+    )
 
     assert 'errors' not in response
     assert response['data']['project']['id'] == str(project.id)

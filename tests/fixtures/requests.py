@@ -5,6 +5,6 @@ import pytest
 from tests.helpers.request_factory import RequestFactory
 
 
-@pytest.fixture()  # type: ignore
+@pytest.fixture()
 def rf() -> RequestFactory:
     return RequestFactory()

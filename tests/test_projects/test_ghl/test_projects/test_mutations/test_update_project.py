@@ -7,17 +7,17 @@ from rest_framework.exceptions import PermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_UPDATE_PROJECT = """
-mutation {{
-    updateProject(project: "{project}" {opts}) {{
-        errors {{
+mutation ($id: String!, $title: String) {
+    updateProject(project: $id, title: $title) {
+        errors {
             field
-        }}
-        project {{
+        }
+        project {
           id
           title
-        }}
-    }}
-}}
+        }
+    }
+}
 """
 
 
@@ -30,10 +30,13 @@ def test_query(user, ghl_client, project):
     """Test update raw query."""
     ghl_client.set_user(user)
 
-    response = ghl_client.execute(GHL_QUERY_UPDATE_PROJECT.format(
-        project=project.pk,
-        opts=', title: "new_{0}"'.format(project.title),
-    ))
+    response = ghl_client.execute(
+        GHL_QUERY_UPDATE_PROJECT,
+        variables={
+            'id': project.pk,
+            'title': 'new_{0}'.format(project.title),
+        },
+    )
 
     assert 'errors' not in response
 
