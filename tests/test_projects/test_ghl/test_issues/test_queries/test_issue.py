@@ -42,10 +42,10 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
             'avatar_url': 'https://images.com/image/23',
         },
         'time_stats': {
-            'time_estimate': 100,
-            'total_time_spent': 100,
-            'human_time_estimate': '1m40s',
-            'human_total_time_spent': '1m40s',
+            'time_estimate': 3600,
+            'total_time_spent': 3600,
+            'human_time_estimate': '1h',
+            'human_total_time_spent': '1h',
         },
     }
 
@@ -68,7 +68,7 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
 
     assert issue['title'] == gl_issue['title']
     assert issue['state'] == gl_issue['state']
-    assert issue['spent'] == gl_issue['time_stats']['total_time_spent']
+    assert issue['spent'] == 1.0
     assert assignee['name'] == gl_issue['assignee']['name']
 
 

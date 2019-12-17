@@ -11,7 +11,7 @@ class IssueType(graphene.ObjectType):
     title = graphene.String()
     state = graphene.String()
     due_date = graphene.String()
-    spent = graphene.Int()
+    spent = graphene.Float()
     assignee = graphene.Field(AssigneeType)
 
     class Meta:
