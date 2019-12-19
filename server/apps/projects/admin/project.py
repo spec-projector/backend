@@ -13,4 +13,3 @@ class ProjectAdmin(AdminAutocompleteFieldsMixin, BaseModelAdmin):
     list_display = ('title', 'owner', 'created_at')
     search_fields = ('title',)
     list_filter = (OwnerAutocompleteFilter,)
-    readonly_fields = ('uid',)
