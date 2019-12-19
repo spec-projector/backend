@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import uuid
+
 import pytest
 from pytest import raises
 from rest_framework.exceptions import PermissionDenied
@@ -68,7 +70,7 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     response = delete_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        project=project.pk + 1,
+        project=uuid.uuid4(),
     )
 
     assert len(response.errors) == 1

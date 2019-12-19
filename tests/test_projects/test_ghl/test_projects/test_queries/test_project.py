@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import uuid
+
 from pytest import raises
 from rest_framework.exceptions import PermissionDenied
 
@@ -46,12 +48,12 @@ def test_success(ghl_auth_mock_info, project_query):
 
 def test_not_found(ghl_auth_mock_info, project_query):
     """Test project not found."""
-    project = ProjectFactory.create()
+    ProjectFactory.create()
 
     response = project_query(
         root=None,
         info=ghl_auth_mock_info,
-        id=project.id + 1,
+        id=uuid.uuid4(),
     )
 
     assert response is None
