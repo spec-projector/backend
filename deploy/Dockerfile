@@ -22,7 +22,7 @@ RUN apt update \
                       nginx \
                       make \
     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/${POETRY_VERSION}/get-poetry.py | python \
-    && source $HOME/.poetry/env \
+    && export PATH="$PATH:$HOME/.poetry/bin" \
     && poetry config virtualenvs.create false \
     && poetry install --no-dev --no-interaction --no-ansi \
     && apt remove --purge -y gcc binutils \
@@ -47,7 +47,7 @@ CMD ["/bin/bash", "deploy/server/run.sh"]
 
 FROM base as test
 
-RUN source $HOME/.poetry/env \
+RUN && export PATH="$PATH:$HOME/.poetry/bin" \
     && poetry install --no-interaction --no-ansi
 
 COPY . .
