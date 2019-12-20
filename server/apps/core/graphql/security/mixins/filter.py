@@ -24,8 +24,8 @@ class AuthFilter(DjangoFilterConnectionField):
             for perm in cls.permission_classes
         )
 
-    @classmethod  # noqa: WPS211
-    def connection_resolver(
+    @classmethod
+    def connection_resolver(  # noqa: WPS211
         cls,
         resolver,
         connection,
