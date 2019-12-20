@@ -47,7 +47,7 @@ CMD ["/bin/bash", "deploy/server/run.sh"]
 
 FROM base as test
 
-RUN && export PATH="$PATH:$HOME/.poetry/bin" \
+RUN export PATH="$PATH:$HOME/.poetry/bin" \
     && poetry install --no-interaction --no-ansi
 
 COPY . .
