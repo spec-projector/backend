@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from .create_project import CreateProjectInput
-from .delete_project import DeleteProjectInput
-from .update_project import UpdateProjectInput
+from .create import CreateProjectInput
+from .delete import DeleteProjectInput
+from .update import UpdateProjectInput
