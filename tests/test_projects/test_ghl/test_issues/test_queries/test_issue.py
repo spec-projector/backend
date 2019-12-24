@@ -49,7 +49,7 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
         },
     }
 
-    gl_mocker.registry_get('/projects/test-project/issues/33', gl_issue)
+    gl_mocker.register_get('/projects/test-project/issues/33', gl_issue)
 
     ghl_client.set_user(user)
 
@@ -90,8 +90,8 @@ def test_githab_issue(user, ghl_client, gh_mocker):
         },
     }
 
-    gh_mocker.registry_get('/repos/owner/django_issue', gh_repo)
-    gh_mocker.registry_get('/repos/owner/django_issue/issues/5', gh_issue)
+    gh_mocker.register_get('/repos/owner/django_issue', gh_repo)
+    gh_mocker.register_get('/repos/owner/django_issue/issues/5', gh_issue)
 
     ghl_client.set_user(user)
 

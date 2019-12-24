@@ -59,14 +59,14 @@ def test_complete_login(
     gl_token_request_info,
 ):
     """Test complete login."""
-    gl_mocker.registry_get('/user', {
+    gl_mocker.register_get('/user', {
         'id': user.pk,
         'username': user.login,
         'email': user.email,
     })
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.registry_post('', {
+    gl_mocker.register_post('', {
         'access_token': 'access_token',
         'token_type': 'bearer',
         'expires_in': 7200,
@@ -91,14 +91,14 @@ def test_not_login(
     gl_token_request_info,
 ):
     """Test not login user."""
-    gl_mocker.registry_get('/user', {
+    gl_mocker.register_get('/user', {
         'id': user.pk,
         'username': 'test_user',
         'email': user.email,
     })
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.registry_post('', {
+    gl_mocker.register_post('', {
         'access_token': 'access_token',
         'token_type': 'bearer',
         'expires_in': 7200,

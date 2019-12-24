@@ -38,35 +38,35 @@ class HttprettyMock:
     def __init__(self) -> None:
         assert httpretty.is_enabled()
 
-    def registry_get(
+    def register_get(
         self,
         path: str,
         body: Optional[object] = None,
         status: int = HTTPStatus.OK,
     ) -> None:
         """Registry url for mock get-query."""
-        self._registry_url(
+        self._register_url(
             method=httpretty.GET,
             uri=self._prepare_uri(path),
             request_callback=_RequestCallbackFactory(body, status),
             priority=1,
         )
 
-    def registry_post(
+    def register_post(
         self,
         path: str,
         body: Optional[object] = None,
         status: int = HTTPStatus.OK,
     ) -> None:
         """Registry url for mock post-query."""
-        self._registry_url(
+        self._register_url(
             method=httpretty.POST,
             uri=self._prepare_uri(path),
             request_callback=_RequestCallbackFactory(body, status),
             priority=1,
         )
 
-    def _registry_url(
+    def _register_url(
         self,
         method: str,
         uri: str,
