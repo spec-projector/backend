@@ -4,7 +4,7 @@ import httpretty
 import pytest
 from django.conf import settings
 
-from tests.helpers.httppretty_client import HttprettyMock
+from tests.helpers.httpretty_client import HttprettyMock
 
 
 class GithubMock(HttprettyMock):
