@@ -3,8 +3,11 @@
 import httpretty
 import pytest
 from django.conf import settings
+from graphene_django.rest_framework.tests.test_mutation import mock_info
+from graphql import ResolveInfo
+from social_core.backends.gitlab import GitLabOAuth2
 
-from tests.helpers.httppretty_client import HttprettyMock
+from tests.helpers.httpretty_client import HttprettyMock
 
 
 class GitlabMock(HttprettyMock):
@@ -18,3 +21,14 @@ def gl_mocker():
     yield GitlabMock()
 
     httpretty.disable()
+
+
+@pytest.fixture()
+def gl_token_request_info(rf) -> ResolveInfo:
+    request = rf.get(GitLabOAuth2.AUTHORIZATION_URL)
+    setattr(request, 'session', {'gitlab_state': 'gitlab_state'})  # noqa: B010
+
+    resolve_info = mock_info()
+    resolve_info.context = request
+
+    return resolve_info

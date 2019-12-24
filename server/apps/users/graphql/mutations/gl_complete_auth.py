@@ -15,6 +15,7 @@ from apps.users.graphql.mutations.inputs.gl_complete_auth import (
     GitLabCompleteAuthMutationInput,
 )
 from apps.users.graphql.types import TokenType
+from apps.users.models import Token
 
 
 class GitLabCompleteAuthMutation(SerializerMutation):
@@ -33,17 +34,21 @@ class GitLabCompleteAuthMutation(SerializerMutation):
         validated_data: Dict[str, str],
     ) -> 'GitLabCompleteAuthMutation':
         request = page_social_auth(info.context)
-        request.backend.set_data(
-            validated_data['code'],
-            validated_data['state'],
-        )
+        request.backend.set_data(**validated_data)
 
-        token = do_complete(
+        complete_result = do_complete(
             request.backend,
             _do_login,
             user=None,
             redirect_name=REDIRECT_FIELD_NAME,
             request=request,
         )
+        token = None
+        errors = None
 
-        return cls(token=token)
+        if isinstance(complete_result, Token):
+            token = complete_result
+        else:
+            errors = [complete_result.content.decode()]
+
+        return cls(token=token, errors=errors)
