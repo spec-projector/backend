@@ -10,4 +10,4 @@ class AssigneeType(graphene.ObjectType):
     avatar = graphene.String()
 
     class Meta:
-        name = 'Assignee'
+        name = "Assignee"

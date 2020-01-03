@@ -32,14 +32,14 @@ def test_query(user, ghl_client, project):
 
     response = ghl_client.execute(
         GHL_QUERY_DELETE_PROJECT, variables={
-            'id': project.pk,
+            "id": project.pk,
         },
     )
 
-    assert 'errors' not in response
+    assert "errors" not in response
 
     assert not Project.objects.exists()
-    assert response['data']['deleteProject']['status'] == 'success'
+    assert response["data"]["deleteProject"]["status"] == "success"
 
 
 def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
@@ -51,7 +51,7 @@ def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
     )
 
     assert response.errors is None
-    assert response.status == 'success'
+    assert response.status == "success"
     assert not Project.objects.exists()
 
 
@@ -74,4 +74,4 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     )
 
     assert len(response.errors) == 1
-    assert response.errors[0].field == 'project'
+    assert response.errors[0].field == "project"

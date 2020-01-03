@@ -11,7 +11,7 @@ from tests.helpers.httpretty_client import HttprettyMock
 
 
 class GitlabMock(HttprettyMock):
-    base_api_url = '{0}/api/v4'.format(settings.GITLAB_HOST)
+    base_api_url = "{0}/api/v4".format(settings.GITLAB_HOST)
 
 
 @pytest.fixture()
@@ -26,7 +26,7 @@ def gl_mocker():
 @pytest.fixture()
 def gl_token_request_info(rf) -> ResolveInfo:
     request = rf.get(GitLabOAuth2.AUTHORIZATION_URL)
-    setattr(request, 'session', {'gitlab_state': 'gitlab_state'})  # noqa: B010
+    setattr(request, "session", {"gitlab_state": "gitlab_state"})  # noqa: B010
 
     resolve_info = mock_info()
     resolve_info.context = request

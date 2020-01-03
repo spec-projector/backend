@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0002_project_owner'),
+        ("projects", "0002_project_owner"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='project',
-            name='description',
-            field=models.TextField(default='', help_text='HT__DESCRIPTION', verbose_name='VN__DESCRIPTION'),
+            model_name="project",
+            name="description",
+            field=models.TextField(default="", help_text="HT__DESCRIPTION", verbose_name="VN__DESCRIPTION"),
             preserve_default=False,
         ),
     ]

@@ -13,7 +13,7 @@ def update_from_validated_data(
     field_info = model_meta.get_field_info(instance)
 
     # Simply set each attribute on the instance, and then save it.
-    # Note that unlike `.create()` we don't need to treat many-to-many
+    # Note that unlike `.create()` we don"t need to treat many-to-many
     # relationships as being a special case. During updates we already
     # have an instance pk for the relationships to be associated with.
     m2m_fields = []

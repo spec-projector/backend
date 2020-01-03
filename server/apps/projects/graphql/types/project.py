@@ -14,7 +14,7 @@ class ProjectType(BaseDjangoObjectType):
         model = Project
         interfaces = (DatasourceRelayNode,)
         connection_class = DataSourceConnection
-        name = 'Project'
+        name = "Project"
 
     @classmethod
     def get_queryset(

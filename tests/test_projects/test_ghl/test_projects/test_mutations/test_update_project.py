@@ -33,16 +33,16 @@ def test_query(user, ghl_client, project):
     response = ghl_client.execute(
         GHL_QUERY_UPDATE_PROJECT,
         variables={
-            'id': project.pk,
-            'title': 'new_{0}'.format(project.title),
+            "id": project.pk,
+            "title": "new_{0}".format(project.title),
         },
     )
 
-    assert 'errors' not in response
+    assert "errors" not in response
 
-    dto = response['data']['updateProject']['project']
-    assert dto['id'] == str(project.id)
-    assert dto['title'] == 'new_{0}'.format(project.title)
+    dto = response["data"]["updateProject"]["project"]
+    assert dto["id"] == str(project.id)
+    assert dto["title"] == "new_{0}".format(project.title)
 
 
 def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
@@ -51,13 +51,13 @@ def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
         root=None,
         info=ghl_auth_mock_info,
         project=project.pk,
-        title='new title',
-        description='new description',
+        title="new title",
+        description="new description",
     )
 
     assert response.project is not None
-    assert response.project.title == 'new title'
-    assert response.project.description == 'new description'
+    assert response.project.title == "new title"
+    assert response.project.description == "new description"
 
 
 def test_unauth(user, ghl_mock_info, update_project_mutation, project):
@@ -67,8 +67,8 @@ def test_unauth(user, ghl_mock_info, update_project_mutation, project):
             root=None,
             info=ghl_mock_info,
             project=project.pk,
-            title='new title',
-            description='new description',
+            title="new title",
+            description="new description",
         )
 
 
@@ -78,8 +78,8 @@ def test_empty_data(user, ghl_auth_mock_info, update_project_mutation, project):
         root=None,
         info=ghl_auth_mock_info,
         project=project.pk,
-        title='',
-        description='',
+        title="",
+        description="",
     )
 
     assert len(response.errors) == 2

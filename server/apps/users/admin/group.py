@@ -10,5 +10,5 @@ admin.site.unregister(Group)
 
 @admin.register(Group)
 class GroupAdmin(BaseModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
+    list_display = ("name",)
+    search_fields = ("name",)

@@ -9,7 +9,7 @@ from apps.projects.services.issues.providers import (
     GitlabProvider,
 )
 
-System = Enum('System', ('GITHUB', 'GITLAB', 'DUMMY'))
+System = Enum("System", ("GITHUB", "GITLAB", "DUMMY"))
 Providers = [
     GithubProvider,
     GitlabProvider,

@@ -26,12 +26,12 @@ def test_query(user, ghl_client):
     response = ghl_client.execute(
         GHL_QUERY_PROJECT,
         variables={
-            'id': project.id,
+            "id": project.id,
         },
     )
 
-    assert 'errors' not in response
-    assert response['data']['project']['id'] == str(project.id)
+    assert "errors" not in response
+    assert response["data"]["project"]["id"] == str(project.id)
 
 
 def test_success(ghl_auth_mock_info, project_query):

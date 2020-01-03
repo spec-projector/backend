@@ -25,8 +25,8 @@ class UpdateProjectMutation(SerializerMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110ø
         validated_data: Dict[str, object],
-    ) -> 'UpdateProjectMutation':
-        project = validated_data.pop('project')
+    ) -> "UpdateProjectMutation":
+        project = validated_data.pop("project")
 
         update_from_validated_data(project, validated_data)
 

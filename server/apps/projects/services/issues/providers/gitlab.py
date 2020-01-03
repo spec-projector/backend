@@ -22,7 +22,7 @@ class GitlabProvider(BaseProvider):
             state=gl_issue.state,
             due_date=gl_issue.due_date,
             assignee=self._get_assignee(gl_issue),
-            spent=gl_issue.time_stats().get('total_time_spent', 0),
+            spent=gl_issue.time_stats().get("total_time_spent", 0),
         )
 
     def _get_gitlab_issue(self) -> Issue:
@@ -40,9 +40,9 @@ class GitlabProvider(BaseProvider):
 
     def _parse_url(self) -> Tuple[str, str]:
         """Getting project id and issue id."""
-        parts = [part for part in urlparse(self._url).path.split('/') if part]
+        parts = [part for part in urlparse(self._url).path.split("/") if part]
 
-        project_id = '/'.join(parts[:-2])
+        project_id = "/".join(parts[:-2])
         issue_id = parts[-1:][0]
 
         return project_id, issue_id
@@ -50,7 +50,7 @@ class GitlabProvider(BaseProvider):
     def _get_assignee(self, issue: Issue) -> Optional[AssigneeMeta]:
         if issue.assignee:
             return AssigneeMeta(
-                name=issue.assignee['name'],
-                avatar=issue.assignee['avatar_url'],
+                name=issue.assignee["name"],
+                avatar=issue.assignee["avatar_url"],
             )
         return None

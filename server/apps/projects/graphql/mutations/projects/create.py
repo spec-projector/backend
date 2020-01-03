@@ -23,9 +23,9 @@ class CreateProjectMutation(SerializerMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
-    ) -> 'CreateProjectMutation':
+    ) -> "CreateProjectMutation":
         project = Project.objects.create(
-            title=validated_data['title'],
+            title=validated_data["title"],
             owner=info.context.user,
         )
 

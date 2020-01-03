@@ -22,7 +22,7 @@ class DeleteProjectMutation(SerializerMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, Project],
-    ) -> 'DeleteProjectMutation':
-        validated_data['project'].delete()
+    ) -> "DeleteProjectMutation":
+        validated_data["project"].delete()
 
-        return cls(status='success')
+        return cls(status="success")

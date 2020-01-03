@@ -22,7 +22,7 @@ class GitLabLoginMutation(NoInputMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-    ) -> 'GitLabLoginMutation':
+    ) -> "GitLabLoginMutation":
         request = page_social_auth(info.context)
 
         response = do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)

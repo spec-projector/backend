@@ -13,20 +13,20 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Project',
+            name="Project",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True,
-                                        serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title',
-                 models.CharField(help_text='HT__TITLE', max_length=255,
-                                  verbose_name='VN__TITLE')),
+                ("id", models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title",
+                 models.CharField(help_text="HT__TITLE", max_length=255,
+                                  verbose_name="VN__TITLE")),
             ],
             options={
-                'verbose_name': 'VN__PROJECT',
-                'verbose_name_plural': 'VN__PROJECTS',
-                'ordering': ('-created_at',),
+                "verbose_name": "VN__PROJECT",
+                "verbose_name_plural": "VN__PROJECTS",
+                "ordering": ("-created_at",),
             },
         ),
     ]

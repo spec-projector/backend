@@ -10,4 +10,4 @@ class TokenType(BaseDjangoObjectType):
 
     class Meta:
         model = Token
-        name = 'Token'
+        name = "Token"

@@ -15,22 +15,22 @@ mutation {
 """
 
 
-@pytest.fixture(scope='module', autouse=True)
+@pytest.fixture(scope="module", autouse=True)
 def _gitlab_login() -> None:
     """Forces django to use gitlab settings."""
-    settings.SOCIAL_AUTH_GITLAB_REDIRECT_URI = 'redirect_uri'
-    settings.SOCIAL_AUTH_GITLAB_KEY = 'test_gitlab_key'
-    settings.SOCIAL_AUTH_GITLAB_SECRET = 'test_gitlab_secret'
+    settings.SOCIAL_AUTH_GITLAB_REDIRECT_URI = "redirect_uri"
+    settings.SOCIAL_AUTH_GITLAB_KEY = "test_gitlab_key"
+    settings.SOCIAL_AUTH_GITLAB_SECRET = "test_gitlab_secret"
 
 
 def test_query(user, ghl_client):
     """Test raw query."""
     context = {
-        'session': {},
-        'GET': {},
-        'POST': {},
-        'build_absolute_uri': lambda mock: mock,
-        'method': '',
+        "session": {},
+        "GET": {},
+        "POST": {},
+        "build_absolute_uri": lambda mock: mock,
+        "method": "",
     }
 
     response = ghl_client.execute(
@@ -38,12 +38,12 @@ def test_query(user, ghl_client):
         extra_context=context,
     )
 
-    assert 'errors' not in response
+    assert "errors" not in response
 
-    redirect_url = response['data']['loginGitlab']['redirectUrl']
+    redirect_url = response["data"]["loginGitlab"]["redirectUrl"]
 
-    client = 'client_id={0}'.format(settings.SOCIAL_AUTH_GITLAB_KEY)
-    redirect = 'redirect_uri={0}'.format(
+    client = "client_id={0}".format(settings.SOCIAL_AUTH_GITLAB_KEY)
+    redirect = "redirect_uri={0}".format(
         settings.SOCIAL_AUTH_GITLAB_REDIRECT_URI,
     )
 
@@ -59,25 +59,25 @@ def test_complete_login(
     gl_token_request_info,
 ):
     """Test complete login."""
-    gl_mocker.register_get('/user', {
-        'id': user.pk,
-        'username': user.login,
-        'email': user.email,
+    gl_mocker.register_get("/user", {
+        "id": user.pk,
+        "username": user.login,
+        "email": user.email,
     })
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.register_post('', {
-        'access_token': 'access_token',
-        'token_type': 'bearer',
-        'expires_in': 7200,
-        'refresh_token': 'refresh_token',
+    gl_mocker.register_post("", {
+        "access_token": "access_token",
+        "token_type": "bearer",
+        "expires_in": 7200,
+        "refresh_token": "refresh_token",
     })
 
     response = complete_gl_auth_mutation(
         root=None,
         info=gl_token_request_info,
-        code='test_code',
-        state=gl_token_request_info.context.session['gitlab_state'],
+        code="test_code",
+        state=gl_token_request_info.context.session["gitlab_state"],
     )
 
     assert not response.errors
@@ -91,25 +91,25 @@ def test_not_login(
     gl_token_request_info,
 ):
     """Test not login user."""
-    gl_mocker.register_get('/user', {
-        'id': user.pk,
-        'username': 'test_user',
-        'email': user.email,
+    gl_mocker.register_get("/user", {
+        "id": user.pk,
+        "username": "test_user",
+        "email": user.email,
     })
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.register_post('', {
-        'access_token': 'access_token',
-        'token_type': 'bearer',
-        'expires_in': 7200,
-        'refresh_token': 'refresh_token',
+    gl_mocker.register_post("", {
+        "access_token": "access_token",
+        "token_type": "bearer",
+        "expires_in": 7200,
+        "refresh_token": "refresh_token",
     })
 
     response = complete_gl_auth_mutation(
         root=None,
         info=gl_token_request_info,
-        code='test_code',
-        state=gl_token_request_info.context.session['gitlab_state'],
+        code="test_code",
+        state=gl_token_request_info.context.session["gitlab_state"],
     )
 
     assert response.errors

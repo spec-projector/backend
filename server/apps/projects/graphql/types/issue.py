@@ -15,4 +15,4 @@ class IssueType(graphene.ObjectType):
     assignee = graphene.Field(AssigneeType)
 
     class Meta:
-        name = 'Issue'
+        name = "Issue"

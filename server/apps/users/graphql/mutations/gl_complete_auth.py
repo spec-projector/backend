@@ -32,7 +32,7 @@ class GitLabCompleteAuthMutation(SerializerMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
-    ) -> 'GitLabCompleteAuthMutation':
+    ) -> "GitLabCompleteAuthMutation":
         request = page_social_auth(info.context)
         request.backend.set_data(**validated_data)
 

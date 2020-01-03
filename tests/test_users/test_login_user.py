@@ -29,20 +29,20 @@ def test_wrong_password(user):
     with raises(AuthenticationFailed):
         login_user(
             user.login,
-            'wrong{0}'.format(DEFAULT_USER_PASSWORD),
+            "wrong{0}".format(DEFAULT_USER_PASSWORD),
             None,
         )
 
 
 def test_empty_password(user):
     with raises(AuthenticationFailed):
-        login_user(user.login, '', None)
+        login_user(user.login, "", None)
 
 
 def test_invalid_login(user):
     with raises(AuthenticationFailed):
         login_user(
-            'wrong{0}'.format(user.login),
+            "wrong{0}".format(user.login),
             DEFAULT_USER_PASSWORD,
             None,
         )
@@ -50,7 +50,7 @@ def test_invalid_login(user):
 
 def test_empty_login(user):
     with raises(AuthenticationFailed):
-        login_user('', DEFAULT_USER_PASSWORD, None)
+        login_user("", DEFAULT_USER_PASSWORD, None)
 
 
 def test_multitokens(user):

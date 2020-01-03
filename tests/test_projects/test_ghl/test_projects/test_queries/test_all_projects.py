@@ -27,8 +27,8 @@ def test_query(user, ghl_client):
 
     response = ghl_client.execute(GHL_QUERY_ALL_PROJECTS)
 
-    assert 'errors' not in response
-    assert response['data']['allProjects']['count'] == 5
+    assert "errors" not in response
+    assert response["data"]["allProjects"]["count"] == 5
 
 
 def test_success(ghl_auth_mock_info, all_projects_query):

@@ -24,7 +24,7 @@ class DatasourceRelayNode(relay.Node):
         if is_invalid_node:  # noqa: WPS437
             return None
 
-        get_node = getattr(only_type, 'get_node', None)
+        get_node = getattr(only_type, "get_node", None)
         if get_node:
             return get_node(info, global_id)
 

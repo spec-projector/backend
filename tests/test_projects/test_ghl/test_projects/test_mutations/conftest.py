@@ -3,16 +3,16 @@
 import pytest
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def create_project_mutation(ghl_mutations):
-    return ghl_mutations.fields['createProject'].resolver
+    return ghl_mutations.fields["createProject"].resolver
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def delete_project_mutation(ghl_mutations):
-    return ghl_mutations.fields['deleteProject'].resolver
+    return ghl_mutations.fields["deleteProject"].resolver
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def update_project_mutation(ghl_mutations):
-    return ghl_mutations.fields['updateProject'].resolver
+    return ghl_mutations.fields["updateProject"].resolver

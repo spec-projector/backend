@@ -10,6 +10,6 @@ from apps.projects.models import Project
 
 @admin.register(Project)
 class ProjectAdmin(AdminAutocompleteFieldsMixin, BaseModelAdmin):
-    list_display = ('title', 'owner', 'created_at')
-    search_fields = ('title',)
+    list_display = ("title", "owner", "created_at")
+    search_fields = ("title",)
     list_filter = (OwnerAutocompleteFilter,)

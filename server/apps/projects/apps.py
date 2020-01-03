@@ -6,5 +6,5 @@ from apps.core.apps import BaseAppConfig
 
 
 class AppConfig(BaseAppConfig):
-    name = 'apps.projects'
-    verbose_name = _('VN__PROJECTS')
+    name = "apps.projects"
+    verbose_name = _("VN__PROJECTS")

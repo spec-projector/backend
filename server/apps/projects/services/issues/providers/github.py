@@ -30,7 +30,7 @@ class GithubProvider(BaseProvider):
         gh_client = self._get_github_client()
         owner, project, issue_number = self._parse_url()
 
-        repository = gh_client.get_repo('{0}/{1}'.format(owner, project))
+        repository = gh_client.get_repo("{0}/{1}".format(owner, project))
 
         return repository.get_issue(number=int(issue_number))
 
@@ -38,11 +38,11 @@ class GithubProvider(BaseProvider):
         return Github(self._token, base_url=settings.GITHUB_HOST)
 
     def _parse_url(self) -> Tuple[str, str, str]:
-        pattern = r'/(\w+)/(\w+)/issues/(\d+)'
+        pattern = r"/(\w+)/(\w+)/issues/(\d+)"
         issue_data = re.findall(pattern, self._url)
 
         if not issue_data:
-            raise ValidationError(_('MSG_GITHUB_ISSUE_URL_NOT_VALID'))
+            raise ValidationError(_("MSG_GITHUB_ISSUE_URL_NOT_VALID"))
 
         return issue_data[0]
 

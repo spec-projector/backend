@@ -17,7 +17,7 @@ class Query(  # noqa: WPS215
 ):
     """Graphql queiries."""
 
-    debug = graphene.Field(DjangoDebug, name='_debug')
+    debug = graphene.Field(DjangoDebug, name="_debug")
 
 
 class Mutation(

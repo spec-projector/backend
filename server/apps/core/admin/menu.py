@@ -8,6 +8,6 @@ class AdminMenu(Menu):
         super().__init__(**kwargs)
 
         self.children += [
-            items.MenuItem('Home', reverse('admin:index')),
-            items.AppList(title='Applications'),
+            items.MenuItem("Home", reverse("admin:index")),
+            items.AppList(title="Applications"),
         ]

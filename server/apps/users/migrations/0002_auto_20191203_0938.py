@@ -6,26 +6,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='email',
-            field=models.EmailField(blank=True, default='', help_text='HT__EMAIL', max_length=150, unique=True, verbose_name='VN__EMAIL'),
+            model_name="user",
+            name="email",
+            field=models.EmailField(blank=True, default="", help_text="HT__EMAIL", max_length=150, unique=True, verbose_name="VN__EMAIL"),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='user',
-            name='login',
-            field=models.CharField(blank=True, default='', help_text='HT__LOGIN', max_length=150, unique=True, verbose_name='VN__LOGIN'),
+            model_name="user",
+            name="login",
+            field=models.CharField(blank=True, default="", help_text="HT__LOGIN", max_length=150, unique=True, verbose_name="VN__LOGIN"),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='user',
-            name='name',
-            field=models.CharField(blank=True, default='', help_text='HT__NAME', max_length=150, unique=True, verbose_name='VN__NAME'),
+            model_name="user",
+            name="name",
+            field=models.CharField(blank=True, default="", help_text="HT__NAME", max_length=150, unique=True, verbose_name="VN__NAME"),
             preserve_default=False,
         ),
     ]

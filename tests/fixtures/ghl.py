@@ -8,12 +8,12 @@ from gql import schema
 from tests.helpers.ghl_client import GraphQLClient
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def ghl_queries():
     return schema.get_query_type()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def ghl_mutations():
     return schema.get_mutation_type()
 
@@ -26,7 +26,7 @@ def ghl_client() -> GraphQLClient:
 @pytest.fixture()
 def ghl_auth_mock_info(user, rf) -> ResolveInfo:
     rf.set_user(user)
-    request = rf.get('/graphql/')
+    request = rf.get("/graphql/")
 
     resolve_info = mock_info()
     resolve_info.context = request
@@ -36,7 +36,7 @@ def ghl_auth_mock_info(user, rf) -> ResolveInfo:
 
 @pytest.fixture()
 def ghl_mock_info(user, rf) -> ResolveInfo:
-    request = rf.get('/graphql/')
+    request = rf.get("/graphql/")
 
     resolve_info = mock_info()
     resolve_info.context = request

@@ -10,7 +10,7 @@ def deep_getattr(
     default: Optional[object] = None,
 ) -> Optional[object]:
     try:
-        return reduce(getattr, attr.split('.'), instance)
+        return reduce(getattr, attr.split("."), instance)
     except AttributeError:
         return default
 

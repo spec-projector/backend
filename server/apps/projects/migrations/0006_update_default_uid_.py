@@ -5,18 +5,18 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('projects', '0005_project_uids_generate'),
+        ("projects", "0005_project_uids_generate"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='project',
-            name='uid',
+            model_name="project",
+            name="uid",
             field=models.CharField(
-                default='',
-                help_text='HT__UID',
+                default="",
+                help_text="HT__UID",
                 max_length=32,
-                verbose_name='VN__UID',
+                verbose_name="VN__UID",
             ),
         ),
     ]

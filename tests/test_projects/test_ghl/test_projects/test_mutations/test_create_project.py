@@ -27,19 +27,19 @@ def test_query(user, ghl_client):
     response = ghl_client.execute(
         GHL_QUERY_CREATE_PROJECT,
         variables={
-            'title': 'my project',
+            "title": "my project",
         },
     )
 
-    assert 'errors' not in response
+    assert "errors" not in response
 
-    project = Project.objects.filter(title='my project').first()
+    project = Project.objects.filter(title="my project").first()
     assert project is not None
     assert project.owner == user
 
-    dto = response['data']['createProject']['project']
-    assert dto['id'] == str(project.id)
-    assert dto['title'] == 'my project'
+    dto = response["data"]["createProject"]["project"]
+    assert dto["id"] == str(project.id)
+    assert dto["title"] == "my project"
 
 
 def test_success(user, ghl_auth_mock_info, create_project_mutation):
@@ -47,7 +47,7 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
     response = create_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        title='my project',
+        title="my project",
     )
 
     assert response.project is not None
@@ -60,7 +60,7 @@ def test_unauth(user, ghl_mock_info, create_project_mutation):
         create_project_mutation(
             root=None,
             info=ghl_mock_info,
-            title='my project',
+            title="my project",
         )
 
 
@@ -69,7 +69,7 @@ def test_empty_title(user, ghl_auth_mock_info, create_project_mutation):
     response = create_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        title='',
+        title="",
     )
 
     assert response.errors is not None
