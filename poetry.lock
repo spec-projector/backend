@@ -15,6 +15,17 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.5"
 
 [[package]]
+category = "main"
+description = "ASGI specs, helper code, and adapters"
+name = "asgiref"
+optional = false
+python-versions = "*"
+version = "3.2.3"
+
+[package.extras]
+tests = ["pytest (>=4.3.0,<4.4.0)", "pytest-asyncio (>=0.10.0,<0.11.0)"]
+
+[[package]]
 category = "dev"
 description = "Read/rewrite/write Python ASTs"
 name = "astor"
@@ -187,12 +198,13 @@ category = "main"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 name = "django"
 optional = false
-python-versions = ">=3.5"
-version = "2.2.9"
+python-versions = ">=3.6"
+version = "3.0.2"
 
 [package.dependencies]
+asgiref = ">=3.2,<4.0"
 pytz = "*"
-sqlparse = "*"
+sqlparse = ">=0.2.2"
 
 [package.extras]
 argon2 = ["argon2-cffi (>=16.1.0)"]
@@ -789,7 +801,7 @@ promise = ">=2.2,<3"
 six = ">=1.12"
 
 [[package]]
-category = "main"
+category = "dev"
 description = "HTTP client mock for Python"
 name = "httpretty"
 optional = false
@@ -873,10 +885,10 @@ description = "BitField in Django"
 name = "jnt-django-bitfield"
 optional = false
 python-versions = ">=3.6,<4.0"
-version = "1.9.8"
+version = "1.10.1"
 
 [package.dependencies]
-Django = ">=2.0.0,<3.0.0"
+django = ">=2"
 djangorestframework = "*"
 
 [[package]]
@@ -1594,7 +1606,7 @@ radon = ">=4,<5"
 requests = ">=2.0,<3.0"
 
 [metadata]
-content-hash = "32ce323a74cae6254e1d116162a9d4cd4207c4c58b548a831350aa28b732cd8f"
+content-hash = "312c34e7bab05f6d7f9204d56d8afcf205b2ecc4ff9302c68c1e6028017de6c6"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1605,6 +1617,10 @@ aniso8601 = [
 apipkg = [
     {file = "apipkg-1.5-py2.py3-none-any.whl", hash = "sha256:58587dd4dc3daefad0487f6d9ae32b4542b185e1c36db6993290e7c41ca2b47c"},
     {file = "apipkg-1.5.tar.gz", hash = "sha256:37228cda29411948b422fae072f57e31d3396d2ee1c9783775980ee9c9990af6"},
+]
+asgiref = [
+    {file = "asgiref-3.2.3-py2.py3-none-any.whl", hash = "sha256:ea448f92fc35a0ef4b1508f53a04c4670255a3f33d22a81c8fc9c872036adbe5"},
+    {file = "asgiref-3.2.3.tar.gz", hash = "sha256:7e06d934a7718bf3975acbf87780ba678957b87c7adc056f13b6215d610695a0"},
 ]
 astor = [
     {file = "astor-0.8.1-py2.py3-none-any.whl", hash = "sha256:070a54e890cefb5b3739d19f30f5a5ec840ffc9c50ffa7d23cc9fc1a38ebbfc5"},
@@ -1699,8 +1715,8 @@ deprecated = [
     {file = "Deprecated-1.2.7.tar.gz", hash = "sha256:408038ab5fdeca67554e8f6742d1521cd3cd0ee0ff9d47f29318a4f4da31c308"},
 ]
 django = [
-    {file = "Django-2.2.9-py3-none-any.whl", hash = "sha256:687c37153486cf26c3fdcbdd177ef16de38dc3463f094b5f9c9955d91f277b14"},
-    {file = "Django-2.2.9.tar.gz", hash = "sha256:662a1ff78792e3fd77f16f71b1f31149489434de4b62a74895bd5d6534e635a5"},
+    {file = "Django-3.0.2-py3-none-any.whl", hash = "sha256:4f2c913303be4f874015993420bf0bd8fd2097a9c88e6b49c6a92f9bdd3fb13a"},
+    {file = "Django-3.0.2.tar.gz", hash = "sha256:8c3575f81e11390893860d97e1e0154c47512f180ea55bd84ce8fa69ba8051ca"},
 ]
 django-admin-autocomplete-filter = [
     {file = "django-admin-autocomplete-filter-0.4.tar.gz", hash = "sha256:c7aa61b95821603157b85be39ba03b4d788c82d74f144921f1300e2ce647740a"},
@@ -1914,8 +1930,8 @@ jnt-django-admin-tools = [
     {file = "jnt_django_admin_tools-0.9.2-py3-none-any.whl", hash = "sha256:1898018ddc1e2d7c6bfaf69dbbb86808dfc08ec4bdfbebb0626228c603ce5c5f"},
 ]
 jnt-django-bitfield = [
-    {file = "jnt-django-bitfield-1.9.8.tar.gz", hash = "sha256:ea03587b5acdba2cf4023734b04390fe54449cfce46a8e2a6a518d59544a7b77"},
-    {file = "jnt_django_bitfield-1.9.8-py3-none-any.whl", hash = "sha256:f894acccd0eea1426858438991fcc4a37f6255647d251a797e9a0ffc0c66d22e"},
+    {file = "jnt-django-bitfield-1.10.1.tar.gz", hash = "sha256:faf454aac55173efa2fab34c85cdde91653febfe157048b0afd32f9ac5e6a0e7"},
+    {file = "jnt_django_bitfield-1.10.1-py3-none-any.whl", hash = "sha256:c52946feeb9bc79310299bc0e5deea4f815507b2c6f8fbb4a6e4c8abf5099290"},
 ]
 mando = [
     {file = "mando-0.6.4-py2.py3-none-any.whl", hash = "sha256:4ce09faec7e5192ffc3c57830e26acba0fd6cd11e1ee81af0d4df0657463bd1c"},
