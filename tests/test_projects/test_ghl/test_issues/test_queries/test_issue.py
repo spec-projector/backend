@@ -61,8 +61,6 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
         ),
     )
 
-    assert "errors" not in response
-
     issue = response["data"]["issue"]
     assignee = response["data"]["issue"]["assignee"]
 
@@ -102,8 +100,6 @@ def test_githab_issue(user, ghl_client, gh_mocker):
             "GITHUB",
         ),
     )
-
-    assert "errors" not in response
 
     issue = response["data"]["issue"]
     assignee = response["data"]["issue"]["assignee"]

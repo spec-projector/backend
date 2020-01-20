@@ -14,3 +14,7 @@ htmlcov
 .coverage
 
 development.py
+
+# we use pytest.ini in development only - it has higher precedence
+# than setup.cfg for pytests
+pytest.ini

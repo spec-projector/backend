@@ -4,17 +4,18 @@ import uuid
 
 import pytest
 from pytest import raises
-from rest_framework.exceptions import PermissionDenied
 
+from apps.core.graphql.errors import (
+    INPUT_ERROR,
+    GraphQLInputError,
+    GraphQLPermissionDenied,
+)
 from apps.projects.models import Project
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_DELETE_PROJECT = """
 mutation ($id: String!) {
     deleteProject(project: $id) {
-        errors {
-            field
-        }
         status
     }
 }
@@ -36,8 +37,6 @@ def test_query(user, ghl_client, project):
         },
     )
 
-    assert "errors" not in response
-
     assert not Project.objects.exists()
     assert response["data"]["deleteProject"]["status"] == "success"
 
@@ -50,14 +49,13 @@ def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
         project=project.pk,
     )
 
-    assert response.errors is None
     assert response.status == "success"
     assert not Project.objects.exists()
 
 
 def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
     """Test unauthorized access."""
-    with raises(PermissionDenied):
+    with raises(GraphQLPermissionDenied):
         delete_project_mutation(
             root=None,
             info=ghl_mock_info,
@@ -67,11 +65,15 @@ def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
 
 def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     """Test project not found."""
-    response = delete_project_mutation(
-        root=None,
-        info=ghl_auth_mock_info,
-        project=uuid.uuid4(),
-    )
+    with raises(GraphQLInputError) as exc_info:
+        delete_project_mutation(
+            root=None,
+            info=ghl_auth_mock_info,
+            project=uuid.uuid4(),
+        )
 
-    assert len(response.errors) == 1
-    assert response.errors[0].field == "project"
+    extensions = exc_info.value.extensions  # noqa:WPS441
+    assert extensions["code"] == INPUT_ERROR
+
+    assert len(extensions["fieldErrors"]) == 1
+    assert extensions["fieldErrors"][0]["fieldName"] == "project"

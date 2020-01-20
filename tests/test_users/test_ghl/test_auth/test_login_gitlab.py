@@ -2,8 +2,10 @@
 
 import pytest
 from django.conf import settings
+from pytest import raises
 from social_core.backends.gitlab import GitLabOAuth2
 
+from apps.users.graphql.mutations.gl_complete_auth import GitlabAuthError
 from apps.users.models import Token
 
 GHL_QUERY_LOGIN_GITLAB = """
@@ -37,8 +39,6 @@ def test_query(user, ghl_client):
         GHL_QUERY_LOGIN_GITLAB,
         extra_context=context,
     )
-
-    assert "errors" not in response
 
     redirect_url = response["data"]["loginGitlab"]["redirectUrl"]
 
@@ -80,7 +80,6 @@ def test_complete_login(
         state=gl_token_request_info.context.session["gitlab_state"],
     )
 
-    assert not response.errors
     assert Token.objects.filter(pk=response.token.pk, user=user).exists()
 
 
@@ -105,12 +104,10 @@ def test_not_login(
         "refresh_token": "refresh_token",
     })
 
-    response = complete_gl_auth_mutation(
-        root=None,
-        info=gl_token_request_info,
-        code="test_code",
-        state=gl_token_request_info.context.session["gitlab_state"],
-    )
-
-    assert response.errors
-    assert not response.token
+    with raises(GitlabAuthError):
+        complete_gl_auth_mutation(
+            root=None,
+            info=gl_token_request_info,
+            code="test_code",
+            state=gl_token_request_info.context.session["gitlab_state"],
+        )

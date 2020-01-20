@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from pytest import raises
-from rest_framework.exceptions import PermissionDenied
 
+from apps.core.graphql.errors import GraphQLInputError, GraphQLPermissionDenied
 from apps.projects.models import Project
 
 GHL_QUERY_CREATE_PROJECT = """
 mutation ($title: String!) {
     createProject(title: $title) {
-        errors {
-            field
-        }
         project {
           id
           title
@@ -30,8 +27,6 @@ def test_query(user, ghl_client):
             "title": "my project",
         },
     )
-
-    assert "errors" not in response
 
     project = Project.objects.filter(title="my project").first()
     assert project is not None
@@ -56,7 +51,7 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
 
 def test_unauth(user, ghl_mock_info, create_project_mutation):
     """Test unauthorized access."""
-    with raises(PermissionDenied):
+    with raises(GraphQLPermissionDenied):
         create_project_mutation(
             root=None,
             info=ghl_mock_info,
@@ -66,11 +61,11 @@ def test_unauth(user, ghl_mock_info, create_project_mutation):
 
 def test_empty_title(user, ghl_auth_mock_info, create_project_mutation):
     """Test bad input data."""
-    response = create_project_mutation(
-        root=None,
-        info=ghl_auth_mock_info,
-        title="",
-    )
+    with raises(GraphQLInputError):
+        create_project_mutation(
+            root=None,
+            info=ghl_auth_mock_info,
+            title="",
+        )
 
-    assert response.errors is not None
     assert not Project.objects.exists()
