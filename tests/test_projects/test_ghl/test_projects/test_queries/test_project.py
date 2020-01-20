@@ -3,8 +3,8 @@
 import uuid
 
 from pytest import raises
-from rest_framework.exceptions import PermissionDenied
 
+from apps.core.graphql.errors import GraphQLPermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_PROJECT = """
@@ -63,5 +63,5 @@ def test_unauth(ghl_mock_info, project_query):
     """Test non authorized user."""
     project = ProjectFactory.create()
 
-    with raises(PermissionDenied):
+    with raises(GraphQLPermissionDenied):
         project_query(root=None, info=ghl_mock_info, id=project.id)

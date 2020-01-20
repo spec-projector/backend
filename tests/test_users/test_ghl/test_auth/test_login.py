@@ -9,9 +9,6 @@ from tests.fixtures.users import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
 GHL_QUERY_LOGIN = """
 mutation ($username: String!, $password: String!) {
     login(username: $username, password: $password) {
-        errors {
-            field
-        }
         token {
           key
         }
@@ -31,8 +28,6 @@ def test_query(user, ghl_client):
             "password": DEFAULT_USER_PASSWORD,
         },
     )
-
-    assert "errors" not in response
 
     token = Token.objects.filter(user=user).first()
     assert token is not None

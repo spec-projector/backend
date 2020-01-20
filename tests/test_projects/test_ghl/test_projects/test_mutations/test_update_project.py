@@ -2,16 +2,13 @@
 
 import pytest
 from pytest import raises
-from rest_framework.exceptions import PermissionDenied
 
+from apps.core.graphql.errors import GraphQLInputError, GraphQLPermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_UPDATE_PROJECT = """
 mutation ($id: String!, $title: String) {
     updateProject(project: $id, title: $title) {
-        errors {
-            field
-        }
         project {
           id
           title
@@ -38,8 +35,6 @@ def test_query(user, ghl_client, project):
         },
     )
 
-    assert "errors" not in response
-
     dto = response["data"]["updateProject"]["project"]
     assert dto["id"] == str(project.id)
     assert dto["title"] == "new_{0}".format(project.title)
@@ -62,7 +57,7 @@ def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
 
 def test_unauth(user, ghl_mock_info, update_project_mutation, project):
     """Test unauthorized access."""
-    with raises(PermissionDenied):
+    with raises(GraphQLPermissionDenied):
         update_project_mutation(
             root=None,
             info=ghl_mock_info,
@@ -74,12 +69,15 @@ def test_unauth(user, ghl_mock_info, update_project_mutation, project):
 
 def test_empty_data(user, ghl_auth_mock_info, update_project_mutation, project):
     """Test empty input data."""
-    response = update_project_mutation(
-        root=None,
-        info=ghl_auth_mock_info,
-        project=project.pk,
-        title="",
-        description="",
-    )
+    with raises(GraphQLInputError) as exc_info:
+        update_project_mutation(
+            root=None,
+            info=ghl_auth_mock_info,
+            project=project.pk,
+            title="",
+            description="",
+        )
 
-    assert len(response.errors) == 2
+    extensions = exc_info.value.extensions  # noqa:WPS441
+
+    assert len(extensions["fieldErrors"]) == 2

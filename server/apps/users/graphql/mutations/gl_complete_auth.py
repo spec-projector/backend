@@ -18,6 +18,10 @@ from apps.users.graphql.types import TokenType
 from apps.users.models import Token
 
 
+class GitlabAuthError(Exception):
+    """Gitlab authentication error."""
+
+
 class GitLabCompleteAuthMutation(SerializerMutation):
     permission_classes = (AllowAny,)
 
@@ -43,12 +47,8 @@ class GitLabCompleteAuthMutation(SerializerMutation):
             redirect_name=REDIRECT_FIELD_NAME,
             request=request,
         )
-        token = None
-        errors = None
 
-        if isinstance(complete_result, Token):
-            token = complete_result
-        else:
-            errors = [complete_result.content.decode()]
+        if not isinstance(complete_result, Token):
+            raise GitlabAuthError(complete_result.content.decode())
 
-        return cls(token=token, errors=errors)
+        return cls(token=complete_result)

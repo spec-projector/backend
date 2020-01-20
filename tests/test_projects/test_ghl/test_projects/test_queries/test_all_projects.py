@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from pytest import raises
-from rest_framework.exceptions import PermissionDenied
 
+from apps.core.graphql.errors import GraphQLPermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_ALL_PROJECTS = """
@@ -46,7 +46,7 @@ def test_unauth(ghl_mock_info, all_projects_query):
     """Test unauth list project access."""
     ProjectFactory.create_batch(5)
 
-    with raises(PermissionDenied):
+    with raises(GraphQLPermissionDenied):
         all_projects_query(
             root=None,
             info=ghl_mock_info,

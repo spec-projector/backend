@@ -4,8 +4,8 @@ from typing import Optional
 
 from django.db.models import Model
 from graphql import ResolveInfo
-from rest_framework.exceptions import PermissionDenied
 
+from apps.core.graphql.errors import GraphQLPermissionDenied
 from apps.core.graphql.security.permissions import AllowAny
 
 
@@ -30,7 +30,7 @@ class AuthNode:
         ))
 
         if not has_node_permission:
-            raise PermissionDenied()
+            raise GraphQLPermissionDenied()
 
         queryset = cls.get_queryset(  # type: ignore
             cls._meta.model.objects,  # type: ignore
