@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-18 10:47+0300\n"
+"POT-Creation-Date: 2020-01-30 14:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "You do not have permission to perform this action."
+msgstr "You do not have permission to perform this action."
+
+msgid "Not found."
+msgstr "Not found."
+
+msgid "Input error."
+msgstr "Input error."
 
 msgid "VN__PROJECTS"
 msgstr "Projects"
@@ -39,14 +48,41 @@ msgstr "Owner"
 msgid "HT__OWNER"
 msgstr " "
 
-msgid "VN__UID"
-msgstr "UID"
-
-msgid "HT__UID"
-msgstr "Unique identifier"
-
 msgid "VN__PROJECT"
 msgstr "Project"
+
+msgid "CH__FRONTEND_DEVELOPER"
+msgstr "Frontend Developer"
+
+msgid "CH__BACKEND_DEVELOPER"
+msgstr "Backend Developer"
+
+msgid "CH__PROJECT_MANAGER"
+msgstr "Project Manager"
+
+msgid "CH__DESIGNER"
+msgstr "Designer"
+
+msgid "CH__TESTER"
+msgstr "Tester"
+
+msgid "CH__CUSTOMER"
+msgstr "Customer"
+
+msgid "HT__PROJECT"
+msgstr "Project"
+
+msgid "VN__USER"
+msgstr "User"
+
+msgid "HT__USER"
+msgstr "User"
+
+msgid "VN__PROJECT_MEMBER"
+msgstr "Project Member"
+
+msgid "VN__PROJECT_MEMBERS"
+msgstr "Project Members"
 
 msgid "MSG_GITHUB_ISSUE_URL_NOT_VALID"
 msgstr " Github issue url not valid"
@@ -93,8 +129,11 @@ msgstr "Is active"
 msgid "HT__IS_ACTIVE"
 msgstr "Is active"
 
-msgid "VN__USER"
-msgstr "User"
+msgid "VN__AVATAR"
+msgstr "Avatar"
+
+msgid "HT__AVATAR"
+msgstr "Avatar"
 
 msgid "MSG_UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"

@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.models.mixins import Timestamps
+from apps.projects.models.project_member import ProjectMember
 
 
 class Project(Timestamps):
@@ -33,6 +34,12 @@ class Project(Timestamps):
         null=True,
         verbose_name=_("VN__OWNER"),
         help_text=_("HT__OWNER"),
+    )
+
+    members = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through=ProjectMember,
+        related_name="projects",
     )
 
     class Meta:

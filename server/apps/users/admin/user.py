@@ -35,7 +35,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
     fieldsets = (
         (None, {
             "fields": (
-                "login", "email", "name", "is_superuser", "is_staff",
+                "login", "email", "name", "avatar", "is_superuser", "is_staff",
                 "is_active", "last_login",
             ),
         }),
