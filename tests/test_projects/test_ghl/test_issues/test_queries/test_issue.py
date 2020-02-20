@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
+from apps.projects.services.issues.retriever import System
+
 GHL_QUERY_ISSUE = """
-{{
-  issue(url: "{0}", token: "{1}", system: {2}) {{
+query ($url: String!, $token: String!, $system: System!) {
+  issue(url: $url, token: $token, system: $system) {
     title
     state
     dueDate
     spent
-    assignee {{
+    assignee {
       name
       avatar
-    }}
-  }}
-}}
+    }
+  }
+}
 """
 
 
@@ -21,7 +23,12 @@ def test_query(user, ghl_client):
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_ISSUE.format("https://dummy.com", "dummy_token", "DUMMY"),
+        GHL_QUERY_ISSUE,
+        variables={
+            "url": "https://dummy.com",
+            "token": "dummy_token",
+            "system": System.DUMMY.name,
+        },
     )
 
     assert "errors" not in response
@@ -54,11 +61,12 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_ISSUE.format(
-            "https://gitlab.com/test-project/issues/33",
-            "GITLAB_TOKEN",
-            "GITLAB",
-        ),
+        GHL_QUERY_ISSUE,
+        variables={
+            "url": "https://gitlab.com/test-project/issues/33",
+            "token": "GITLAB_TOKEN",
+            "system": System.GITLAB.name,
+        },
     )
 
     issue = response["data"]["issue"]
@@ -94,11 +102,12 @@ def test_githab_issue(user, ghl_client, gh_mocker):
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_ISSUE.format(
-            "https://github.com/owner/django_issue/issues/5",
-            "GITHUB_TOKEN",
-            "GITHUB",
-        ),
+        GHL_QUERY_ISSUE,
+        variables={
+            "url": "https://github.com/owner/django_issue/issues/5",
+            "token": "GITHUB_TOKEN",
+            "system": System.GITHUB.name,
+        },
     )
 
     issue = response["data"]["issue"]
