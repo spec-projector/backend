@@ -11,7 +11,7 @@ from apps.projects.models import Project
 
 @admin.register(Project)
 class ProjectAdmin(AdminAutocompleteFieldsMixin, BaseModelAdmin):
-    list_display = ("title", "owner", "created_at")
+    list_display = ("title", "owner", "created_at", "public")
     search_fields = ("title",)
-    list_filter = (OwnerAutocompleteFilter,)
+    list_filter = (OwnerAutocompleteFilter, "public")
     inlines = (ProjectMemberInline,)
