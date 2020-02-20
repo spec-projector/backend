@@ -4,11 +4,15 @@ import pytest
 from pytest import raises
 
 from apps.core.graphql.errors import GraphQLInputError, GraphQLPermissionDenied
+from apps.projects.models import ProjectMember
+from apps.projects.models.project_member import PROJECT_MEMBER_ROLES
 from tests.test_projects.factories.project import ProjectFactory
+from tests.test_projects.factories.project_member import ProjectMemberFactory
+from tests.test_users.factories.user import UserFactory
 
 GHL_QUERY_UPDATE_PROJECT = """
-mutation ($id: String!, $title: String) {
-    updateProject(project: $id, title: $title) {
+mutation ($id: ID!, $title: String) {
+    updateProject(id: $id, title: $title) {
         project {
           id
           title
@@ -45,7 +49,7 @@ def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
     response = update_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        project=project.pk,
+        id=project.pk,
         title="new title",
         description="new description",
     )
@@ -61,7 +65,7 @@ def test_unauth(user, ghl_mock_info, update_project_mutation, project):
         update_project_mutation(
             root=None,
             info=ghl_mock_info,
-            project=project.pk,
+            id=project.pk,
             title="new title",
             description="new description",
         )
@@ -73,7 +77,7 @@ def test_empty_data(user, ghl_auth_mock_info, update_project_mutation, project):
         update_project_mutation(
             root=None,
             info=ghl_auth_mock_info,
-            project=project.pk,
+            id=project.pk,
             title="",
             description="",
         )
@@ -81,3 +85,66 @@ def test_empty_data(user, ghl_auth_mock_info, update_project_mutation, project):
     extensions = exc_info.value.extensions  # noqa:WPS441
 
     assert len(extensions["fieldErrors"]) == 2
+
+
+def test_add_project_members(
+    user,
+    project,
+    update_project_mutation,
+    ghl_auth_mock_info,
+):
+    user2 = UserFactory.create()
+    user3 = UserFactory.create()
+
+    users = [
+        {
+            "id": user2.id,
+            "roles": [PROJECT_MEMBER_ROLES.PROJECT_MANAGER],
+        },
+        {
+            "id": user3.id,
+            "roles": [PROJECT_MEMBER_ROLES.PROJECT_MANAGER],
+        },
+    ]
+
+    assert not project.members.exists()
+
+    update_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.pk,
+        users=users,
+    )
+
+    assert project.members.count() == 2
+    assert set(project.members.all()) == {user2, user3}
+
+
+def test_delete_project_members(
+    user,
+    project,
+    update_project_mutation,
+    ghl_auth_mock_info,
+):
+    project_member1 = ProjectMemberFactory.create(project=project)
+    project_member2 = ProjectMemberFactory.create(project=project)
+
+    assert project.members.count() == 2
+
+    users = [
+        {
+            "id": project_member1.user.id,
+            "roles": [PROJECT_MEMBER_ROLES.PROJECT_MANAGER],
+        },
+    ]
+
+    update_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.pk,
+        users=users,
+    )
+
+    assert project.members.count() == 1
+    assert project.members.first() == project_member1.user
+    assert not ProjectMember.objects.filter(id=project_member2.id).exists()

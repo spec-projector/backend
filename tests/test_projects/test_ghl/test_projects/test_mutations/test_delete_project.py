@@ -14,7 +14,7 @@ from apps.projects.models import Project
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_DELETE_PROJECT = """
-mutation ($id: String!) {
+mutation ($id: ID!) {
     deleteProject(project: $id) {
         status
     }
