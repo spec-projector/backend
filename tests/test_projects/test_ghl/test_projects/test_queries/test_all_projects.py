@@ -4,6 +4,7 @@ from pytest import raises
 
 from apps.core.graphql.errors import GraphQLPermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
+from tests.test_projects.factories.project_member import ProjectMemberFactory
 
 GHL_QUERY_ALL_PROJECTS = """
 query {
@@ -51,3 +52,22 @@ def test_unauth(ghl_mock_info, all_projects_query):
             root=None,
             info=ghl_mock_info,
         )
+
+
+def test_all_projects_not_owner(ghl_auth_mock_info, all_projects_query):
+    """Test get project if not owner."""
+    projects = ProjectFactory.create_batch(5)
+    project = projects[0]
+
+    ProjectMemberFactory.create(
+        project=project,
+        user=ghl_auth_mock_info.context.user,
+    )
+
+    response = all_projects_query(
+        root=None,
+        info=ghl_auth_mock_info,
+    )
+
+    assert response.length == 1
+    assert response.edges[0].node == project
