@@ -61,7 +61,25 @@ def test_not_found(ghl_auth_mock_info, project_query):
 
 def test_unauth(ghl_mock_info, project_query):
     """Test non authorized user."""
-    project = ProjectFactory.create()
+    project = ProjectFactory.create(public=False)
+
+    with raises(GraphQLPermissionDenied):
+        project_query(root=None, info=ghl_mock_info, id=project.id)
+
+
+def test_retrieve_public_project(ghl_mock_info, project_query):
+    """Test getting public project not authorized user."""
+    project = ProjectFactory.create(public=True)
+
+    response = project_query(root=None, info=ghl_mock_info, id=project.id)
+
+    assert response == project
+
+
+def test_retrieve_unpublic_project(ghl_mock_info, project_query):
+    """Test getting not public project not authorized user."""
+    ProjectFactory.create(public=True)
+    project = ProjectFactory.create(public=False)
 
     with raises(GraphQLPermissionDenied):
         project_query(root=None, info=ghl_mock_info, id=project.id)
