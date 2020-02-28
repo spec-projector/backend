@@ -45,7 +45,8 @@ def test_success(ghl_auth_mock_info, all_projects_query):
 
 def test_unauth(ghl_mock_info, all_projects_query):
     """Test unauth list project access."""
-    ProjectFactory.create_batch(5)
+    ProjectFactory.create_batch(2, public=True)
+    ProjectFactory.create_batch(2, public=False)
 
     with raises(GraphQLPermissionDenied):
         all_projects_query(
