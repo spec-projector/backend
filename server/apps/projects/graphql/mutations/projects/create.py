@@ -12,6 +12,8 @@ from apps.projects.models.project import Project
 
 
 class CreateProjectMutation(SerializerMutation):
+    """Create project mutation."""
+
     project = graphene.Field(ProjectType)
 
     class Meta:
@@ -24,6 +26,7 @@ class CreateProjectMutation(SerializerMutation):
         info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
     ) -> "CreateProjectMutation":
+        """Perform mutation."""
         project = Project.objects.create(
             title=validated_data["title"],
             owner=info.context.user,  # type: ignore

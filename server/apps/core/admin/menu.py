@@ -4,6 +4,8 @@ from admin_tools.menu import Menu, items, reverse
 
 
 class AdminMenu(Menu):
+    """Main admin menu."""
+
     def __init__(self, **kwargs):
         """Initializing."""
         super().__init__(**kwargs)

@@ -9,6 +9,8 @@ from apps.projects.graphql.types import ProjectType
 
 
 class ProjectsQueries(graphene.ObjectType):
+    """Project graphql queries."""
+
     project = DatasourceRelayNode.Field(ProjectType)
     all_projects = DataSourceConnectionField(
         ProjectType,

@@ -7,6 +7,8 @@ from tests.test_users.factories.user import UserFactory
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
+    """Project factory."""
+
     title = factory.Sequence(lambda index: "Project {0}".format(index))
     owner = factory.SubFactory(UserFactory)
 

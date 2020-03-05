@@ -7,6 +7,8 @@ from apps.projects.models import ProjectMember
 
 
 class ProjectMemberType(BaseDjangoObjectType):
+    """Project member type."""
+
     class Meta:
         model = ProjectMember
         interfaces = (DatasourceRelayNode,)

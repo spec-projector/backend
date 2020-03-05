@@ -10,6 +10,7 @@ def update_from_validated_data(
     instance: Model,
     validated_data: Dict[str, object],
 ) -> Model:
+    """Update object from validated data."""
     field_info = model_meta.get_field_info(instance)
 
     # Simply set each attribute on the instance, and then save it.

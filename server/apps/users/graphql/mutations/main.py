@@ -9,6 +9,8 @@ from apps.users.graphql.mutations.logout import LogoutMutation
 
 
 class AuthMutations:
+    """Authentication graphql mutations."""
+
     complete_gitlab_auth = GitLabCompleteAuthMutation.Field()
     login_gitlab = GitLabLoginMutation.Field()
     login = LoginMutation.Field()

@@ -11,6 +11,8 @@ from apps.users.services.token import create_user_token
 
 
 class RequestFactory(DjangoRequestFactory):
+    """Test request factory."""
+
     def __init__(self, *args, **kwargs) -> None:
         """Initializing."""
         super().__init__(*args, **kwargs)

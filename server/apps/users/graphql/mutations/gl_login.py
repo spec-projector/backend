@@ -13,6 +13,8 @@ from apps.users.graphql.mutations.helpers.psa import page_social_auth
 
 
 class GitLabLoginMutation(NoInputMutation):
+    """Gitlab login mutation."""
+
     permission_classes = (AllowAny,)
 
     redirect_url = graphene.String()
@@ -23,6 +25,7 @@ class GitLabLoginMutation(NoInputMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
     ) -> "GitLabLoginMutation":
+        """Perform mutation."""
         request = page_social_auth(info.context)
 
         response = do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)

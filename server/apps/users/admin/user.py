@@ -13,6 +13,8 @@ from apps.users.models import User
 
 @admin.register(User)
 class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
+    """User admin."""
+
     list_display = (
         "login", "name", "email", "last_login", "is_active", "is_staff",
         "change_password_link",
@@ -41,9 +43,11 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
         }),
     )
     readonly_fields = ("last_login",)
+    change_password_form = AdminPasswordChangeForm
 
     @admin_field("Change password")
     def change_password_link(self, instance):
+        """Change password link."""
         return format_html(
             '<a href="{0}">change password</a>',
             reverse(
@@ -52,5 +56,3 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjUserAdmin):
                     "id": instance.pk,
                 }),
         )
-
-    change_password_form = AdminPasswordChangeForm

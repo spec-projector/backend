@@ -8,15 +8,19 @@ from rest_framework.exceptions import ValidationError
 
 
 class BitField(serializers.ListField):
+    """Bit field serializer."""
+
     def __init__(self, *args, **kwargs):
         """Initializing."""
         self.child = serializers.ChoiceField(choices=kwargs.pop("choices"))
         super().__init__(*args, **kwargs)
 
     def to_representation(self, flags):
+        """Convert bitfield to human representation."""
         return [flag for flag, setted in flags if setted]
 
     def to_internal_value(self, source) -> int:
+        """Convert bitfield to internal representation."""
         source = json.loads(source) if isinstance(source, str) else source
 
         if not source:

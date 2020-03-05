@@ -16,6 +16,7 @@ class GithubProvider(BaseProvider):
     """Github provider."""
 
     def get_issue(self) -> IssueMeta:
+        """Load issue."""
         gh_issue = self._get_github_issue()
 
         return IssueMeta(

@@ -16,6 +16,8 @@ from apps.projects.models import Project, ProjectMember
 
 
 class ProjectType(BaseDjangoObjectType):
+    """Project type."""
+
     permission_classes = (AllowAuthenticatedOrPublicProject,)
 
     members = graphene.List(

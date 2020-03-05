@@ -9,17 +9,19 @@ def deep_getattr(
     attr: str,
     default: Optional[object] = None,
 ) -> Optional[object]:
+    """Deeping get object attribute."""
     try:
         return reduce(getattr, attr.split("."), instance)
     except AttributeError:
         return default
 
 
-class ObjectView:
+class _ObjectView:
     def __init__(self, source_dict: Dict[str, object]):
         """Initializing."""
         self.__dict__ = source_dict
 
 
-def dict2obj(source_dict: Dict[str, object]) -> ObjectView:
-    return ObjectView(source_dict)
+def dict2obj(source_dict: Dict[str, object]) -> _ObjectView:
+    """Convert dictionary to object."""
+    return _ObjectView(source_dict)

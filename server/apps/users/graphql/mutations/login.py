@@ -13,6 +13,8 @@ from apps.users.services.auth import login_user
 
 
 class LoginMutation(SerializerMutation):
+    """Login mutation."""
+
     permission_classes = (AllowAny,)
 
     token = graphene.Field(TokenType)
@@ -27,6 +29,7 @@ class LoginMutation(SerializerMutation):
         info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
     ) -> "LoginMutation":
+        """Perform mutation."""
         token = login_user(
             validated_data["username"],
             validated_data["password"],

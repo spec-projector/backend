@@ -14,9 +14,10 @@ class AllowAuthenticatedOrPublicProject(AllowAuthenticated):
         info: ResolveInfo,  # noqa: WPS110
         obj_id: str,
     ) -> bool:
+        """Check if have access to project."""
         has_node_permission = super().has_node_permission(info, obj_id)
 
         if has_node_permission:
             return has_node_permission
 
-        return Project.objects.filter(id=obj_id, public=True).exists()
+        return Project.objects.filter(pk=obj_id, public=True).exists()

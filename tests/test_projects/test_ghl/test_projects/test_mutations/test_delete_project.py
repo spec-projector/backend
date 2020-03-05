@@ -24,6 +24,7 @@ mutation ($id: ID!) {
 
 @pytest.fixture()
 def project():
+    """Provides project."""
     return ProjectFactory.create()
 
 

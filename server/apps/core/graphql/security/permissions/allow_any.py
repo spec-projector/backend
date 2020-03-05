@@ -18,6 +18,7 @@ class AllowAny:
         info: ResolveInfo,  # noqa: WPS110
         obj_id: str,
     ) -> bool:
+        """Check if have node permissions."""
         return True
 
     def has_mutation_permission(
@@ -26,10 +27,12 @@ class AllowAny:
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> bool:
+        """Check if have mutation permissions."""
         return True
 
     def has_filter_permission(
         self,
         info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
+        """Check if have filter permissions."""
         return True

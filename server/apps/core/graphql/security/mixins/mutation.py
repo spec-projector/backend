@@ -19,6 +19,7 @@ class AuthMutation:
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> bool:
+        """Check if have permissions."""
         return all(
             perm().has_mutation_permission(root, info, **kwargs)
             for perm in cls.permission_classes

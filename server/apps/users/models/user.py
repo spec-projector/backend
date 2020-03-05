@@ -8,6 +8,8 @@ from apps.users.models.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """User model."""
+
     USERNAME_FIELD = "login"  # noqa: WPS115
 
     login = models.CharField(

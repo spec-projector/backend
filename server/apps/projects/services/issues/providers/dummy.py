@@ -8,5 +8,5 @@ class DummyProvider(BaseProvider):
     """Dummy provider."""
 
     def get_issue(self) -> IssueType:
-        """Getting issue."""
+        """Load issue."""
         return IssueType()

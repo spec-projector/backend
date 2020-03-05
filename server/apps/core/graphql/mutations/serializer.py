@@ -16,10 +16,14 @@ from apps.core.graphql.security.permissions import AllowAuthenticated
 
 
 class SerializerMutationOptions(MutationOptions):
+    """Serializer mutation options."""
+
     serializer_class = None
 
 
 class SerializerMutation(AuthMutation, graphene.Mutation):
+    """Serializer mutation."""
+
     permission_classes = (AllowAuthenticated,)
 
     class Meta:
@@ -78,6 +82,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         info: ResolveInfo,  # noqa: WPS110
         **input,  # noqa: A002
     ) -> "SerializerMutation":
+        """Perform mutation."""
         cls.check_premissions(root, info, **input)
 
         return cls.mutate_and_get_payload(root, info, **input)
@@ -89,6 +94,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         info: ResolveInfo,  # noqa: WPS110
         **input,  # noqa: A002
     ) -> None:
+        """Check if have permissions."""
         if not cls.has_permission(root, info, **input):
             raise GraphQLPermissionDenied()
 
@@ -99,6 +105,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         info: ResolveInfo,  # noqa: WPS110
         **input,
     ) -> "SerializerMutation":
+        """Perform mutation."""
         kwargs = cls.get_serializer_kwargs(root, info, **input)
         serializer = cls._meta.serializer_class(**kwargs)
 
@@ -118,6 +125,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         info: ResolveInfo,  # noqa: WPS110
         **input,
     ) -> Dict[str, object]:
+        """Provides serializer parameters."""
         return {
             "data": input,
             "context": {
@@ -132,4 +140,5 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         info: ResolveInfo,  # noqa: WPS110
         validated_data,
     ) -> "SerializerMutation":
+        """Perform mutation."""
         raise NotImplementedError

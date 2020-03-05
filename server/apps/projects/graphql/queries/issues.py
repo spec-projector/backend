@@ -25,6 +25,7 @@ class IssuesQueries(graphene.ObjectType):
         token: str,
         system: System,
     ) -> IssueType:
+        """Resolves issue."""
         issue_meta = get_issue(url, token, system)
 
         assignee = None

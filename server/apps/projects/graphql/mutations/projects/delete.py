@@ -11,6 +11,8 @@ from apps.projects.models import Project
 
 
 class DeleteProjectMutation(SerializerMutation):
+    """Delete project mutation."""
+
     status = graphene.String()
 
     class Meta:
@@ -23,6 +25,7 @@ class DeleteProjectMutation(SerializerMutation):
         info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, Project],
     ) -> "DeleteProjectMutation":
+        """Perform mutation."""
         validated_data["project"].delete()
 
         return cls(status="success")

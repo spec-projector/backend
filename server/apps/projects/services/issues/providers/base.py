@@ -15,4 +15,4 @@ class BaseProvider(ABC):
 
     @abstractmethod
     def get_issue(self) -> IssueType:
-        """Getting issue."""
+        """Load issue."""

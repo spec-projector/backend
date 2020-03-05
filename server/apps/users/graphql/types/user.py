@@ -10,6 +10,8 @@ from apps.users.models import User
 
 
 class UserType(BaseDjangoObjectType):
+    """User graphql type."""
+
     class Meta:
         model = User
         exclude = ("password",)
@@ -23,6 +25,7 @@ class UserType(BaseDjangoObjectType):
         queryset: QuerySet,
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
+        """Provides queryset."""
         if issubclass(queryset.model, User):
             queryset = queryset.filter(is_active=True)
 

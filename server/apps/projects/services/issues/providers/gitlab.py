@@ -15,6 +15,7 @@ class GitlabProvider(BaseProvider):
     """Gitlab provider."""
 
     def get_issue(self) -> IssueMeta:
+        """Load issue."""
         gl_issue = self._get_gitlab_issue()
 
         return IssueMeta(

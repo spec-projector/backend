@@ -7,6 +7,8 @@ from apps.projects.models import Project
 
 
 class UpdateProjectInput(serializers.ModelSerializer):
+    """Update project input."""
+
     id = serializers.PrimaryKeyRelatedField(  # noqa: A003
         queryset=Project.objects,
     )

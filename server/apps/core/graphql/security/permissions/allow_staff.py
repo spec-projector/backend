@@ -13,6 +13,7 @@ class AllowStaff:
         info: ResolveInfo,  # noqa: WPS110
         obj_id: str,
     ) -> bool:
+        """Check if have node permissions."""
         return info.context.user.is_staff  # type: ignore
 
     def has_mutation_permission(
@@ -21,10 +22,12 @@ class AllowStaff:
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> bool:
+        """Check if have mutation permissions."""
         return info.context.user.is_staff  # type: ignore
 
     def has_filter_permission(
         self,
         info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
+        """Check if have filter permissions."""
         return info.context.user.is_staff  # type: ignore

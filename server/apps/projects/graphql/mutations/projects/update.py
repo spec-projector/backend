@@ -15,6 +15,8 @@ from apps.projects.models import ProjectMember
 
 
 class UpdateProjectMutation(SerializerMutation):
+    """Update project mutation."""
+
     class Meta:
         serializer_class = UpdateProjectInput
 
@@ -27,6 +29,7 @@ class UpdateProjectMutation(SerializerMutation):
         info: ResolveInfo,  # noqa: WPS110ø
         validated_data: Dict[str, object],
     ) -> "UpdateProjectMutation":
+        """Perform mutation."""
         project = validated_data.pop("id")
 
         if "members" in validated_data:

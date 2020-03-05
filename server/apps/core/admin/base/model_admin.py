@@ -6,6 +6,8 @@ from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
 
 
 class BaseModelAdmin(AdminFormFieldsOverridesMixin, admin.ModelAdmin):
+    """Base model admin."""
+
     list_per_page = 20
 
     class Media:

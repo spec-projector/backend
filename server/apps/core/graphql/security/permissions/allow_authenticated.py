@@ -13,6 +13,7 @@ class AllowAuthenticated:
         info: ResolveInfo,  # noqa: WPS110
         obj_id: str,
     ) -> bool:
+        """Check if have node permissions."""
         if not info.context:
             return False
 
@@ -24,6 +25,7 @@ class AllowAuthenticated:
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> bool:
+        """Check if have mutation permissions."""
         if not info.context:
             return False
 
@@ -33,6 +35,7 @@ class AllowAuthenticated:
         self,
         info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
+        """Check if have filter permissions."""
         if not info.context:
             return False
 

@@ -11,7 +11,7 @@ def resolve_project_members(
     info: ResolveInfo,  # noqa: WPS110
     **kwargs,
 ) -> QuerySet:
-    """Resolve project members."""
+    """Resolves project members."""
     return ProjectMember.objects.filter(
         project=project,
         user__is_active=True,

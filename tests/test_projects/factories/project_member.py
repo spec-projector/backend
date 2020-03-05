@@ -8,6 +8,8 @@ from tests.test_users.factories.user import UserFactory
 
 
 class ProjectMemberFactory(factory.django.DjangoModelFactory):
+    """Project member factory."""
+
     user = factory.SubFactory(UserFactory)
     project = factory.SubFactory(ProjectFactory)
     roles = (

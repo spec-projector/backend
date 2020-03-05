@@ -24,6 +24,7 @@ class AuthNode:
         info: ResolveInfo,  # noqa: WPS110
         id: str,  # noqa: A002
     ) -> Optional[Model]:
+        """Provides node."""
         has_node_permission = all((
             perm().has_node_permission(info, id)  # noqa: A003
             for perm in cls.permission_classes

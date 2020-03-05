@@ -10,5 +10,7 @@ admin.site.unregister(Group)
 
 @admin.register(Group)
 class GroupAdmin(BaseModelAdmin):
+    """Group admin."""
+
     list_display = ("name",)
     search_fields = ("name",)

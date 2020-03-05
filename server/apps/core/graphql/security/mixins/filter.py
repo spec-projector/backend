@@ -19,6 +19,7 @@ class AuthFilter(DjangoFilterConnectionField):
         cls,
         info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
+        """Check if have permissions."""
         return all(
             perm().has_filter_permission(info)
             for perm in cls.permission_classes
@@ -37,6 +38,7 @@ class AuthFilter(DjangoFilterConnectionField):
         info: ResolveInfo,  # noqa: WPS110
         **args,
     ):
+        """Provides connection resolver."""
         if not cls.has_permission(info):
             raise GraphQLPermissionDenied()
 
