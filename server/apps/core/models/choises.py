@@ -5,6 +5,7 @@ from model_utils import Choices as ModelChoices
 
 class Choices(ModelChoices):
     def __eq__(self, other):
+        """Equality checking."""
         if isinstance(other, (tuple, list)) and self._doubles == list(other):
             return True
 

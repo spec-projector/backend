@@ -16,6 +16,7 @@ class _RequestCallbackFactory:
         body: Optional[object] = None,
         status: int = HTTPStatus.OK,
     ) -> None:
+        """Initializing."""
         self._body = body or {}
         self._status = status
 
@@ -36,6 +37,7 @@ class HttprettyMock:
     base_api_url = ""
 
     def __init__(self) -> None:
+        """Initializing."""
         assert httpretty.is_enabled()
 
     def register_get(

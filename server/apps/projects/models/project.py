@@ -52,4 +52,5 @@ class Project(Timestamps):
         ordering = ("-created_at",)
 
     def __str__(self):
+        """Text representation."""
         return self.title

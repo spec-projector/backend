@@ -17,6 +17,7 @@ def deep_getattr(
 
 class ObjectView:
     def __init__(self, source_dict: Dict[str, object]):
+        """Initializing."""
         self.__dict__ = source_dict
 
 

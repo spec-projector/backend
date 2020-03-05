@@ -9,6 +9,7 @@ class BaseProvider(ABC):
     """Base provider."""
 
     def __init__(self, url: str, token: str) -> None:
+        """Initializing."""
         self._url = url
         self._token = token
 

@@ -33,6 +33,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         exclude_fields=(),
         **options,
     ):
+        """Initialize subclass with meta."""
         if not serializer_class:
             raise Exception(
                 "serializer_class is required for the SerializerMutation",

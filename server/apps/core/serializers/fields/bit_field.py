@@ -9,6 +9,7 @@ from rest_framework.exceptions import ValidationError
 
 class BitField(serializers.ListField):
     def __init__(self, *args, **kwargs):
+        """Initializing."""
         self.child = serializers.ChoiceField(choices=kwargs.pop("choices"))
         super().__init__(*args, **kwargs)
 
