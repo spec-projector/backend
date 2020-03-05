@@ -33,7 +33,7 @@ def test_query(user, ghl_client, project):
 
     response = ghl_client.execute(
         GHL_QUERY_UPDATE_PROJECT,
-        variables={
+        variable_values={
             "id": project.pk,
             "title": "new_{0}".format(project.title),
         },

@@ -24,7 +24,7 @@ def test_query(user, ghl_client):
 
     response = ghl_client.execute(
         GHL_QUERY_ISSUE,
-        variables={
+        variable_values={
             "url": "https://dummy.com",
             "token": "dummy_token",
             "system": System.DUMMY.name,
@@ -62,7 +62,7 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
 
     response = ghl_client.execute(
         GHL_QUERY_ISSUE,
-        variables={
+        variable_values={
             "url": "https://gitlab.com/test-project/issues/33",
             "token": "GITLAB_TOKEN",
             "system": System.GITLAB.name,
@@ -103,7 +103,7 @@ def test_githab_issue(user, ghl_client, gh_mocker):
 
     response = ghl_client.execute(
         GHL_QUERY_ISSUE,
-        variables={
+        variable_values={
             "url": "https://github.com/owner/django_issue/issues/5",
             "token": "GITHUB_TOKEN",
             "system": System.GITHUB.name,

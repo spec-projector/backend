@@ -23,7 +23,7 @@ def test_query(user, ghl_client):
 
     response = ghl_client.execute(
         GHL_QUERY_CREATE_PROJECT,
-        variables={
+        variable_values={
             "title": "my project",
         },
     )

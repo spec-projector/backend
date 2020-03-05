@@ -32,7 +32,7 @@ def test_query(user, ghl_client, project):
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_DELETE_PROJECT, variables={
+        GHL_QUERY_DELETE_PROJECT, variable_values={
             "id": project.pk,
         },
     )

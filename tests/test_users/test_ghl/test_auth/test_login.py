@@ -23,7 +23,7 @@ def test_query(user, ghl_client):
 
     response = ghl_client.execute(
         GHL_QUERY_LOGIN,
-        variables={
+        variable_values={
             "username": DEFAULT_USERNAME,
             "password": DEFAULT_USER_PASSWORD,
         },

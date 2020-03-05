@@ -25,7 +25,7 @@ def test_query(user, ghl_client):
 
     response = ghl_client.execute(
         GHL_QUERY_PROJECT,
-        variables={
+        variable_values={
             "id": project.id,
         },
     )

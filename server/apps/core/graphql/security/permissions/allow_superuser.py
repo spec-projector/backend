@@ -13,7 +13,7 @@ class AllowSuperuser:
         info: ResolveInfo,  # noqa: WPS110
         obj_id: str,
     ) -> bool:
-        return info.context.user.is_superuser
+        return info.context.user.is_superuser  # type: ignore
 
     def has_mutation_permission(
         self,
@@ -21,10 +21,10 @@ class AllowSuperuser:
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> bool:
-        return info.context.user.is_superuser
+        return info.context.user.is_superuser  # type: ignore
 
     def has_filter_permission(
         self,
         info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
-        return info.context.user.is_superuser
+        return info.context.user.is_superuser  # type: ignore

@@ -26,7 +26,7 @@ class CreateProjectMutation(SerializerMutation):
     ) -> "CreateProjectMutation":
         project = Project.objects.create(
             title=validated_data["title"],
-            owner=info.context.user,
+            owner=info.context.user,  # type: ignore
         )
 
         return cls(project=project)
