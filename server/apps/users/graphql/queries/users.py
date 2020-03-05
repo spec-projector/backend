@@ -10,6 +10,8 @@ from apps.users.graphql.types import UserType
 
 
 class UsersQueries(graphene.ObjectType):
+    """Graphql users queries."""
+
     user = DatasourceRelayNode.Field(UserType)
     me = graphene.Field(
         UserType,

@@ -23,6 +23,8 @@ class GitlabAuthError(Exception):
 
 
 class GitLabCompleteAuthMutation(SerializerMutation):
+    """Gitlab complete auth mutation."""
+
     permission_classes = (AllowAny,)
 
     token = graphene.Field(TokenType)
@@ -37,6 +39,7 @@ class GitLabCompleteAuthMutation(SerializerMutation):
         info: ResolveInfo,  # noqa: WPS110
         validated_data: Dict[str, str],
     ) -> "GitLabCompleteAuthMutation":
+        """Perform mutation."""
         request = page_social_auth(info.context)
         request.backend.set_data(**validated_data)
 

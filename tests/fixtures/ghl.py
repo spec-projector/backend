@@ -10,21 +10,25 @@ from tests.helpers.ghl_client import GraphQLClient
 
 @pytest.fixture(scope="session")
 def ghl_queries():
+    """Provides graphql queries."""
     return schema.get_query_type()
 
 
 @pytest.fixture(scope="session")
 def ghl_mutations():
+    """Provides graphql mutations."""
     return schema.get_mutation_type()
 
 
 @pytest.fixture()
 def ghl_client() -> GraphQLClient:
+    """Provides graphql client."""
     return GraphQLClient()
 
 
 @pytest.fixture()
 def ghl_auth_mock_info(user, rf) -> ResolveInfo:
+    """Provides graphql auth mock info."""
     rf.set_user(user)
     request = rf.get("/graphql/")
 
@@ -36,6 +40,7 @@ def ghl_auth_mock_info(user, rf) -> ResolveInfo:
 
 @pytest.fixture()
 def ghl_mock_info(user, rf) -> ResolveInfo:
+    """Provides graphql mock info."""
     request = rf.get("/graphql/")
 
     resolve_info = mock_info()
