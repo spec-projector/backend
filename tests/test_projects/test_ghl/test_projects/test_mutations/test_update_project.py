@@ -5,7 +5,7 @@ from pytest import raises
 
 from apps.core.graphql.errors import GraphQLInputError, GraphQLPermissionDenied
 from apps.projects.models import ProjectMember
-from apps.projects.models.project_member import PROJECT_MEMBER_ROLES
+from apps.projects.models.project_member import ProjectMemberRole
 from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 from tests.test_users.factories.user import UserFactory
@@ -24,6 +24,7 @@ mutation ($id: ID!, $title: String) {
 
 @pytest.fixture()
 def project():
+    """Provides project."""
     return ProjectFactory.create()
 
 
@@ -93,17 +94,18 @@ def test_add_project_members(
     update_project_mutation,
     ghl_auth_mock_info,
 ):
+    """Test add project members."""
     user2 = UserFactory.create()
     user3 = UserFactory.create()
 
     users = [
         {
             "id": user2.id,
-            "roles": [PROJECT_MEMBER_ROLES.PROJECT_MANAGER],
+            "roles": [ProjectMemberRole.PROJECT_MANAGER],
         },
         {
             "id": user3.id,
-            "roles": [PROJECT_MEMBER_ROLES.PROJECT_MANAGER],
+            "roles": [ProjectMemberRole.PROJECT_MANAGER],
         },
     ]
 
@@ -126,6 +128,7 @@ def test_delete_project_members(
     update_project_mutation,
     ghl_auth_mock_info,
 ):
+    """Test delete project members."""
     project_member1 = ProjectMemberFactory.create(project=project)
     project_member2 = ProjectMemberFactory.create(project=project)
 
@@ -134,7 +137,7 @@ def test_delete_project_members(
     users = [
         {
             "id": project_member1.user.id,
-            "roles": [PROJECT_MEMBER_ROLES.PROJECT_MANAGER],
+            "roles": [ProjectMemberRole.PROJECT_MANAGER],
         },
     ]
 

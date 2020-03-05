@@ -6,13 +6,14 @@ from pytest import raises
 
 from apps.core.graphql.errors import GraphQLInputError
 from apps.projects.models import ProjectMember
-from apps.projects.models.project_member import PROJECT_MEMBER_ROLES
+from apps.projects.models.project_member import ProjectMemberRole
 from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 
 
 @pytest.fixture()
 def project():
+    """Provides project."""
     return ProjectFactory.create()
 
 
@@ -22,6 +23,7 @@ def test_update_project_member_roles(
     update_project_mutation,
     ghl_auth_mock_info,
 ):
+    """Test updating project member roles."""
     frontend = ProjectMember.roles.FRONTEND_DEVELOPER
     manager = ProjectMember.roles.PROJECT_MANAGER
     tester = ProjectMember.roles.TESTER
@@ -40,8 +42,8 @@ def test_update_project_member_roles(
         {
             "id": user.id,
             "roles": [
-                PROJECT_MEMBER_ROLES.FRONTEND_DEVELOPER,
-                PROJECT_MEMBER_ROLES.PROJECT_MANAGER,
+                ProjectMemberRole.FRONTEND_DEVELOPER,
+                ProjectMemberRole.PROJECT_MANAGER,
             ],
         },
     ]
@@ -63,6 +65,7 @@ def test_roles_not_setted_validate(
     update_project_mutation,
     ghl_auth_mock_info,
 ):
+    """Test roles are not setted_validation."""
     users = [
         {
             "id": user.id,
@@ -84,6 +87,7 @@ def test_roles_is_empty(
     update_project_mutation,
     ghl_auth_mock_info,
 ):
+    """Test roles are not empty validation."""
     users = [
         {
             "id": user.id,
@@ -106,6 +110,7 @@ def test_roles_not_valid(
     update_project_mutation,
     ghl_auth_mock_info,
 ):
+    """Test roles are not valid validation."""
     users = [
         {
             "id": user.id,

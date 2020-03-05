@@ -11,6 +11,8 @@ from apps.projects.models.project_member import ProjectMember
 
 
 class Project(Timestamps):
+    """Project model."""
+
     id = models.UUIDField(  # noqa: A003
         primary_key=True,
         default=uuid.uuid4,

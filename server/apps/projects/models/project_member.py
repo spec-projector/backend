@@ -5,20 +5,23 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.models.choises import Choices
 from apps.core.models.mixins import Timestamps
 
-PROJECT_MEMBER_ROLES = Choices(
-    ("FRONTEND_DEVELOPER", _("CH__FRONTEND_DEVELOPER")),
-    ("BACKEND_DEVELOPER", _("CH__BACKEND_DEVELOPER")),
-    ("PROJECT_MANAGER", _("CH__PROJECT_MANAGER")),
-    ("DESIGNER", _("CH__DESIGNER")),
-    ("TESTER", _("CH__TESTER")),
-    ("CUSTOMER", _("CH__CUSTOMER")),
-)
+
+class ProjectMemberRole(models.TextChoices):
+    """Project member role choices."""
+
+    FRONTEND_DEVELOPER = "FRONTEND_DEVELOPER", _("CH__FRONTEND_DEVELOPER")  # noqa: WPS115, E501
+    BACKEND_DEVELOPER = "BACKEND_DEVELOPER", _("CH__BACKEND_DEVELOPER")  # noqa: WPS115, E501
+    PROJECT_MANAGER = "PROJECT_MANAGER", _("CH__PROJECT_MANAGER")  # noqa: WPS115, E501
+    DESIGNER = "DESIGNER", _("CH__DESIGNER")  # noqa: WPS115
+    TESTER = "TESTER", _("CH__TESTER")  # noqa: WPS115
+    CUSTOMER = "CUSTOMER", _("CH__CUSTOMER")  # noqa: WPS115
 
 
 class ProjectMember(Timestamps):
+    """Project member model."""
+
     project = models.ForeignKey(
         "projects.Project",
         models.CASCADE,
@@ -33,10 +36,7 @@ class ProjectMember(Timestamps):
         help_text=_("HT__USER"),
     )
 
-    roles = BitField(
-        flags=PROJECT_MEMBER_ROLES,
-        default=0,
-    )
+    roles = BitField(flags=ProjectMemberRole.choices, default=0)
 
     def __str__(self):
         """Returns object string representation."""
