@@ -13,7 +13,7 @@ class AllowStaff:
         info: ResolveInfo,  # noqa: WPS110
         obj_id: str,
     ) -> bool:
-        return info.context.user.is_staff
+        return info.context.user.is_staff  # type: ignore
 
     def has_mutation_permission(
         self,
@@ -21,10 +21,10 @@ class AllowStaff:
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> bool:
-        return info.context.user.is_staff
+        return info.context.user.is_staff  # type: ignore
 
     def has_filter_permission(
         self,
         info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
-        return info.context.user.is_staff
+        return info.context.user.is_staff  # type: ignore

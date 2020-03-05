@@ -10,4 +10,4 @@ def resolve_me_user(
     info: ResolveInfo,  # noqa: WPS110
 ):
     """Resolves current context user."""
-    return info.context.user
+    return info.context.user  # type: ignore

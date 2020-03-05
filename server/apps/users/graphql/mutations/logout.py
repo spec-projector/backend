@@ -17,6 +17,6 @@ class LogoutMutation(NoInputMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
     ) -> "LogoutMutation":
-        info.context.auth.delete()
+        info.context.auth.delete()  # type: ignore
 
         return cls(status="success")
