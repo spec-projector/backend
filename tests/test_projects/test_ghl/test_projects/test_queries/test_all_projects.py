@@ -35,10 +35,7 @@ def test_query(user, ghl_client):
 def test_success(ghl_auth_mock_info, all_projects_query):
     """Test success list project."""
     ProjectFactory.create_batch(5, owner=ghl_auth_mock_info.context.user)
-    response = all_projects_query(
-        root=None,
-        info=ghl_auth_mock_info,
-    )
+    response = all_projects_query(root=None, info=ghl_auth_mock_info)
 
     assert response.length == 5
 
@@ -50,8 +47,7 @@ def test_unauth(ghl_mock_info, all_projects_query):
 
     with raises(GraphQLPermissionDenied):
         all_projects_query(
-            root=None,
-            info=ghl_mock_info,
+            root=None, info=ghl_mock_info,
         )
 
 
@@ -61,14 +57,10 @@ def test_all_projects_not_owner(ghl_auth_mock_info, all_projects_query):
     project = projects[0]
 
     ProjectMemberFactory.create(
-        project=project,
-        user=ghl_auth_mock_info.context.user,
+        project=project, user=ghl_auth_mock_info.context.user,
     )
 
-    response = all_projects_query(
-        root=None,
-        info=ghl_auth_mock_info,
-    )
+    response = all_projects_query(root=None, info=ghl_auth_mock_info)
 
     assert response.length == 1
     assert response.edges[0].node == project

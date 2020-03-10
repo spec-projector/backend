@@ -11,9 +11,7 @@ from apps.users.graphql.queries import UsersQueries
 
 
 class Query(  # noqa: WPS215
-    ProjectsQueries,
-    UsersQueries,
-    graphene.ObjectType,
+    ProjectsQueries, UsersQueries, graphene.ObjectType,
 ):
     """Graphql queiries."""
 
@@ -21,29 +19,19 @@ class Query(  # noqa: WPS215
 
 
 class Mutation(
-    ProjectsMutations,
-    AuthMutations,
-    graphene.ObjectType,
+    ProjectsMutations, AuthMutations, graphene.ObjectType,
 ):
     """Graphql mutations."""
 
 
-schema = graphene.Schema(
-    query=Query,
-    mutation=Mutation,
-)
+schema = graphene.Schema(query=Query, mutation=Mutation)
 
 
 def get_api_graphql_view():
     """Provide graphql api view."""
-    return ApiGraphQLView.as_view(
-        schema=schema,
-    )
+    return ApiGraphQLView.as_view(schema=schema)
 
 
 def get_graphql_view():
     """Provide graphql playground view."""
-    return PlaygroundGraphQLView.as_view(
-        graphiql=True,
-        schema=schema,
-    )
+    return PlaygroundGraphQLView.as_view(graphiql=True, schema=schema)

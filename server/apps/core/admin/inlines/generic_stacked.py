@@ -6,8 +6,7 @@ from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
 
 
 class BaseGenericStackedInline(
-    AdminFormFieldsOverridesMixin,
-    GenericStackedInline,
+    AdminFormFieldsOverridesMixin, GenericStackedInline,
 ):
     """Base generic stacked inline."""
 

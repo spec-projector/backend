@@ -21,9 +21,7 @@ class GitLabLoginMutation(NoInputMutation):
 
     @classmethod
     def perform_mutate(
-        cls,
-        root: Optional[object],
-        info: ResolveInfo,  # noqa: WPS110
+        cls, root: Optional[object], info: ResolveInfo,  # noqa: WPS110
     ) -> "GitLabLoginMutation":
         """Perform mutation."""
         request = page_social_auth(info.context)

@@ -10,8 +10,7 @@ class DataSourceConnection(Connection):
     count = Int()
 
     def resolve_count(
-        self,
-        info: ResolveInfo,  # noqa: WPS110
+        self, info: ResolveInfo,  # noqa: WPS110
     ):
         """Provides collection lenght."""
         return self.length

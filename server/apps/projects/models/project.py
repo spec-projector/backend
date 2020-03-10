@@ -14,9 +14,7 @@ class Project(Timestamps):
     """Project model."""
 
     id = models.UUIDField(  # noqa: A003
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
+        primary_key=True, default=uuid.uuid4, editable=False,
     )
 
     title = models.CharField(
@@ -26,8 +24,7 @@ class Project(Timestamps):
     )
 
     description = models.TextField(
-        verbose_name=_("VN__DESCRIPTION"),
-        help_text=_("HT__DESCRIPTION"),
+        verbose_name=_("VN__DESCRIPTION"), help_text=_("HT__DESCRIPTION"),
     )
 
     owner = models.ForeignKey(
@@ -44,9 +41,7 @@ class Project(Timestamps):
         related_name="projects",
     )
 
-    public = models.BooleanField(
-        default=False,
-    )
+    public = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("VN__PROJECT")

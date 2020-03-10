@@ -12,9 +12,7 @@ class _RequestCallbackFactory:
     """Create request callback."""
 
     def __init__(
-        self,
-        body: Optional[object] = None,
-        status: int = HTTPStatus.OK,
+        self, body: Optional[object] = None, status: int = HTTPStatus.OK,
     ) -> None:
         """Initializing."""
         self._body = body or {}
@@ -76,10 +74,7 @@ class HttprettyMock:
         priority: int = 0,
     ) -> None:
         httpretty.register_uri(
-            method=method,
-            uri=uri,
-            body=request_callback,
-            priority=priority,
+            method=method, uri=uri, body=request_callback, priority=priority,
         )
 
     def _prepare_uri(self, path: str) -> str:

@@ -18,10 +18,7 @@ def project():
 
 
 def test_update_project_member_roles(
-    user,
-    project,
-    update_project_mutation,
-    ghl_auth_mock_info,
+    user, project, update_project_mutation, ghl_auth_mock_info,
 ):
     """Test updating project member roles."""
     frontend = ProjectMember.roles.FRONTEND_DEVELOPER
@@ -31,9 +28,7 @@ def test_update_project_member_roles(
     query = models.Q(roles=frontend | manager)
 
     ProjectMemberFactory(
-        user=user,
-        project=project,
-        roles=tester,
+        user=user, project=project, roles=tester,
     )
 
     assert not ProjectMember.objects.filter(query).exists()
@@ -49,10 +44,7 @@ def test_update_project_member_roles(
     ]
 
     update_project_mutation(
-        root=None,
-        info=ghl_auth_mock_info,
-        id=project.pk,
-        users=users,
+        root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
     )
 
     assert ProjectMember.objects.filter(query).count() == 1
@@ -60,68 +52,42 @@ def test_update_project_member_roles(
 
 
 def test_roles_not_setted_validate(
-    user,
-    project,
-    update_project_mutation,
-    ghl_auth_mock_info,
+    user, project, update_project_mutation, ghl_auth_mock_info,
 ):
     """Test roles are not setted_validation."""
     users = [
-        {
-            "id": user.id,
-        },
+        {"id": user.id},
     ]
 
     with raises(GraphQLInputError):
         update_project_mutation(
-            root=None,
-            info=ghl_auth_mock_info,
-            id=project.pk,
-            users=users,
+            root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
         )
 
 
 def test_roles_is_empty(
-    user,
-    project,
-    update_project_mutation,
-    ghl_auth_mock_info,
+    user, project, update_project_mutation, ghl_auth_mock_info,
 ):
     """Test roles are not empty validation."""
     users = [
-        {
-            "id": user.id,
-            "roles": [],
-        },
+        {"id": user.id, "roles": []},
     ]
 
     with raises(GraphQLInputError):
         update_project_mutation(
-            root=None,
-            info=ghl_auth_mock_info,
-            id=project.pk,
-            users=users,
+            root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
         )
 
 
 def test_roles_not_valid(
-    user,
-    project,
-    update_project_mutation,
-    ghl_auth_mock_info,
+    user, project, update_project_mutation, ghl_auth_mock_info,
 ):
     """Test roles are not valid validation."""
     users = [
-        {
-            "id": user.id,
-            "roles": ["NO_VALID"],
-        },
+        {"id": user.id, "roles": ["NO_VALID"]},
     ]
 
     with raises(GraphQLInputError):
         update_project_mutation(
-            root=None,
-            info=ghl_auth_mock_info,
-            id=project.pk,
-            users=users,
+            root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
         )

@@ -31,8 +31,7 @@ class LoginMutation(SerializerMutation):
     ) -> "LoginMutation":
         """Perform mutation."""
         token = login_user(
-            validated_data["username"],
-            validated_data["password"],
+            validated_data["username"], validated_data["password"],
         )
 
         return cls(token=token)

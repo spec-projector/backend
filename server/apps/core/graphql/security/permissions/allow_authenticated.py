@@ -9,9 +9,7 @@ class AllowAuthenticated:
     """Allows performing action only for logged in users."""
 
     def has_node_permission(
-        self,
-        info: ResolveInfo,  # noqa: WPS110
-        obj_id: str,
+        self, info: ResolveInfo, obj_id: str,  # noqa: WPS110
     ) -> bool:
         """Check if have node permissions."""
         if not info.context:
@@ -32,8 +30,7 @@ class AllowAuthenticated:
         return info.context.user.is_authenticated
 
     def has_filter_permission(
-        self,
-        info: ResolveInfo,  # noqa: WPS110
+        self, info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
         """Check if have filter permissions."""
         if not info.context:

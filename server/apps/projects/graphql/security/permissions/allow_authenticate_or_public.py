@@ -10,9 +10,7 @@ class AllowAuthenticatedOrPublicProject(AllowAuthenticated):
     """Allows get public project or logged in users."""
 
     def has_node_permission(
-        self,
-        info: ResolveInfo,  # noqa: WPS110
-        obj_id: str,
+        self, info: ResolveInfo, obj_id: str,  # noqa: WPS110
     ) -> bool:
         """Check if have access to project."""
         has_node_permission = super().has_node_permission(info, obj_id)

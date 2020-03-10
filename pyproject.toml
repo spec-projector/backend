@@ -44,7 +44,22 @@ flake8-pytest = "*"
 flake8-django = "*"
 flake8-pytest-style = "*"
 wemake-python-styleguide = "*"
+black = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+    | \.git          # root of the project
+    | \.mypy_cache
+    | \.pytest_cache
+  )/
+)
+'''

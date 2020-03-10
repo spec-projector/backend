@@ -36,8 +36,7 @@ def test_query(user, ghl_client):
     }
 
     response = ghl_client.execute(
-        GHL_QUERY_LOGIN_GITLAB,
-        extra_context=context,
+        GHL_QUERY_LOGIN_GITLAB, extra_context=context,
     )
 
     redirect_url = response["data"]["loginGitlab"]["redirectUrl"]
@@ -53,25 +52,23 @@ def test_query(user, ghl_client):
 
 
 def test_complete_login(
-    user,
-    gl_mocker,
-    complete_gl_auth_mutation,
-    gl_token_request_info,
+    user, gl_mocker, complete_gl_auth_mutation, gl_token_request_info,
 ):
     """Test complete login."""
-    gl_mocker.register_get("/user", {
-        "id": user.pk,
-        "username": user.login,
-        "email": user.email,
-    })
+    gl_mocker.register_get(
+        "/user", {"id": user.pk, "username": user.login, "email": user.email},
+    )
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.register_post("", {
-        "access_token": "access_token",
-        "token_type": "bearer",
-        "expires_in": 7200,
-        "refresh_token": "refresh_token",
-    })
+    gl_mocker.register_post(
+        "",
+        {
+            "access_token": "access_token",
+            "token_type": "bearer",
+            "expires_in": 7200,
+            "refresh_token": "refresh_token",
+        },
+    )
 
     response = complete_gl_auth_mutation(
         root=None,
@@ -84,25 +81,23 @@ def test_complete_login(
 
 
 def test_not_login(
-    user,
-    gl_mocker,
-    complete_gl_auth_mutation,
-    gl_token_request_info,
+    user, gl_mocker, complete_gl_auth_mutation, gl_token_request_info,
 ):
     """Test not login user."""
-    gl_mocker.register_get("/user", {
-        "id": user.pk,
-        "username": "test_user",
-        "email": user.email,
-    })
+    gl_mocker.register_get(
+        "/user", {"id": user.pk, "username": "test_user", "email": user.email},
+    )
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.register_post("", {
-        "access_token": "access_token",
-        "token_type": "bearer",
-        "expires_in": 7200,
-        "refresh_token": "refresh_token",
-    })
+    gl_mocker.register_post(
+        "",
+        {
+            "access_token": "access_token",
+            "token_type": "bearer",
+            "expires_in": 7200,
+            "refresh_token": "refresh_token",
+        },
+    )
 
     with raises(GitlabAuthError):
         complete_gl_auth_mutation(

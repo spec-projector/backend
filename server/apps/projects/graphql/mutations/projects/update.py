@@ -46,9 +46,7 @@ class UpdateProjectMutation(SerializerMutation):
             project_member, _ = ProjectMember.objects.update_or_create(
                 project=project,
                 user=project_member_input["user"],
-                defaults={
-                    "roles": project_member_input.get("roles"),
-                },
+                defaults={"roles": project_member_input.get("roles")},
             )
 
             project_members.append(project_member)

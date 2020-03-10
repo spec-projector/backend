@@ -50,8 +50,7 @@ class GithubProvider(BaseProvider):
     def _get_assignee(self, issue: Issue) -> Optional[AssigneeMeta]:
         if issue.assignee:
             return AssigneeMeta(
-                name=issue.assignee.name,
-                avatar=issue.assignee.avatar_url,
+                name=issue.assignee.name, avatar=issue.assignee.avatar_url,
             )
 
         return None

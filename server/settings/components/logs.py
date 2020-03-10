@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-STANDARD_FORMAT = (
-    "[%(asctime)s]|%(levelname)s|%(module)s.%(funcName)s:%(lineno)s|%(message)s"
-)
+STANDARD_FORMAT = "[%(asctime)s]|%(levelname)s|%(module)s.%(funcName)s:%(lineno)s|%(message)s"  # noqa: E501
 
 LOGGING = {
     "version": 1,

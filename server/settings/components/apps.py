@@ -4,18 +4,15 @@ INSTALLED_APPS = (
     "admin_tools",
     "admin_tools.theming",
     "admin_tools.menu",
-
     # Default django apps:
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # django-admin:
     "django.contrib.admin",
     "django.contrib.admindocs",
-
     # vendors
     "graphene_django",
     "django_extensions",
@@ -28,7 +25,6 @@ INSTALLED_APPS = (
     "health_check.db",
     "health_check.cache",
     "health_check.storage",
-
     # apps
     "apps.core",
     "apps.users",

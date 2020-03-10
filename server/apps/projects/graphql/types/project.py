@@ -21,8 +21,7 @@ class ProjectType(BaseDjangoObjectType):
     permission_classes = (AllowAuthenticatedOrPublicProject,)
 
     members = graphene.List(
-        ProjectMemberType,
-        resolver=resolve_project_members,
+        ProjectMemberType, resolver=resolve_project_members,
     )
 
     class Meta:
@@ -33,18 +32,14 @@ class ProjectType(BaseDjangoObjectType):
 
     @classmethod
     def get_queryset(
-        cls,
-        queryset: QuerySet,
-        info: ResolveInfo,  # noqa: WPS110
+        cls, queryset: QuerySet, info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Get queryset."""
         return cls._get_queryset(queryset, info)
 
     @classmethod
     def _get_queryset(
-        cls,
-        queryset: QuerySet,
-        info: ResolveInfo,  # noqa: WPS110
+        cls, queryset: QuerySet, info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         if info.context.user.is_anonymous:  # type: ignore
             return cls._get_queryset_for_anonymous(queryset)
@@ -53,17 +48,11 @@ class ProjectType(BaseDjangoObjectType):
         project_ids = ProjectMember.objects.filter(
             user_id=info.context.user.id,  # type: ignore
             roles__gt=0,
-        ).values_list(
-            "project_id",
-            flat=True,
-        )
+        ).values_list("project_id", flat=True)
 
         project_owner_ids = queryset.filter(
             owner_id=info.context.user.id,  # type: ignore
-        ).values_list(
-            "id",
-            flat=True,
-        )
+        ).values_list("id", flat=True)
 
         return queryset.filter(id__in={*project_ids, *project_owner_ids})
 

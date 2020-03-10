@@ -33,9 +33,7 @@ def test_query(user, ghl_client, project):
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_DELETE_PROJECT, variable_values={
-            "id": project.pk,
-        },
+        GHL_QUERY_DELETE_PROJECT, variable_values={"id": project.pk},
     )
 
     assert not Project.objects.exists()
@@ -45,9 +43,7 @@ def test_query(user, ghl_client, project):
 def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
     """Test success delete."""
     response = delete_project_mutation(
-        root=None,
-        info=ghl_auth_mock_info,
-        project=project.pk,
+        root=None, info=ghl_auth_mock_info, project=project.pk,
     )
 
     assert response.status == "success"
@@ -58,9 +54,7 @@ def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
     """Test unauthorized access."""
     with raises(GraphQLPermissionDenied):
         delete_project_mutation(
-            root=None,
-            info=ghl_mock_info,
-            project=project.pk,
+            root=None, info=ghl_mock_info, project=project.pk,
         )
 
 
@@ -68,9 +62,7 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     """Test project not found."""
     with raises(GraphQLInputError) as exc_info:
         delete_project_mutation(
-            root=None,
-            info=ghl_auth_mock_info,
-            project=uuid.uuid4(),
+            root=None, info=ghl_auth_mock_info, project=uuid.uuid4(),
         )
 
     extensions = exc_info.value.extensions  # noqa:WPS441

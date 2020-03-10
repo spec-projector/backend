@@ -13,11 +13,7 @@ class UsersQueries(graphene.ObjectType):
     """Graphql users queries."""
 
     user = DatasourceRelayNode.Field(UserType)
-    me = graphene.Field(
-        UserType,
-        resolver=resolve_me_user,
-    )
+    me = graphene.Field(UserType, resolver=resolve_me_user)
     all_users = DataSourceConnectionField(
-        UserType,
-        filterset_class=UsersFilterSet,
+        UserType, filterset_class=UsersFilterSet,
     )

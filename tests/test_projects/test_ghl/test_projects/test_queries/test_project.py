@@ -24,10 +24,7 @@ def test_query(user, ghl_client):
     project = ProjectFactory.create(owner=user)
 
     response = ghl_client.execute(
-        GHL_QUERY_PROJECT,
-        variable_values={
-            "id": project.id,
-        },
+        GHL_QUERY_PROJECT, variable_values={"id": project.id},
     )
 
     assert "errors" not in response
@@ -38,9 +35,7 @@ def test_success(ghl_auth_mock_info, project_query):
     """Test success getting project."""
     project = ProjectFactory.create(owner=ghl_auth_mock_info.context.user)
     response = project_query(
-        root=None,
-        info=ghl_auth_mock_info,
-        id=project.id,
+        root=None, info=ghl_auth_mock_info, id=project.id,
     )
 
     assert response == project
@@ -51,9 +46,7 @@ def test_not_found(ghl_auth_mock_info, project_query):
     ProjectFactory.create()
 
     response = project_query(
-        root=None,
-        info=ghl_auth_mock_info,
-        id=uuid.uuid4(),
+        root=None, info=ghl_auth_mock_info, id=uuid.uuid4(),
     )
 
     assert response is None

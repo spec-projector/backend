@@ -47,9 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     avatar = models.URLField(
-        blank=True,
-        verbose_name=_("VN__AVATAR"),
-        help_text=_("HT__AVATAR"),
+        blank=True, verbose_name=_("VN__AVATAR"), help_text=_("HT__AVATAR"),
     )
 
     objects = UserManager()  # noqa: WPS110

@@ -10,10 +10,7 @@ class UserManager(BaseUserManager):
     """Users manager."""
 
     def create_user(
-        self,
-        login: str,
-        password: Optional[str] = None,
-        **kwargs,
+        self, login: str, password: Optional[str] = None, **kwargs,
     ):
         """Create user."""
         if not login:
@@ -27,10 +24,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, login: str, password: str):
         """Create superuser."""
-        user = self.create_user(
-            login,
-            password=password,
-        )
+        user = self.create_user(login, password=password)
         user.is_admin = True
         user.is_superuser = True
         user.save(using=self._db)

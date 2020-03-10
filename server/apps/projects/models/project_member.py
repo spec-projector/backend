@@ -11,9 +11,18 @@ from apps.core.models.mixins import Timestamps
 class ProjectMemberRole(models.TextChoices):
     """Project member role choices."""
 
-    FRONTEND_DEVELOPER = "FRONTEND_DEVELOPER", _("CH__FRONTEND_DEVELOPER")  # noqa: WPS115, E501
-    BACKEND_DEVELOPER = "BACKEND_DEVELOPER", _("CH__BACKEND_DEVELOPER")  # noqa: WPS115, E501
-    PROJECT_MANAGER = "PROJECT_MANAGER", _("CH__PROJECT_MANAGER")  # noqa: WPS115, E501
+    FRONTEND_DEVELOPER = (  # noqa: WPS115
+        "FRONTEND_DEVELOPER",
+        _("CH__FRONTEND_DEVELOPER"),
+    )
+    BACKEND_DEVELOPER = (  # noqa: WPS115
+        "BACKEND_DEVELOPER",
+        _("CH__BACKEND_DEVELOPER"),
+    )
+    PROJECT_MANAGER = (  # noqa: WPS115
+        "PROJECT_MANAGER",
+        _("CH__PROJECT_MANAGER"),
+    )
     DESIGNER = "DESIGNER", _("CH__DESIGNER")  # noqa: WPS115
     TESTER = "TESTER", _("CH__TESTER")  # noqa: WPS115
     CUSTOMER = "CUSTOMER", _("CH__CUSTOMER")  # noqa: WPS115

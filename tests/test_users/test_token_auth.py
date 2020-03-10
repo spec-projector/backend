@@ -28,9 +28,7 @@ def user_token(user: User) -> Token:
 
 def set_http_auth_header(request: HttpRequest, token: Token) -> None:
     """Set auth header to request."""
-    request.META.update(
-        HTTP_AUTHORIZATION="Bearer {0}".format(token.key),
-    )
+    request.META.update(HTTP_AUTHORIZATION="Bearer {0}".format(token.key))
 
 
 def test_fail(rf, auth):

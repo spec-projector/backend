@@ -16,7 +16,12 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
     """User admin."""
 
     list_display = (
-        "login", "name", "email", "last_login", "is_active", "is_staff",
+        "login",
+        "name",
+        "email",
+        "last_login",
+        "is_active",
+        "is_staff",
         "change_password_link",
     )
     list_filter = ("is_active", "is_staff", "is_active")
@@ -26,7 +31,8 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
     search_fields = ("login",)
     add_fieldsets = (
         (
-            None, {
+            None,
+            {
                 "classes": ("wide",),
                 "fields": ("login", "password1", "password2"),
             },
@@ -35,12 +41,21 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
 
     exclude = ("user_permissions",)
     fieldsets = (
-        (None, {
-            "fields": (
-                "login", "email", "name", "avatar", "is_superuser", "is_staff",
-                "is_active", "last_login",
-            ),
-        }),
+        (
+            None,
+            {
+                "fields": (
+                    "login",
+                    "email",
+                    "name",
+                    "avatar",
+                    "is_superuser",
+                    "is_staff",
+                    "is_active",
+                    "last_login",
+                ),
+            },
+        ),
     )
     readonly_fields = ("last_login",)
     change_password_form = AdminPasswordChangeForm
@@ -51,8 +66,6 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
         return format_html(
             '<a href="{0}">change password</a>',
             reverse(
-                "admin:auth_user_password_change",
-                kwargs={
-                    "id": instance.pk,
-                }),
+                "admin:auth_user_password_change", kwargs={"id": instance.pk},
+            ),
         )

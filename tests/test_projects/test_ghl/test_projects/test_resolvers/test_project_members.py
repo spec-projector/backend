@@ -31,8 +31,7 @@ def test_get_members(db):
     size_project_members = 5
     project = ProjectFactory.create()
     project_members = ProjectMemberFactory.create_batch(
-        size=size_project_members,
-        project=project,
+        size=size_project_members, project=project,
     )
 
     queryset = resolve_project_members(project, mock_info())
