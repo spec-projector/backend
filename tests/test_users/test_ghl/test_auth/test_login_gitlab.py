@@ -2,7 +2,6 @@
 
 import pytest
 from django.conf import settings
-from pytest import raises
 from social_core.backends.gitlab import GitLabOAuth2
 
 from apps.users.graphql.mutations.gl_complete_auth import GitlabAuthError
@@ -99,7 +98,7 @@ def test_not_login(
         },
     )
 
-    with raises(GitlabAuthError):
+    with pytest.raises(GitlabAuthError):
         complete_gl_auth_mutation(
             root=None,
             info=gl_token_request_info,

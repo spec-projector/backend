@@ -2,7 +2,6 @@
 
 import pytest
 from django.db import models
-from pytest import raises
 
 from apps.core.graphql.errors import GraphQLInputError
 from apps.projects.models import ProjectMember
@@ -59,7 +58,7 @@ def test_roles_not_setted_validate(
         {"id": user.id},
     ]
 
-    with raises(GraphQLInputError):
+    with pytest.raises(GraphQLInputError):
         update_project_mutation(
             root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
         )
@@ -73,7 +72,7 @@ def test_roles_is_empty(
         {"id": user.id, "roles": []},
     ]
 
-    with raises(GraphQLInputError):
+    with pytest.raises(GraphQLInputError):
         update_project_mutation(
             root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
         )
@@ -87,7 +86,7 @@ def test_roles_not_valid(
         {"id": user.id, "roles": ["NO_VALID"]},
     ]
 
-    with raises(GraphQLInputError):
+    with pytest.raises(GraphQLInputError):
         update_project_mutation(
             root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
         )

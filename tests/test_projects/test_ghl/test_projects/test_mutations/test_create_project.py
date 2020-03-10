@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pytest import raises
+import pytest
 
 from apps.core.graphql.errors import GraphQLInputError, GraphQLPermissionDenied
 from apps.projects.models import Project
@@ -46,7 +46,7 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
 
 def test_unauth(user, ghl_mock_info, create_project_mutation):
     """Test unauthorized access."""
-    with raises(GraphQLPermissionDenied):
+    with pytest.raises(GraphQLPermissionDenied):
         create_project_mutation(
             root=None, info=ghl_mock_info, title="my project",
         )
@@ -54,7 +54,7 @@ def test_unauth(user, ghl_mock_info, create_project_mutation):
 
 def test_empty_title(user, ghl_auth_mock_info, create_project_mutation):
     """Test bad input data."""
-    with raises(GraphQLInputError):
+    with pytest.raises(GraphQLInputError):
         create_project_mutation(
             root=None, info=ghl_auth_mock_info, title="",
         )

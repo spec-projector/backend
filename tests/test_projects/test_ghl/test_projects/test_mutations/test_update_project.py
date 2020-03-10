@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from pytest import raises
 
 from apps.core.graphql.errors import GraphQLInputError, GraphQLPermissionDenied
 from apps.projects.models import ProjectMember
@@ -62,7 +61,7 @@ def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
 
 def test_unauth(user, ghl_mock_info, update_project_mutation, project):
     """Test unauthorized access."""
-    with raises(GraphQLPermissionDenied):
+    with pytest.raises(GraphQLPermissionDenied):
         update_project_mutation(
             root=None,
             info=ghl_mock_info,
@@ -76,7 +75,7 @@ def test_empty_data(
     user, ghl_auth_mock_info, update_project_mutation, project,
 ):
     """Test empty input data."""
-    with raises(GraphQLInputError) as exc_info:
+    with pytest.raises(GraphQLInputError) as exc_info:
         update_project_mutation(
             root=None,
             info=ghl_auth_mock_info,

@@ -3,7 +3,6 @@
 import uuid
 
 import pytest
-from pytest import raises
 
 from apps.core.graphql.errors import (
     INPUT_ERROR,
@@ -52,7 +51,7 @@ def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
 
 def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
     """Test unauthorized access."""
-    with raises(GraphQLPermissionDenied):
+    with pytest.raises(GraphQLPermissionDenied):
         delete_project_mutation(
             root=None, info=ghl_mock_info, project=project.pk,
         )
@@ -60,7 +59,7 @@ def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
 
 def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     """Test project not found."""
-    with raises(GraphQLInputError) as exc_info:
+    with pytest.raises(GraphQLInputError) as exc_info:
         delete_project_mutation(
             root=None, info=ghl_auth_mock_info, project=uuid.uuid4(),
         )

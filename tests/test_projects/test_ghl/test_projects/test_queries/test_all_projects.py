@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pytest import raises
+import pytest
 
 from apps.core.graphql.errors import GraphQLPermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
@@ -45,7 +45,7 @@ def test_unauth(ghl_mock_info, all_projects_query):
     ProjectFactory.create_batch(2, public=True)
     ProjectFactory.create_batch(2, public=False)
 
-    with raises(GraphQLPermissionDenied):
+    with pytest.raises(GraphQLPermissionDenied):
         all_projects_query(
             root=None, info=ghl_mock_info,
         )

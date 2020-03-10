@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pytest import raises
+import pytest
 from rest_framework.exceptions import AuthenticationFailed
 
 from apps.users.models import Token
@@ -23,13 +23,13 @@ def test_not_active(user):
     user.is_active = False
     user.save()
 
-    with raises(AuthenticationFailed):
+    with pytest.raises(AuthenticationFailed):
         login_user(user.login, DEFAULT_USER_PASSWORD, None)
 
 
 def test_wrong_password(user):
     """Test wrong password."""
-    with raises(AuthenticationFailed):
+    with pytest.raises(AuthenticationFailed):
         login_user(
             user.login, "wrong{0}".format(DEFAULT_USER_PASSWORD), None,
         )
@@ -37,13 +37,13 @@ def test_wrong_password(user):
 
 def test_empty_password(user):
     """Test empty password."""
-    with raises(AuthenticationFailed):
+    with pytest.raises(AuthenticationFailed):
         login_user(user.login, "", None)
 
 
 def test_invalid_login(user):
     """Test invalid login."""
-    with raises(AuthenticationFailed):
+    with pytest.raises(AuthenticationFailed):
         login_user(
             "wrong{0}".format(user.login), DEFAULT_USER_PASSWORD, None,
         )
@@ -51,7 +51,7 @@ def test_invalid_login(user):
 
 def test_empty_login(user):
     """Test empty login."""
-    with raises(AuthenticationFailed):
+    with pytest.raises(AuthenticationFailed):
         login_user("", DEFAULT_USER_PASSWORD, None)
 
 
