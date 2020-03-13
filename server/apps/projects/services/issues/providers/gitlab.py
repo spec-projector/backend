@@ -14,9 +14,9 @@ from apps.projects.services.issues.providers.base import BaseProvider
 class GitlabProvider(BaseProvider):
     """Gitlab provider."""
 
-    def get_issue(self) -> IssueMeta:
+    def get_issue(self, url: str) -> IssueMeta:
         """Load issue."""
-        gl_issue = self._get_gitlab_issue()
+        gl_issue = self._get_gitlab_issue(url)
 
         return IssueMeta(
             title=gl_issue.title,
@@ -26,10 +26,10 @@ class GitlabProvider(BaseProvider):
             spent=gl_issue.time_stats().get("total_time_spent", 0),
         )
 
-    def _get_gitlab_issue(self) -> Issue:
+    def _get_gitlab_issue(self, url: str) -> Issue:
         """Getting gitlab issue."""
         gl_client = self._get_gitlab_client()
-        project_id, issue_id = self._parse_url()
+        project_id, issue_id = self._parse_url(url)
 
         project = gl_client.projects.get(project_id, lazy=True)
 
@@ -39,9 +39,13 @@ class GitlabProvider(BaseProvider):
         """Getting Gitlab client."""
         return gitlab.Gitlab(settings.GITLAB_HOST, self._token)
 
-    def _parse_url(self) -> Tuple[str, str]:
+    def _parse_url(self, url: str) -> Tuple[str, str]:
         """Getting project id and issue id."""
-        parts = [part for part in urlparse(self._url).path.split("/") if part]
+        parts = [
+            part
+            for part in urlparse(url).path.split("/")
+            if part and part != "-"
+        ]
 
         project_id = "/".join(parts[:-2])
         issue_id = parts[-1:][0]

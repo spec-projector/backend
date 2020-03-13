@@ -24,4 +24,4 @@ PROVIDERS = {  # noqa: WPS407
 def get_issue(url: str, token: str, system: System) -> IssueMeta:
     """Get issue from remote provider."""
     provider = PROVIDERS[system]
-    return provider(url, token).get_issue()
+    return provider(token).get_issue(url)
