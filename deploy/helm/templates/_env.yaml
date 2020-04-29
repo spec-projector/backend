@@ -44,4 +44,9 @@
     configMapKeyRef:
       name: backend-config
       key: backend.env
+- name: DJANGO_SENTRY_DSN
+  valueFrom:
+    secretKeyRef:
+      name: backend-secrets
+      key: backend.sentry.dsn
 {{- end -}}

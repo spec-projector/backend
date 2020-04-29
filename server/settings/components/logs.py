@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import sentry_sdk
+from decouple import config
+from sentry_sdk.integrations.django import DjangoIntegration
+
 STANDARD_FORMAT = "[%(asctime)s]|%(levelname)s|%(module)s.%(funcName)s:%(lineno)s|%(message)s"  # noqa: E501
 
 LOGGING = {
@@ -30,3 +34,11 @@ LOGGING = {
         },
     },
 }
+
+sentry_dsn = config("DJANGO_SENTRY_DSN", default=None)
+if sentry_dsn:
+    sentry_sdk.init(  # type:ignore
+        dsn=sentry_dsn,
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
+    )
