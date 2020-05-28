@@ -32,6 +32,8 @@ RUN apt update \
 
 FROM base as production
 
+ARG APP_VERSION
+
 COPY . .
 
 RUN export DJANGO_ENV=build \
@@ -39,7 +41,8 @@ RUN export DJANGO_ENV=build \
     && django-admin compilemessages \
     && cp deploy/nginx/* /etc/nginx
 
-ENV DJANGO_ENV=production
+ENV DJANGO_ENV=production \
+    APP_VERSION=$APP_VERSION
 
 CMD ["/bin/bash", "deploy/server/run.sh"]
 

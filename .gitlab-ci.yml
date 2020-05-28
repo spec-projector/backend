@@ -20,6 +20,7 @@ build:
   services:
     - docker:dind
   script:
+    - ./scripts/ci_build_images.sh
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker pull $DOCKER_CACHE_IMAGE || true
     - docker build --cache-from $DOCKER_CACHE_IMAGE -t $DOCKER_TEST_IMAGE -t $DOCKER_CACHE_IMAGE --target test -f deploy/Dockerfile .
