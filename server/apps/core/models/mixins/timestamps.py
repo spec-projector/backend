@@ -9,8 +9,8 @@ class Timestamps(models.Model):
     class Meta:
         abstract = True
 
-    created_at = models.DateTimeField(auto_now_add=True)  # noqa: DJ12
-    updated_at = models.DateTimeField(auto_now=True)  # noqa: DJ12
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """String representation."""
