@@ -8,8 +8,8 @@ from apps.users.models import User
 class UsersFilterSet(django_filters.FilterSet):
     """User filterset."""
 
-    order_by = django_filters.OrderingFilter(fields=("email",))
-
     class Meta:
         model = User
         fields = ("email",)
+
+    order_by = django_filters.OrderingFilter(fields=("email",))

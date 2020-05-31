@@ -502,6 +502,19 @@ flake8 = ">=3.0.0"
 
 [[package]]
 category = "dev"
+description = "A flake8 extension that checks classes attributes order"
+name = "flake8-class-attributes-order"
+optional = false
+python-versions = ">=3.6"
+version = "0.1.1"
+
+[package.dependencies]
+flake8 = "*"
+setuptools = "*"
+typing-extensions = "*"
+
+[[package]]
+category = "dev"
 description = "Flake8 lint for trailing commas."
 name = "flake8-commas"
 optional = false
@@ -1626,7 +1639,7 @@ radon = ">=4,<5"
 requests = ">=2.0,<3.0"
 
 [metadata]
-content-hash = "256f4109ccc1b941a3cd64484e927103f63876e11f445da0959f07f8806b442c"
+content-hash = "bfa0951b5bcee80261b029214370026cf8fc8496db50ce476c82584c42458a43"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1874,6 +1887,9 @@ flake8-broken-line = [
 flake8-bugbear = [
     {file = "flake8-bugbear-19.8.0.tar.gz", hash = "sha256:d8c466ea79d5020cb20bf9f11cf349026e09517a42264f313d3f6fddb83e0571"},
     {file = "flake8_bugbear-19.8.0-py35.py36.py37-none-any.whl", hash = "sha256:ded4d282778969b5ab5530ceba7aa1a9f1b86fa7618fc96a19a1d512331640f8"},
+]
+flake8-class-attributes-order = [
+    {file = "flake8_class_attributes_order-0.1.1.tar.gz", hash = "sha256:6e0fe254b8d3fa649c50eb971b6b207635f75effbc0e0c04d19dbfa5d0f2897b"},
 ]
 flake8-commas = [
     {file = "flake8-commas-2.0.0.tar.gz", hash = "sha256:d3005899466f51380387df7151fb59afec666a0f4f4a2c6a8995b975de0f44b7"},

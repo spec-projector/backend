@@ -10,12 +10,12 @@ from tests.test_users.factories.user import UserFactory
 class ProjectMemberFactory(factory.django.DjangoModelFactory):
     """Project member factory."""
 
+    class Meta:
+        model = ProjectMember
+
     user = factory.SubFactory(UserFactory)
     project = factory.SubFactory(ProjectFactory)
     roles = (
         ProjectMember.roles.BACKEND_DEVELOPER
         | ProjectMember.roles.FRONTEND_DEVELOPER
     )
-
-    class Meta:
-        model = ProjectMember

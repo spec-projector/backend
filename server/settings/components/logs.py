@@ -6,7 +6,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 from settings.components.sp import SP_APP_VERSION
 
-STANDARD_FORMAT = "[%(asctime)s]|%(levelname)s|%(module)s.%(funcName)s:%(lineno)s|%(message)s"  # noqa: E501
+STANDARD_FORMAT = "[%(asctime)s]|%(levelname)s|%(module)s.%(funcName)s:%(lineno)s|%(message)s"  # noqa: E501, WPS323
 
 LOGGING = {
     "version": 1,
@@ -14,7 +14,7 @@ LOGGING = {
     "formatters": {
         "standard": {
             "format": STANDARD_FORMAT,
-            "datefmt": "%Y-%m-%d %H:%M:%S",
+            "datefmt": "%Y-%m-%d %H:%M:%S",  # noqa: WPS323
         },
     },
     "handlers": {

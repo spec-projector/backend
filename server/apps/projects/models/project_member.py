@@ -31,6 +31,13 @@ class ProjectMemberRole(models.TextChoices):
 class ProjectMember(Timestamps):
     """Project member model."""
 
+    class Meta:
+        verbose_name = _("VN__PROJECT_MEMBER")
+        verbose_name_plural = _("VN__PROJECT_MEMBERS")
+        unique_together = ("project", "user")
+
+    roles = BitField(flags=ProjectMemberRole.choices, default=0)
+
     project = models.ForeignKey(
         "projects.Project",
         models.CASCADE,
@@ -45,13 +52,6 @@ class ProjectMember(Timestamps):
         help_text=_("HT__USER"),
     )
 
-    roles = BitField(flags=ProjectMemberRole.choices, default=0)
-
     def __str__(self):
         """Returns object string representation."""
         return "{0}: {1}".format(self.project, self.user)
-
-    class Meta:
-        verbose_name = _("VN__PROJECT_MEMBER")
-        verbose_name_plural = _("VN__PROJECT_MEMBERS")
-        unique_together = ("project", "user")

@@ -13,10 +13,10 @@ from apps.projects.models import Project
 class DeleteProjectMutation(SerializerMutation):
     """Delete project mutation."""
 
-    status = graphene.String()
-
     class Meta:
         serializer_class = DeleteProjectInput
+
+    status = graphene.String()
 
     @classmethod
     def perform_mutate(

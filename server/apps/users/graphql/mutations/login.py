@@ -15,12 +15,12 @@ from apps.users.services.auth import login_user
 class LoginMutation(SerializerMutation):
     """Login mutation."""
 
+    class Meta:
+        serializer_class = LoginMutationInput
+
     permission_classes = (AllowAny,)
 
     token = graphene.Field(TokenType)
-
-    class Meta:
-        serializer_class = LoginMutationInput
 
     @classmethod
     def perform_mutate(

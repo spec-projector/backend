@@ -24,10 +24,10 @@ class SerializerMutationOptions(MutationOptions):
 class SerializerMutation(AuthMutation, graphene.Mutation):
     """Serializer mutation."""
 
-    permission_classes = (AllowAuthenticated,)
-
     class Meta:
         abstract = True
+
+    permission_classes = (AllowAuthenticated,)
 
     @classmethod
     def __init_subclass_with_meta__(
@@ -77,7 +77,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        **input,  # noqa: A002
+        **input,  # noqa: WPS125
     ) -> "SerializerMutation":
         """Perform mutation."""
         cls.check_premissions(root, info, **input)
@@ -89,7 +89,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        **input,  # noqa: A002
+        **input,  # noqa: WPS125
     ) -> None:
         """Check if have permissions."""
         if not cls.has_permission(root, info, **input):
@@ -100,7 +100,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        **input,
+        **input,  # noqa: WPS125
     ) -> "SerializerMutation":
         """Perform mutation."""
         kwargs = cls.get_serializer_kwargs(root, info, **input)
@@ -116,7 +116,7 @@ class SerializerMutation(AuthMutation, graphene.Mutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        **input,
+        **input,  # noqa: WPS125
     ) -> Dict[str, object]:
         """Provides serializer parameters."""
         return {

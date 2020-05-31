@@ -6,7 +6,7 @@ import graphene
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from graphql import ResolveInfo
 from social_core.actions import do_complete
-from social_django.views import _do_login  # noqa: WPS436
+from social_django.views import _do_login  # noqa: WPS436, WPS450
 
 from apps.core.graphql.mutations import SerializerMutation
 from apps.core.graphql.security.permissions import AllowAny
@@ -25,12 +25,12 @@ class GitlabAuthError(Exception):
 class GitLabCompleteAuthMutation(SerializerMutation):
     """Gitlab complete auth mutation."""
 
+    class Meta:
+        serializer_class = GitLabCompleteAuthMutationInput
+
     permission_classes = (AllowAny,)
 
     token = graphene.Field(TokenType)
-
-    class Meta:
-        serializer_class = GitLabCompleteAuthMutationInput
 
     @classmethod
     def perform_mutate(

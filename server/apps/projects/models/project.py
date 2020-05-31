@@ -13,9 +13,16 @@ from apps.projects.models.project_member import ProjectMember
 class Project(Timestamps):
     """Project model."""
 
-    id = models.UUIDField(  # noqa: A003
+    class Meta:
+        verbose_name = _("VN__PROJECT")
+        verbose_name_plural = _("VN__PROJECTS")
+        ordering = ("-created_at",)
+
+    id = models.UUIDField(  # noqa: WPS125
         primary_key=True, default=uuid.uuid4, editable=False,
     )
+
+    public = models.BooleanField(default=False)
 
     title = models.CharField(
         max_length=255,  # noqa: WPS432
@@ -40,13 +47,6 @@ class Project(Timestamps):
         through=ProjectMember,
         related_name="projects",
     )
-
-    public = models.BooleanField(default=False)
-
-    class Meta:
-        verbose_name = _("VN__PROJECT")
-        verbose_name_plural = _("VN__PROJECTS")
-        ordering = ("-created_at",)
 
     def __str__(self):
         """Text representation."""

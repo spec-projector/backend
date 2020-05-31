@@ -11,9 +11,10 @@ from apps.users.models import User
 class ProjectMember(serializers.Serializer):
     """Project member serializer."""
 
-    id = serializers.PrimaryKeyRelatedField(  # noqa: A003
+    id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125
         queryset=User.objects, source="user",
     )
+
     roles = BitField(choices=ProjectMemberRole.choices)
 
     def validate_roles(self, roles):

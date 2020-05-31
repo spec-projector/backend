@@ -14,10 +14,10 @@ from apps.projects.models.project import Project
 class CreateProjectMutation(SerializerMutation):
     """Create project mutation."""
 
-    project = graphene.Field(ProjectType)
-
     class Meta:
         serializer_class = CreateProjectInput
+
+    project = graphene.Field(ProjectType)
 
     @classmethod
     def perform_mutate(

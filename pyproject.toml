@@ -46,6 +46,7 @@ flake8-django = "*"
 flake8-pytest-style = "*"
 wemake-python-styleguide = "*"
 black = "^19.10b0"
+flake8-class-attributes-order = "^0.1.1"
 
 [tool.black]
 line-length = 79

@@ -18,17 +18,17 @@ from apps.projects.models import Project, ProjectMember
 class ProjectType(BaseDjangoObjectType):
     """Project type."""
 
-    permission_classes = (AllowAuthenticatedOrPublicProject,)
-
-    members = graphene.List(
-        ProjectMemberType, resolver=resolve_project_members,
-    )
-
     class Meta:
         model = Project
         interfaces = (DatasourceRelayNode,)
         connection_class = DataSourceConnection
         name = "Project"
+
+    permission_classes = (AllowAuthenticatedOrPublicProject,)
+
+    members = graphene.List(
+        ProjectMemberType, resolver=resolve_project_members,
+    )
 
     @classmethod
     def get_queryset(

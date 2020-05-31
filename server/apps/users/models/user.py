@@ -10,6 +10,11 @@ from apps.users.models.managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     """User model."""
 
+    class Meta:
+        verbose_name = _("VN__USER")
+        verbose_name_plural = _("VN__USERS")
+        ordering = ("login",)
+
     USERNAME_FIELD = "login"  # noqa: WPS115
 
     login = models.CharField(
@@ -51,11 +56,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     objects = UserManager()  # noqa: WPS110
-
-    class Meta:
-        verbose_name = _("VN__USER")
-        verbose_name_plural = _("VN__USERS")
-        ordering = ("login",)
 
     def __str__(self):
         """Text representation."""
