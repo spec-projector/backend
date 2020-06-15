@@ -3,50 +3,55 @@
   valueFrom:
     configMapKeyRef:
       name: global-config
-      key: global.domain
-- name: POSTGRES_DB
+      key: domain
+- name: DJANGO_DATABASE_NAME
   valueFrom:
     configMapKeyRef:
       name: database-config
-      key: database.name
-- name: POSTGRES_USER
+      key: name
+- name: DJANGO_DATABASE_USER
   valueFrom:
     secretKeyRef:
       name: database-credentials
-      key: database.user
-- name: POSTGRES_PASSWORD
+      key: user
+- name: DJANGO_DATABASE_PASSWORD
   valueFrom:
     secretKeyRef:
       name: database-credentials
-      key: database.password
+      key: password
 - name: DJANGO_DATABASE_HOST
   valueFrom:
     configMapKeyRef:
       name: database-config
-      key: database.host
+      key: host
+- name: DJANGO_DATABASE_PORT
+  valueFrom:
+    configMapKeyRef:
+      name: database-config
+      key: port
 - name: DJANGO_SECRET_KEY
   valueFrom:
     secretKeyRef:
       name: backend-secrets
-      key: backend.secret_key
+      key: secret_key
 - name: DJANGO_SOCIAL_AUTH_GITLAB_KEY
   valueFrom:
     secretKeyRef:
       name: backend-secrets
-      key: backend.social_auth_gitlab_key
+      key: social_auth_gitlab_key
 - name: DJANGO_SOCIAL_AUTH_GITLAB_SECRET
   valueFrom:
     secretKeyRef:
       name: backend-secrets
-      key: backend.social_auth_gitlab_secret
+      key: social_auth_gitlab_secret
 - name: DJANGO_ENV
   valueFrom:
     configMapKeyRef:
       name: backend-config
-      key: backend.env
+      key: env
 - name: DJANGO_SENTRY_DSN
   valueFrom:
     secretKeyRef:
       name: backend-secrets
-      key: backend.sentry.dsn
+      key: sentry.dsn
 {{- end -}}

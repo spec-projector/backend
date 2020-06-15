@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: backend-config
 data:
-  backend.env: {{ .Values.env }}
+  env: {{ .Values.env }}
