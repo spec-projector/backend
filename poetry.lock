@@ -855,15 +855,14 @@ django = ">=2"
 
 [[package]]
 category = "main"
-description = "BitField in Django"
-name = "jnt-django-bitfield"
+description = ""
+name = "jnt-django-toolbox"
 optional = false
-python-versions = ">=3.6,<4.0"
-version = "1.10.1"
+python-versions = ">=3.8,<4.0"
+version = "0.1.0"
 
 [package.dependencies]
-django = ">=2"
-djangorestframework = "*"
+django = ">=3"
 
 [[package]]
 category = "dev"
@@ -1639,7 +1638,7 @@ radon = ">=4,<5"
 requests = ">=2.0,<3.0"
 
 [metadata]
-content-hash = "bfa0951b5bcee80261b029214370026cf8fc8496db50ce476c82584c42458a43"
+content-hash = "6f1a7bf0383f7bad1675307f352fce0f1e7ffe2850ef41284ed5d54c3e08d2e7"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1997,9 +1996,9 @@ jnt-django-admin-tools = [
     {file = "jnt-django-admin-tools-0.9.2.tar.gz", hash = "sha256:f30d5a840ce431e33869d6585b2bd1a92ea69f7d817a7f44d4357e883e408428"},
     {file = "jnt_django_admin_tools-0.9.2-py3-none-any.whl", hash = "sha256:1898018ddc1e2d7c6bfaf69dbbb86808dfc08ec4bdfbebb0626228c603ce5c5f"},
 ]
-jnt-django-bitfield = [
-    {file = "jnt-django-bitfield-1.10.1.tar.gz", hash = "sha256:faf454aac55173efa2fab34c85cdde91653febfe157048b0afd32f9ac5e6a0e7"},
-    {file = "jnt_django_bitfield-1.10.1-py3-none-any.whl", hash = "sha256:c52946feeb9bc79310299bc0e5deea4f815507b2c6f8fbb4a6e4c8abf5099290"},
+jnt-django-toolbox = [
+    {file = "jnt-django-toolbox-0.1.0.tar.gz", hash = "sha256:576cfb1a32477b67a53dbb642f1ad3087fffe0cc4e3bad9e4990cf24e299ddd2"},
+    {file = "jnt_django_toolbox-0.1.0-py3-none-any.whl", hash = "sha256:738183ade5df33b25c258028ca4b7594156d7124ff235433f821c6edb5b6b03b"},
 ]
 mando = [
     {file = "mando-0.6.4-py2.py3-none-any.whl", hash = "sha256:4ce09faec7e5192ffc3c57830e26acba0fd6cd11e1ee81af0d4df0657463bd1c"},

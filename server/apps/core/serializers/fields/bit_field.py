@@ -2,7 +2,7 @@
 
 import json
 
-from bitfield import BitHandler
+from jnt_django_toolbox.models.fields.bit.types import BitHandler
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
