@@ -45,3 +45,4 @@ if sentry_dsn:
         integrations=[DjangoIntegration()],
         send_default_pii=True,
     )
+    sentry_sdk.utils.MAX_STRING_LENGTH = 2048
