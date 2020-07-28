@@ -20,14 +20,14 @@ class GithubProvider(BaseProvider):
         gh_issue = self._get_github_issue(url)
 
         return IssueMeta(
-            title=gh_issue.title,
-            state=gh_issue.state,
+            title=gh_issue.title,  # type: ignore
+            state=gh_issue.state,  # type: ignore
             assignee=self._get_assignee(gh_issue),
             spent=None,
             due_date=None,
         )
 
-    def _get_github_issue(self, url: str) -> Issue:
+    def _get_github_issue(self, url: str) -> Issue:  # type: ignore
         gh_client = self._get_github_client()
         owner, project, issue_number = self._parse_url(url)
 
@@ -47,10 +47,13 @@ class GithubProvider(BaseProvider):
 
         return issue_data[0]
 
-    def _get_assignee(self, issue: Issue) -> Optional[AssigneeMeta]:
-        if issue.assignee:
+    def _get_assignee(
+        self, issue: Issue,  # type: ignore
+    ) -> Optional[AssigneeMeta]:
+        if issue.assignee:  # type: ignore
             return AssigneeMeta(
-                name=issue.assignee.name, avatar=issue.assignee.avatar_url,
+                name=issue.assignee.name,  # type: ignore
+                avatar=issue.assignee.avatar_url,  # type: ignore
             )
 
         return None

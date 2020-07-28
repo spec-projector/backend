@@ -22,7 +22,7 @@ jnt-django-admin-tools = "*"
 jnt-django-toolbox = "^0.1.0"
 social-auth-app-django = "^3.*"
 social-auth-core = "^3.*"
-graphene-django = "^2.*"
+graphene-django = "2.9.1"
 uWSGI = "*"
 python-gitlab = "*"
 PyGithub = "*"
@@ -47,6 +47,7 @@ flake8-pytest-style = "*"
 wemake-python-styleguide = "*"
 black = "^19.10b0"
 flake8-class-attributes-order = "^0.1.1"
+isort = "4.3.21" # isort 5 is broken for now
 
 [tool.black]
 line-length = 79

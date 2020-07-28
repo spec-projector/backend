@@ -13,7 +13,7 @@ class UpdateProjectInput(serializers.ModelSerializer):
         model = Project
         fields = ("id", "title", "description", "users", "public")
 
-    id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125
+    id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125, A003
         queryset=Project.objects,
     )
     title = serializers.CharField(required=False)

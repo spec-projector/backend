@@ -16,7 +16,7 @@ urlpatterns = [
     path("graphql/", get_graphql_view()),
     path("api/graphql", csrf_exempt(get_api_graphql_view())),
     path("api/", include("apps.users.pages.urls", namespace="api")),
-    path("admin_tools/", include("admin_tools.urls")),  # noqa: DJ05
+    path("admin_tools/", include("jnt_admin_tools.urls")),  # noqa: DJ05
     path("admin/", admin.site.urls),
 ]
 
