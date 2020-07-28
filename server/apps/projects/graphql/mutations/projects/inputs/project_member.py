@@ -11,7 +11,7 @@ from apps.users.models import User
 class ProjectMember(serializers.Serializer):
     """Project member serializer."""
 
-    id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125
+    id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125, A003
         queryset=User.objects, source="user",
     )
 

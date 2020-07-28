@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 INSTALLED_APPS = (
-    "admin_tools",
-    "admin_tools.theming",
-    "admin_tools.menu",
+    "jnt_admin_tools",
+    "jnt_admin_tools.theming",
+    "jnt_admin_tools.menu",
     # Default django apps:
     "django.contrib.auth",
     "django.contrib.contenttypes",
