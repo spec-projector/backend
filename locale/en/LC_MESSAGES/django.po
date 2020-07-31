@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-30 14:25+0300\n"
+"POT-Creation-Date: 2020-07-31 11:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "VN__CORE"
+msgstr "Core"
 
 msgid "You do not have permission to perform this action."
 msgstr "You do not have permission to perform this action."
@@ -29,6 +32,9 @@ msgstr "Input error."
 
 msgid "VN__PROJECTS"
 msgstr "Projects"
+
+msgid "VN__PROJECT"
+msgstr "Project"
 
 msgid "VN__TITLE"
 msgstr "Title"
@@ -48,8 +54,11 @@ msgstr "Owner"
 msgid "HT__OWNER"
 msgstr " "
 
-msgid "VN__PROJECT"
-msgstr "Project"
+msgid "VN__DB_NAME"
+msgstr "DB name"
+
+msgid "HT__DB_NAME"
+msgstr "Only lowercase and start from non digit"
 
 msgid "CH__FRONTEND_DEVELOPER"
 msgstr "Frontend Developer"
@@ -69,6 +78,12 @@ msgstr "Tester"
 msgid "CH__CUSTOMER"
 msgstr "Customer"
 
+msgid "VN__PROJECT_MEMBER"
+msgstr "Project Member"
+
+msgid "VN__PROJECT_MEMBERS"
+msgstr "Project Members"
+
 msgid "HT__PROJECT"
 msgstr "Project"
 
@@ -77,12 +92,6 @@ msgstr "User"
 
 msgid "HT__USER"
 msgstr "User"
-
-msgid "VN__PROJECT_MEMBER"
-msgstr "Project Member"
-
-msgid "VN__PROJECT_MEMBERS"
-msgstr "Project Members"
 
 msgid "MSG_GITHUB_ISSUE_URL_NOT_VALID"
 msgstr " Github issue url not valid"

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.utils.baseconv import BASE64_ALPHABET
@@ -49,6 +51,13 @@ class Project(Timestamps):
         verbose_name=_("VN__DESCRIPTION"), help_text=_("HT__DESCRIPTION"),
     )
 
+    db_name = models.CharField(  # noqa: WPS601
+        max_length=50,  # noqa: WPS432
+        verbose_name=_("VN__DB_NAME"),
+        help_text=_("HT__DB_NAME"),
+        blank=True,
+    )
+
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         models.CASCADE,
@@ -66,3 +75,21 @@ class Project(Timestamps):
     def __str__(self):
         """Text representation."""
         return self.title
+
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+        """Save object."""
+        if not self.db_name:
+            self.db_name = "_{0}".format(uuid.uuid4())  # noqa: WPS601
+
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
