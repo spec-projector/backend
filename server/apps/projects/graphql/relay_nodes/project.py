@@ -3,8 +3,8 @@
 from graphene import relay
 
 
-class DatasourceRelayNode(relay.Node):
-    """Datasource relay node."""
+class ProjectDatasourceRelayNode(relay.Node):
+    """Project datasource relay node."""
 
     @classmethod
     def get_node_from_global_id(

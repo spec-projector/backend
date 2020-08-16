@@ -3,10 +3,10 @@
 import graphene
 from django.db.models import QuerySet
 from graphql import ResolveInfo
+from jnt_django_graphene_toolbox.connections import DataSourceConnection
+from jnt_django_graphene_toolbox.types import BaseDjangoObjectType
 
-from apps.core.graphql.connections import DataSourceConnection
-from apps.core.graphql.relay_nodes import DatasourceRelayNode
-from apps.core.graphql.types import BaseDjangoObjectType
+from apps.projects.graphql.relay_nodes import ProjectDatasourceRelayNode
 from apps.projects.graphql.resolvers import resolve_project_members
 from apps.projects.graphql.security.permissions import (
     AllowAuthenticatedOrPublicProject,
@@ -20,7 +20,7 @@ class ProjectType(BaseDjangoObjectType):
 
     class Meta:
         model = Project
-        interfaces = (DatasourceRelayNode,)
+        interfaces = (ProjectDatasourceRelayNode,)
         connection_class = DataSourceConnection
         name = "Project"
 

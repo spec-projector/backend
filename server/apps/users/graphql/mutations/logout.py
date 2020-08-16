@@ -4,8 +4,7 @@ from typing import Optional
 
 import graphene
 from graphql import ResolveInfo
-
-from apps.core.graphql.mutations import NoInputMutation
+from jnt_django_graphene_toolbox.mutations.no_input import NoInputMutation
 
 
 class LogoutMutation(NoInputMutation):

@@ -3,12 +3,12 @@
 import uuid
 
 import pytest
-
-from apps.core.graphql.errors import (
+from jnt_django_graphene_toolbox.errors import (
     INPUT_ERROR,
     GraphQLInputError,
     GraphQLPermissionDenied,
 )
+
 from apps.projects.models import Project
 from tests.test_projects.factories.project import ProjectFactory
 
@@ -51,21 +51,20 @@ def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
 
 def test_unauth(user, ghl_mock_info, delete_project_mutation, project):
     """Test unauthorized access."""
-    with pytest.raises(GraphQLPermissionDenied):
-        delete_project_mutation(
-            root=None, info=ghl_mock_info, project=project.pk,
-        )
+    response = delete_project_mutation(
+        root=None, info=ghl_mock_info, project=project.pk,
+    )
+
+    assert isinstance(response, GraphQLPermissionDenied)
 
 
 def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     """Test project not found."""
-    with pytest.raises(GraphQLInputError) as exc_info:
-        delete_project_mutation(
-            root=None, info=ghl_auth_mock_info, project=uuid.uuid4(),
-        )
+    response = delete_project_mutation(
+        root=None, info=ghl_auth_mock_info, project=uuid.uuid4(),
+    )
 
-    extensions = exc_info.value.extensions  # noqa:WPS441
-    assert extensions["code"] == INPUT_ERROR
-
-    assert len(extensions["fieldErrors"]) == 1
-    assert extensions["fieldErrors"][0]["fieldName"] == "project"
+    assert isinstance(response, GraphQLInputError)
+    assert response.extensions["code"] == INPUT_ERROR
+    assert len(response.extensions["fieldErrors"]) == 1
+    assert response.extensions["fieldErrors"][0]["fieldName"] == "project"
