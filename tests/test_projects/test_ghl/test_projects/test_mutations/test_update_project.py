@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import pytest
+from jnt_django_graphene_toolbox.errors import (
+    GraphQLInputError,
+    GraphQLPermissionDenied,
+)
 
-from apps.core.graphql.errors import GraphQLInputError, GraphQLPermissionDenied
 from apps.projects.models import ProjectMember
 from apps.projects.models.project_member import ProjectMemberRole
 from tests.test_projects.factories.project import ProjectFactory
@@ -61,32 +64,31 @@ def test_success(user, ghl_auth_mock_info, update_project_mutation, project):
 
 def test_unauth(user, ghl_mock_info, update_project_mutation, project):
     """Test unauthorized access."""
-    with pytest.raises(GraphQLPermissionDenied):
-        update_project_mutation(
-            root=None,
-            info=ghl_mock_info,
-            id=project.pk,
-            title="new title",
-            description="new description",
-        )
+    response = update_project_mutation(
+        root=None,
+        info=ghl_mock_info,
+        id=project.pk,
+        title="new title",
+        description="new description",
+    )
+
+    assert isinstance(response, GraphQLPermissionDenied)
 
 
 def test_empty_data(
     user, ghl_auth_mock_info, update_project_mutation, project,
 ):
     """Test empty input data."""
-    with pytest.raises(GraphQLInputError) as exc_info:
-        update_project_mutation(
-            root=None,
-            info=ghl_auth_mock_info,
-            id=project.pk,
-            title="",
-            description="",
-        )
+    response = update_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.pk,
+        title="",
+        description="",
+    )
 
-    extensions = exc_info.value.extensions  # noqa:WPS441
-
-    assert len(extensions["fieldErrors"]) == 2
+    assert isinstance(response, GraphQLInputError)
+    assert len(response.extensions["fieldErrors"]) == 2
 
 
 def test_add_project_members(

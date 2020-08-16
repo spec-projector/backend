@@ -4,8 +4,8 @@ from typing import Optional
 
 from django.db.models import Model
 from graphql import ResolveInfo
+from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
-from apps.core.graphql.errors import GraphQLPermissionDenied
 from apps.core.graphql.security.permissions import AllowAny
 
 

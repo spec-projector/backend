@@ -2,8 +2,8 @@
 
 import pytest
 from django.db import models
+from jnt_django_graphene_toolbox.errors import GraphQLInputError
 
-from apps.core.graphql.errors import GraphQLInputError
 from apps.projects.models import ProjectMember
 from apps.projects.models.project_member import ProjectMemberRole
 from tests.test_projects.factories.project import ProjectFactory
@@ -58,10 +58,10 @@ def test_roles_not_setted_validate(
         {"id": user.id},
     ]
 
-    with pytest.raises(GraphQLInputError):
-        update_project_mutation(
-            root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
-        )
+    response = update_project_mutation(
+        root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
+    )
+    assert isinstance(response, GraphQLInputError)
 
 
 def test_roles_is_empty(
@@ -72,10 +72,11 @@ def test_roles_is_empty(
         {"id": user.id, "roles": []},
     ]
 
-    with pytest.raises(GraphQLInputError):
-        update_project_mutation(
-            root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
-        )
+    response = update_project_mutation(
+        root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
+    )
+
+    assert isinstance(response, GraphQLInputError)
 
 
 def test_roles_not_valid(
@@ -86,7 +87,8 @@ def test_roles_not_valid(
         {"id": user.id, "roles": ["NO_VALID"]},
     ]
 
-    with pytest.raises(GraphQLInputError):
-        update_project_mutation(
-            root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
-        )
+    response = update_project_mutation(
+        root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
+    )
+
+    assert isinstance(response, GraphQLInputError)

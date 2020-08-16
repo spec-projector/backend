@@ -4,8 +4,8 @@ from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
+from jnt_django_graphene_toolbox.mutations import SerializerMutation
 
-from apps.core.graphql.mutations.serializer import SerializerMutation
 from apps.core.graphql.security.permissions import AllowAny
 from apps.users.graphql.mutations.inputs.login import LoginMutationInput
 from apps.users.graphql.types import TokenType

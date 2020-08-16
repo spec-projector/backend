@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from jnt_django_graphene_toolbox.types import BaseDjangoObjectType
 
 from apps.core.graphql.security.permissions import AllowAny
-from apps.core.graphql.types import BaseDjangoObjectType
 from apps.users.models import Token
 
 

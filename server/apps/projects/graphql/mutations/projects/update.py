@@ -4,8 +4,8 @@ from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
+from jnt_django_graphene_toolbox.mutations import SerializerMutation
 
-from apps.core.graphql.mutations import SerializerMutation
 from apps.core.graphql.mutations.helpers.persisters import (
     update_from_validated_data,
 )

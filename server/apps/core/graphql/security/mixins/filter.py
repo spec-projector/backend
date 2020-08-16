@@ -4,8 +4,8 @@ from typing import Optional
 
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql import ResolveInfo
+from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
-from apps.core.graphql.errors import GraphQLPermissionDenied
 from apps.core.graphql.security.permissions import AllowAny
 
 

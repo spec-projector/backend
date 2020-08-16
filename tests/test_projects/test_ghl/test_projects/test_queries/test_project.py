@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import uuid
-
 import pytest
+from jnt_django_graphene_toolbox.errors import GraphQLNotFound
 
-from apps.core.graphql.errors import GraphQLPermissionDenied
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_PROJECT = """
@@ -45,19 +43,19 @@ def test_not_found(ghl_auth_mock_info, project_query):
     """Test project not found."""
     ProjectFactory.create()
 
-    response = project_query(
-        root=None, info=ghl_auth_mock_info, id=uuid.uuid4(),
-    )
-
-    assert response is None
+    with pytest.raises(GraphQLNotFound):
+        project_query(
+            root=None, info=ghl_auth_mock_info, id="1",
+        )
 
 
 def test_unauth(ghl_mock_info, project_query):
     """Test non authorized user."""
     project = ProjectFactory.create(public=False)
 
-    with pytest.raises(GraphQLPermissionDenied):
-        project_query(root=None, info=ghl_mock_info, id=project.id)
+    response = project_query(root=None, info=ghl_mock_info, id=project.id)
+
+    assert response is None
 
 
 def test_retrieve_public_project(ghl_mock_info, project_query):
@@ -74,5 +72,6 @@ def test_retrieve_unpublic_project(ghl_mock_info, project_query):
     ProjectFactory.create(public=True)
     project = ProjectFactory.create(public=False)
 
-    with pytest.raises(GraphQLPermissionDenied):
-        project_query(root=None, info=ghl_mock_info, id=project.id)
+    response = project_query(root=None, info=ghl_mock_info, id=project.id)
+
+    assert response is None
