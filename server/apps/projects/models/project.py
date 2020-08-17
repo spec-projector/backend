@@ -85,7 +85,7 @@ class Project(Timestamps):
     ):
         """Save object."""
         if not self.db_name:
-            self.db_name = "_{0}".format(uuid.uuid4())  # noqa: WPS601
+            self.db_name = "f{0}".format(uuid.uuid4())  # noqa: WPS601
 
         super().save(
             force_insert=force_insert,
