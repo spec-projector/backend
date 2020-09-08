@@ -1,10 +1,9 @@
 image: docker:latest
 
 variables:
-  DOCKER_TEST_IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
-  DOCKER_CACHE_IMAGE: $CI_REGISTRY_IMAGE:latest
-  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_PIPELINE_IID
-  GIT_STRATEGY: none
+  DOCKER_CACHE_IMAGE: $CI_REGISTRY_IMAGE/cache
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE/tmp:${CI_PIPELINE_ID}_${CI_COMMIT_SHA}
+  DOCKER_TEST_IMAGE: $CI_REGISTRY_IMAGE/tmp:${CI_PIPELINE_ID}_${CI_COMMIT_SHA}_test
 
 stages:
   - build
@@ -14,11 +13,6 @@ stages:
 
 build:
   stage: build
-  variables:
-    GIT_DEPTH: 5
-    GIT_STRATEGY: fetch
-  services:
-    - docker:dind
   script:
     - ./scripts/ci_build_images.sh
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
@@ -31,11 +25,10 @@ build:
     - docker push $DOCKER_CACHE_IMAGE
 
 quality:
-  image: $DOCKER_TEST_IMAGE
   stage: test
+  image: $DOCKER_TEST_IMAGE
   script:
     - cd /app
-    - export PATH="$PATH:$HOME/.poetry/bin"
     - make check_quality
 
 test:
@@ -57,31 +50,34 @@ test:
     paths:
       - coverage
 
-publish_master:
+.base_publish:
   stage: publish
   dependencies: []
-  services:
-    - docker:dind
-  script:
+  before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker pull $DOCKER_IMAGE
-    - docker tag $DOCKER_IMAGE $CI_REGISTRY_IMAGE:dev
-    - docker push $CI_REGISTRY_IMAGE:dev
+  script:
+    - docker tag $DOCKER_IMAGE $TARGET_IMAGE
+    - docker push $TARGET_IMAGE
+
+publish_unstable:
+  extends: .base_publish
   only:
     - master
+  variables:
+    TARGET_IMAGE: $CI_REGISTRY_IMAGE/unstable:${CI_PIPELINE_ID}
 
-deploy_master:
-  image: junte/helm-deploy:1.2-helm2.16.1
+.base_deploy:
+  image: curlimages/curl:7.72.0
   stage: deploy
   dependencies: []
-  variables:
-    GIT_DEPTH: 5
-    GIT_STRATEGY: fetch
-    HELM_IMAGE_TAG: $CI_PIPELINE_IID
   script:
-    - helm_deploy
-  environment:
-    name: production
-    url: $SITE_ADDRESS
+    - curl -k -X POST -d "component=${DEPLOYER_COMPONENT}&key=${DEPLOYER_KEY}&tag=${CI_PIPELINE_ID}" ${DEPLOYER_HOST}
+
+deploy_development:
+  extends: .base_deploy
   only:
     - master
+  environment:
+    name: development
+    url: $SITE_ADDRESS
