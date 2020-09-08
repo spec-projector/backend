@@ -13,6 +13,8 @@ stages:
 
 build:
   stage: build
+  services:
+    - docker:dind
   script:
     - ./scripts/ci_build_images.sh
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
@@ -52,6 +54,8 @@ test:
 
 .base_publish:
   stage: publish
+  services:
+    - docker:dind
   dependencies: []
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
