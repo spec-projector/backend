@@ -2,6 +2,8 @@
 
 import sentry_sdk
 from decouple import config
+from graphql import GraphQLError
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from settings.components.sp import SP_APP_VERSION
@@ -37,12 +39,24 @@ LOGGING = {
     },
 }
 
+
+def _before_send_sentry_handler(event, hint):
+    exc_info = hint.get("exc_info")
+    if exc_info:
+        exc_type, exc_value, tb = exc_info
+        if isinstance(exc_value, GraphQLError):
+            return None
+
+    return event
+
+
 sentry_dsn = config("DJANGO_SENTRY_DSN", default=None)
 if sentry_dsn:
     sentry_sdk.init(  # type:ignore
         dsn=sentry_dsn,
         release=SP_APP_VERSION,
-        integrations=[DjangoIntegration()],
+        integrations=[DjangoIntegration(), CeleryIntegration()],
         send_default_pii=True,
+        before_send=_before_send_sentry_handler,
     )
-    sentry_sdk.utils.MAX_STRING_LENGTH = 2048
+    sentry_sdk.utils.MAX_STRING_LENGTH = 4096
