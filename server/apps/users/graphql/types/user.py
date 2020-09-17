@@ -21,7 +21,9 @@ class UserType(BaseDjangoObjectType):
 
     @classmethod
     def get_queryset(
-        cls, queryset: QuerySet, info: ResolveInfo,  # noqa: WPS110
+        cls,
+        queryset: QuerySet,
+        info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Provides queryset."""
         if issubclass(queryset.model, User):

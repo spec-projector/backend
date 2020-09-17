@@ -18,7 +18,8 @@ def test_query(user, ghl_client):
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_USER, variable_values={"id": user.id},
+        GHL_QUERY_USER,
+        variable_values={"id": user.id},
     )
 
     assert "errors" not in response

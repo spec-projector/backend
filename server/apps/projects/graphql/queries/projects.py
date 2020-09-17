@@ -15,5 +15,6 @@ class ProjectsQueries(graphene.ObjectType):
 
     project = ProjectDatasourceRelayNode.Field(ProjectType)
     all_projects = DataSourceConnectionField(
-        ProjectType, filterset_class=ProjectsFilterSet,
+        ProjectType,
+        filterset_class=ProjectsFilterSet,
     )

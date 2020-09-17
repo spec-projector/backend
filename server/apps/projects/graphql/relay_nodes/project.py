@@ -8,7 +8,10 @@ class ProjectDatasourceRelayNode(relay.Node):
 
     @classmethod
     def get_node_from_global_id(
-        cls, info, global_id, only_type=None,  # noqa: WPS110
+        cls,
+        info,  # noqa: WPS110
+        global_id,
+        only_type=None,
     ):
         """Get node by global id."""
         is_invalid_node = (

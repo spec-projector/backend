@@ -5,7 +5,9 @@ from typing import Dict, Optional
 
 
 def deep_getattr(
-    instance: object, attr: str, default: Optional[object] = None,
+    instance: object,
+    attr: str,
+    default: Optional[object] = None,
 ) -> Optional[object]:
     """Deeping get object attribute."""
     try:

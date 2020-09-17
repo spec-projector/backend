@@ -54,7 +54,9 @@ def test_email_filter(user, ghl_auth_mock_info, all_users_query):
     user1 = UserFactory.create(is_active=True, email=email)
 
     response = all_users_query(
-        root=None, info=ghl_auth_mock_info, email=email,
+        root=None,
+        info=ghl_auth_mock_info,
+        email=email,
     )
 
     assert response.length == 1
@@ -66,7 +68,9 @@ def test_email_filter_not_found(user, ghl_auth_mock_info, all_users_query):
     UserFactory.create(is_active=True)
 
     response = all_users_query(
-        root=None, info=ghl_auth_mock_info, email="unique-test@test.it",
+        root=None,
+        info=ghl_auth_mock_info,
+        email="unique-test@test.it",
     )
 
     assert not response.length

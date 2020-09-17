@@ -21,5 +21,8 @@ class UpdateProjectInput(serializers.ModelSerializer):
     public = serializers.BooleanField(required=False)
 
     users = ProjectMember(
-        many=True, required=False, write_only=True, source="members",
+        many=True,
+        required=False,
+        write_only=True,
+        source="members",
     )

@@ -3,7 +3,6 @@
 import sentry_sdk
 from decouple import config
 from graphql import GraphQLError
-from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from settings.components.sp import SP_APP_VERSION
@@ -55,7 +54,7 @@ if sentry_dsn:
     sentry_sdk.init(  # type:ignore
         dsn=sentry_dsn,
         release=SP_APP_VERSION,
-        integrations=[DjangoIntegration(), CeleryIntegration()],
+        integrations=[DjangoIntegration()],
         send_default_pii=True,
         before_send=_before_send_sentry_handler,
     )
