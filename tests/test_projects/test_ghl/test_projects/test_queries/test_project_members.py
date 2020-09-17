@@ -26,7 +26,8 @@ def test_query(user, ghl_client):
     project = ProjectFactory.create(owner=user)
 
     response = ghl_client.execute(
-        GHL_QUERY_PROJECT, variable_values={"id": project.id},
+        GHL_QUERY_PROJECT,
+        variable_values={"id": project.id},
     )
 
     assert "errors" not in response
@@ -48,7 +49,8 @@ def test_retrieve_member_with_roles(user, ghl_client):
     )
 
     response = ghl_client.execute(
-        GHL_QUERY_PROJECT, variable_values={"id": project.id},
+        GHL_QUERY_PROJECT,
+        variable_values={"id": project.id},
     )
 
     project_resp = response["data"]["project"]

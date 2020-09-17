@@ -76,7 +76,10 @@ def test_unauth(user, ghl_mock_info, update_project_mutation, project):
 
 
 def test_empty_data(
-    user, ghl_auth_mock_info, update_project_mutation, project,
+    user,
+    ghl_auth_mock_info,
+    update_project_mutation,
+    project,
 ):
     """Test empty input data."""
     response = update_project_mutation(
@@ -92,7 +95,10 @@ def test_empty_data(
 
 
 def test_add_project_members(
-    user, project, update_project_mutation, ghl_auth_mock_info,
+    user,
+    project,
+    update_project_mutation,
+    ghl_auth_mock_info,
 ):
     """Test add project members."""
     user2 = UserFactory.create()
@@ -106,7 +112,10 @@ def test_add_project_members(
     assert not project.members.exists()
 
     update_project_mutation(
-        root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.pk,
+        users=users,
     )
 
     assert project.members.count() == 2
@@ -114,7 +123,10 @@ def test_add_project_members(
 
 
 def test_delete_project_members(
-    user, project, update_project_mutation, ghl_auth_mock_info,
+    user,
+    project,
+    update_project_mutation,
+    ghl_auth_mock_info,
 ):
     """Test delete project members."""
     project_member1 = ProjectMemberFactory.create(project=project)
@@ -130,7 +142,10 @@ def test_delete_project_members(
     ]
 
     update_project_mutation(
-        root=None, info=ghl_auth_mock_info, id=project.pk, users=users,
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.pk,
+        users=users,
     )
 
     assert project.members.count() == 1

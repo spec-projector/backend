@@ -31,7 +31,9 @@ def test_wrong_password(user):
     """Test wrong password."""
     with pytest.raises(AuthenticationFailed):
         login_user(
-            user.login, "wrong{0}".format(DEFAULT_USER_PASSWORD), None,
+            user.login,
+            "wrong{0}".format(DEFAULT_USER_PASSWORD),
+            None,
         )
 
 
@@ -45,7 +47,9 @@ def test_invalid_login(user):
     """Test invalid login."""
     with pytest.raises(AuthenticationFailed):
         login_user(
-            "wrong{0}".format(user.login), DEFAULT_USER_PASSWORD, None,
+            "wrong{0}".format(user.login),
+            DEFAULT_USER_PASSWORD,
+            None,
         )
 
 

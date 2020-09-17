@@ -47,7 +47,8 @@ def test_unauth(ghl_mock_info, all_projects_query):
 
     with pytest.raises(GraphQLPermissionDenied):
         all_projects_query(
-            root=None, info=ghl_mock_info,
+            root=None,
+            info=ghl_mock_info,
         )
 
 
@@ -57,7 +58,8 @@ def test_all_projects_not_owner(ghl_auth_mock_info, all_projects_query):
     project = projects[0]
 
     ProjectMemberFactory.create(
-        project=project, user=ghl_auth_mock_info.context.user,
+        project=project,
+        user=ghl_auth_mock_info.context.user,
     )
 
     response = all_projects_query(root=None, info=ghl_auth_mock_info)

@@ -66,6 +66,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
         return format_html(
             '<a href="{0}">change password</a>',
             reverse(
-                "admin:auth_user_password_change", kwargs={"id": instance.pk},
+                "admin:auth_user_password_change",
+                kwargs={"id": instance.pk},
             ),
         )

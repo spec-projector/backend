@@ -11,7 +11,9 @@ from apps.users.graphql.queries import UsersQueries
 
 
 class Query(  # noqa: WPS215
-    ProjectsQueries, UsersQueries, graphene.ObjectType,
+    ProjectsQueries,
+    UsersQueries,
+    graphene.ObjectType,
 ):
     """Graphql queiries."""
 
@@ -19,7 +21,9 @@ class Query(  # noqa: WPS215
 
 
 class Mutation(
-    ProjectsMutations, AuthMutations, graphene.ObjectType,
+    ProjectsMutations,
+    AuthMutations,
+    graphene.ObjectType,
 ):
     """Graphql mutations."""
 

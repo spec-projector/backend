@@ -12,7 +12,8 @@ class ProjectMember(serializers.Serializer):
     """Project member serializer."""
 
     id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125, A003
-        queryset=User.objects, source="user",
+        queryset=User.objects,
+        source="user",
     )
 
     roles = BitField(choices=ProjectMemberRole.choices)

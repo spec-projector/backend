@@ -27,19 +27,24 @@ class ProjectType(BaseDjangoObjectType):
     permission_classes = (AllowAuthenticatedOrPublicProject,)
 
     members = graphene.List(
-        ProjectMemberType, resolver=resolve_project_members,
+        ProjectMemberType,
+        resolver=resolve_project_members,
     )
 
     @classmethod
     def get_queryset(
-        cls, queryset: QuerySet, info: ResolveInfo,  # noqa: WPS110
+        cls,
+        queryset: QuerySet,
+        info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Get queryset."""
         return cls._get_queryset(queryset, info)
 
     @classmethod
     def _get_queryset(
-        cls, queryset: QuerySet, info: ResolveInfo,  # noqa: WPS110
+        cls,
+        queryset: QuerySet,
+        info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         if info.context.user.is_anonymous:  # type: ignore
             return cls._get_queryset_for_anonymous(queryset)

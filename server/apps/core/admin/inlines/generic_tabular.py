@@ -6,7 +6,8 @@ from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
 
 
 class BaseGenericTabularInline(
-    AdminFormFieldsOverridesMixin, GenericTabularInline,
+    AdminFormFieldsOverridesMixin,
+    GenericTabularInline,
 ):
     """Base generic tabular inline."""
 

@@ -5,7 +5,8 @@ from importlib import import_module
 
 
 def load_module_from_app(
-    app: str, dotted_path: str,
+    app: str,
+    dotted_path: str,
 ):
     """Load module from application."""
     with suppress(ModuleNotFoundError):

@@ -9,7 +9,9 @@ class AllowSuperuser:
     """Allow performing action only for superusers."""
 
     def has_node_permission(
-        self, info: ResolveInfo, obj_id: str,  # noqa: WPS110
+        self,
+        info: ResolveInfo,  # noqa: WPS110
+        obj_id: str,
     ) -> bool:
         """Check if have node permissions."""
         return info.context.user.is_superuser  # type: ignore
@@ -24,7 +26,8 @@ class AllowSuperuser:
         return info.context.user.is_superuser  # type: ignore
 
     def has_filter_permission(
-        self, info: ResolveInfo,  # noqa: WPS110
+        self,
+        info: ResolveInfo,  # noqa: WPS110
     ) -> bool:
         """Check if have filter permissions."""
         return info.context.user.is_superuser  # type: ignore

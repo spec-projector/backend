@@ -48,7 +48,8 @@ class GithubProvider(BaseProvider):
         return issue_data[0]
 
     def _get_assignee(
-        self, issue: Issue,  # type: ignore
+        self,
+        issue: Issue,  # type: ignore
     ) -> Optional[AssigneeMeta]:
         if issue.assignee:  # type: ignore
             return AssigneeMeta(
