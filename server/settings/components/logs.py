@@ -38,14 +38,23 @@ LOGGING = {
     },
 }
 
+# graphene wtf!!!
+IGNORED_ERRORS_TXT = ("graphql.error.located_error.GraphQLLocatedError",)
+
 
 def _before_send_sentry_handler(event, hint):
     exc_info = hint.get("exc_info")
     if exc_info:
-        exc_type, exc_value, tb = exc_info
+        _, exc_value, tb = exc_info
         if isinstance(exc_value, GraphQLError):
             return None
-
+    else:
+        log_record = hint.get("log_record")
+        skip_event = log_record and any(
+            err in log_record.message for err in IGNORED_ERRORS_TXT
+        )
+        if skip_event:
+            return None
     return event
 
 
@@ -57,5 +66,6 @@ if sentry_dsn:
         integrations=[DjangoIntegration()],
         send_default_pii=True,
         before_send=_before_send_sentry_handler,
+        ignore_errors=[GraphQLError],
     )
     sentry_sdk.utils.MAX_STRING_LENGTH = 4096
