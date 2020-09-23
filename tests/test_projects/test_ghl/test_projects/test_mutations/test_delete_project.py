@@ -4,10 +4,10 @@ import uuid
 
 import pytest
 from jnt_django_graphene_toolbox.errors import (
-    INPUT_ERROR,
     GraphQLInputError,
     GraphQLPermissionDenied,
 )
+from jnt_django_graphene_toolbox.errors.input import INPUT_ERROR
 
 from apps.projects.models import Project
 from tests.test_projects.factories.project import ProjectFactory
