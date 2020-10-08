@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 GHL_QUERY_ME = """
 query {
     me {

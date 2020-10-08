@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from apps.projects.graphql.mutations.projects import create, delete, update
 
 

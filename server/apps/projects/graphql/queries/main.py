@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from apps.projects.graphql.queries import issues, projects
 
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import sentry_sdk
 from decouple import config
 from graphql import GraphQLError

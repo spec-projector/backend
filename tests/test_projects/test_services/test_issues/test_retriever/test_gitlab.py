@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import pytest
 
 from apps.projects.services.issues.providers import GitlabProvider

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from jnt_django_graphene_toolbox.types import BaseDjangoObjectType
 
 from apps.core.graphql.security.permissions import AllowAny

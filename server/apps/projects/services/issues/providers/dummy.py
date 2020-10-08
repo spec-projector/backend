@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from apps.projects.graphql.types import IssueType
 from apps.projects.services.issues.providers.base import BaseProvider
 

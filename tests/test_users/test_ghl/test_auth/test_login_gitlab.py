@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import pytest
 from django.conf import settings
 from social_core.backends.gitlab import GitLabOAuth2

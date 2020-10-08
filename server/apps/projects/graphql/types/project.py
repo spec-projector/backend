@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import graphene
 from django.db.models import QuerySet
 from graphql import ResolveInfo

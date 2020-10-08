@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from typing import Optional, Tuple
 from urllib.parse import urlparse
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import graphene
 from graphene_django.converter import convert_django_field
 from jnt_django_toolbox.models.fields import BitField as ModelBitField

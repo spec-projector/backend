@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from apps.projects.services.issues.retriever import System
 
 GHL_QUERY_ISSUE = """

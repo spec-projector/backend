@@ -1,3 +1,1 @@
-# -*- coding: utf-8 -*-
-
 from .login import login_user
