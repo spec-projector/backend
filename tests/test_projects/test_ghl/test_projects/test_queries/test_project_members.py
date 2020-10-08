@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from apps.projects.models import ProjectMember
 from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory

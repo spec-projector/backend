@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from tests.test_users.factories.user import UserFactory
 
 GHL_QUERY_ALL_USERS = """

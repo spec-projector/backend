@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import graphene
 from graphene_django.rest_framework.serializer_converter import (
     get_graphene_type_from_serializer_field,

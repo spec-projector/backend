@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from apps.users.graphql.mutations.gl_complete_auth import (
     GitLabCompleteAuthMutation,
 )

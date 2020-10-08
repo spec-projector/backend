@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 from apps.core.admin.mixins import AdminFormFieldsOverridesMixin

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import httpretty
 import pytest
 from django.conf import settings

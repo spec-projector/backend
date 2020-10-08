@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from graphql import ResolveInfo
 
 from apps.core.graphql.security.permissions import AllowAuthenticated

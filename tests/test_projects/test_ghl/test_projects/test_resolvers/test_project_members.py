@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from graphene_django.rest_framework.tests.test_mutation import mock_info
 
 from apps.projects.graphql.resolvers import resolve_project_members

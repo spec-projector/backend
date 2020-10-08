@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import pytest
 from django.db import models
 from jnt_django_graphene_toolbox.errors import GraphQLInputError

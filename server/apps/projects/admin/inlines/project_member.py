@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from jnt_admin_tools.mixins import AdminAutocompleteFieldsMixin
 
 from apps.core.admin.inlines import BaseTabularInline
