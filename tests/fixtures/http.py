@@ -21,6 +21,6 @@ def _http_pretty() -> None:
     """Forces disallow net connect."""
     httpretty.enable(allow_net_connect=False)
     httpretty.reset()
-    yield
+    yield httpretty
 
     httpretty.disable()
