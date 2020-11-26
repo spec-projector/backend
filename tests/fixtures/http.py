@@ -17,10 +17,10 @@ setattr(httpretty.core.fakesock.socket, "version", version)  # noqa: B010
 
 
 @pytest.fixture(autouse=True)
-def _http_pretty() -> None:
+def _http_pretty():
     """Forces disallow net connect."""
     httpretty.enable(allow_net_connect=False)
     httpretty.reset()
-    yield httpretty
+    yield
 
     httpretty.disable()
