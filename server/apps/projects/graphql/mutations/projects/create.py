@@ -27,6 +27,7 @@ class CreateProjectMutation(SerializerMutation):
         """Perform mutation."""
         project = Project.objects.create(
             title=validated_data["title"],
+            is_public=validated_data["is_public"],
             owner=info.context.user,  # type: ignore
         )
 

@@ -37,7 +37,11 @@ class Project(Timestamps):
         unique=True,
     )
 
-    public = models.BooleanField(default=False)
+    is_public = models.BooleanField(
+        default=False,
+        verbose_name=_("VN__IS_PUBLIC"),
+        help_text=_("HT__IS_PUBLIC"),
+    )
 
     title = models.CharField(
         max_length=255,  # noqa: WPS432

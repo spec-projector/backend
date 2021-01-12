@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-31 11:17+0300\n"
+"POT-Creation-Date: 2021-01-12 14:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,20 +21,17 @@ msgstr ""
 msgid "VN__CORE"
 msgstr "Core"
 
-msgid "You do not have permission to perform this action."
-msgstr "You do not have permission to perform this action."
-
-msgid "Not found."
-msgstr "Not found."
-
-msgid "Input error."
-msgstr "Input error."
-
 msgid "VN__PROJECTS"
 msgstr "Projects"
 
 msgid "VN__PROJECT"
 msgstr "Project"
+
+msgid "VN__IS_PUBLIC"
+msgstr "Is public"
+
+msgid "HT__IS_PUBLIC"
+msgstr " "
 
 msgid "VN__TITLE"
 msgstr "Title"
@@ -48,17 +45,17 @@ msgstr "Description"
 msgid "HT__DESCRIPTION"
 msgstr "Description"
 
-msgid "VN__OWNER"
-msgstr "Owner"
-
-msgid "HT__OWNER"
-msgstr " "
-
 msgid "VN__DB_NAME"
 msgstr "DB name"
 
 msgid "HT__DB_NAME"
 msgstr "Only lowercase and start from non digit"
+
+msgid "VN__OWNER"
+msgstr "Owner"
+
+msgid "HT__OWNER"
+msgstr " "
 
 msgid "CH__FRONTEND_DEVELOPER"
 msgstr "Frontend Developer"
