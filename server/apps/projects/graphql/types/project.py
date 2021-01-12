@@ -61,4 +61,4 @@ class ProjectType(BaseDjangoObjectType):
 
     @classmethod
     def _get_queryset_for_anonymous(cls, queryset: QuerySet) -> QuerySet:
-        return queryset.filter(public=True)
+        return queryset.filter(is_public=True)

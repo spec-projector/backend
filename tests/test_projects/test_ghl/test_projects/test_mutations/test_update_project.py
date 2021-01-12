@@ -1,4 +1,3 @@
-import pytest
 from jnt_django_graphene_toolbox.errors import (
     GraphQLInputError,
     GraphQLPermissionDenied,
@@ -6,26 +5,20 @@ from jnt_django_graphene_toolbox.errors import (
 
 from apps.projects.models import ProjectMember
 from apps.projects.models.project_member import ProjectMemberRole
-from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 from tests.test_users.factories.user import UserFactory
 
 GHL_QUERY_UPDATE_PROJECT = """
-mutation ($id: ID!, $title: String) {
-    updateProject(id: $id, title: $title) {
+mutation ($id: ID!, $title: String, $isPublic: Boolean) {
+    updateProject(id: $id, title: $title, isPublic: $isPublic) {
         project {
           id
           title
+          isPublic
         }
     }
 }
 """
-
-
-@pytest.fixture()
-def project():
-    """Provides project."""
-    return ProjectFactory.create()
 
 
 def test_query(user, ghl_client, project):
@@ -149,3 +142,24 @@ def test_delete_project_members(
     assert project.members.count() == 1
     assert project.members.first() == project_member1.user
     assert not ProjectMember.objects.filter(id=project_member2.id).exists()
+
+
+def test_change_is_public(
+    user,
+    project,
+    update_project_mutation,
+    ghl_auth_mock_info,
+):
+    """Test update project is public."""
+    project.is_public = False
+    project.save()
+
+    response = update_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.pk,
+        isPublic=True,
+    )
+
+    assert response.project is not None
+    assert response.project.is_public

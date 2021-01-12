@@ -9,14 +9,17 @@ class UpdateProjectInput(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ("id", "title", "description", "users", "public")
+        fields = ("id", "title", "description", "users", "isPublic")
 
     id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125, A003
         queryset=Project.objects,
     )
     title = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
-    public = serializers.BooleanField(required=False)
+    isPublic = serializers.BooleanField(  # noqa: WPS115 N815
+        required=False,
+        source="is_public",
+    )
 
     users = ProjectMember(
         many=True,

@@ -18,4 +18,4 @@ class AllowAuthenticatedOrPublicProject(AllowAuthenticated):
         if has_node_permission:
             return has_node_permission
 
-        return Project.objects.filter(pk=obj_id, public=True).exists()
+        return Project.objects.filter(pk=obj_id, is_public=True).exists()

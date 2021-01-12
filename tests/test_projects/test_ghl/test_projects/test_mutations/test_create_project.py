@@ -11,6 +11,7 @@ mutation ($title: String!) {
         project {
           id
           title
+          isPublic
         }
     }
 }
@@ -41,10 +42,12 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
         root=None,
         info=ghl_auth_mock_info,
         title="my project",
+        isPublic=True,
     )
 
     assert response.project is not None
     assert response.project.owner == user
+    assert response.project.is_public
 
 
 def test_unauth(user, ghl_mock_info, create_project_mutation):
