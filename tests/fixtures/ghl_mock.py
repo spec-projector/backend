@@ -30,7 +30,7 @@ def ghl_mock_info(rf) -> ResolveInfo:
     return _get_mock_info(request)
 
 
-def _get_mock_info(request):
+def _get_mock_info(request) -> ResolveInfo:
     """
     Get mock info.
 
