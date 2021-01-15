@@ -23,3 +23,10 @@ class _ObjectView:
 def dict2obj(source_dict: Dict[str, object]) -> _ObjectView:
     """Convert dictionary to object."""
     return _ObjectView(source_dict)
+
+
+class Empty:
+    """Empty object."""
+
+
+empty = Empty()

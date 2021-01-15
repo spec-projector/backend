@@ -1,15 +1,10 @@
-from apps.users.graphql.mutations.gl_complete_auth import (
-    GitLabCompleteAuthMutation,
-)
-from apps.users.graphql.mutations.gl_login import GitLabLoginMutation
-from apps.users.graphql.mutations.login import LoginMutation
-from apps.users.graphql.mutations.logout import LogoutMutation
+from apps.users.graphql.mutations import auth
 
 
-class AuthMutations:
-    """Authentication graphql mutations."""
+class UsersMutations:
+    """A class represents list of available mutations."""
 
-    complete_gitlab_auth = GitLabCompleteAuthMutation.Field()
-    login_gitlab = GitLabLoginMutation.Field()
-    login = LoginMutation.Field()
-    logout = LogoutMutation.Field()
+    complete_gitlab_auth = auth.CompleteGitlabAuthMutation.Field()
+    login_gitlab = auth.LoginGitlabMutation.Field()
+    login = auth.LoginMutation.Field()
+    logout = auth.LogoutMutation.Field()

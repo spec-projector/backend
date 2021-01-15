@@ -1,15 +1,16 @@
-from jnt_django_graphene_toolbox.connections import DataSourceConnection
-from jnt_django_graphene_toolbox.relay_nodes import DatasourceRelayNode
-from jnt_django_graphene_toolbox.types import BaseDjangoObjectType
+import graphene
+from jnt_django_graphene_toolbox.fields import BitField
+from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
 from apps.projects.models import ProjectMember
+from apps.users.graphql.types import UserType
 
 
-class ProjectMemberType(BaseDjangoObjectType):
+class ProjectMemberType(BaseModelObjectType):
     """Project member type."""
 
     class Meta:
         model = ProjectMember
-        interfaces = (DatasourceRelayNode,)
-        connection_class = DataSourceConnection
-        name = "ProjectMember"
+
+    roles = BitField()
+    user = graphene.Field(UserType)

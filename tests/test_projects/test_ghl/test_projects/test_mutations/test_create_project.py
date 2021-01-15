@@ -42,7 +42,7 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
         root=None,
         info=ghl_auth_mock_info,
         title="my project",
-        isPublic=True,
+        is_public=True,
     )
 
     assert response.project is not None

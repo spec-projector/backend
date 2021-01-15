@@ -4,7 +4,7 @@ from graphene_django.debug import DjangoDebug
 from apps.core.graphql.views import ApiGraphQLView, PlaygroundGraphQLView
 from apps.projects.graphql.mutations import ProjectsMutations
 from apps.projects.graphql.queries import ProjectsQueries
-from apps.users.graphql.mutations import AuthMutations
+from apps.users.graphql.mutations import UsersMutations
 from apps.users.graphql.queries import UsersQueries
 
 
@@ -20,7 +20,7 @@ class Query(  # noqa: WPS215
 
 class Mutation(
     ProjectsMutations,
-    AuthMutations,
+    UsersMutations,
     graphene.ObjectType,
 ):
     """Graphql mutations."""

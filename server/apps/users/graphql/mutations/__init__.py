@@ -1,1 +1,1 @@
-from .main import AuthMutations
+from .main import UsersMutations

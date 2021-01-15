@@ -6,18 +6,20 @@ from django.utils import timezone
 from apps.users.models import Token, User
 
 
-def create_user_token(user: User) -> Token:
-    """Create user token."""
-    return Token.objects.create(user=user)
+class TokenService:
+    """Service for manage tokens."""
 
+    def create_user_token(self, user: User) -> Token:
+        """Create token for user."""
+        return Token.objects.create(user=user)
 
-def clear_tokens() -> None:
-    """Clear user tokens."""
-    if settings.REST_FRAMEWORK_TOKEN_EXPIRE is None:
-        return
+    def clear_tokens(self) -> None:
+        """Deletes expired tokens."""
+        if settings.TOKEN_EXPIRE_PERIOD is None:
+            return
 
-    created = timezone.now() - timedelta(
-        minutes=settings.REST_FRAMEWORK_TOKEN_EXPIRE,
-    )
+        created = timezone.now() - timedelta(
+            minutes=settings.TOKEN_EXPIRE_PERIOD,
+        )
 
-    Token.objects.filter(created__lt=created).delete()
+        Token.objects.filter(created__lt=created).delete()

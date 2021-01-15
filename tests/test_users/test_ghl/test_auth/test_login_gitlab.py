@@ -2,17 +2,6 @@ import pytest
 from django.conf import settings
 from social_core.backends.gitlab import GitLabOAuth2
 
-from apps.users.graphql.mutations.gl_complete_auth import GitlabAuthError
-from apps.users.models import Token
-
-GHL_QUERY_LOGIN_GITLAB = """
-mutation {
-  loginGitlab {
-    redirectUrl
-  }
-}
-"""
-
 
 @pytest.fixture(scope="module", autouse=True)
 def _gitlab_login() -> None:
@@ -22,7 +11,7 @@ def _gitlab_login() -> None:
     settings.SOCIAL_AUTH_GITLAB_SECRET = "test_gitlab_secret"
 
 
-def test_query(user, ghl_client):
+def test_query(user, ghl_client, ghl_raw):
     """Test raw query."""
     context = {
         "session": {},
@@ -33,7 +22,7 @@ def test_query(user, ghl_client):
     }
 
     response = ghl_client.execute(
-        GHL_QUERY_LOGIN_GITLAB,
+        ghl_raw("login_gitlab"),
         extra_context=context,
     )
 
@@ -47,68 +36,3 @@ def test_query(user, ghl_client):
     assert redirect_url.startswith(GitLabOAuth2.AUTHORIZATION_URL)
     assert client in redirect_url
     assert redirect in redirect_url
-
-
-def test_complete_login(
-    user,
-    gl_mocker,
-    complete_gl_auth_mutation,
-    gl_token_request_info,
-):
-    """Test complete login."""
-    gl_mocker.register_get(
-        "/user",
-        {"id": user.pk, "username": user.login, "email": user.email},
-    )
-
-    gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.register_post(
-        "",
-        {
-            "access_token": "access_token",
-            "token_type": "bearer",
-            "expires_in": 7200,
-            "refresh_token": "refresh_token",
-        },
-    )
-
-    response = complete_gl_auth_mutation(
-        root=None,
-        info=gl_token_request_info,
-        code="test_code",
-        state=gl_token_request_info.context.session["gitlab_state"],
-    )
-
-    assert Token.objects.filter(pk=response.token.pk, user=user).exists()
-
-
-def test_not_login(
-    user,
-    gl_mocker,
-    complete_gl_auth_mutation,
-    gl_token_request_info,
-):
-    """Test not login user."""
-    gl_mocker.register_get(
-        "/user",
-        {"id": user.pk, "username": "test_user", "email": user.email},
-    )
-
-    gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
-    gl_mocker.register_post(
-        "",
-        {
-            "access_token": "access_token",
-            "token_type": "bearer",
-            "expires_in": 7200,
-            "refresh_token": "refresh_token",
-        },
-    )
-
-    with pytest.raises(GitlabAuthError):
-        complete_gl_auth_mutation(
-            root=None,
-            info=gl_token_request_info,
-            code="test_code",
-            state=gl_token_request_info.context.session["gitlab_state"],
-        )

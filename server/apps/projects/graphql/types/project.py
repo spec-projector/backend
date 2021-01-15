@@ -1,29 +1,25 @@
 import graphene
 from django.db.models import QuerySet
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.connections import DataSourceConnection
-from jnt_django_graphene_toolbox.types import BaseDjangoObjectType
+from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
-from apps.projects.graphql.relay_nodes import ProjectDatasourceRelayNode
 from apps.projects.graphql.resolvers import resolve_project_members
-from apps.projects.graphql.security.permissions import (
-    AllowAuthenticatedOrPublicProject,
-)
 from apps.projects.graphql.types.project_member import ProjectMemberType
 from apps.projects.models import Project, ProjectMember
+from apps.users.graphql.types import UserType
 
 
-class ProjectType(BaseDjangoObjectType):
+class ProjectType(BaseModelObjectType):
     """Project type."""
 
     class Meta:
         model = Project
-        interfaces = (ProjectDatasourceRelayNode,)
-        connection_class = DataSourceConnection
-        name = "Project"
 
-    permission_classes = (AllowAuthenticatedOrPublicProject,)
-
+    is_public = graphene.Boolean()
+    title = graphene.String()
+    description = graphene.String()
+    db_name = graphene.String()
+    owner = graphene.Field(UserType)
     members = graphene.List(
         ProjectMemberType,
         resolver=resolve_project_members,

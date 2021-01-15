@@ -1,47 +1,48 @@
 import pytest
-from graphene_django.rest_framework.tests.test_mutation import mock_info
-from graphql import ResolveInfo
+from graphene.test import Client as GQLClient
 
 from gql import schema
 from tests.helpers.ghl_client import GraphQLClient
+from tests.helpers.gql_raw_query_provider import GhlRawQueryProvider
+
+
+@pytest.fixture()  # delete
+def ghl_client_authenticated(rf, admin_user):
+    """
+    Gql client authenticated.
+
+    :param rf:
+    :param admin_user:
+    """
+    request = rf.post("/")
+    request.user = admin_user
+
+    return GQLClient(schema, context_value=request)
 
 
 @pytest.fixture(scope="session")
 def ghl_queries():
-    """Provides graphql queries."""
+    """Ghl queries."""
     return schema.get_query_type()
 
 
 @pytest.fixture(scope="session")
 def ghl_mutations():
-    """Provides graphql mutations."""
+    """Ghl mutations."""
     return schema.get_mutation_type()
 
 
 @pytest.fixture()
 def ghl_client() -> GraphQLClient:
-    """Provides graphql client."""
+    """
+    Ghl client.
+
+    :rtype: GraphQLClient
+    """
     return GraphQLClient()
 
 
 @pytest.fixture()
-def ghl_auth_mock_info(user, rf) -> ResolveInfo:
-    """Provides graphql auth mock info."""
-    rf.set_user(user)
-    request = rf.get("/graphql/")
-
-    resolve_info = mock_info()
-    resolve_info.context = request
-
-    return resolve_info
-
-
-@pytest.fixture()
-def ghl_mock_info(user, rf) -> ResolveInfo:
-    """Provides graphql mock info."""
-    request = rf.get("/graphql/")
-
-    resolve_info = mock_info()
-    resolve_info.context = request
-
-    return resolve_info
+def ghl_raw(request) -> GhlRawQueryProvider:
+    """Ghl raw query provider."""
+    return GhlRawQueryProvider(request.fspath.dirname)
