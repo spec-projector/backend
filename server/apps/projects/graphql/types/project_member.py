@@ -14,3 +14,5 @@ class ProjectMemberType(BaseModelObjectType):
 
     roles = BitField()
     user = graphene.Field(UserType)
+    created_at = graphene.DateTime()
+    updated_at = graphene.DateTime()
