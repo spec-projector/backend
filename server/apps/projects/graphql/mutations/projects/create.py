@@ -2,33 +2,49 @@ from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.mutations import SerializerMutation
 
-from apps.projects.graphql.mutations.projects.inputs import CreateProjectInput
+from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.projects.graphql.types.project import ProjectType
-from apps.projects.models.project import Project
+from apps.projects.use_cases.project import create as project_create
 
 
-class CreateProjectMutation(SerializerMutation):
+class CreateProjectMutation(BaseUseCaseMutation):
     """Create project mutation."""
 
     class Meta:
-        serializer_class = CreateProjectInput
+        use_case_class = project_create.UseCase
+        auth_required = True
+
+    class Arguments:
+        title = graphene.String(required=True)
+        is_public = graphene.Boolean()
 
     project = graphene.Field(ProjectType)
 
     @classmethod
-    def perform_mutate(
+    def get_input_dto(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        validated_data: Dict[str, str],
-    ) -> "CreateProjectMutation":
-        """Perform mutation."""
-        project = Project.objects.create(
-            title=validated_data["title"],
-            is_public=validated_data["is_public"],
-            owner=info.context.user,  # type: ignore
+        **kwargs,
+    ):
+        """Prepare use case input data."""
+        return project_create.InputDto(
+            user=info.context.user,  # type: ignore
+            data=project_create.ProjectCreateData(
+                title=kwargs["title"],
+                is_public=kwargs.get("is_public", False),
+            ),
         )
 
-        return cls(project=project)
+    @classmethod
+    def get_response_data(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+        output_dto: project_create.OutputDto,
+    ) -> Dict[str, object]:
+        """Prepare response data."""
+        return {
+            "project": output_dto.project,
+        }

@@ -1,21 +1,24 @@
+import graphene
 from django.db.models import QuerySet
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.connections import DataSourceConnection
-from jnt_django_graphene_toolbox.relay_nodes import DatasourceRelayNode
-from jnt_django_graphene_toolbox.types import BaseDjangoObjectType
+from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
 from apps.users.models import User
 
 
-class UserType(BaseDjangoObjectType):
+class UserType(BaseModelObjectType):
     """User graphql type."""
 
     class Meta:
         model = User
-        exclude = ("password",)
-        interfaces = (DatasourceRelayNode,)
-        connection_class = DataSourceConnection
-        name = "User"
+
+    login = graphene.String()
+    name = graphene.String()
+    email = graphene.String()
+    is_staff = graphene.Boolean()
+    is_active = graphene.Boolean()
+    avatar = graphene.String()
+    last_login = graphene.DateTime()
 
     @classmethod
     def get_queryset(

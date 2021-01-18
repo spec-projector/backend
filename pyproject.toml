@@ -27,7 +27,8 @@ uWSGI = "*"
 python-gitlab = "*"
 PyGithub = "*"
 sentry-sdk = "^0.14.3"
-jnt-django-graphene-toolbox = "^0.1.11"
+jnt-django-graphene-toolbox = "*"
+injector = "^0.18.4"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"

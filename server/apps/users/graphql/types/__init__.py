@@ -1,2 +1,2 @@
-from .token import TokenType
 from .user import UserType
+from .token import TokenType

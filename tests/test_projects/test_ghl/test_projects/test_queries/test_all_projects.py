@@ -1,6 +1,3 @@
-import pytest
-from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
-
 from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 
@@ -38,16 +35,15 @@ def test_success(ghl_auth_mock_info, all_projects_query):
     assert response.length == 5
 
 
-def test_unauth(ghl_mock_info, all_projects_query):
+def test_unauth(ghl_mock_info, all_projects_query, db):
     """Test unauth list project access."""
     ProjectFactory.create_batch(2, is_public=True)
     ProjectFactory.create_batch(2, is_public=False)
 
-    with pytest.raises(GraphQLPermissionDenied):
-        all_projects_query(
-            root=None,
-            info=ghl_mock_info,
-        )
+    all_projects_query(
+        root=None,
+        info=ghl_mock_info,
+    )
 
 
 def test_all_projects_not_owner(ghl_auth_mock_info, all_projects_query):

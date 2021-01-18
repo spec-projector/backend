@@ -1,6 +1,3 @@
-import pytest
-from jnt_django_graphene_toolbox.errors import GraphQLNotFound
-
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_PROJECT = """
@@ -44,15 +41,15 @@ def test_not_found(ghl_auth_mock_info, project_query):
     """Test project not found."""
     ProjectFactory.create()
 
-    with pytest.raises(GraphQLNotFound):
-        project_query(
-            root=None,
-            info=ghl_auth_mock_info,
-            id="1",
-        )
+    response = project_query(
+        root=None,
+        info=ghl_auth_mock_info,
+        id="1",
+    )
+    assert response is None
 
 
-def test_unauth(ghl_mock_info, project_query):
+def test_unauth(ghl_mock_info, project_query, db):
     """Test non authorized user."""
     project = ProjectFactory.create(is_public=False)
 
@@ -61,7 +58,7 @@ def test_unauth(ghl_mock_info, project_query):
     assert response is None
 
 
-def test_retrieve_public_project(ghl_mock_info, project_query):
+def test_retrieve_public_project(ghl_mock_info, project_query, db):
     """Test getting public project not authorized user."""
     project = ProjectFactory.create(is_public=True)
 
@@ -70,7 +67,7 @@ def test_retrieve_public_project(ghl_mock_info, project_query):
     assert response == project
 
 
-def test_retrieve_unpublic_project(ghl_mock_info, project_query):
+def test_retrieve_unpublic_project(ghl_mock_info, project_query, db):
     """Test getting not public project not authorized user."""
     ProjectFactory.create(is_public=True)
     project = ProjectFactory.create(is_public=False)

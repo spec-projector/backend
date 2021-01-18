@@ -158,7 +158,7 @@ def test_change_is_public(
         root=None,
         info=ghl_auth_mock_info,
         id=project.pk,
-        isPublic=True,
+        is_public=True,
     )
 
     assert response.project is not None

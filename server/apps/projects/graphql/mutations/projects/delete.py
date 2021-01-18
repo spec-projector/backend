@@ -2,28 +2,46 @@ from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.mutations import SerializerMutation
 
-from apps.projects.graphql.mutations.projects.inputs import DeleteProjectInput
-from apps.projects.models import Project
+from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.projects.use_cases.project import delete as project_delete
 
 
-class DeleteProjectMutation(SerializerMutation):
+class DeleteProjectMutation(BaseUseCaseMutation):
     """Delete project mutation."""
 
     class Meta:
-        serializer_class = DeleteProjectInput
+        use_case_class = project_delete.UseCase
+        auth_required = True
+
+    class Arguments:
+        project = graphene.ID(required=True)
 
     status = graphene.String()
 
     @classmethod
-    def perform_mutate(
+    def get_input_dto(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        validated_data: Dict[str, Project],
-    ) -> "DeleteProjectMutation":
-        """Perform mutation."""
-        validated_data["project"].delete()
+        **kwargs,
+    ):
+        """Prepare use case input data."""
+        return project_delete.InputDto(
+            user=info.context.user,  # type: ignore
+            data=project_delete.ProjectDeleteData(
+                project=kwargs["project"],
+            ),
+        )
 
-        return cls(status="success")
+    @classmethod
+    def get_response_data(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+        output_dto,
+    ) -> Dict[str, object]:
+        """Prepare response data."""
+        return {
+            "status": "success",
+        }
