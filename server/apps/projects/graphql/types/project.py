@@ -24,6 +24,8 @@ class ProjectType(BaseModelObjectType):
         ProjectMemberType,
         resolver=resolve_project_members,
     )
+    created_at = graphene.DateTime()
+    updated_at = graphene.DateTime()
 
     @classmethod
     def get_queryset(
