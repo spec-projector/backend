@@ -75,3 +75,15 @@ def test_retrieve_unpublic_project(ghl_mock_info, project_query, db):
     response = project_query(root=None, info=ghl_mock_info, id=project.id)
 
     assert response is None
+
+
+def test_retrieve_public_project_auth(ghl_auth_mock_info, project_query):
+    """Test retrieve public project if auth."""
+    project = ProjectFactory.create(is_public=True)
+    response = project_query(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.id,
+    )
+
+    assert response == project

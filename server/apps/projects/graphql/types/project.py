@@ -42,10 +42,15 @@ class ProjectType(BaseModelObjectType):
         queryset: QuerySet,
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
-        if info.context.user.is_anonymous:  # type: ignore
+        user = info.context.user
+        if user.is_anonymous:  # type: ignore
             return cls._get_queryset_for_anonymous(queryset)
 
         # TODO: override (must be 1 queryset)
+        public_project_ids = queryset.filter(
+            is_public=True,
+        ).values_list("id", flat=True)
+
         project_ids = ProjectMember.objects.filter(
             user_id=info.context.user.id,  # type: ignore
             roles__gt=0,
@@ -55,7 +60,9 @@ class ProjectType(BaseModelObjectType):
             owner_id=info.context.user.id,  # type: ignore
         ).values_list("id", flat=True)
 
-        return queryset.filter(id__in={*project_ids, *project_owner_ids})
+        return queryset.filter(
+            id__in={*project_ids, *project_owner_ids, *public_project_ids},
+        )
 
     @classmethod
     def _get_queryset_for_anonymous(cls, queryset: QuerySet) -> QuerySet:
