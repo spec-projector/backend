@@ -5,7 +5,10 @@ from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
 from apps.projects.graphql.resolvers import resolve_project_members
 from apps.projects.graphql.types.project_member import ProjectMemberType
-from apps.projects.models import Project, ProjectMember
+from apps.projects.models import Project
+from apps.projects.services.projects.available_projects import (
+    get_available_projects,
+)
 from apps.users.graphql.types import UserType
 
 
@@ -43,27 +46,5 @@ class ProjectType(BaseModelObjectType):
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         user = info.context.user  # type: ignore
-        if user.is_anonymous:
-            return cls._get_queryset_for_anonymous(queryset)
 
-        # TODO: override (must be 1 queryset)
-        public_project_ids = queryset.filter(
-            is_public=True,
-        ).values_list("id", flat=True)
-
-        project_ids = ProjectMember.objects.filter(
-            user_id=user.id,
-            roles__gt=0,
-        ).values_list("project_id", flat=True)
-
-        project_owner_ids = queryset.filter(
-            owner_id=user.id,
-        ).values_list("id", flat=True)
-
-        return queryset.filter(
-            id__in={*project_ids, *project_owner_ids, *public_project_ids},
-        )
-
-    @classmethod
-    def _get_queryset_for_anonymous(cls, queryset: QuerySet) -> QuerySet:
-        return queryset.filter(is_public=True)
+        return get_available_projects(queryset, user)
