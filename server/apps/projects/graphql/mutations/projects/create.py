@@ -18,6 +18,7 @@ class CreateProjectMutation(BaseUseCaseMutation):
     class Arguments:
         title = graphene.String(required=True)
         is_public = graphene.Boolean()
+        description = graphene.String()
 
     project = graphene.Field(ProjectType)
 
@@ -34,6 +35,7 @@ class CreateProjectMutation(BaseUseCaseMutation):
             data=project_create.ProjectCreateData(
                 title=kwargs["title"],
                 is_public=kwargs.get("is_public", False),
+                description=kwargs.get("description", ""),
             ),
         )
 
