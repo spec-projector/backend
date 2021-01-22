@@ -13,6 +13,7 @@ class ProjectCreateData:
 
     title: str
     is_public: bool
+    description: str
 
 
 @dataclass(frozen=True)
@@ -35,6 +36,7 @@ class InputDtoValidator(serializers.Serializer):
 
     title = serializers.CharField()
     is_public = serializers.BooleanField(default=False)
+    description = serializers.CharField(default="", allow_blank=True)
 
 
 class UseCase(BaseUseCase):
@@ -53,6 +55,7 @@ class UseCase(BaseUseCase):
         project = Project.objects.create(
             title=validated_data["title"],
             is_public=validated_data["is_public"],
+            description=validated_data["description"],
             owner=input_dto.user,
         )
         self._presenter.present(OutputDto(project=project))

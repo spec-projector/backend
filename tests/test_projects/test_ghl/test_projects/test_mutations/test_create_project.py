@@ -6,12 +6,14 @@ from jnt_django_graphene_toolbox.errors import (
 from apps.projects.models import Project
 
 GHL_QUERY_CREATE_PROJECT = """
-mutation ($title: String!) {
-    createProject(title: $title) {
+mutation ($title: String!, $description: String, $isPublic: Boolean) {
+    createProject(title: $title, description: $description,
+    isPublic: $isPublic) {
         project {
           id
           title
           isPublic
+          description
         }
     }
 }
@@ -43,11 +45,13 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
         info=ghl_auth_mock_info,
         title="my project",
         is_public=True,
+        description="description",
     )
 
     assert response.project is not None
     assert response.project.owner == user
     assert response.project.is_public
+    assert response.project.description == "description"
 
 
 def test_unauth(user, ghl_mock_info, create_project_mutation):
