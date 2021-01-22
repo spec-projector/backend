@@ -13,7 +13,7 @@ class ProjectsFilterSet(django_filters.FilterSet):
     title = django_filters.CharFilter()
 
     def filter_queryset(self, queryset) -> models.QuerySet:
-        """Filter by is_public."""
+        """Filter for user."""
         projects = super().filter_queryset(queryset)
 
         return get_projects_for_user(projects, self.request.user)
