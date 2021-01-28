@@ -177,7 +177,7 @@ msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"
 
 msgid "MSG__AUTHENTICATION_ERROR"
-msgstr ""
+msgstr "Authentication failed"
 
 msgid "MESSAGE__ENGLISH"
 msgstr "English"

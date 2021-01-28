@@ -4,7 +4,7 @@ from apps.core.services.couchdb import ICouchDBService
 class StubCouchDBService(ICouchDBService):
     """Mocked CouchDB service."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializing."""
         self.create_database_called = False
 

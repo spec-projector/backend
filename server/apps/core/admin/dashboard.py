@@ -1,4 +1,5 @@
-from jnt_admin_tools.dashboard import Dashboard as BaseDashboard, modules
+from jnt_admin_tools.dashboard import Dashboard as BaseDashboard
+from jnt_admin_tools.dashboard import modules
 from jnt_admin_tools.dashboard.modules import RecentActions
 
 
