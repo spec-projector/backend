@@ -113,5 +113,5 @@ def test_githab_issue(user, ghl_client, gh_mocker):
     assignee = response["data"]["issue"]["assignee"]
 
     assert issue["title"] == gh_issue["title"]
-    assert issue["state"] == gh_issue["state"]  # type: ignore
-    assert assignee["name"] == gh_issue["assignee"]["name"]
+    assert issue["state"] == gh_issue["state"]
+    assert assignee["name"] == gh_issue["assignee"]["name"]  # type: ignore
