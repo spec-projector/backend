@@ -2,7 +2,9 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
+from apps.core import injector
 from apps.core.application.use_cases import BasePresenter, BaseUseCase
+from apps.core.services.couchdb import CouchDBService
 from apps.projects.models import Project
 from apps.users.models import User
 
@@ -58,4 +60,9 @@ class UseCase(BaseUseCase):
             description=validated_data["description"],
             owner=input_dto.user,
         )
+
+        couch_db = injector.get(CouchDBService)
+        couch_db.create_database(project.db_name)
+        couch_db.close()
+
         self._presenter.present(OutputDto(project=project))

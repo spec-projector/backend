@@ -1,14 +1,51 @@
-from jnt_admin_tools.menu import Menu, items, reverse
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from jnt_admin_tools.menu import Menu as BaseMenu, items
+from jnt_admin_tools.menu.items import MenuItem
+
+MANAGEMENT_MENU_ITEMS = (
+    (_("Constance"), reverse_lazy("admin:configuration"), None),
+)
+
+UTILS_MENU_ITEMS = (
+    (_("VN__GRAPHQL_PLAYGROUND"), "/graphql/", None),
+)
 
 
-class AdminMenu(Menu):
-    """Main admin menu."""
+class AdminMenuItem(MenuItem):
+    """Admin menu item."""
+
+    def __init__(self, title, menu_items):
+        """Initializing AdminMenuItem."""
+        super().__init__(title)
+        self.menu_items = menu_items
+
+    def init_with_context(self, context):
+        """Init menu items."""
+        for title, url, perm in self.menu_items:
+            if perm and not context.request.user.has_perm(perm):
+                continue
+
+            self.children.append(MenuItem(title, url))
+
+
+class Menu(BaseMenu):
+    """A class represents menu admin dashboard."""
 
     def __init__(self, **kwargs):
-        """Initializing."""
+        """
+        Initialize self.
+
+        Add menu item in Admin Dashboard.
+        """
         super().__init__(**kwargs)
 
         self.children += [
-            items.MenuItem("Home", reverse("admin:index")),
-            items.AppList(title="Applications"),
+            items.MenuItem(_("VN__HOME"), reverse_lazy("admin:index")),
+            items.AppList(
+                title=_("VN__APPLICATIONS"),
+                exclude=["constance.*"],
+            ),
+            AdminMenuItem(_("VN__MANAGEMENT"), MANAGEMENT_MENU_ITEMS),
+            AdminMenuItem(_("VN__UTILS"), UTILS_MENU_ITEMS),
         ]
