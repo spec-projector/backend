@@ -6,7 +6,6 @@ CONSTANCE_CONFIG = {
     "COUCHDB_URL": ("http://couchdb:5984", "", str),
     "COUCHDB_USER": ("", "", str),
     "COUCHDB_PASSWORD": ("", "", str),
-
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(

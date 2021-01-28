@@ -1,21 +1,20 @@
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from jnt_admin_tools.menu import Menu as BaseMenu, items
+from jnt_admin_tools.menu import Menu as BaseMenu
+from jnt_admin_tools.menu import items
 from jnt_admin_tools.menu.items import MenuItem
 
 MANAGEMENT_MENU_ITEMS = (
     (_("Constance"), reverse_lazy("admin:configuration"), None),
 )
 
-UTILS_MENU_ITEMS = (
-    (_("VN__GRAPHQL_PLAYGROUND"), "/graphql/", None),
-)
+UTILS_MENU_ITEMS = ((_("VN__GRAPHQL_PLAYGROUND"), "/graphql/", None),)
 
 
 class AdminMenuItem(MenuItem):
     """Admin menu item."""
 
-    def __init__(self, title, menu_items):
+    def __init__(self, title, menu_items) -> None:
         """Initializing AdminMenuItem."""
         super().__init__(title)
         self.menu_items = menu_items
