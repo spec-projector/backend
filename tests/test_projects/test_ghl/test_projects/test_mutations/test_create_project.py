@@ -20,7 +20,7 @@ mutation ($title: String!, $description: String, $isPublic: Boolean) {
 """
 
 
-def test_query(user, ghl_client):
+def test_query(user, ghl_client, couchdb_service):
     """Test create raw query."""
     ghl_client.set_user(user)
 
@@ -36,9 +36,15 @@ def test_query(user, ghl_client):
     dto = response["data"]["createProject"]["project"]
     assert dto["id"] == str(project.id)
     assert dto["title"] == "my project"
+    assert couchdb_service.create_database_called
 
 
-def test_success(user, ghl_auth_mock_info, create_project_mutation):
+def test_success(
+    user,
+    ghl_auth_mock_info,
+    create_project_mutation,
+    couchdb_service,
+):
     """Test success create."""
     response = create_project_mutation(
         root=None,
@@ -52,6 +58,7 @@ def test_success(user, ghl_auth_mock_info, create_project_mutation):
     assert response.project.owner == user
     assert response.project.is_public
     assert response.project.description == "description"
+    assert couchdb_service.create_database_called
 
 
 def test_unauth(user, ghl_mock_info, create_project_mutation):

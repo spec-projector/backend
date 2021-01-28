@@ -1,7 +1,7 @@
 import graphene
 from jnt_django_graphene_toolbox.fields import BaseModelConnectionField
 
-from apps.projects.graphql.filters import ProjectsFilterSet
+from apps.projects.graphql.fields.filters import ProjectsFilterSet
 from apps.projects.graphql.types import ProjectType
 
 

@@ -1,1 +1,0 @@
-from .allow_authenticate_or_public import AllowAuthenticatedOrPublicProject

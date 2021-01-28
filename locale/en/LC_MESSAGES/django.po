@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-12 14:51+0300\n"
+"POT-Creation-Date: 2021-01-28 14:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +16,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "VN__JOB_QUEUE"
+msgstr "Background tasks"
+
+msgid "Constance"
+msgstr "Configuration"
+
+msgid "VN__CLEAR_CACHE"
+msgstr "Clear cache"
+
+msgid "VN__GRAPHQL_PLAYGROUND"
+msgstr "GraphQL playground"
+
+msgid "VN__HOME"
+msgstr "Home"
+
+msgid "VN__APPLICATIONS"
+msgstr "Applications"
+
+msgid "VN__MANAGEMENT"
+msgstr "Management"
+
+msgid "VN__UTILS"
+msgstr "Utils"
+
+msgid "MSG__INVALID_INPUT"
+msgstr "Invalid input"
+
+msgid "MSG__OPERATION_NOT_PERMITTED"
+msgstr "Operation not permitted"
 
 msgid "VN__CORE"
 msgstr "Core"
@@ -141,11 +170,14 @@ msgstr "Avatar"
 msgid "HT__AVATAR"
 msgstr "Avatar"
 
-msgid "MSG_UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
+msgid "MSG__MUST_INCLUDE_LOGIN_AND_PASSWORD"
+msgstr "Must include login and password"
+
+msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"
 
-msgid "MSG_MUST_INCLUDE_LOGIN_AND_PASSWORD"
-msgstr "Must include login and password"
+msgid "MSG__AUTHENTICATION_ERROR"
+msgstr "Authentication failed"
 
 msgid "MESSAGE__ENGLISH"
 msgstr "English"

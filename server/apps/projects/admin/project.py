@@ -1,5 +1,5 @@
 from django.contrib import admin
-from jnt_admin_tools.mixins import AdminAutocompleteFieldsMixin
+from jnt_admin_tools.mixins import AutocompleteFieldsAdminMixin
 
 from apps.core.admin.base import BaseModelAdmin
 from apps.projects.admin.filters import OwnerAutocompleteFilter
@@ -8,7 +8,7 @@ from apps.projects.models import Project
 
 
 @admin.register(Project)
-class ProjectAdmin(AdminAutocompleteFieldsMixin, BaseModelAdmin):
+class ProjectAdmin(AutocompleteFieldsAdminMixin, BaseModelAdmin):
     """Project admin."""
 
     list_display = ("title", "owner", "created_at", "is_public")

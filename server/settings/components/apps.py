@@ -2,6 +2,7 @@ INSTALLED_APPS = (
     "jnt_admin_tools",
     "jnt_admin_tools.theming",
     "jnt_admin_tools.menu",
+    "jnt_admin_tools.dashboard",
     # Default django apps:
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -12,6 +13,8 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "django.contrib.admindocs",
     # vendors
+    "constance",
+    "constance.backends.database",
     "jnt_django_toolbox",
     "jnt_django_graphene_toolbox",
     "graphene_django",
