@@ -1,6 +1,6 @@
 import injector
 
-from apps.core.services.couchdb import CouchDBService
+from apps.core.services.couchdb import CouchDBService, ICouchDBService
 
 
 class CoreServicesModule(injector.Module):
@@ -8,4 +8,4 @@ class CoreServicesModule(injector.Module):
 
     def configure(self, binder: injector.Binder) -> None:
         """Bind services."""
-        binder.bind(CouchDBService)
+        binder.bind(ICouchDBService, CouchDBService)
