@@ -1,4 +1,5 @@
 pytest_plugins = (
+    "tests.fixtures.couchdb",
     "tests.fixtures.ghl",
     "tests.fixtures.ghl_mock",
     "tests.fixtures.github",

@@ -73,7 +73,8 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
     assert issue["title"] == gl_issue["title"]
     assert issue["state"] == gl_issue["state"]
     assert issue["spent"] == 1.0
-    assert assignee["name"] == gl_issue["assignee"]["name"]
+
+    assert assignee["name"] == gl_issue["assignee"]["name"]  # type: ignore
 
 
 def test_githab_issue(user, ghl_client, gh_mocker):
@@ -112,5 +113,5 @@ def test_githab_issue(user, ghl_client, gh_mocker):
     assignee = response["data"]["issue"]["assignee"]
 
     assert issue["title"] == gh_issue["title"]
-    assert issue["state"] == gh_issue["state"]
+    assert issue["state"] == gh_issue["state"]  # type: ignore
     assert assignee["name"] == gh_issue["assignee"]["name"]

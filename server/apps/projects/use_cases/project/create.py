@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from apps.core import injector
 from apps.core.application.use_cases import BasePresenter, BaseUseCase
-from apps.core.services.couchdb import CouchDBService
+from apps.core.services.couchdb import ICouchDBService
 from apps.projects.models import Project
 from apps.users.models import User
 
@@ -61,7 +61,7 @@ class UseCase(BaseUseCase):
             owner=input_dto.user,
         )
 
-        couch_db = injector.get(CouchDBService)
+        couch_db = injector.get(ICouchDBService)
         couch_db.create_database(project.db_name)
         couch_db.close()
 

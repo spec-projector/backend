@@ -1,8 +1,22 @@
+import abc
+
 from cloudant import Cloudant
 from constance import config
 
 
-class CouchDBService:
+class ICouchDBService(abc.ABC):
+    """CouchDb service interface."""
+
+    @abc.abstractmethod
+    def create_database(self, db_name: str):
+        """Create database with provided name."""
+
+    @abc.abstractmethod
+    def close(self) -> None:
+        """Closes session."""
+
+
+class CouchDBService(ICouchDBService):
     """CouchDb client."""
 
     def __init__(self):
