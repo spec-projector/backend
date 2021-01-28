@@ -5,7 +5,7 @@ from apps.core.services.couchdb import ICouchDBService
 from tests.helpers.couchdb import StubCouchDBService
 
 
-@pytest.fixture()  # delete
+@pytest.fixture()
 def couchdb_service():
     """Provides CouchDB mocked service."""
     service = StubCouchDBService()

@@ -1,23 +1,8 @@
 import pytest
-from graphene.test import Client as GQLClient
 
 from gql import schema
 from tests.helpers.ghl_client import GraphQLClient
 from tests.helpers.gql_raw_query_provider import GhlRawQueryProvider
-
-
-@pytest.fixture()  # delete
-def ghl_client_authenticated(rf, admin_user):
-    """
-    Gql client authenticated.
-
-    :param rf:
-    :param admin_user:
-    """
-    request = rf.post("/")
-    request.user = admin_user
-
-    return GQLClient(schema, context_value=request)
 
 
 @pytest.fixture(scope="session")
