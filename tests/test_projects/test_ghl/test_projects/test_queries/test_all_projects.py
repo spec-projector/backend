@@ -4,8 +4,8 @@ from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 
 GHL_QUERY_ALL_PROJECTS = """
-query {
-  allProjects {
+query ($sort: [ProjectSort]) {
+  allProjects(sort: $sort) {
     count
     edges{
       node{
