@@ -1,12 +1,13 @@
 from tests.test_users.factories.user import UserFactory
 
 GHL_QUERY_ALL_USERS = """
-query ($email: String) {
-    allUsers(email: $email) {
+query ($email: String, $sort: [UserSort]) {
+    allUsers(email: $email, sort: $sort) {
       edges {
         node {
           id
           login
+          email
         }
       }
     }

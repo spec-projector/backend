@@ -9,7 +9,6 @@ from apps.projects.services.projects.available_projects import (
 class ProjectsFilterSet(django_filters.FilterSet):
     """Projects filterset."""
 
-    order_by = django_filters.OrderingFilter(fields=("created_at",))
     title = django_filters.CharFilter()
 
     def filter_queryset(self, queryset) -> models.QuerySet:
