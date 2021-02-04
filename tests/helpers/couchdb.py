@@ -12,6 +12,10 @@ class StubCouchDBService(ICouchDBService):
         self.delete_database_called = False
         self.deleted_db_names: List[str] = []
 
+    def get_all_databases(self):
+        """Get all database names."""
+        return ["db-1", "db-2", "db-3"]
+
     def create_database(self, db_name: str):
         """Create database with provided name."""
         self.create_database_called = True
@@ -23,7 +27,3 @@ class StubCouchDBService(ICouchDBService):
 
     def close(self) -> None:
         """Closes session."""
-
-    def all_dbs(self):
-        """Get all db names."""
-        return ["db-1", "db-2", "db-3"]

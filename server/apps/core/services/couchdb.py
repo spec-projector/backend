@@ -11,6 +11,10 @@ class ICouchDBService(abc.ABC):
     """CouchDb service interface."""
 
     @abc.abstractmethod
+    def get_all_databases(self) -> List[str]:
+        """Get all databases."""
+
+    @abc.abstractmethod
     def create_database(self, db_name: str):
         """Create database with provided name."""
 
@@ -21,10 +25,6 @@ class ICouchDBService(abc.ABC):
     @abc.abstractmethod
     def close(self) -> None:
         """Closes session."""
-
-    @abc.abstractmethod
-    def all_dbs(self) -> List[str]:
-        """Get all databases."""
 
 
 class CouchDBService(ICouchDBService):
@@ -40,6 +40,10 @@ class CouchDBService(ICouchDBService):
             auto_renew=True,
         )
 
+    def get_all_databases(self) -> List[str]:
+        """Get all databases."""
+        return self._client.all_dbs()
+
     def create_database(self, db_name: str):
         """Create database with provided name."""
         return self._client.create_database(db_name)
@@ -52,7 +56,3 @@ class CouchDBService(ICouchDBService):
     def close(self) -> None:
         """Closes session."""
         self._client.disconnect()
-
-    def all_dbs(self) -> List[str]:
-        """Get all databases."""
-        return self._client.all_dbs()
