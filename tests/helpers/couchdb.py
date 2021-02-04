@@ -12,7 +12,7 @@ class StubCouchDBService(ICouchDBService):
         self.delete_database_called = False
         self.deleted_db_names: List[str] = []
 
-    def get_all_databases(self):
+    def list_databases(self):
         """Get all database names."""
         return ["db-1", "db-2", "db-3"]
 

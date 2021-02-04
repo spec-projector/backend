@@ -11,7 +11,7 @@ class ICouchDBService(abc.ABC):
     """CouchDb service interface."""
 
     @abc.abstractmethod
-    def get_all_databases(self) -> List[str]:
+    def list_databases(self) -> List[str]:
         """Get all databases."""
 
     @abc.abstractmethod
@@ -40,7 +40,7 @@ class CouchDBService(ICouchDBService):
             auto_renew=True,
         )
 
-    def get_all_databases(self) -> List[str]:
+    def list_databases(self) -> List[str]:
         """Get all databases."""
         return self._client.all_dbs()
 

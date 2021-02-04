@@ -12,7 +12,7 @@ class Command(BaseCommand):
         """Cleanup couchdb."""
         couch_db = injector.get(ICouchDBService)
 
-        for_delete = set(couch_db.get_all_databases()) - set(
+        for_delete = set(couch_db.list_databases()) - set(
             Project.objects.values_list("db_name", flat=True),
         )
 
