@@ -1,5 +1,6 @@
 import abc
 from contextlib import suppress
+from typing import List
 
 from cloudant import Cloudant
 from cloudant.error import CloudantClientException
@@ -21,10 +22,9 @@ class ICouchDBService(abc.ABC):
     def close(self) -> None:
         """Closes session."""
 
-    def cleanup_database(self, db_name: str):
-        """Cleanup database with provided name."""
-        self.delete_database(db_name)
-        self.create_database(db_name)
+    @abc.abstractmethod
+    def all_dbs(self) -> List[str]:
+        """Get all databases."""
 
 
 class CouchDBService(ICouchDBService):
@@ -52,3 +52,7 @@ class CouchDBService(ICouchDBService):
     def close(self) -> None:
         """Closes session."""
         self._client.disconnect()
+
+    def all_dbs(self) -> List[str]:
+        """Get all databases."""
+        return self._client.all_dbs()
