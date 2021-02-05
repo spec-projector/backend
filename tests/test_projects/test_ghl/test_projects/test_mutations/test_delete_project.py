@@ -18,11 +18,13 @@ mutation ($id: ID!) {
 }
 """
 
+PROJECT_DB_NAME = "db-1"
+
 
 @pytest.fixture()
 def project():
     """Provides project."""
-    return ProjectFactory.create()
+    return ProjectFactory.create(db_name=PROJECT_DB_NAME)
 
 
 def test_query(user, ghl_client, project):
@@ -73,3 +75,22 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     assert response.extensions["code"] == INPUT_ERROR
     assert len(response.extensions["fieldErrors"]) == 1
     assert response.extensions["fieldErrors"][0]["fieldName"] == "project"
+
+
+def test_delete_couch_db(
+    user,
+    ghl_auth_mock_info,
+    delete_project_mutation,
+    project,
+    couchdb_service,
+):
+    """Test delete couch db."""
+    response = delete_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        project=project.pk,
+    )
+
+    assert response.status == "success"
+    assert not Project.objects.exists()
+    assert PROJECT_DB_NAME in couchdb_service.deleted_db_names
