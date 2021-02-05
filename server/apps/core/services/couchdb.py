@@ -33,7 +33,7 @@ class ICouchDBService(abc.ABC):
 class CouchDBHttpAdapter(HTTPAdapter):
     """CouchDB http requests adapter."""
 
-    def add_headers(self, request, **kwargs):
+    def add_headers(self, request, **kwargs) -> None:
         """Add auth headers."""
         super().add_headers(request, **kwargs)
         request.headers["X-Auth-CouchDB-Roles"] = "_admin"
