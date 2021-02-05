@@ -35,7 +35,7 @@ class CouchDBHttpAdapter(HTTPAdapter):
 
     def add_headers(self, request, **kwargs) -> None:
         """Add auth headers."""
-        super().add_headers(request, **kwargs)
+        super().add_headers(request, **kwargs)  # type: ignore
         request.headers["X-Auth-CouchDB-Roles"] = "_admin"
         request.headers["X-Auth-CouchDB-UserName"] = "admin"
 
