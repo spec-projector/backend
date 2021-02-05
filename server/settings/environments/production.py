@@ -24,3 +24,5 @@ SOCIAL_AUTH_GITLAB_REDIRECT_URI = "https://{0}/login".format(
 )
 
 CONSTANCE_DATABASE_CACHE_BACKEND = "default"
+
+DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"

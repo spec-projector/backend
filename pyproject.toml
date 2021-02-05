@@ -32,6 +32,7 @@ injector = "^0.18.4"
 cloudant = "*"
 django-constance = {extras = ["database"], version = "*"}
 python-memcached = "*"
+django-minio-storage = "^0.3.10"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
