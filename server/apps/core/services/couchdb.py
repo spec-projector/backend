@@ -2,9 +2,10 @@ import abc
 from contextlib import suppress
 from typing import List
 
-from cloudant import Cloudant
+from cloudant import CouchDB
 from cloudant.error import CloudantClientException
 from constance import config
+from requests.adapters import HTTPAdapter
 
 from apps.core import injector
 
@@ -29,17 +30,28 @@ class ICouchDBService(abc.ABC):
         """Closes session."""
 
 
+class CouchDBHttpAdapter(HTTPAdapter):
+    """CouchDB http requests adapter."""
+
+    def add_headers(self, request, **kwargs):
+        """Add auth headers."""
+        super().add_headers(request, **kwargs)
+        request.headers["X-Auth-CouchDB-Roles"] = "_admin"
+        request.headers["X-Auth-CouchDB-UserName"] = "admin"
+
+
 class CouchDBService(ICouchDBService):
     """CouchDb client."""
 
     def __init__(self):
         """Initialize."""
-        self._client = Cloudant(
+        self._client = CouchDB(
             config.COUCHDB_USER,
             config.COUCHDB_PASSWORD,
             url=config.COUCHDB_URL,
             connect=True,
             auto_renew=True,
+            adapter=CouchDBHttpAdapter(),
         )
 
     def list_databases(self) -> List[str]:
