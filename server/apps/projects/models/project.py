@@ -98,8 +98,8 @@ class Project(Timestamps):
             update_fields=update_fields,
         )
 
-    def delete(self, using=None, keep_parents=False):
+    def delete(self, *args, **kwargs):
         """Delete object."""
         db_name = self.db_name
-        super().delete(using=using, keep_parents=keep_parents)
+        super().delete(*args, **kwargs)
         delete_couch_databases([db_name])
