@@ -5,7 +5,6 @@ from typing import List
 from cloudant import CouchDB
 from cloudant.error import CloudantClientException
 from constance import config
-from requests.adapters import HTTPAdapter
 
 from apps.core import injector
 
@@ -30,16 +29,6 @@ class ICouchDBService(abc.ABC):
         """Closes session."""
 
 
-class CouchDBHttpAdapter(HTTPAdapter):
-    """CouchDB http requests adapter."""
-
-    def add_headers(self, request, **kwargs) -> None:
-        """Add auth headers."""
-        super().add_headers(request, **kwargs)  # type: ignore
-        request.headers["X-Auth-CouchDB-Roles"] = "_admin"
-        request.headers["X-Auth-CouchDB-UserName"] = "admin"
-
-
 class CouchDBService(ICouchDBService):
     """CouchDb client."""
 
@@ -51,7 +40,6 @@ class CouchDBService(ICouchDBService):
             url=config.COUCHDB_URL,
             connect=True,
             auto_renew=True,
-            adapter=CouchDBHttpAdapter(),
         )
 
     def list_databases(self) -> List[str]:
