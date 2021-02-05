@@ -27,7 +27,7 @@ def project():
     return ProjectFactory.create(db_name=PROJECT_DB_NAME)
 
 
-def test_query(user, ghl_client, project):
+def test_query(user, ghl_client, project, couchdb_service):
     """Test delete project raw query."""
     ghl_client.set_user(user)
 
@@ -40,7 +40,13 @@ def test_query(user, ghl_client, project):
     assert response["data"]["deleteProject"]["status"] == "success"
 
 
-def test_success(user, ghl_auth_mock_info, delete_project_mutation, project):
+def test_success(
+    user,
+    ghl_auth_mock_info,
+    delete_project_mutation,
+    project,
+    couchdb_service,
+):
     """Test success delete."""
     response = delete_project_mutation(
         root=None,
