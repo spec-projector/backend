@@ -1,7 +1,7 @@
 from apps.core import injector
 from apps.core.services.couchdb import ICouchDBService
-from apps.core.services.couchdb_databases import cleanup_couch_databases
 from apps.projects.models import Project
+from apps.projects.services.projects.couchdb import cleanup_couch_databases
 from tests.test_projects.factories.project import ProjectFactory
 
 
