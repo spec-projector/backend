@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-28 14:17+0300\n"
+"POT-Creation-Date: 2021-02-08 14:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "VN__JOB_QUEUE"
-msgstr "Background tasks"
-
 msgid "Constance"
 msgstr "Configuration"
-
-msgid "VN__CLEAR_CACHE"
-msgstr "Clear cache"
 
 msgid "VN__GRAPHQL_PLAYGROUND"
 msgstr "GraphQL playground"
@@ -53,14 +47,41 @@ msgstr "Core"
 msgid "VN__PROJECTS"
 msgstr "Projects"
 
+msgid "VN__FIGMA_INTEGRATION"
+msgstr "Figma integration"
+
+msgid "VN__FIGMA_INTERGRATIONS"
+msgstr "Figma integrations"
+
+msgid "VN__TOKEN"
+msgstr "Token"
+
+msgid "HT__TOKEN"
+msgstr "Token"
+
 msgid "VN__PROJECT"
 msgstr "Project"
+
+msgid "HT__PROJECT"
+msgstr "Project"
+
+msgid "VN__GITHUB_INTEGRATION"
+msgstr "GitHub integration"
+
+msgid "VN__GITHUB_INTERGRATIONS"
+msgstr "GitHub integrations"
+
+msgid "VN__GITLAB_INTEGRATION"
+msgstr "GitLab integration"
+
+msgid "VN__GITLAB_INTERGRATIONS"
+msgstr "GitLab integrations"
 
 msgid "VN__IS_PUBLIC"
 msgstr "Is public"
 
 msgid "HT__IS_PUBLIC"
-msgstr " "
+msgstr "Is public"
 
 msgid "VN__TITLE"
 msgstr "Title"
@@ -110,9 +131,6 @@ msgstr "Project Member"
 msgid "VN__PROJECT_MEMBERS"
 msgstr "Project Members"
 
-msgid "HT__PROJECT"
-msgstr "Project"
-
 msgid "VN__USER"
 msgstr "User"
 
@@ -127,9 +145,6 @@ msgstr "User"
 
 msgid "VN__USER_MUST_HAVE_A_LOGIN"
 msgstr "User must have a login"
-
-msgid "VN__TOKEN"
-msgstr "Token"
 
 msgid "VN__TOKENS"
 msgstr "Tokens"

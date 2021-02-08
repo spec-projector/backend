@@ -1,9 +1,14 @@
 from django.contrib import admin
+from jnt_admin_tools.mixins import AutocompleteFieldsAdminMixin
 
 from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
 
 
-class BaseTabularInline(AdminFormFieldsOverridesMixin, admin.TabularInline):
+class BaseTabularInline(
+    AutocompleteFieldsAdminMixin,
+    AdminFormFieldsOverridesMixin,
+    admin.TabularInline,
+):
     """Base tabular inline."""
 
     extra = 0
