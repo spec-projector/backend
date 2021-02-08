@@ -76,3 +76,24 @@ def test_empty_title(user, ghl_auth_mock_info, create_project_mutation):
 
     assert isinstance(response, GraphQLInputError)
     assert not Project.objects.exists()
+
+
+def test_integration(
+    user,
+    ghl_auth_mock_info,
+    create_project_mutation,
+    couchdb_service,
+):
+    """Test integration data."""
+    response = create_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        input={
+            "title": "project",
+            "figma_integration": {"token": "super token"},
+        },
+    )
+
+    integration = response.project.figma_integration
+    assert integration
+    assert integration.token == "super token"

@@ -5,7 +5,7 @@ from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.fields import BitField
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.core.utils.objects import empty
+from apps.projects.graphql.mutations.projects.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
 from apps.projects.use_cases.project import update as project_update
 
@@ -13,8 +13,14 @@ from apps.projects.use_cases.project import update as project_update
 class ProjectMemberInput(graphene.InputObjectType):
     """Project member input type."""
 
-    id = graphene.ID(required=True)  # noqa: A003, WPS125
+    id = graphene.ID(required=True)  # noqa: WPS125
     roles = BitField(required=True)
+
+
+class UpdateProjectInput(BaseProjectInput):
+    """Input for update project."""
+
+    users = graphene.Argument(graphene.List(ProjectMemberInput))
 
 
 class UpdateProjectMutation(BaseUseCaseMutation):
@@ -25,11 +31,8 @@ class UpdateProjectMutation(BaseUseCaseMutation):
         auth_required = True
 
     class Arguments:
-        id = graphene.ID(required=True)  # noqa: A003, WPS125
-        title = graphene.String()
-        is_public = graphene.Boolean()
-        description = graphene.String()
-        users = graphene.Argument(graphene.List(ProjectMemberInput))
+        id = graphene.ID(required=True)  # noqa: WPS125
+        input = graphene.Argument(UpdateProjectInput)  # noqa: WPS125
 
     project = graphene.Field(ProjectType)
 
@@ -43,13 +46,8 @@ class UpdateProjectMutation(BaseUseCaseMutation):
         """Prepare use case input data."""
         return project_update.InputDto(
             user=info.context.user,  # type: ignore
-            data=project_update.ProjectUpdateData(
-                project=kwargs["id"],
-                title=kwargs.get("title", empty),
-                is_public=kwargs.get("is_public", empty),
-                description=kwargs.get("description", empty),
-                users=kwargs.get("users", empty),
-            ),
+            project=kwargs["id"],
+            data=project_update.ProjectDto(**kwargs.get("input")),
         )
 
     @classmethod

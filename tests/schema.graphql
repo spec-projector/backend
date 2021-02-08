@@ -15,12 +15,12 @@ type CompleteGitlabAuthMutation {
 }
 
 input CreateProjectInput {
+  title: String!
   isPublic: Boolean
   description: String
   figmaIntegration: UpdateFigmaIntegrationType
   githubIntegration: UpdateGitHubIntegrationType
   gitlabIntegration: UpdateGitLabIntegrationType
-  title: String!
 }
 
 type CreateProjectMutation {
@@ -96,7 +96,7 @@ type Mutation {
   login(login: String!, password: String!): LoginMutation
   logout: LogoutMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
-  updateProject(description: String, id: ID!, isPublic: Boolean, title: String, users: [ProjectMemberInput]): UpdateProjectMutation
+  updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
   deleteProject(project: ID!): DeleteProjectMutation
 }
 
@@ -184,6 +184,16 @@ input UpdateGitHubIntegrationType {
 
 input UpdateGitLabIntegrationType {
   token: String!
+}
+
+input UpdateProjectInput {
+  title: String
+  isPublic: Boolean
+  description: String
+  figmaIntegration: UpdateFigmaIntegrationType
+  githubIntegration: UpdateGitHubIntegrationType
+  gitlabIntegration: UpdateGitLabIntegrationType
+  users: [ProjectMemberInput]
 }
 
 type UpdateProjectMutation {

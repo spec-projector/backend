@@ -20,8 +20,9 @@ class UpdateGitLabIntegrationType(graphene.InputObjectType):
 
 
 class BaseProjectInput(graphene.InputObjectType):
-    """Input for updating profile."""
+    """Base input for add/create project."""
 
+    title = graphene.String()
     is_public = graphene.Boolean()
     description = graphene.String()
     figma_integration = graphene.Field(UpdateFigmaIntegrationType)

@@ -16,7 +16,9 @@ from apps.projects.models import (
 from apps.projects.use_cases.project.dto import (
     FigmaIntegrationDto,
     FigmaIntegrationDtoValidator,
+    GitHubIntegrationDto,
     GitHubIntegrationDtoValidator,
+    GitLabIntegrationDto,
     GitLabIntegrationDtoValidator,
 )
 from apps.users.models import User
@@ -52,6 +54,8 @@ class ProjectDto:
     description: str = ""
     is_public: bool = False
     figma_integration: Union[str, FigmaIntegrationDto] = empty
+    github_integration: Union[str, GitHubIntegrationDto] = empty
+    gitlab_integration: Union[str, GitLabIntegrationDto] = empty
 
 
 @dataclass(frozen=True)

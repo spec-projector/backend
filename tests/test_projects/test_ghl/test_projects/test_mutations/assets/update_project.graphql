@@ -1,0 +1,14 @@
+mutation ($id: ID!, $input: UpdateProjectInput!){
+  updateProject(id: $id, input: $input){
+    project{
+      id
+      title
+      dbName
+      isPublic
+      description
+      figmaIntegration{
+        token
+      }
+    }
+  }
+}
