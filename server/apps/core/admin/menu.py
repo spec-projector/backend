@@ -6,6 +6,7 @@ from jnt_admin_tools.menu.items import MenuItem
 
 MANAGEMENT_MENU_ITEMS = (
     (_("Constance"), reverse_lazy("admin:configuration"), None),
+    (_("VN__JOB_QUEUE"), "/admin/flower/", None),
 )
 
 UTILS_MENU_ITEMS = ((_("VN__GRAPHQL_PLAYGROUND"), "/graphql/", None),)
