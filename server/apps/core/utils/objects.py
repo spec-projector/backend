@@ -26,7 +26,11 @@ def dict2obj(source_dict: Dict[str, object]) -> _ObjectView:
 
 
 class Empty:
-    """Empty object."""
+    """Represents not filled value."""
+
+    def __deepcopy__(self, memodict):
+        """No copy, but himself."""
+        return self
 
 
 empty = Empty()

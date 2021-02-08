@@ -24,6 +24,7 @@ class FigmaIntegration(models.Model):
         models.CASCADE,
         verbose_name=_("VN__PROJECT"),
         help_text=_("HT__PROJECT"),
+        related_name="figma_integration",
     )
 
     def __str__(self):

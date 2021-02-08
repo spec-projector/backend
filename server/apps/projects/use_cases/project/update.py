@@ -4,7 +4,7 @@ from typing import List
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from apps.core.application.use_cases import BasePresenter, BaseUseCase
+from apps.core.application.use_cases import BaseUseCase
 from apps.core.serializers.fields import BitField
 from apps.projects.models import Project
 from apps.projects.models.project_member import (
@@ -76,11 +76,7 @@ class InputDtoValidator(serializers.Serializer):
 class UseCase(BaseUseCase):
     """Use case for updating projects."""
 
-    def __init__(self, presenter: BasePresenter):
-        """Initialize."""
-        self._presenter = presenter
-
-    def execute(self, input_dto: InputDto) -> None:
+    def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
         validated_data = self.validate_input(
             input_dto.data,
@@ -95,7 +91,7 @@ class UseCase(BaseUseCase):
             setattr(project, field, field_value)
         project.save()
 
-        self._presenter.present(OutputDto(project=project))
+        return OutputDto(project=project)
 
     def _update_members(self, project, members) -> None:
         project_members = []

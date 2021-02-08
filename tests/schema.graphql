@@ -1,0 +1,218 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Assignee {
+  name: String
+  avatar: String
+}
+
+scalar BitField
+
+type CompleteGitlabAuthMutation {
+  token: Token
+}
+
+input CreateProjectInput {
+  isPublic: Boolean
+  description: String
+  figmaIntegration: UpdateFigmaIntegrationType
+  githubIntegration: UpdateGitHubIntegrationType
+  gitlabIntegration: UpdateGitLabIntegrationType
+  title: String!
+}
+
+type CreateProjectMutation {
+  project: Project
+}
+
+scalar DateTime
+
+type DeleteProjectMutation {
+  status: String
+}
+
+type DjangoDebug {
+  sql: [DjangoDebugSQL]
+}
+
+type DjangoDebugSQL {
+  vendor: String!
+  alias: String!
+  sql: String
+  duration: Float!
+  rawSql: String!
+  params: String!
+  startTime: Float!
+  stopTime: Float!
+  isSlow: Boolean!
+  isSelect: Boolean!
+  transId: String
+  transStatus: String
+  isoLevel: String
+  encoding: String
+}
+
+type FigmaIntegration {
+  token: String!
+}
+
+type GitHubIntegration {
+  token: String!
+}
+
+type GitLabIntegration {
+  token: String!
+}
+
+type Issue {
+  title: String
+  state: String
+  dueDate: String
+  spent: Float
+  assignee: Assignee
+}
+
+type LoginGitlabMutation {
+  redirectUrl: String
+}
+
+type LoginMutation {
+  token: Token
+}
+
+type LogoutMutation {
+  status: String
+}
+
+interface ModelRelayNode {
+  id: ID!
+}
+
+type Mutation {
+  completeGitlabAuth(code: String!, state: String!): CompleteGitlabAuthMutation
+  loginGitlab: LoginGitlabMutation
+  login(login: String!, password: String!): LoginMutation
+  logout: LogoutMutation
+  createProject(input: CreateProjectInput): CreateProjectMutation
+  updateProject(description: String, id: ID!, isPublic: Boolean, title: String, users: [ProjectMemberInput]): UpdateProjectMutation
+  deleteProject(project: ID!): DeleteProjectMutation
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Project implements ModelRelayNode {
+  id: ID!
+  isPublic: Boolean
+  title: String
+  description: String
+  dbName: String
+  owner: User
+  members: [ProjectMember]
+  createdAt: DateTime
+  updatedAt: DateTime
+  figmaIntegration: FigmaIntegration
+  githubIntegration: GitHubIntegration
+  gitlabIntegration: GitLabIntegration
+}
+
+type ProjectMember implements ModelRelayNode {
+  id: ID!
+  roles: BitField
+  user: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input ProjectMemberInput {
+  id: ID!
+  roles: BitField!
+}
+
+enum ProjectSort {
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+}
+
+type ProjectTypeConnection {
+  pageInfo: PageInfo!
+  edges: [ProjectTypeEdge]!
+  count: Int
+}
+
+type ProjectTypeEdge {
+  node: Project
+  cursor: String!
+}
+
+type Query {
+  user(id: ID!): User
+  me: User
+  allUsers(email: String, offset: Int, sort: [UserSort], before: String, after: String, first: Int, last: Int): UserTypeConnection
+  project(id: ID!): Project
+  allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
+  issue(url: String!, token: String!, system: System!): Issue
+  _debug: DjangoDebug
+}
+
+enum System {
+  GITHUB
+  GITLAB
+  DUMMY
+}
+
+type Token implements ModelRelayNode {
+  id: ID!
+  user: User
+  key: String
+  created: DateTime
+}
+
+input UpdateFigmaIntegrationType {
+  token: String!
+}
+
+input UpdateGitHubIntegrationType {
+  token: String!
+}
+
+input UpdateGitLabIntegrationType {
+  token: String!
+}
+
+type UpdateProjectMutation {
+  project: Project
+}
+
+type User implements ModelRelayNode {
+  id: ID!
+  login: String
+  name: String
+  email: String
+  isStaff: Boolean
+  isActive: Boolean
+  avatar: String
+  lastLogin: DateTime
+}
+
+enum UserSort {
+  EMAIL_ASC
+  EMAIL_DESC
+}
+
+type UserTypeConnection {
+  pageInfo: PageInfo!
+  edges: [UserTypeEdge]!
+  count: Int
+}
+
+type UserTypeEdge {
+  node: User
+  cursor: String!
+}

@@ -24,6 +24,7 @@ class GitHubIntegration(models.Model):
         models.CASCADE,
         verbose_name=_("VN__PROJECT"),
         help_text=_("HT__PROJECT"),
+        related_name="github_integration",
     )
 
     def __str__(self):

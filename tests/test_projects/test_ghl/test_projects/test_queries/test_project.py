@@ -1,23 +1,14 @@
 from tests.test_projects.factories.project import ProjectFactory
 
-GHL_QUERY_PROJECT = """
-query ($id: ID!) {
-  project(id: $id) {
-    id
-    title
-  }
-}
-"""
 
-
-def test_query(user, ghl_client):
+def test_query(user, ghl_client, ghl_raw):
     """Test getting project raw query."""
     ghl_client.set_user(user)
 
     project = ProjectFactory.create(owner=user)
 
     response = ghl_client.execute(
-        GHL_QUERY_PROJECT,
+        ghl_raw("get_project"),
         variable_values={"id": project.id},
     )
 

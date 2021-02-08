@@ -1,45 +1,34 @@
 import abc
 import dataclasses
-from typing import TypeVar
+from typing import Dict, Generic, TypeVar
 
 from apps.core.application.errors import InvalidInputApplicationError
-from apps.core.utils.objects import Empty
+from apps.core.utils.objects import empty
 
-TInputDto = TypeVar("TInputDto")
-TOutputDto = TypeVar("TOutputDto")
-
-
-def _non_empty_values_dict_factory(*args, **kwargs):
-    new_args = (
-        [
-            (dict_key, dict_value)
-            for dict_key, dict_value in args[0]
-            if not isinstance(dict_value, Empty)
-        ],
-        *args[1:],
-    )
-    return dict(*new_args, **kwargs)
+TInput = TypeVar("TInput")
+TOutput = TypeVar("TOutput")
 
 
-class BaseUseCase(abc.ABC):
+class BaseUseCase(Generic[TInput, TOutput], metaclass=abc.ABCMeta):
     """Base class for use cases."""
 
     @abc.abstractmethod
-    def execute(self, input_dto) -> None:
+    def execute(self, input_dto: TInput) -> TOutput:
         """Main logic here."""
 
-    def validate_input(self, input_data, validator_class):
+    def validate_input(self, input_data, validator_class) -> Dict[str, object]:
         """
         Validate input data.
 
         Raise exception if data is invalid.
         """
-        validator = validator_class(
-            data=dataclasses.asdict(
-                input_data,
-                dict_factory=_non_empty_values_dict_factory,
-            ),
-        )
+        to_validate = {
+            data_key: data_value
+            for data_key, data_value in dataclasses.asdict(input_data).items()
+            if data_value != empty
+        }
+
+        validator = validator_class(data=to_validate)
         if not validator.is_valid():
             raise InvalidInputApplicationError(validator.errors)
 

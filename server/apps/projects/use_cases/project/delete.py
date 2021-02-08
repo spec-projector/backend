@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
-from apps.core.application.use_cases import BasePresenter, BaseUseCase
+from apps.core.application.use_cases import BaseUseCase
 from apps.projects.models import Project
 from apps.users.models import User
 
@@ -30,10 +30,6 @@ class InputDtoValidator(serializers.Serializer):
 
 class UseCase(BaseUseCase):
     """Use case for deleting projects."""
-
-    def __init__(self, presenter: BasePresenter):
-        """Initialize."""
-        self._presenter = presenter
 
     def execute(self, input_dto: InputDto) -> None:
         """Main logic here."""
