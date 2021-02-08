@@ -4,6 +4,11 @@ from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
 from apps.projects.graphql.resolvers import resolve_project_members
+from apps.projects.graphql.types import (
+    FigmaIntegrationType,
+    GitHubIntegrationType,
+    GitLabIntegrationType,
+)
 from apps.projects.graphql.types.project_member import ProjectMemberType
 from apps.projects.models import Project
 from apps.projects.services.projects.available_projects import (
@@ -29,6 +34,9 @@ class ProjectType(BaseModelObjectType):
     )
     created_at = graphene.DateTime()
     updated_at = graphene.DateTime()
+    figma_integration = graphene.Field(FigmaIntegrationType)
+    github_integration = graphene.Field(GitHubIntegrationType)
+    gitlab_integration = graphene.Field(GitLabIntegrationType)
 
     @classmethod
     def get_queryset(

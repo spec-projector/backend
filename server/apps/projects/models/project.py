@@ -79,20 +79,9 @@ class Project(Timestamps):
         """Text representation."""
         return self.title
 
-    def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-    ):
+    def save(self, *args, **kwargs):
         """Save object."""
         if not self.db_name:
             self.db_name = "f{0}".format(uuid.uuid4())  # noqa: WPS601
 
-        super().save(
-            force_insert=force_insert,
-            force_update=force_update,
-            using=using,
-            update_fields=update_fields,
-        )
+        super().save(*args, **kwargs)

@@ -4,8 +4,15 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.projects.graphql.mutations.projects.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
 from apps.projects.use_cases.project import create as project_create
+
+
+class CreateProjectInput(BaseProjectInput):
+    """Input for create project."""
+
+    title = graphene.String(required=True)
 
 
 class CreateProjectMutation(BaseUseCaseMutation):
@@ -16,9 +23,7 @@ class CreateProjectMutation(BaseUseCaseMutation):
         auth_required = True
 
     class Arguments:
-        title = graphene.String(required=True)
-        is_public = graphene.Boolean()
-        description = graphene.String()
+        input = graphene.Argument(CreateProjectInput)  # noqa: WPS125
 
     project = graphene.Field(ProjectType)
 
@@ -32,11 +37,7 @@ class CreateProjectMutation(BaseUseCaseMutation):
         """Prepare use case input data."""
         return project_create.InputDto(
             user=info.context.user,  # type: ignore
-            data=project_create.ProjectCreateData(
-                title=kwargs["title"],
-                is_public=kwargs.get("is_public", False),
-                description=kwargs.get("description", ""),
-            ),
+            data=project_create.ProjectDto(**kwargs.get("input")),
         )
 
     @classmethod
