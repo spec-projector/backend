@@ -7,8 +7,8 @@ from jnt_django_graphene_toolbox.errors import (
 )
 from jnt_django_graphene_toolbox.errors.input import INPUT_ERROR
 
-from apps.core.services.couchdb_databases import cleanup_couch_databases
 from apps.projects.models import Project
+from apps.projects.services.projects.couchdb import cleanup_couch_databases
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_DELETE_PROJECT = """
