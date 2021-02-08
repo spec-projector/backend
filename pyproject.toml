@@ -33,6 +33,9 @@ cloudant = "*"
 django-constance = {extras = ["database"], version = "*"}
 python-memcached = "*"
 django-minio-storage = "^0.3.10"
+redis = "*"
+flower = "*"
+celery = "4.*"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"

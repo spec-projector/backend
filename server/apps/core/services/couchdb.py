@@ -6,8 +6,6 @@ from cloudant import CouchDB
 from cloudant.error import CloudantClientException
 from constance import config
 
-from apps.core import injector
-
 
 class ICouchDBService(abc.ABC):
     """CouchDb service interface."""
@@ -58,12 +56,3 @@ class CouchDBService(ICouchDBService):
     def close(self) -> None:
         """Closes session."""
         self._client.disconnect()
-
-
-def delete_couch_databases(db_names: List[str]) -> None:
-    """Delete databases."""
-    couch_db = injector.get(ICouchDBService)
-    for db_name in db_names:
-        couch_db.delete_database(db_name)
-
-    couch_db.close()
