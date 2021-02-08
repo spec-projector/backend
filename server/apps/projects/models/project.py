@@ -7,7 +7,6 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.models.mixins import Timestamps
-from apps.core.services.couchdb import delete_couch_databases
 from apps.projects.models.project_member import ProjectMember
 
 
@@ -97,9 +96,3 @@ class Project(Timestamps):
             using=using,
             update_fields=update_fields,
         )
-
-    def delete(self, *args, **kwargs):
-        """Delete object."""
-        db_name = self.db_name
-        super().delete(*args, **kwargs)
-        delete_couch_databases([db_name])
