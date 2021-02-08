@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from apps.core.services.couchdb_databases import cleanup_couch_databases
+from apps.projects.services.projects.couchdb import cleanup_couch_databases
 
 
 class Command(BaseCommand):
