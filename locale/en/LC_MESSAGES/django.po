@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-08 14:12+0300\n"
+"POT-Creation-Date: 2021-02-10 15:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,9 @@ msgstr ""
 
 msgid "Constance"
 msgstr "Configuration"
+
+msgid "VN__JOB_QUEUE"
+msgstr "Job queue"
 
 msgid "VN__GRAPHQL_PLAYGROUND"
 msgstr "GraphQL playground"
