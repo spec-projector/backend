@@ -29,7 +29,7 @@ class Project(Timestamps):
         verbose_name_plural = _("VN__PROJECTS")
         ordering = ("-created_at",)
 
-    id = models.CharField(  # noqa: A003,WPS125
+    id = models.CharField(  # noqa: WPS125
         primary_key=True,
         default=get_new_id,
         editable=False,

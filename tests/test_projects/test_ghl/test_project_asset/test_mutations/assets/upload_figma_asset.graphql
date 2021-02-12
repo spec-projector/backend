@@ -1,0 +1,11 @@
+mutation ($input: CreateProjectAssetInput!) {
+  uploadFigmaAsset(input: $input) {
+    projectAsset {
+      project {
+        id
+      }
+      file
+      source
+    }
+  }
+}
