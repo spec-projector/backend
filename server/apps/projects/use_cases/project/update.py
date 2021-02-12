@@ -69,7 +69,7 @@ class OutputDto:
 class ProjectMemberValidator(serializers.Serializer):
     """Project member serializer."""
 
-    id = serializers.PrimaryKeyRelatedField(  # noqa: A003, WPS125
+    id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125
         queryset=User.objects,
     )
     roles = BitField(choices=ProjectMemberRole.choices)

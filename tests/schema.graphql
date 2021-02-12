@@ -14,6 +14,15 @@ type CompleteGitlabAuthMutation {
   token: Token
 }
 
+input CreateProjectAssetInput {
+  projectId: ID!
+  url: String!
+}
+
+type CreateProjectAssetMutation {
+  projectAsset: ProjectAsset
+}
+
 input CreateProjectInput {
   title: String!
   isPublic: Boolean
@@ -95,6 +104,7 @@ type Mutation {
   loginGitlab: LoginGitlabMutation
   login(login: String!, password: String!): LoginMutation
   logout: LogoutMutation
+  uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
   deleteProject(project: ID!): DeleteProjectMutation
@@ -120,6 +130,12 @@ type Project implements ModelRelayNode {
   figmaIntegration: FigmaIntegration
   githubIntegration: GitHubIntegration
   gitlabIntegration: GitLabIntegration
+}
+
+type ProjectAsset {
+  project: Project
+  file: String
+  source: String
 }
 
 type ProjectMember implements ModelRelayNode {
