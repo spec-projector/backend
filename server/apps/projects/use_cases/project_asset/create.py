@@ -13,7 +13,7 @@ from apps.core.services.figma import (
     IFigmaService,
     IFigmaServiceFactory,
 )
-from apps.projects.models import Project, ProjectAsset
+from apps.projects.models import FigmaIntegration, Project, ProjectAsset
 from apps.projects.models.project_asset import ProjectAssetSource
 from apps.users.models import User
 
@@ -72,7 +72,11 @@ class UseCase(BaseUseCase):
 
         return OutputDto(project_asset=project_asset)
 
-    def _download_to_file_field(self, url, project_asset) -> None:
+    def _download_to_file_field(
+        self,
+        url: str,
+        project_asset: ProjectAsset,
+    ) -> None:
         """Download file to field."""
         figma_client = self._get_figma_client(project_asset.project)
         image_params = figma_client.get_image_params(url)
@@ -93,11 +97,11 @@ class UseCase(BaseUseCase):
             temp_file.seek(0)
             field.save("{0}.png".format(title), File(temp_file))
 
-    def _get_figma_client(self, project) -> IFigmaService:
+    def _get_figma_client(self, project: Project) -> IFigmaService:
         """Get figma client."""
         try:
             return injector.get(IFigmaServiceFactory).create(
                 project.figma_integration.token,
             )
-        except Exception:
-            raise FigmaError(_("MSG__FIGMA_TOKEN_NOT_FOUND"))
+        except FigmaIntegration.DoesNotExist:
+            raise FigmaError(_("MSG__FIGMA_INTEGRATION_NOT_FOUND"))

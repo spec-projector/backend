@@ -1,9 +1,11 @@
 import hashlib
 
-from django.db import models
+from apps.projects.models import ProjectAsset
 
 
-def assets_upload_to(instance: models.Model, filename: str) -> str:
+def assets_upload_to(project_asset: ProjectAsset, filename: str) -> str:
     """Generate folder for uploads."""
-    hash_result = hashlib.md5(str(instance.pk).encode())  # noqa: S303
-    return "projects/{0}/{1}".format(hash_result.hexdigest(), filename)
+    project_hash = hashlib.md5(  # noqa: S303
+        str(project_asset.project.pk).encode(),
+    ).hexdigest()
+    return "projects/{0}/{1}".format(project_hash, filename)

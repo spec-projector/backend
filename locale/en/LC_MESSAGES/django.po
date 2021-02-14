@@ -171,8 +171,8 @@ msgstr "User"
 msgid "MSG_GITHUB_ISSUE_URL_NOT_VALID"
 msgstr " Github issue url not valid"
 
-msgid "MSG__FIGMA_TOKEN_NOT_FOUND"
-msgstr "Figma token not found"
+msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
+msgstr "Figma integration not found"
 
 msgid "VN__USERS"
 msgstr "User"
