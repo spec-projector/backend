@@ -12,3 +12,4 @@ class ProjectAssetType(graphene.ObjectType):
     project = graphene.Field(ProjectType)
     file = graphene.String()  # noqa: WPS110
     source = graphene.String()
+    file_url = graphene.String()

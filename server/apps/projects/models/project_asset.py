@@ -1,5 +1,6 @@
 import hashlib
 
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import EnumField
@@ -54,3 +55,8 @@ class ProjectAsset(Timestamps):
     def __str__(self):
         """Object present."""
         return self.source
+
+    @property
+    def file_url(self) -> str:
+        """Returns file url with MEDIA prefix."""
+        return "{0}{1}".format(settings.MEDIA_URL, self.file.path)
