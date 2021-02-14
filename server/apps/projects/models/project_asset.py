@@ -1,9 +1,18 @@
+import hashlib
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import EnumField
 
 from apps.core.models.mixins import Timestamps
-from apps.projects.services.projects.upload_assets import assets_upload_to
+
+
+def assets_upload_to(project_asset, filename: str) -> str:
+    """Generate folder for uploads."""
+    project_hash = hashlib.md5(  # noqa: S303
+        str(project_asset.project.pk).encode(),
+    ).hexdigest()
+    return "projects/{0}/{1}".format(project_hash, filename)
 
 
 class ProjectAssetSource(models.TextChoices):
