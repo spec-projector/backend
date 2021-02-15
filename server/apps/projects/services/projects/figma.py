@@ -8,6 +8,7 @@ import requests
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.errors import BaseError
+from apps.projects.models import FigmaIntegration, Project
 
 API_URL_IMAGES = "https://api.figma.com/v1/images/{0}"
 RE_FIGMA_URL = r"https://www.figma.com/file/[\w\d_-].+/[\w\d_-].+\?*node-id="
@@ -26,6 +27,13 @@ class FigmaError(BaseError):
         super().__init__()
 
 
+class IntegrationNotFoundFigmaError(FigmaError):
+    """Figma integration not found."""
+
+    code: str = "figma_integration_not_found"
+    message = _("MSG__FIGMA_INTEGRATION_NOT_FOUND")
+
+
 class IFigmaService(abc.ABC):
     """Figma service interface."""
 
@@ -42,7 +50,7 @@ class IFigmaServiceFactory(abc.ABC):
     """Figma service factory interface."""
 
     @abc.abstractmethod
-    def create(self, token: str) -> IFigmaService:
+    def create(self, project: Project) -> IFigmaService:
         """Create figma service."""
 
 
@@ -110,6 +118,11 @@ class FigmaService(IFigmaService):
 class FigmaServiceFactory(IFigmaServiceFactory):
     """Figma service factory."""
 
-    def create(self, token: str) -> FigmaService:
+    def create(self, project: Project) -> FigmaService:
         """Create figma service."""
-        return FigmaService(token)
+        try:
+            token = project.figma_integration.token
+        except FigmaIntegration.DoesNotExist:  # noqa: WPS329
+            raise IntegrationNotFoundFigmaError
+        else:
+            return FigmaService(token)

@@ -3,18 +3,16 @@ from tempfile import TemporaryFile
 
 import requests
 from django.core.files import File
-from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from apps.core import injector
 from apps.core.application.use_cases import BaseUseCase
-from apps.core.services.figma import (
-    FigmaError,
+from apps.projects.models import Project, ProjectAsset
+from apps.projects.models.project_asset import ProjectAssetSource
+from apps.projects.services.projects.figma import (
     IFigmaService,
     IFigmaServiceFactory,
 )
-from apps.projects.models import FigmaIntegration, Project, ProjectAsset
-from apps.projects.models.project_asset import ProjectAssetSource
 from apps.users.models import User
 
 CHUNK_SIZE = 4096
@@ -99,9 +97,4 @@ class UseCase(BaseUseCase):
 
     def _get_figma_client(self, project: Project) -> IFigmaService:
         """Get figma client."""
-        try:
-            return injector.get(IFigmaServiceFactory).create(
-                project.figma_integration.token,
-            )
-        except FigmaIntegration.DoesNotExist:
-            raise FigmaError(_("MSG__FIGMA_INTEGRATION_NOT_FOUND"))
+        return injector.get(IFigmaServiceFactory).create(project)
