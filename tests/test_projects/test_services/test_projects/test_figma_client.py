@@ -1,11 +1,22 @@
 import pytest
 
-from apps.core import injector
-from apps.core.services.figma import (
-    FigmaError,
-    FigmaService,
-    IFigmaServiceFactory,
+from apps.projects.services.projects.figma import FigmaError, FigmaService
+from tests.test_projects.factories.figma_integration import (
+    FigmaIntegrationFactory,
 )
+
+
+@pytest.fixture()
+def project(db):
+    """:return project."""
+    integration = FigmaIntegrationFactory.create()
+    return integration.project
+
+
+@pytest.fixture()
+def figma_service(project):
+    """:return FigmaService."""
+    return FigmaService(project)
 
 
 @pytest.mark.parametrize(
@@ -43,10 +54,9 @@ from apps.core.services.figma import (
         ),
     ],
 )
-def test_valid_url_params(figma_url, f_key, f_title, f_id):
+def test_valid_url_params(figma_service, figma_url, f_key, f_title, f_id):
     """Test parse image params."""
-    client = FigmaService("token")
-    image_params = client.get_image_params(figma_url)
+    image_params = figma_service.get_image_params(figma_url)
 
     assert image_params.key == f_key
     assert image_params.title == f_title
@@ -63,9 +73,7 @@ def test_valid_url_params(figma_url, f_key, f_title, f_id):
         "https://www.figma.com/file?node-id=123",
     ],
 )
-def test_not_valid_params(figma_url):
+def test_not_valid_params(figma_service, figma_url):
     """Test not valid url params."""
-    client = injector.get(IFigmaServiceFactory).create("token")
-
     with pytest.raises(FigmaError):
-        client.get_image_params(figma_url)
+        figma_service.get_image_params(figma_url)
