@@ -7,31 +7,13 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import requests
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.errors import BaseError
 from apps.projects.models import FigmaIntegration, Project
+from apps.projects.services.projects.figma import errors
 
 API_URL_IMAGES = "https://api.figma.com/v1/images/{0}"
 RE_FIGMA_URL = r"https://www.figma.com/file/[\w\d_-].+/[\w\d_-].+\?*node-id="
 
 ImageParams = namedtuple("ImageParams", ("key", "title", "id"))
-
-
-class FigmaError(BaseError):
-    """Main figma-exception."""
-
-    code: str = "figma_error"
-
-    def __init__(self, message) -> None:
-        """Initialize."""
-        self.message = message
-        super().__init__()
-
-
-class IntegrationNotFoundFigmaError(FigmaError):
-    """Figma integration not found."""
-
-    code: str = "figma_integration_not_found"
-    message = _("MSG__FIGMA_INTEGRATION_NOT_FOUND")
 
 
 class IFigmaService(abc.ABC):
@@ -72,7 +54,7 @@ class FigmaService(IFigmaService):
                     error=figma_api_response["err"],
                 ),
             )
-            raise FigmaError(exception)
+            raise errors.ApiFigmaError(exception)
 
         return figma_api_response["images"][image_params.id]  # type: ignore
 
@@ -80,8 +62,8 @@ class FigmaService(IFigmaService):
         """Get image params."""
         try:
             return self._get_image_params(inbound_url)
-        except ValueError:
-            raise FigmaError(_("MSG__FIGMA_NOT_VALID_URL"))
+        except ValueError:  # noqa: WPS329
+            raise errors.InvalidUrlFigmaError
 
     def _get_image_params(self, inbound_url: str) -> ImageParams:
         """Parse url-parameters."""
@@ -123,6 +105,6 @@ class FigmaServiceFactory(IFigmaServiceFactory):
         try:
             token = project.figma_integration.token
         except FigmaIntegration.DoesNotExist:  # noqa: WPS329
-            raise IntegrationNotFoundFigmaError
+            raise errors.IntegrationNotFoundFigmaError
         else:
             return FigmaService(token)
