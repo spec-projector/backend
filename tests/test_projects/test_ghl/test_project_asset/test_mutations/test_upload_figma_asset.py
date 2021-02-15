@@ -1,8 +1,11 @@
 import pytest
 
-from apps.core.services.figma import FigmaError
 from apps.projects.models import FigmaIntegration
 from apps.projects.models.project_asset import ProjectAssetSource
+from apps.projects.services.projects.figma.errors import (
+    ApiFigmaError,
+    IntegrationNotFoundFigmaError,
+)
 from tests.test_projects.test_ghl.test_project_asset.test_mutations.helpers.register_figma_urls import (  # noqa: E501
     register_figma_bad_response,
     register_get_images,
@@ -67,7 +70,7 @@ def test_bad_response(
     """Test error upload."""
     register_figma_bad_response()
 
-    with pytest.raises(FigmaError):
+    with pytest.raises(ApiFigmaError):
         upload_figma_asset_mutation(
             root=None,
             info=ghl_auth_mock_info,
@@ -78,7 +81,7 @@ def test_bad_response(
         )
 
 
-def test_without_figm_token(
+def test_without_figma_token(
     project,
     ghl_auth_mock_info,
     upload_figma_asset_mutation,
@@ -88,7 +91,7 @@ def test_without_figm_token(
     register_get_images()
     register_upload_image_url()
 
-    with pytest.raises(FigmaError):
+    with pytest.raises(IntegrationNotFoundFigmaError):
         upload_figma_asset_mutation(
             root=None,
             info=ghl_auth_mock_info,

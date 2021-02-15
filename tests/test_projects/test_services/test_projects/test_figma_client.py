@@ -1,6 +1,7 @@
 import pytest
 
-from apps.projects.services.projects.figma import FigmaError, FigmaService
+from apps.projects.services.projects.figma import FigmaService
+from apps.projects.services.projects.figma.errors import InvalidUrlFigmaError
 from tests.test_projects.factories.figma_integration import (
     FigmaIntegrationFactory,
 )
@@ -75,5 +76,5 @@ def test_valid_url_params(figma_service, figma_url, f_key, f_title, f_id):
 )
 def test_not_valid_params(figma_service, figma_url):
     """Test not valid url params."""
-    with pytest.raises(FigmaError):
+    with pytest.raises(InvalidUrlFigmaError):
         figma_service.get_image_params(figma_url)
