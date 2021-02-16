@@ -1,13 +1,10 @@
-from enum import Enum
-
-from apps.projects.services.issues.meta import IssueMeta
+from apps.projects.services.issues.meta import IssueMeta, System
 from apps.projects.services.issues.providers import (
     DummyProvider,
     GithubProvider,
     GitlabProvider,
 )
 
-System = Enum("System", ("GITHUB", "GITLAB", "DUMMY"))
 Providers = [
     GithubProvider,
     GitlabProvider,
@@ -15,7 +12,7 @@ Providers = [
 ]
 
 PROVIDERS = {  # noqa: WPS407
-    system.value: provider for system, provider in zip(System, Providers)
+    system: provider for system, provider in zip(System, Providers)
 }
 
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-12 15:01+0300\n"
+"POT-Creation-Date: 2021-02-16 18:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,13 +46,6 @@ msgstr "Operation not permitted"
 
 msgid "VN__CORE"
 msgstr "Core"
-
-#, python-brace-format
-msgid "MSG__FIGMA_REQUEST_ERROR {error}"
-msgstr "Figma request error: {error}"
-
-msgid "MSG__FIGMA_NOT_VALID_URL"
-msgstr "Figma: not valid url"
 
 msgid "VN__PROJECTS"
 msgstr "Projects"
@@ -173,6 +166,16 @@ msgstr " Github issue url not valid"
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma integration not found"
+
+msgid "MSG__FIGMA_NOT_VALID_URL"
+msgstr "Figma: not valid url"
+
+#, python-brace-format
+msgid "MSG__FIGMA_REQUEST_ERROR {error}"
+msgstr "Figma request error: {error}"
+
+msgid "MSG__PROJECT_INTEGRATION_NOT_FOUND"
+msgstr "Project integration not found"
 
 msgid "VN__USERS"
 msgstr "User"

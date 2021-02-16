@@ -1,8 +1,12 @@
 from apps.projects.services.issues.retriever import System
+from apps.projects.use_cases.issue.retrieve import (
+    ProjectIntegrationNotFoundError,
+)
+from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_ISSUE = """
-query ($url: String!, $token: String!, $system: System!) {
-  issue(url: $url, token: $token, system: $system) {
+query ($input: IssueInput!) {
+  issue(input: $input) {
     title
     state
     dueDate
@@ -19,13 +23,16 @@ query ($url: String!, $token: String!, $system: System!) {
 def test_query(user, ghl_client):
     """Test getting issue raw query."""
     ghl_client.set_user(user)
+    project = ProjectFactory.create()
 
     response = ghl_client.execute(
         GHL_QUERY_ISSUE,
         variable_values={
-            "url": "https://dummy.com",
-            "token": "dummy_token",
-            "system": System.DUMMY.name,
+            "input": {
+                "url": "https://dummy.com",
+                "project": project.pk,
+                "system": System.DUMMY.name,
+            },
         },
     )
 
@@ -34,7 +41,7 @@ def test_query(user, ghl_client):
     assert response["data"]["issue"]["state"] is None
 
 
-def test_gitlab_issue(user, ghl_client, gl_mocker):
+def test_gitlab_issue(user, ghl_client, gl_mocker, gitlab_integration):
     """Test getting gitlab issue."""
     gl_issue = {
         "title": "Test issue",
@@ -55,15 +62,16 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
     }
 
     gl_mocker.register_get("/projects/test-project/issues/33", gl_issue)
-
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
         GHL_QUERY_ISSUE,
         variable_values={
-            "url": "https://gitlab.com/test-project/issues/33",
-            "token": "GITLAB_TOKEN",
-            "system": System.GITLAB.name,
+            "input": {
+                "url": "https://gitlab.com/test-project/issues/33",
+                "project": gitlab_integration.project.pk,
+                "system": System.GITLAB.name,
+            },
         },
     )
 
@@ -77,7 +85,7 @@ def test_gitlab_issue(user, ghl_client, gl_mocker):
     assert assignee["name"] == gl_issue["assignee"]["name"]  # type: ignore
 
 
-def test_githab_issue(user, ghl_client, gh_mocker):
+def test_githab_issue(user, ghl_client, gh_mocker, github_integration):
     """Test getting gitlab issue."""
     gh_repo = {
         "id": 12345,
@@ -103,9 +111,11 @@ def test_githab_issue(user, ghl_client, gh_mocker):
     response = ghl_client.execute(
         GHL_QUERY_ISSUE,
         variable_values={
-            "url": "https://github.com/owner/django_issue/issues/5",
-            "token": "GITHUB_TOKEN",
-            "system": System.GITHUB.name,
+            "input": {
+                "url": "https://github.com/owner/django_issue/issues/5",
+                "project": github_integration.project.pk,
+                "system": System.GITHUB.name,
+            },
         },
     )
 
@@ -115,3 +125,24 @@ def test_githab_issue(user, ghl_client, gh_mocker):
     assert issue["title"] == gh_issue["title"]
     assert issue["state"] == gh_issue["state"]
     assert assignee["name"] == gh_issue["assignee"]["name"]  # type: ignore
+
+
+def test_integration_not_found(user, ghl_client):
+    """Test raise error."""
+    ghl_client.set_user(user)
+
+    response = ghl_client.execute(
+        GHL_QUERY_ISSUE,
+        variable_values={
+            "input": {
+                "url": "https://github.com/owner/django_issue/issues/5",
+                "project": ProjectFactory.create().pk,
+                "system": System.GITHUB.name,
+            },
+        },
+    )
+
+    assert len(response["errors"]) == 1
+    error = response["errors"][0]
+
+    assert error["message"] == str(ProjectIntegrationNotFoundError.message)
