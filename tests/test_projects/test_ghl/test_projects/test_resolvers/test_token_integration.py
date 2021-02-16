@@ -29,4 +29,4 @@ def test_resolve_empty_tokens(
         integration.token = ""
         integration.save()
 
-        assert resolve_token_integration(integration, mock_info()) == ""
+        assert not resolve_token_integration(integration, mock_info())

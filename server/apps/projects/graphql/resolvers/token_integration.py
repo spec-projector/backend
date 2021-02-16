@@ -17,4 +17,4 @@ def resolve_token_integration(
     **kwargs,
 ) -> Optional[str]:
     """Resolve token integration."""
-    return "*" if integration.token else integration.token
+    return "*" if integration.token else None
