@@ -6,9 +6,12 @@ from django.core.files import File
 from rest_framework import serializers
 
 from apps.core import injector
+from apps.core.application.errors import AccessDeniedApplicationError
 from apps.core.application.use_cases import BaseUseCase
-from apps.projects.models import Project, ProjectAsset
-from apps.projects.models.project_asset import ProjectAssetSource
+from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
+from apps.projects.services.project_asset.allowed import (
+    can_upload_project_asset,
+)
 from apps.projects.services.projects.figma import (
     IFigmaService,
     IFigmaServiceFactory,
@@ -60,6 +63,14 @@ class UseCase(BaseUseCase):
             input_dto.data,
             ProjectAssetDtoValidator,
         )
+
+        can_upload = can_upload_project_asset(
+            input_dto.user,
+            validated_data["project"],
+        )
+
+        if not can_upload:
+            raise AccessDeniedApplicationError()
 
         project_asset = ProjectAsset.objects.create(
             project=validated_data["project"],
