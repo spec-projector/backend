@@ -6,7 +6,7 @@ from rest_framework import serializers
 class GitLabIntegrationDtoValidator(serializers.Serializer):
     """GitLab integration validator."""
 
-    token = serializers.CharField()
+    token = serializers.CharField(required=False)
 
 
 @dataclass(frozen=True)

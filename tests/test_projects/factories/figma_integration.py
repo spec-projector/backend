@@ -11,4 +11,4 @@ class FigmaIntegrationFactory(factory.django.DjangoModelFactory):
         model = FigmaIntegration
 
     project = factory.SubFactory(ProjectFactory)
-    token = factory.Sequence(lambda index: "project_{0}".format(index))
+    token = factory.Sequence(lambda index: "figma_{0}".format(index))
