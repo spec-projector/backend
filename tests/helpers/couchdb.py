@@ -20,6 +20,9 @@ class StubCouchDBService(ICouchDBService):
         """Create database with provided name."""
         self.create_database_called = True
 
+    def get_database(self, db_name: str):
+        """Get database by id."""
+
     def delete_database(self, db_name: str) -> None:
         """Delete database with provided name."""
         self.delete_database_called = True
