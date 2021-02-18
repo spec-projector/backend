@@ -3,6 +3,7 @@ from contextlib import suppress
 from typing import List
 
 from cloudant import CouchDB
+from cloudant.database import CouchDatabase
 from cloudant.error import CloudantClientException
 from constance import config
 
@@ -15,8 +16,12 @@ class ICouchDBService(abc.ABC):
         """Get all databases."""
 
     @abc.abstractmethod
-    def create_database(self, db_name: str):
+    def create_database(self, db_name: str) -> CouchDatabase:
         """Create database with provided name."""
+
+    @abc.abstractmethod
+    def get_database(self, db_name: str) -> CouchDatabase:
+        """Get database with provided name."""
 
     @abc.abstractmethod
     def delete_database(self, db_name: str) -> None:
@@ -44,9 +49,13 @@ class CouchDBService(ICouchDBService):
         """Get all databases."""
         return self._client.all_dbs()
 
-    def create_database(self, db_name: str):
+    def create_database(self, db_name: str) -> CouchDatabase:
         """Create database with provided name."""
         return self._client.create_database(db_name)
+
+    def get_database(self, db_name: str) -> CouchDatabase:
+        """Get database with provided name."""
+        return self._client.get(db_name, remote=True)
 
     def delete_database(self, db_name: str) -> None:
         """Create database with provided name."""

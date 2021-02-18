@@ -26,7 +26,7 @@ build:
     - docker push $DOCKER_IMAGE
     - docker push $DOCKER_CACHE_IMAGE
 
-quality:
+lint:
   stage: test
   image: $DOCKER_TEST_IMAGE
   script:

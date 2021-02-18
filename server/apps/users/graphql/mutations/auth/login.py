@@ -1,8 +1,11 @@
-from typing import Optional
+from typing import Optional, Union
 
 import graphene
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.errors import GraphQLInputError
+from jnt_django_graphene_toolbox.errors import (
+    BaseGraphQLError,
+    GraphQLInputError,
+)
 from jnt_django_graphene_toolbox.mutations import BaseMutation
 from rest_framework import serializers
 
@@ -34,7 +37,7 @@ class LoginMutation(ErrorHandlerMixin, BaseMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> "LoginMutation":
+    ) -> Union[BaseGraphQLError, "LoginMutation"]:
         """Login user."""
         serializer = InputSerializer(data=kwargs)
         if not serializer.is_valid():
