@@ -5,7 +5,7 @@ description = ""
 authors = ["Junte Ltd"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 python-decouple = "*"
 psycopg2-binary = "*"
 django = "3.*"
