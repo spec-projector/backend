@@ -122,3 +122,29 @@ def test_upload_asset_not_allowed(
     )
 
     assert isinstance(response, GraphQLPermissionDenied)
+
+
+def test_can_upload_as_owner(
+    user,
+    project,
+    ghl_auth_mock_info,
+    upload_figma_asset_mutation,
+):
+    """Test success as owner upload."""
+    project.owner = user
+    project.save()
+
+    register_get_images()
+    register_upload_image_url()
+    response = upload_figma_asset_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        input={
+            "project_id": project.pk,
+            "url": FIGMA_URL,
+        },
+    )
+
+    assert response.project_asset.project == project
+    assert response.project_asset.source == ProjectAssetSource.FIGMA
+    assert response.project_asset.file
