@@ -13,7 +13,7 @@ from apps.projects.use_cases.project_asset import (
 class CreateProjectAssetInput(graphene.InputObjectType):
     """Input for create project asset."""
 
-    project_id = graphene.ID(required=True)
+    project = graphene.ID(required=True)
     url = graphene.String(required=True)
 
 

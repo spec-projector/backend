@@ -26,7 +26,7 @@ def test_upload_raw_query(user, project_member, ghl_client, ghl_raw):
         ghl_raw("upload_figma_asset"),
         variable_values={
             "input": {
-                "projectId": project_member.project.pk,
+                "project": project_member.project.pk,
                 "url": FIGMA_URL,
             },
         },
@@ -53,7 +53,7 @@ def test_success(
         root=None,
         info=ghl_auth_mock_info,
         input={
-            "project_id": project_member.project.pk,
+            "project": project_member.project.pk,
             "url": FIGMA_URL,
         },
     )
@@ -76,7 +76,7 @@ def test_bad_response(
             root=None,
             info=ghl_auth_mock_info,
             input={
-                "project_id": project_member.project.pk,
+                "project": project_member.project.pk,
                 "url": FIGMA_URL,
             },
         )
@@ -97,7 +97,7 @@ def test_without_figma_token(
             root=None,
             info=ghl_auth_mock_info,
             input={
-                "project_id": project_member.project.pk,
+                "project": project_member.project.pk,
                 "url": FIGMA_URL,
             },
         )
@@ -116,7 +116,7 @@ def test_upload_asset_not_allowed(
         root=None,
         info=ghl_auth_mock_info,
         input={
-            "project_id": project.pk,
+            "project": project.pk,
             "url": FIGMA_URL,
         },
     )
@@ -140,7 +140,7 @@ def test_can_upload_as_owner(
         root=None,
         info=ghl_auth_mock_info,
         input={
-            "project_id": project.pk,
+            "project": project.pk,
             "url": FIGMA_URL,
         },
     )
