@@ -24,9 +24,8 @@ CHUNK_SIZE = 4096
 class ProjectAssetDtoValidator(serializers.Serializer):
     """Create project asset input."""
 
-    project_id = serializers.PrimaryKeyRelatedField(
+    project = serializers.PrimaryKeyRelatedField(
         queryset=Project.objects.all(),
-        source="project",
     )
     url = serializers.CharField()
 
@@ -35,7 +34,7 @@ class ProjectAssetDtoValidator(serializers.Serializer):
 class ProjectAssetDto:
     """Create project asset data."""
 
-    project_id: str = ""
+    project: str = ""
     url: str = ""
 
 
