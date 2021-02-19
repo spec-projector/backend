@@ -196,5 +196,5 @@ class UseCase(BaseUseCase):
                     project=project,
                     defaults={"token": integration_dto["token"]},
                 )
-            else:
+            elif integration_dto is None:
                 model.objects.filter(project=project).delete()

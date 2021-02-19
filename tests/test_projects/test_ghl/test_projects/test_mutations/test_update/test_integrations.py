@@ -87,7 +87,7 @@ def test_update_integration_is_empty_object(
 ):
     """Test success update with empty integrations."""
     _add_integrations(project)
-    response = update_project_mutation(
+    update_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
         id=project.pk,
@@ -100,9 +100,9 @@ def test_update_integration_is_empty_object(
         },
     )
 
-    assert response.project is not None
-    assert response.project.title == "new title"
-    assert response.project.description == "new description"
+    project.refresh_from_db()
+    assert project.title == "new title"
+    assert project.description == "new description"
 
     _assert_integrations(project)
 
