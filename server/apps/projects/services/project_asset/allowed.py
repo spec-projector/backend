@@ -8,6 +8,9 @@ def can_upload_project_asset(user: User, project: Project) -> bool:
 
     Only project members can upload assets.
     """
+    if user and project.owner == user:
+        return True
+
     return ProjectMember.objects.filter(
         project=project,
         user=user,
