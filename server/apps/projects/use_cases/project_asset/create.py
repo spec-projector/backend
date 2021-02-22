@@ -6,8 +6,8 @@ from django.core.files import File
 from rest_framework import serializers
 
 from apps.core import injector
-from apps.core.application.errors import AccessDeniedApplicationError
-from apps.core.application.use_cases import BaseUseCase
+from apps.core.logic.errors import AccessDeniedApplicationError
+from apps.core.logic.use_cases import BaseUseCase
 from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
 from apps.projects.services.project_asset.allowed import (
     can_upload_project_asset,

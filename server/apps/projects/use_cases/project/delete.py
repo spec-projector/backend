@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
-from apps.core.application.use_cases import BaseUseCase
+from apps.core.logic.use_cases import BaseUseCase
 from apps.projects.models import Project
 from apps.users.models import User
 

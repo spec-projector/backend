@@ -2,7 +2,7 @@ import abc
 import dataclasses
 from typing import Dict, Generic, TypeVar
 
-from apps.core.application.errors import InvalidInputApplicationError
+from apps.core.logic.errors import InvalidInputApplicationError
 from apps.core.utils.objects import empty
 
 TInput = TypeVar("TInput")

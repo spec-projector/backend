@@ -5,7 +5,7 @@ from django.db import models
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from apps.core.application.use_cases import BaseUseCase
+from apps.core.logic.use_cases import BaseUseCase
 from apps.core.serializers.fields import BitField
 from apps.core.utils.objects import Empty, empty
 from apps.projects.models import (

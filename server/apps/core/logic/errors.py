@@ -1,4 +1,5 @@
 import abc
+from typing import Optional
 
 from django.utils.translation import gettext_lazy as _
 
@@ -7,6 +8,19 @@ from apps.core.errors import BaseError
 
 class BaseApplicationError(BaseError, metaclass=abc.ABCMeta):
     """Base exception for application errors."""
+
+    def __init__(
+        self,
+        code: Optional[str] = None,
+        message: Optional[str] = None,
+    ):
+        """Initizaling."""
+        if code:
+            self.code = code
+        if message:
+            self.message = message
+
+        super().__init__()
 
 
 class AuthenticationErrorMixin(BaseApplicationError):

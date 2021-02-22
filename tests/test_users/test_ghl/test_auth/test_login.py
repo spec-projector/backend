@@ -1,5 +1,3 @@
-from jnt_django_graphene_toolbox.errors import GraphQLInputError
-
 from apps.core.graphql.errors import GenericGraphQLError
 from apps.users.models import Token
 from apps.users.services.auth.login import AuthenticationError
@@ -82,5 +80,5 @@ def test_empty_credentials(user, ghl_mock_info, login_mutation):
         password="",
     )
 
-    assert isinstance(response, GraphQLInputError)
+    assert isinstance(response, GenericGraphQLError)
     assert not Token.objects.filter(user=user).exists()

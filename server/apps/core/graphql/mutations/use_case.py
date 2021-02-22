@@ -10,13 +10,14 @@ from jnt_django_graphene_toolbox.mutations.serializer import (
     SerializerMutationOptions,
 )
 
-from apps.core.application.errors import (
+from apps.core import injector
+from apps.core.graphql.errors import GenericGraphQLError
+from apps.core.logic.errors import (
     AccessDeniedApplicationError,
     BaseApplicationError,
     InvalidInputApplicationError,
 )
-from apps.core.application.use_cases import BaseUseCase
-from apps.core.graphql.errors import GenericGraphQLError
+from apps.core.logic.use_cases import BaseUseCase
 
 
 class UseCaseMutationOptions(SerializerMutationOptions):
@@ -53,7 +54,7 @@ class BaseUseCaseMutation(BaseMutation):
         **kwargs,
     ) -> Union["BaseUseCaseMutation", GraphQLError]:
         """Overrideable mutation operation."""
-        use_case = cls._meta.use_case_class()
+        use_case = injector.get(cls._meta.use_case_class)
 
         try:
             output_dto = use_case.execute(

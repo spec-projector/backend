@@ -1,29 +1,18 @@
-from typing import Optional, Union
+from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.errors import (
-    BaseGraphQLError,
-    GraphQLInputError,
-)
-from jnt_django_graphene_toolbox.mutations import BaseMutation
-from rest_framework import serializers
 
-from apps.core import injector
-from apps.core.graphql.mutations.mixins import ErrorHandlerMixin
+from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.users.graphql.types import TokenType
-from apps.users.services.auth.login import LoginInputDto, LoginService
+from apps.users.logic.use_cases.auth import login as login_uc
 
 
-class InputSerializer(serializers.Serializer):
-    """InputSerializer."""
-
-    login = serializers.CharField()
-    password = serializers.CharField()
-
-
-class LoginMutation(ErrorHandlerMixin, BaseMutation):
+class LoginMutation(BaseUseCaseMutation):
     """Login mutation returns token."""
+
+    class Meta:
+        use_case_class = login_uc.UseCase
 
     class Arguments:
         login = graphene.String(required=True)
@@ -32,23 +21,26 @@ class LoginMutation(ErrorHandlerMixin, BaseMutation):
     token = graphene.Field(TokenType)
 
     @classmethod
-    def mutate_and_get_payload(
+    def get_input_dto(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> Union[BaseGraphQLError, "LoginMutation"]:
-        """Login user."""
-        serializer = InputSerializer(data=kwargs)
-        if not serializer.is_valid():
-            return GraphQLInputError(serializer.errors)
-
-        service = injector.get(LoginService)
-
-        token = service.execute(
-            LoginInputDto(
-                username=serializer.validated_data["login"],
-                password=serializer.validated_data["password"],
-            ),
+    ):
+        """Prepare use case input data."""
+        return login_uc.InputDto(
+            username=kwargs["login"],
+            password=kwargs["password"],
         )
-        return cls(token=token)
+
+    @classmethod
+    def get_response_data(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+        output_dto: login_uc.OutputDto,
+    ) -> Dict[str, object]:
+        """Prepare response data."""
+        return {
+            "token": output_dto.token,
+        }

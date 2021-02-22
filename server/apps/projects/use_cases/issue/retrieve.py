@@ -4,8 +4,8 @@ from typing import Optional
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.application.errors import BaseApplicationError
-from apps.core.application.use_cases import BaseUseCase
+from apps.core.logic.errors import BaseApplicationError
+from apps.core.logic.use_cases import BaseUseCase
 from apps.core.utils.date import seconds_to_hours
 from apps.projects.graphql.types import AssigneeType
 from apps.projects.services.issues.retriever import System, get_issue
