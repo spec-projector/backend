@@ -203,7 +203,7 @@ p.datetime br {
 
 .changelink, .inlinechangelink {
     background: url(../img/icons/edit.svg) 0 1px no-repeat;
-    padding-left: 13px;
+    padding-left: 23px;
     background-size: contain;
     background-position-y: center;
 }
