@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.core.logic.errors import BaseApplicationError
 from apps.core.logic.use_cases import BaseUseCase
 from apps.core.services.errors import BaseInfrastructureError
-from apps.users.logic.interfaces import ILoginService, ITokenService
+from apps.users.logic.interfaces import IAuthenticationService, ITokenService
 from apps.users.models import Token, User
 
 
@@ -44,11 +44,11 @@ class UseCase(BaseUseCase):
     @injector.inject
     def __init__(
         self,
-        login_service: ILoginService,
+        auth_service: IAuthenticationService,
         token_service: ITokenService,
     ):
         """Initializing."""
-        self._login_service = login_service
+        self._auth_service = auth_service
         self._token_service = token_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
@@ -56,7 +56,7 @@ class UseCase(BaseUseCase):
         self._validate_input(input_dto)
 
         try:
-            user = self._login_service.login(
+            user = self._auth_service.auth(
                 input_dto.username,
                 input_dto.password,
             )

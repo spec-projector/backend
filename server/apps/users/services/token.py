@@ -14,6 +14,10 @@ class TokenService(ITokenService):
         """Create token for user."""
         return Token.objects.create(user=user)
 
+    def delete_token(self, token: Token) -> None:
+        """Remove token."""
+        token.delete()
+
     def clear_tokens(self) -> None:
         """Deletes expired tokens."""
         if settings.TOKEN_EXPIRE_PERIOD is None:
