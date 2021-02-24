@@ -25,7 +25,7 @@ class LogoutMutation(BaseUseCaseMutation):
     ):
         """Prepare use case input data."""
         return logout_uc.InputDto(
-            token=info.context.auth,
+            token=info.context.auth,  # type: ignore
         )
 
     @classmethod
