@@ -22,10 +22,15 @@ class SocialLoginService(ISocialLoginService):
 
         return response.url
 
-    def complete_login(self, request, backend_data) -> Token:
+    def complete_login(
+        self,
+        request: HttpRequest,
+        code: str,
+        state: str,
+    ) -> Token:
         """Completes user social authorization."""
         request = self._prepare_request(request)
-        request.backend.set_data(**backend_data)
+        request.backend.set_data(code=code, state=state)
 
         complete_result = do_complete(
             request.backend,

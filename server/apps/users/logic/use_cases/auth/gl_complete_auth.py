@@ -36,10 +36,8 @@ class UseCase(BaseUseCase):
         """Main logic here."""
         token = self._social_login_service.complete_login(
             input_dto.request,
-            {
-                "code": input_dto.code,
-                "state": input_dto.state,
-            },
+            input_dto.code,
+            input_dto.state,
         )
 
         return OutputDto(

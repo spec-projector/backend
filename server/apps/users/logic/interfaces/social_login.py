@@ -13,5 +13,10 @@ class ISocialLoginService(abc.ABC):
         """Initial login stage."""
 
     @abc.abstractmethod
-    def complete_login(self, request, backend_data) -> Token:
+    def complete_login(
+        self,
+        request: HttpRequest,
+        code: str,
+        state: str,
+    ) -> Token:
         """Final login stage."""
