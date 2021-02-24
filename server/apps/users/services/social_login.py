@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
@@ -9,10 +7,11 @@ from social_django.compat import reverse
 from social_django.utils import load_backend, load_strategy
 from social_django.views import NAMESPACE, _do_login  # noqa: WPS450
 
+from apps.users.logic.interfaces import ISocialLoginService
 from apps.users.models import Token
 
 
-class SocialLoginService:
+class SocialLoginService(ISocialLoginService):
     """Handler for social authorization."""
 
     def begin_login(self, request: HttpRequest) -> str:
@@ -23,7 +22,7 @@ class SocialLoginService:
 
         return response.url
 
-    def complete_login(self, request, backend_data) -> Optional[Token]:
+    def complete_login(self, request, backend_data) -> Token:
         """Completes user social authorization."""
         request = self._prepare_request(request)
         request.backend.set_data(**backend_data)

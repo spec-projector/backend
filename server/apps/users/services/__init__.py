@@ -1,2 +1,3 @@
 from .token import TokenService
-from .auth.login import AuthenticationService
+from .auth import AuthenticationService
+from .social_login import SocialLoginService

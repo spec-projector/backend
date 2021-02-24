@@ -1,25 +1,20 @@
-from typing import Optional
+from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.errors import GraphQLInputError
-from jnt_django_graphene_toolbox.mutations import BaseMutation
-from rest_framework import serializers
 
-from apps.core import injector
+from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.users.graphql.types import TokenType
-from apps.users.services.auth.social_login import SocialLoginService
+from apps.users.logic.use_cases.auth import (
+    gl_complete_auth as gl_complete_auth_uc,
+)
 
 
-class InputSerializer(serializers.Serializer):
-    """InputSerializer."""
-
-    code = serializers.CharField()
-    state = serializers.CharField()
-
-
-class CompleteGitlabAuthMutation(BaseMutation):
+class CompleteGitlabAuthMutation(BaseUseCaseMutation):
     """Complete login mutation after redirection from Gitlab."""
+
+    class Meta:
+        use_case_class = gl_complete_auth_uc.UseCase
 
     class Arguments:
         code = graphene.String(required=True)
@@ -28,17 +23,26 @@ class CompleteGitlabAuthMutation(BaseMutation):
     token = graphene.Field(TokenType)
 
     @classmethod
-    def mutate_and_get_payload(
+    def get_input_dto(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> "CompleteGitlabAuthMutation":
-        """After successful login return class with token."""
-        serializer = InputSerializer(data=kwargs)
-        if not serializer.is_valid():
-            return GraphQLInputError(serializer.errors)
+    ):
+        """Prepare use case input data."""
+        return gl_complete_auth_uc.InputDto(
+            request=info.context,
+            **kwargs,
+        )
 
-        service = injector.get(SocialLoginService)
-        token = service.complete_login(info.context, serializer.validated_data)
-        return cls(token=token)
+    @classmethod
+    def get_response_data(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+        output_dto: gl_complete_auth_uc.OutputDto,
+    ) -> Dict[str, object]:
+        """Prepare response data."""
+        return {
+            "token": output_dto.token,
+        }
