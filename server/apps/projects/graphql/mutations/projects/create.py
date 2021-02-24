@@ -6,7 +6,7 @@ from graphql import ResolveInfo
 from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.projects.graphql.mutations.projects.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
-from apps.projects.use_cases.project import create as project_create
+from apps.projects.logic.use_cases.project import create as project_create
 
 
 class CreateProjectInput(BaseProjectInput):

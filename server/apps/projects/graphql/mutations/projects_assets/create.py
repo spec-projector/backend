@@ -5,7 +5,7 @@ from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.projects.graphql.types import ProjectAssetType
-from apps.projects.use_cases.project_asset import (
+from apps.projects.logic.use_cases.project_asset import (
     create as project_asset_create,
 )
 

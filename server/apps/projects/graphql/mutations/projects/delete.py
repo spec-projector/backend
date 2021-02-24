@@ -4,7 +4,7 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.projects.use_cases.project import delete as project_delete
+from apps.projects.logic.use_cases.project import delete as project_delete
 
 
 class DeleteProjectMutation(BaseUseCaseMutation):

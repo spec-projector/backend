@@ -8,8 +8,8 @@ from apps.core.logic.errors import BaseApplicationError
 from apps.core.logic.use_cases import BaseUseCase
 from apps.core.utils.date import seconds_to_hours
 from apps.projects.graphql.types import AssigneeType
+from apps.projects.logic.use_cases.issue.dto import InputDto, IssueDtoValidator
 from apps.projects.services.issues.retriever import System, get_issue
-from apps.projects.use_cases.issue.dto import InputDto, IssueDtoValidator
 
 INTEGRATION_MAP = {  # noqa: WPS407
     System.GITHUB: "github_integration",
