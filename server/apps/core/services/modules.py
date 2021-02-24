@@ -1,11 +1,12 @@
 import injector
 
-from apps.core.services.couchdb import CouchDBService, ICouchDBService
+from apps.core import services
+from apps.core.logic import interfaces
 
 
-class CoreServicesModule(injector.Module):
+class CoreInfrastructureModule(injector.Module):
     """Setup di for user services."""
 
     def configure(self, binder: injector.Binder) -> None:
         """Bind services."""
-        binder.bind(ICouchDBService, CouchDBService)
+        binder.bind(interfaces.ICouchDBService, services.CouchDBService)

@@ -1,5 +1,5 @@
 from apps.core import injector
-from apps.core.services.couchdb import ICouchDBService
+from apps.core.logic.interfaces import ICouchDBService
 from apps.projects.models import Project
 
 
