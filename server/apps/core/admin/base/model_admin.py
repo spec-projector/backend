@@ -1,11 +1,11 @@
 from django.contrib import admin
-from jnt_admin_tools.mixins import AutocompleteFieldsAdminMixin
+from jnt_admin_tools.mixins import AutocompleteAdminMixin
 
 from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
 
 
 class BaseModelAdmin(
-    AutocompleteFieldsAdminMixin,
+    AutocompleteAdminMixin,
     AdminFormFieldsOverridesMixin,
     admin.ModelAdmin,
 ):
