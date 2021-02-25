@@ -2,8 +2,6 @@ import injector
 
 from apps.users import services
 from apps.users.logic import interfaces
-from apps.users.services.auth.logout import LogoutService
-from apps.users.services.auth.social_login import SocialLoginService
 
 
 class UserInfrastructureModule(injector.Module):
@@ -17,9 +15,12 @@ class UserInfrastructureModule(injector.Module):
             scope=injector.singleton,
         )
         binder.bind(
-            interfaces.ILoginService,
-            services.LoginService,
+            interfaces.IAuthenticationService,
+            services.AuthenticationService,
             scope=injector.singleton,
         )
-        binder.bind(LogoutService, scope=injector.singleton)
-        binder.bind(SocialLoginService, scope=injector.singleton)
+        binder.bind(
+            interfaces.ISocialLoginService,
+            services.SocialLoginService,
+            scope=injector.singleton,
+        )

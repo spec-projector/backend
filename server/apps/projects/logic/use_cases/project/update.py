@@ -8,6 +8,14 @@ from rest_framework.exceptions import ValidationError
 from apps.core.logic.use_cases import BaseUseCase
 from apps.core.serializers.fields import BitField
 from apps.core.utils.objects import Empty, empty
+from apps.projects.logic.use_cases.project.dto import (
+    FigmaIntegrationDto,
+    FigmaIntegrationDtoValidator,
+    GitHubIntegrationDto,
+    GitHubIntegrationDtoValidator,
+    GitLabIntegrationDto,
+    GitLabIntegrationDtoValidator,
+)
 from apps.projects.models import (
     FigmaIntegration,
     GitHubIntegration,
@@ -17,14 +25,6 @@ from apps.projects.models import (
 from apps.projects.models.project_member import (
     ProjectMember,
     ProjectMemberRole,
-)
-from apps.projects.use_cases.project.dto import (
-    FigmaIntegrationDto,
-    FigmaIntegrationDtoValidator,
-    GitHubIntegrationDto,
-    GitHubIntegrationDtoValidator,
-    GitLabIntegrationDto,
-    GitLabIntegrationDtoValidator,
 )
 from apps.users.models import User
 

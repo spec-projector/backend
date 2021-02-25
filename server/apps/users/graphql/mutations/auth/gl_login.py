@@ -1,26 +1,40 @@
-from typing import Optional
+from typing import Dict, Optional
 
 import graphene
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.mutations import BaseMutation
 
-from apps.core import injector
-from apps.users.services.auth.social_login import SocialLoginService
+from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.users.logic.use_cases.auth import gl_login as gl_login_uc
 
 
-class LoginGitlabMutation(BaseMutation):
+class LoginGitlabMutation(BaseUseCaseMutation):
     """Login mutation through Gitlab returns url."""
+
+    class Meta:
+        use_case_class = gl_login_uc.UseCase
 
     redirect_url = graphene.String()
 
     @classmethod
-    def mutate_and_get_payload(
+    def get_input_dto(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> "LoginGitlabMutation":
-        """Returns redirect url for Gitlab."""
-        service = injector.get(SocialLoginService)
-        redirect_url = service.begin_login(info.context)
-        return cls(redirect_url=redirect_url)
+    ):
+        """Prepare use case input data."""
+        return gl_login_uc.InputDto(
+            request=info.context,
+        )
+
+    @classmethod
+    def get_response_data(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+        output_dto: gl_login_uc.OutputDto,
+    ) -> Dict[str, object]:
+        """Prepare response data."""
+        return {
+            "redirect_url": output_dto.redirect_url,
+        }

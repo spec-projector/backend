@@ -1,7 +1,7 @@
-from apps.projects.services.issues.retriever import System
-from apps.projects.use_cases.issue.retrieve import (
+from apps.projects.logic.use_cases.issue.retrieve import (
     ProjectIntegrationNotFoundError,
 )
+from apps.projects.services.issues.retriever import System
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_ISSUE = """

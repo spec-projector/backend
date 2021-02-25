@@ -1,8 +1,8 @@
 from graphql import ResolveInfo
 
+from apps.projects.logic.use_cases.issue.dto import InputDto
+from apps.projects.logic.use_cases.issue.retrieve import OutputDto, UseCase
 from apps.projects.services.issues.meta import System
-from apps.projects.use_cases.issue.dto import InputDto
-from apps.projects.use_cases.issue.retrieve import OutputDto, UseCase
 
 
 def resolve_issue(

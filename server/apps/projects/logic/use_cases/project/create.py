@@ -4,22 +4,22 @@ from typing import Union
 from rest_framework import serializers
 
 from apps.core import injector
+from apps.core.logic.interfaces import ICouchDBService
 from apps.core.logic.use_cases import BaseUseCase
-from apps.core.services.couchdb import ICouchDBService
 from apps.core.utils.objects import Empty, empty
-from apps.projects.models import (
-    FigmaIntegration,
-    GitHubIntegration,
-    GitLabIntegration,
-    Project,
-)
-from apps.projects.use_cases.project.dto import (
+from apps.projects.logic.use_cases.project.dto import (
     FigmaIntegrationDto,
     FigmaIntegrationDtoValidator,
     GitHubIntegrationDto,
     GitHubIntegrationDtoValidator,
     GitLabIntegrationDto,
     GitLabIntegrationDtoValidator,
+)
+from apps.projects.models import (
+    FigmaIntegration,
+    GitHubIntegration,
+    GitLabIntegration,
+    Project,
 )
 from apps.users.models import User
 

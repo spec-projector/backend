@@ -1,6 +1,6 @@
 from typing import List
 
-from apps.core.services.couchdb import ICouchDBService
+from apps.core.logic.interfaces import ICouchDBService
 
 
 class StubCouchDBService(ICouchDBService):

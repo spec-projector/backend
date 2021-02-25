@@ -1,26 +1,41 @@
+from typing import Dict, Optional
+
 import graphene
-from jnt_django_graphene_toolbox.mutations import BaseMutation
+from graphql import ResolveInfo
 
-from apps.core import injector
-from apps.users.services.auth.logout import LogoutInputDto, LogoutService
+from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.users.logic.use_cases.auth import logout as logout_uc
 
 
-class LogoutMutation(BaseMutation):
+class LogoutMutation(BaseUseCaseMutation):
     """Logout mutation."""
 
     class Meta:
         auth_required = True
+        use_case_class = logout_uc.UseCase
 
     status = graphene.String()
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info, **kwargs):  # noqa: WPS110
-        """After successful logout return "success"."""
-        service = injector.get(LogoutService)
-        service.execute(
-            LogoutInputDto(
-                token=info.context.auth,
-            ),
+    def get_input_dto(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+        **kwargs,
+    ):
+        """Prepare use case input data."""
+        return logout_uc.InputDto(
+            token=info.context.auth,  # type: ignore
         )
 
-        return cls(status="success")
+    @classmethod
+    def get_response_data(
+        cls,
+        root: Optional[object],
+        info: ResolveInfo,  # noqa: WPS110
+        output_dto,
+    ) -> Dict[str, object]:
+        """Prepare response data."""
+        return {
+            "status": "success",
+        }

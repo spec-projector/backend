@@ -11,5 +11,9 @@ class ITokenService(abc.ABC):
         """Create token for user."""
 
     @abc.abstractmethod
+    def delete_token(self, token: Token) -> None:
+        """Remove token."""
+
+    @abc.abstractmethod
     def clear_tokens(self) -> None:
         """Deletes expired tokens."""
