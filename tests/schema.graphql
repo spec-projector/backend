@@ -110,7 +110,9 @@ type Mutation {
   loginGitlab: LoginGitlabMutation
   login(login: String!, password: String!): LoginMutation
   logout: LogoutMutation
+  register(input: RegisterInput!): RegisterMutation
   resetPassword(input: ResetPasswordInput!): ResetPasswordMutation
+  sendPasswordResetSecurityCode(input: SendPasswordResetSecurityCodeInput!): SendPasswordResetSecurityCodeMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -185,6 +187,17 @@ type Query {
   _debug: DjangoDebug
 }
 
+input RegisterInput {
+  login: String!
+  email: String!
+  name: String!
+  password: String!
+}
+
+type RegisterMutation {
+  token: Token
+}
+
 input ResetPasswordInput {
   email: String!
   code: String!
@@ -193,6 +206,14 @@ input ResetPasswordInput {
 
 type ResetPasswordMutation {
   token: Token
+}
+
+input SendPasswordResetSecurityCodeInput {
+  email: String!
+}
+
+type SendPasswordResetSecurityCodeMutation {
+  ok: Boolean
 }
 
 enum System {
