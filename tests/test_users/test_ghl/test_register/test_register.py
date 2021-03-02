@@ -4,8 +4,8 @@ import pytest
 
 from apps.core import injector
 from apps.users.logic.interfaces import IAuthenticationService
+from apps.users.logic.use_cases.register.errors import UserAlreadyExistsError
 from apps.users.models import Token, User
-from apps.users.services.register import UserAlreadyExistsError
 from tests.fixtures.users import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
 
 EMAIL = "new_user@mail.net"
