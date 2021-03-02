@@ -15,7 +15,7 @@ type CompleteGitlabAuthMutation {
 }
 
 input CreateProjectAssetInput {
-  projectId: ID!
+  project: ID!
   url: String!
 }
 
@@ -83,6 +83,12 @@ type Issue {
   assignee: Assignee
 }
 
+input IssueInput {
+  project: ID!
+  url: String!
+  system: System!
+}
+
 type LoginGitlabMutation {
   redirectUrl: String
 }
@@ -104,6 +110,7 @@ type Mutation {
   loginGitlab: LoginGitlabMutation
   login(login: String!, password: String!): LoginMutation
   logout: LogoutMutation
+  register(input: RegisterInput!): RegisterMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -136,6 +143,7 @@ type ProjectAsset {
   project: Project
   file: String
   source: String
+  fileUrl: String
 }
 
 type ProjectMember implements ModelRelayNode {
@@ -173,8 +181,19 @@ type Query {
   allUsers(email: String, offset: Int, sort: [UserSort], before: String, after: String, first: Int, last: Int): UserTypeConnection
   project(id: ID!): Project
   allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
-  issue(url: String!, token: String!, system: System!): Issue
+  issue(input: IssueInput!): Issue
   _debug: DjangoDebug
+}
+
+input RegisterInput {
+  login: String!
+  email: String!
+  name: String!
+  password: String!
+}
+
+type RegisterMutation {
+  token: Token
 }
 
 enum System {
@@ -191,15 +210,15 @@ type Token implements ModelRelayNode {
 }
 
 input UpdateFigmaIntegrationType {
-  token: String!
+  token: String
 }
 
 input UpdateGitHubIntegrationType {
-  token: String!
+  token: String
 }
 
 input UpdateGitLabIntegrationType {
-  token: String!
+  token: String
 }
 
 input UpdateProjectInput {
