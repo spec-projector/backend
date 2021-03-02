@@ -1,4 +1,4 @@
-from apps.users.graphql.mutations import auth
+from apps.users.graphql.mutations import auth, register
 
 
 class UsersMutations:
@@ -8,3 +8,4 @@ class UsersMutations:
     login_gitlab = auth.LoginGitlabMutation.Field()
     login = auth.LoginMutation.Field()
     logout = auth.LogoutMutation.Field()
+    register = register.RegisterMutation.Field()
