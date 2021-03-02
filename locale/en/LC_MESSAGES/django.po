@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-16 18:10+0300\n"
+"POT-Creation-Date: 2021-03-02 14:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,17 +38,20 @@ msgstr "Management"
 msgid "VN__UTILS"
 msgstr "Utils"
 
+msgid "VN__CORE"
+msgstr "Core"
+
 msgid "MSG__INVALID_INPUT"
 msgstr "Invalid input"
 
 msgid "MSG__OPERATION_NOT_PERMITTED"
 msgstr "Operation not permitted"
 
-msgid "VN__CORE"
-msgstr "Core"
-
 msgid "VN__PROJECTS"
 msgstr "Projects"
+
+msgid "MSG__PROJECT_INTEGRATION_NOT_FOUND"
+msgstr "Project integration not found"
 
 msgid "VN__FIGMA_INTEGRATION"
 msgstr "Figma integration"
@@ -174,11 +177,11 @@ msgstr "Figma: not valid url"
 msgid "MSG__FIGMA_REQUEST_ERROR {error}"
 msgstr "Figma request error: {error}"
 
-msgid "MSG__PROJECT_INTEGRATION_NOT_FOUND"
-msgstr "Project integration not found"
-
 msgid "VN__USERS"
 msgstr "User"
+
+msgid "MSG__MUST_INCLUDE_LOGIN_AND_PASSWORD"
+msgstr "Must include login and password"
 
 msgid "VN__USER_MUST_HAVE_A_LOGIN"
 msgstr "User must have a login"
@@ -222,11 +225,14 @@ msgstr "Avatar"
 msgid "HT__AVATAR"
 msgstr "Avatar"
 
-msgid "MSG__MUST_INCLUDE_LOGIN_AND_PASSWORD"
-msgstr "Must include login and password"
-
 msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"
+
+msgid "MSG__USER_ALREADY_EXISTS"
+msgstr "User already exists"
+
+msgid "MSG__NOT_VALID_REGISTRATION_INPUT"
+msgstr "Not valid registration input"
 
 msgid "MSG__AUTHENTICATION_ERROR"
 msgstr "Authentication failed"

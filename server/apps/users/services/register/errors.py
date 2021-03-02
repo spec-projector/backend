@@ -18,4 +18,4 @@ class RegistrationInputError(BaseRegistrationError):
     """User registration input error."""
 
     code = "validation_error"
-    message = _("MSG__NOT_VALID_REGISTRATION_ERROR")
+    message = _("MSG__NOT_VALID_REGISTRATION_INPUT")
