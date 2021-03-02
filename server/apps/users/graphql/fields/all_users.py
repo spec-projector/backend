@@ -1,27 +1,35 @@
 import graphene
-from jnt_django_graphene_toolbox.fields import BaseModelConnectionField
-from jnt_django_graphene_toolbox.filters import SortHandler
+from django.db.models import QuerySet
+from graphql import ResolveInfo
 
-from apps.users.graphql.filters import UsersFilterSet
+from apps.core.graphql.fields import BaseQueryConnectionField
 from apps.users.graphql.types import UserType
+from apps.users.logic.queries import users
 
 
-class UserSort(graphene.Enum):
-    """Allowed sort fields."""
-
-    EMAIL_ASC = "email"  # noqa: WPS115
-    EMAIL_DESC = "-email"  # noqa: WPS115
-
-
-class UserConnectionField(BaseModelConnectionField):
+class UserConnectionField(BaseQueryConnectionField):
     """Handler for user collection."""
 
-    filterset_class = UsersFilterSet
-    sort_handler = SortHandler(UserSort)
+    query = users.Query
 
     def __init__(self):
         """Initialize."""
         super().__init__(
             UserType,
             email=graphene.String(),
+        )
+
+    @classmethod
+    def get_input_dto(
+        cls,
+        queryset: QuerySet,
+        info: ResolveInfo,  # noqa: WPS110
+        args,
+    ):
+        """Prepare query input data."""
+        return users.InputDto(
+            user=info.context.user,  # type: ignore
+            sort=cls.get_sort_from_args(args),
+            filters=cls.get_filters_from_args(args),
+            queryset=queryset,
         )
