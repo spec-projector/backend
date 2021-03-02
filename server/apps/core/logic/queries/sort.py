@@ -66,7 +66,7 @@ class SortHandler(OrderingFilter):
         fields = {DEFAULT_SORT_FIELD}
 
         if enum:
-            for enum_item in list(enum):  # noqa: WPS437
+            for enum_item in list(enum):  # type: ignore
                 fields.add(enum_item.value.strip("-"))
 
         return set(fields)
