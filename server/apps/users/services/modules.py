@@ -24,8 +24,3 @@ class UserInfrastructureModule(injector.Module):
             services.SocialLoginService,
             scope=injector.singleton,
         )
-        binder.bind(
-            interfaces.IRegistrationService,
-            services.RegistrationService,
-            scope=injector.singleton,
-        )

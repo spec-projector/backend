@@ -6,8 +6,9 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.core.logic.errors import BaseApplicationError
 from apps.core.logic.use_cases import BaseUseCase
-from apps.users.logic.interfaces import IRegistrationService, ITokenService
+from apps.users.logic.interfaces import ITokenService
 from apps.users.models import Token
+from apps.users.services import RegistrationService
 
 
 @dataclass(frozen=True)
@@ -44,16 +45,15 @@ class UseCase(BaseUseCase):
     @injector.inject
     def __init__(
         self,
-        register_service: IRegistrationService,
         token_service: ITokenService,
     ):
         """Initializing."""
-        self._register_service = register_service
         self._token_service = token_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
-        user = self._register_service.register(**asdict(input_dto))
+        register_service = RegistrationService()
+        user = register_service.register(**asdict(input_dto))
 
         return OutputDto(
             token=self._token_service.create_user_token(user),

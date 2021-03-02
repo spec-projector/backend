@@ -1,7 +1,6 @@
 from django.db import models
 from rest_framework import serializers
 
-from apps.users.logic.interfaces import IRegistrationService
 from apps.users.models import User
 from apps.users.services.register.errors import (
     RegistrationInputError,
@@ -21,7 +20,7 @@ class RegistrationSerializer(serializers.Serializer):
     password = serializers.CharField(required=True)
 
 
-class RegistrationService(IRegistrationService):
+class RegistrationService:
     """Registration service."""
 
     def register(
