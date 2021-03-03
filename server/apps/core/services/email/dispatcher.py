@@ -19,10 +19,7 @@ class EmailDispatcher:
         for email in to_send:
             email.status = EmailMessageStatus.SENDING
 
-        EmailMessage.objects.bulk_update(
-            to_send,
-            ["status"],
-        )
+        EmailMessage.objects.bulk_update(to_send, ["status"])
 
         for email_message in to_send:
             self.send_email(email_message)
