@@ -14,6 +14,7 @@ def _django_settings(settings, tmpdir_factory) -> None:
         "django.contrib.staticfiles.storage.StaticFilesStorage"
     )
     settings.CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
+    settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 
 
 @pytest.fixture(autouse=True)

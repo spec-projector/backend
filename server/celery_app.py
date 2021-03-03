@@ -37,7 +37,7 @@ def setup_periodic_tasks(sender, **kwargs):
     )
 
     sender.add_periodic_task(
-        timedelta(minutes=1),
+        timedelta(seconds=30),  # noqa: WPS432
         send_emails_task.s(),
         name="send emails",
     )

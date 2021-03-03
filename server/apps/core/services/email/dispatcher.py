@@ -7,7 +7,7 @@ from apps.core.models import EmailMessage
 from apps.core.models.choices.email_status import EmailMessageStatus
 
 
-class EmailSender:
+class EmailDispatcher:
     """Email sender."""
 
     def send_emails(self) -> None:
@@ -37,8 +37,3 @@ class EmailSender:
     def _get_emails_for_send(self) -> models.QuerySet:
         """Get messages for send."""
         return EmailMessage.objects.filter(status=EmailMessageStatus.CREATED)
-
-
-def send_emails() -> None:
-    """Send emails."""
-    EmailSender().send_emails()

@@ -1,2 +1,2 @@
 from .couchdb import CouchDBService
-from .email.email import EmailService
+from .email.service import EmailService

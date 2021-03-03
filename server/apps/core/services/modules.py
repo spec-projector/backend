@@ -11,3 +11,4 @@ class CoreInfrastructureModule(injector.Module):
         """Bind services."""
         binder.bind(interfaces.ICouchDBService, services.CouchDBService)
         binder.bind(interfaces.IEmailService, services.EmailService)
+        binder.bind(services.email.dispatcher.EmailDispatcher)
