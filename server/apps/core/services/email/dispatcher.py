@@ -25,9 +25,9 @@ class EmailDispatcher:
                 recipient_list=[email_message.to],
                 html_message=email_message.html,
             )
-        except Exception as error:  # TODO: catch any errors for logging.
+        except Exception as err:  # TODO: catch any errors for logging.
             email_message.status = EmailMessageStatus.ERROR
-            email_message.status_info = str(error)
+            email_message.status_info = str(err)
         else:
             email_message.status = EmailMessageStatus.SENT
             email_message.sent_at = timezone.now()
