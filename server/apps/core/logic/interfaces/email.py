@@ -13,6 +13,6 @@ class IEmailService(abc.ABC):
         to: str,
         subject: str,
         template: str,
-        context: Dict[str, str],
+        context,
     ) -> EmailMessage:
         """Create email."""

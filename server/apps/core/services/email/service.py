@@ -15,7 +15,7 @@ class EmailService(IEmailService):
         to: str,
         subject: str,
         template: str,
-        context: Dict[str, str],
+        context,
     ) -> EmailMessage:
         """Create email."""
         return EmailMessage.objects.create(
