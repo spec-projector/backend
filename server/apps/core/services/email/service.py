@@ -1,5 +1,3 @@
-from typing import Dict
-
 from constance import config
 from django.template.loader import get_template
 

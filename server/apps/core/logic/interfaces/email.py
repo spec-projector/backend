@@ -1,5 +1,4 @@
 import abc
-from typing import Dict
 
 from apps.core.models import EmailMessage
 
