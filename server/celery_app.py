@@ -22,6 +22,7 @@ def setup_periodic_tasks(sender, **kwargs):
         cleanup_couchdb_task,
         cleanup_project_assets_task,
     )
+    from apps.core.tasks import send_emails_task  # noqa: WPS433
 
     sender.add_periodic_task(
         timedelta(hours=1),
@@ -33,4 +34,10 @@ def setup_periodic_tasks(sender, **kwargs):
         timedelta(days=1),
         cleanup_project_assets_task.s(),
         name="cleanup project assets",
+    )
+
+    sender.add_periodic_task(
+        timedelta(minutes=1),
+        send_emails_task.s(),
+        name="send emails",
     )

@@ -10,3 +10,4 @@ class CoreInfrastructureModule(injector.Module):
     def configure(self, binder: injector.Binder) -> None:
         """Bind services."""
         binder.bind(interfaces.ICouchDBService, services.CouchDBService)
+        binder.bind(interfaces.IEmailService, services.EmailService)

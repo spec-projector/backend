@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-02 14:14+0300\n"
+"POT-Creation-Date: 2021-03-03 12:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,6 +46,57 @@ msgstr "Invalid input"
 
 msgid "MSG__OPERATION_NOT_PERMITTED"
 msgstr "Operation not permitted"
+
+msgid "CH__CREATED"
+msgstr "Created"
+
+msgid "CH__SENT"
+msgstr "Sent"
+
+msgid "CH__ERROR"
+msgstr "Error"
+
+msgid "VN__EMAIL_MESSAGE"
+msgstr "Email message"
+
+msgid "VN__EMAIL_MESSAGES"
+msgstr "Email messages"
+
+msgid "VN__EMAIL_MESSAGE_STATUS"
+msgstr "Status"
+
+msgid "HT__EMAIL_MESSAGE_STATUS"
+msgstr " "
+
+msgid "VN__EMAIL_MESSAGE_SUBJECT"
+msgstr "Subject"
+
+msgid "HT__EMAIL_MESSAGE_SUBJECT"
+msgstr " "
+
+msgid "VN__EMAIL_MESSAGE_TO"
+msgstr "To"
+
+msgid "HT__EMAIL_MESSAGE_TO"
+msgstr "Email recipient"
+
+msgid "VN__EMAIL_MESSAGE_SENDER"
+msgstr "Sender"
+
+msgid "HT__EMAIL_MESSAGE_SENDER"
+msgstr " "
+
+msgid "VN__EMAIL_MESSAGE_SENT_AT"
+msgstr "Sent at"
+
+msgid "HT__EMAIL_MESSAGE_SENT_AT"
+msgstr " "
+
+msgid "VN__EMAIL_MESSAGE_STATUS_INFO"
+msgstr "Status info"
+
+msgid "HT__EMAIL_MESSAGE_STATUS_INFO"
+msgstr " "
 
 msgid "VN__PROJECTS"
 msgstr "Projects"
@@ -183,6 +234,12 @@ msgstr "User"
 msgid "MSG__MUST_INCLUDE_LOGIN_AND_PASSWORD"
 msgstr "Must include login and password"
 
+msgid "MSG__USER_ALREADY_EXISTS"
+msgstr "User already exists"
+
+msgid "MSG__NOT_VALID_REGISTRATION_INPUT"
+msgstr "Not valid registration input"
+
 msgid "VN__USER_MUST_HAVE_A_LOGIN"
 msgstr "User must have a login"
 
@@ -227,12 +284,6 @@ msgstr "Avatar"
 
 msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"
-
-msgid "MSG__USER_ALREADY_EXISTS"
-msgstr "User already exists"
-
-msgid "MSG__NOT_VALID_REGISTRATION_INPUT"
-msgstr "Not valid registration input"
 
 msgid "MSG__AUTHENTICATION_ERROR"
 msgstr "Authentication failed"
