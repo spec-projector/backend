@@ -6,13 +6,25 @@ from django.utils import timezone
 from apps.core.models import EmailMessage
 from apps.core.models.choices.email_status import EmailMessageStatus
 
+BATCH_SIZE = 20
+
 
 class EmailDispatcher:
     """Email sender."""
 
     def send_emails(self) -> None:
         """Send emails."""
-        for email_message in self._get_emails_for_send():
+        to_send = self._get_emails_for_send()
+
+        for email in to_send:
+            email.status = EmailMessageStatus.SENDING
+
+        EmailMessage.objects.bulk_update(
+            to_send,
+            ["status"],
+        )
+
+        for email_message in to_send:
             self.send_email(email_message)
 
     def send_email(self, email_message: EmailMessage) -> None:
@@ -36,4 +48,5 @@ class EmailDispatcher:
 
     def _get_emails_for_send(self) -> models.QuerySet:
         """Get messages for send."""
-        return EmailMessage.objects.filter(status=EmailMessageStatus.CREATED)
+        messages = EmailMessage.objects.filter(status=EmailMessageStatus.READY)
+        return messages.order_by("created_at")[:BATCH_SIZE]

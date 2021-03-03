@@ -3,6 +3,7 @@ from django.template.loader import get_template
 
 from apps.core.logic.interfaces import IEmailService
 from apps.core.models import EmailMessage
+from apps.core.models.choices.email_status import EmailMessageStatus
 
 
 class EmailService(IEmailService):
@@ -21,4 +22,5 @@ class EmailService(IEmailService):
             subject=subject,
             html=get_template(template).render(context),
             sender=config.DEFAULT_FROM_EMAIL,
+            status=EmailMessageStatus.READY,
         )

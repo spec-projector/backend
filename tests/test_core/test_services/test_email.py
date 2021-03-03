@@ -19,4 +19,4 @@ def test_create_email(db):
 
     assert email_message.to == to
     assert email_message.subject == subject
-    assert email_message.status == EmailMessageStatus.CREATED
+    assert email_message.status == EmailMessageStatus.READY
