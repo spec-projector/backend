@@ -111,6 +111,8 @@ type Mutation {
   login(login: String!, password: String!): LoginMutation
   logout: LogoutMutation
   register(input: RegisterInput!): RegisterMutation
+  resetPassword(input: ResetPasswordInput!): ResetPasswordMutation
+  sendPasswordResetSecurityCode(input: SendPasswordResetSecurityCodeInput!): SendPasswordResetSecurityCodeMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -194,6 +196,24 @@ input RegisterInput {
 
 type RegisterMutation {
   token: Token
+}
+
+input ResetPasswordInput {
+  email: String!
+  code: String!
+  password: String!
+}
+
+type ResetPasswordMutation {
+  token: Token
+}
+
+input SendPasswordResetSecurityCodeInput {
+  email: String!
+}
+
+type SendPasswordResetSecurityCodeMutation {
+  ok: Boolean
 }
 
 enum System {

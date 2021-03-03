@@ -24,3 +24,8 @@ class UserInfrastructureModule(injector.Module):
             services.SocialLoginService,
             scope=injector.singleton,
         )
+        binder.bind(
+            interfaces.IResetPasswordRequestService,
+            services.ResetPasswordRequestService,
+            scope=injector.singleton,
+        )
