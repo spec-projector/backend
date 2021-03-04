@@ -1,0 +1,115 @@
+import pytest
+from rest_framework.exceptions import AuthenticationFailed
+from social_core.backends.google import GoogleOAuth2
+
+from apps.users.models import Token
+from apps.users.logic.interfaces.social_login import SystemBackend
+
+
+KEY_TOKEN_TYPE = "token_type"  # noqa: S105
+KEY_EXPIRES_IN = "expires_in"
+KEY_ACCESS_TOKEN = "access_token"  # noqa: S105
+KEY_REFRESH_TOKEN = "refresh_token"  # noqa: S105
+
+ACCESS_TOKEN = "access_token"  # noqa: S105
+REFRESH_TOKEN = "refresh_token"  # noqa: S105
+
+
+def test_complete_login(
+    user,
+    google_mocker,
+    social_login_complete_mutation,
+    google_token_request_info,
+):
+    """Test complete login."""
+    google_mocker.register_get(
+        "/user",
+        {"id": user.pk, "username": user.login, "email": user.email},
+    )
+
+    google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
+    google_mocker.register_post(
+        "",
+        {
+            KEY_ACCESS_TOKEN: ACCESS_TOKEN,
+            KEY_REFRESH_TOKEN: REFRESH_TOKEN,
+            KEY_TOKEN_TYPE: "bearer",
+            KEY_EXPIRES_IN: 7200,
+        },
+    )
+
+    response = social_login_complete_mutation(
+        root=None,
+        info=google_token_request_info,
+        code="test_code",
+        state=google_token_request_info.context.session["google-oauth2_state"],
+        system=SystemBackend.GOOGLE,
+    )
+
+    assert Token.objects.filter(pk=response.token.pk, user=user).exists()
+
+
+def test_user_not_in_system(
+    db,
+    google_mocker,
+    social_login_complete_mutation,
+    google_token_request_info,
+):
+    """Test complete login."""
+    google_mocker.register_get(
+        "/user",
+        {"id": 1, "username": "user", "email": "user@mail.ru"},
+    )
+
+    google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
+    google_mocker.register_post(
+        "",
+        {
+            KEY_ACCESS_TOKEN: ACCESS_TOKEN,
+            KEY_REFRESH_TOKEN: REFRESH_TOKEN,
+            KEY_TOKEN_TYPE: "bearer",
+            KEY_EXPIRES_IN: 7200,
+        },
+    )
+
+    with pytest.raises(AuthenticationFailed):
+        social_login_complete_mutation(
+            root=None,
+            info=google_token_request_info,
+            code="test_code",
+            state=google_token_request_info.context.session["gitlab_state"],
+            system=SystemBackend.GOOGLE,
+        )
+
+
+def test_not_login(
+    user,
+    google_mocker,
+    social_login_complete_mutation,
+    google_token_request_info,
+):
+    """Test not login user."""
+    google_mocker.register_get(
+        "/user",
+        {"id": user.pk, "username": "test_user", "email": "bad@re.t"},
+    )
+
+    google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
+    google_mocker.register_post(
+        "",
+        {
+            KEY_ACCESS_TOKEN: ACCESS_TOKEN,
+            KEY_REFRESH_TOKEN: REFRESH_TOKEN,
+            KEY_TOKEN_TYPE: "bearer",
+            KEY_EXPIRES_IN: 7200,
+        },
+    )
+
+    with pytest.raises(AuthenticationFailed):
+        social_login_complete_mutation(
+            root=None,
+            info=google_token_request_info,
+            code="test_code",
+            state=google_token_request_info.context.session["state"],
+            system=SystemBackend.GOOGLE,
+        )

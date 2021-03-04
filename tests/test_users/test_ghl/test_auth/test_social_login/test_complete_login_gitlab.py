@@ -3,6 +3,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from social_core.backends.gitlab import GitLabOAuth2
 
 from apps.users.models import Token
+from apps.users.logic.interfaces.social_login import SystemBackend
+
 
 KEY_TOKEN_TYPE = "token_type"  # noqa: S105
 KEY_EXPIRES_IN = "expires_in"
@@ -16,7 +18,7 @@ REFRESH_TOKEN = "refresh_token"  # noqa: S105
 def test_complete_login(
     user,
     gl_mocker,
-    complete_gl_auth_mutation,
+    social_login_complete_mutation,
     gl_token_request_info,
 ):
     """Test complete login."""
@@ -36,11 +38,12 @@ def test_complete_login(
         },
     )
 
-    response = complete_gl_auth_mutation(
+    response = social_login_complete_mutation(
         root=None,
         info=gl_token_request_info,
         code="test_code",
         state=gl_token_request_info.context.session["gitlab_state"],
+        system=SystemBackend.GITLAB,
     )
 
     assert Token.objects.filter(pk=response.token.pk, user=user).exists()
@@ -49,7 +52,7 @@ def test_complete_login(
 def test_user_not_in_system(
     db,
     gl_mocker,
-    complete_gl_auth_mutation,
+    social_login_complete_mutation,
     gl_token_request_info,
 ):
     """Test complete login."""
@@ -70,24 +73,25 @@ def test_user_not_in_system(
     )
 
     with pytest.raises(AuthenticationFailed):
-        complete_gl_auth_mutation(
+        social_login_complete_mutation(
             root=None,
             info=gl_token_request_info,
             code="test_code",
             state=gl_token_request_info.context.session["gitlab_state"],
+            system=SystemBackend.GITLAB,
         )
 
 
 def test_not_login(
     user,
     gl_mocker,
-    complete_gl_auth_mutation,
+    social_login_complete_mutation,
     gl_token_request_info,
 ):
     """Test not login user."""
     gl_mocker.register_get(
         "/user",
-        {"id": user.pk, "username": "test_user", "email": user.email},
+        {"id": user.pk, "username": "test_user", "email": "bad@re.t"},
     )
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
@@ -102,9 +106,10 @@ def test_not_login(
     )
 
     with pytest.raises(AuthenticationFailed):
-        complete_gl_auth_mutation(
+        social_login_complete_mutation(
             root=None,
             info=gl_token_request_info,
             code="test_code",
             state=gl_token_request_info.context.session["gitlab_state"],
+            system=SystemBackend.GITLAB,
         )

@@ -22,10 +22,10 @@ def logout_mutation(ghl_mutations):
 
 
 @pytest.fixture(scope="session")
-def complete_gl_auth_mutation(ghl_mutations):
+def social_login_complete_mutation(ghl_mutations):
     """
-    Complete gl auth mutation.
+    Social login complete mutation.
 
     :param ghl_mutations:
     """
-    return ghl_mutations.fields["completeGitlabAuth"].resolver
+    return ghl_mutations.fields["socialLoginComplete"].resolver

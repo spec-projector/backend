@@ -1,4 +1,4 @@
-from .gl_complete_auth import CompleteGitlabAuthMutation
-from .gl_login import LoginGitlabMutation
 from .login import LoginMutation
 from .logout import LogoutMutation
+from .social_login import SocialLoginMutation
+from .social_login_complete import SocialLoginCompleteMutation

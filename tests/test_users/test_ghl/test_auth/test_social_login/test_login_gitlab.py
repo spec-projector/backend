@@ -2,6 +2,8 @@ import pytest
 from django.conf import settings
 from social_core.backends.gitlab import GitLabOAuth2
 
+from apps.users.logic.interfaces.social_login import SystemBackend
+
 
 @pytest.fixture(scope="module", autouse=True)
 def _gitlab_login() -> None:
@@ -22,11 +24,15 @@ def test_query(user, ghl_client, ghl_raw):
     }
 
     response = ghl_client.execute(
-        ghl_raw("login_gitlab"),
+        ghl_raw("social_login"),
         extra_context=context,
+        variable_values={
+            "system": SystemBackend.GITLAB.name,
+        }
     )
 
-    redirect_url = response["data"]["loginGitlab"]["redirectUrl"]
+    assert "errors" not in response
+    redirect_url = response["data"]["socialLogin"]["redirectUrl"]
 
     client = "client_id={0}".format(settings.SOCIAL_AUTH_GITLAB_KEY)
     redirect = "redirect_uri={0}".format(
