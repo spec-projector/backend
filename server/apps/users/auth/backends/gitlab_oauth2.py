@@ -6,8 +6,13 @@ from social_core.backends.gitlab import GitLabOAuth2 as SocialGitLabOAuth2
 from social_core.utils import handle_http_errors
 
 from apps.core import injector
+from apps.users.logic.interfaces.create_user import (
+    CreateUserData,
+    ICreateUserService,
+)
 from apps.users.models import User
 from apps.users.services.token import TokenService
+from apps.users.services.validate_social_auth_backend import backend_is_valid
 
 
 class GitLabOAuth2Backend(SocialGitLabOAuth2):
@@ -44,20 +49,34 @@ class GitLabOAuth2Backend(SocialGitLabOAuth2):
 
     def authenticate(self, *args, **kwargs) -> Optional[User]:
         """Return authenticated user."""
-        if not isinstance(self, kwargs.get("backend", None).__class__):
+        if not backend_is_valid(self.name, **kwargs):
             return None
 
-        response = kwargs.get("response")
+        response = kwargs["response"]
 
-        if response and "username" in response:
-            return User.objects.filter(login=response["username"]).first()
-
-        return None
+        user = self._find_user(response["email"], response["username"])
+        return user or self._create_user(response)
 
     def set_data(self, **kwargs):
-        """
-        Set data.
-
-        For example "state" and "code" values returned from Gitlab.
-        """
+        """Set data."""
         self.data = kwargs  # noqa: WPS110
+
+    def _find_user(self, email: str, username: str) -> Optional[User]:
+        """Find users by email or username."""
+        user = User.objects.filter(email=email).first()
+        if not user:
+            user = User.objects.filter(login=username).first()
+
+        return user
+
+    def _create_user(self, response) -> User:
+        """Create user from response data."""
+        user_data = CreateUserData(
+            email=response["email"],
+            login=response["username"] or response["email"],
+            name=response["name"],
+            avatar=response["avatar_url"],
+        )
+
+        service = injector.get(ICreateUserService)
+        return service.create_user(user_data)

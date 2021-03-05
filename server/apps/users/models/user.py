@@ -16,7 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "login"  # noqa: WPS115
 
     login = models.CharField(
-        max_length=20,  # noqa:  WPS432
+        max_length=128,  # noqa:  WPS432
         blank=True,
         unique=True,
         verbose_name=_("VN__LOGIN"),
@@ -31,7 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     email = models.EmailField(
-        max_length=50,  # noqa:  WPS432
+        max_length=128,  # noqa:  WPS432
         blank=True,
         verbose_name=_("VN__EMAIL"),
         help_text=_("HT__EMAIL"),

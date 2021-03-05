@@ -6,8 +6,10 @@ from social_core.backends.google import GoogleOAuth2 as SocialGoogleOAuth2
 from social_core.utils import handle_http_errors
 
 from apps.core import injector
+from apps.users.logic.interfaces import ICreateUserService, ITokenService
+from apps.users.logic.interfaces.create_user import CreateUserData
 from apps.users.models import User
-from apps.users.services.token import TokenService
+from apps.users.services.validate_social_auth_backend import backend_is_valid
 
 
 class GoogleOAuth2Backend(SocialGoogleOAuth2):
@@ -21,7 +23,7 @@ class GoogleOAuth2Backend(SocialGoogleOAuth2):
         if not user:
             return HttpResponseBadRequest("Invalid token")
 
-        token_service = injector.get(TokenService)
+        token_service = injector.get(ITokenService)
         token = token_service.create_user_token(user)
 
         user.last_login = timezone.now()
@@ -35,20 +37,26 @@ class GoogleOAuth2Backend(SocialGoogleOAuth2):
 
     def authenticate(self, *args, **kwargs) -> Optional[User]:
         """Return authenticated user."""
-        if not isinstance(self, kwargs.get("backend", None).__class__):
+        if not backend_is_valid(self.name, **kwargs):
             return None
 
-        response = kwargs.get("response")
+        response = kwargs["response"]
 
-        if response and "email" in response:
-            return User.objects.filter(email=response["email"]).first()
-
-        return None
+        user = User.objects.filter(email=response["email"]).first()
+        return user or self._create_user(response)
 
     def set_data(self, **kwargs):
-        """
-        Set data.
-
-        For example "state" and "code" values returned from Gitlab.
-        """
+        """Set data."""
         self.data = kwargs  # noqa: WPS110
+
+    def _create_user(self, response) -> User:
+        """Create user from response data."""
+        user_data = CreateUserData(
+            email=response["email"],
+            login=response["email"],
+            name=response["name"],
+            avatar=response["picture"],
+        )
+
+        service = injector.get(ICreateUserService)
+        return service.create_user(user_data)
