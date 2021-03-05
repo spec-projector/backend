@@ -10,6 +10,14 @@ type Assignee {
 
 scalar BitField
 
+input ChangePasswordInput {
+  password: String!
+}
+
+type ChangePasswordMutation {
+  ok: Boolean
+}
+
 type CompleteGitlabAuthMutation {
   token: Token
 }
@@ -113,6 +121,7 @@ type Mutation {
   register(input: RegisterInput!): RegisterMutation
   resetPassword(input: ResetPasswordInput!): ResetPasswordMutation
   sendPasswordResetSecurityCode(input: SendPasswordResetSecurityCodeInput!): SendPasswordResetSecurityCodeMutation
+  changePassword(input: ChangePasswordInput!): ChangePasswordMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
