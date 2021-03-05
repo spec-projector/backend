@@ -5,20 +5,25 @@ from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.users.graphql.types import TokenType
+from apps.users.logic.interfaces.social_login import SystemBackend
 from apps.users.logic.use_cases.auth import (
-    gl_complete_auth as gl_complete_auth_uc,
+    social_complete_login as social_complete_login_uc,
 )
 
 
-class CompleteGitlabAuthMutation(BaseUseCaseMutation):
-    """Complete login mutation after redirection from Gitlab."""
+class SocialLoginCompleteMutation(BaseUseCaseMutation):
+    """Complete login mutation after redirection."""
 
     class Meta:
-        use_case_class = gl_complete_auth_uc.UseCase
+        use_case_class = social_complete_login_uc.UseCase
 
     class Arguments:
         code = graphene.String(required=True)
         state = graphene.String(required=True)
+        system = graphene.Argument(
+            graphene.Enum.from_enum(SystemBackend),
+            required=True,
+        )
 
     token = graphene.Field(TokenType)
 
@@ -30,9 +35,11 @@ class CompleteGitlabAuthMutation(BaseUseCaseMutation):
         **kwargs,
     ):
         """Prepare use case input data."""
-        return gl_complete_auth_uc.InputDto(
+        return social_complete_login_uc.InputDto(
             request=info.context,
-            **kwargs,
+            code=kwargs["code"],
+            state=kwargs["state"],
+            system=SystemBackend(kwargs["system"]),
         )
 
     @classmethod
@@ -40,7 +47,7 @@ class CompleteGitlabAuthMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: gl_complete_auth_uc.OutputDto,
+        output_dto: social_complete_login_uc.OutputDto,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

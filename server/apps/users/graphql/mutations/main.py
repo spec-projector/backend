@@ -5,8 +5,9 @@ from apps.users.graphql.mutations import reset_password as reset_pwd
 class UsersMutations:
     """A class represents list of available mutations."""
 
-    complete_gitlab_auth = auth.CompleteGitlabAuthMutation.Field()
-    login_gitlab = auth.LoginGitlabMutation.Field()
+    social_login = auth.SocialLoginMutation.Field()
+    social_login_complete = auth.SocialLoginCompleteMutation.Field()
+
     login = auth.LoginMutation.Field()
     logout = auth.LogoutMutation.Field()
     register = register.RegisterMutation.Field()
