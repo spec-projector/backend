@@ -5,7 +5,7 @@ from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.users.logic.use_cases.change_password import (
-    change_password as change_password_uc,
+    use_case as change_password_uc,
 )
 
 
