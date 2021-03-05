@@ -1,4 +1,4 @@
-from apps.users.graphql.mutations import auth, register
+from apps.users.graphql.mutations import auth, change_password, register
 from apps.users.graphql.mutations import reset_password as reset_pwd
 
 
@@ -15,3 +15,4 @@ class UsersMutations:
     send_password_reset_security_code = (
         reset_pwd.SendPasswordResetSecurityCodeMutation.Field()
     )
+    change_password = change_password.ChangePasswordMutation.Field()
