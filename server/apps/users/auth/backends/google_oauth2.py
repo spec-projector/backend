@@ -6,10 +6,10 @@ from social_core.backends.google import GoogleOAuth2 as SocialGoogleOAuth2
 from social_core.utils import handle_http_errors
 
 from apps.core import injector
-from apps.users.logic.interfaces import ICreateUserService, ITokenService
+from apps.users.auth.backends.validate_backend import backend_is_valid
+from apps.users.logic.interfaces import ITokenService, IUserService
 from apps.users.logic.interfaces.create_user import CreateUserData
 from apps.users.models import User
-from apps.users.services.validate_social_auth_backend import backend_is_valid
 
 
 class GoogleOAuth2Backend(SocialGoogleOAuth2):
@@ -58,5 +58,5 @@ class GoogleOAuth2Backend(SocialGoogleOAuth2):
             avatar=response["picture"],
         )
 
-        service = injector.get(ICreateUserService)
+        service = injector.get(IUserService)
         return service.create_user(user_data)

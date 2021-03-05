@@ -4,17 +4,15 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.users.graphql.mutations.auth.social_login import (
-    GrapheneSystemBackend,
-)
 from apps.users.graphql.types import TokenType
+from apps.users.logic.interfaces.social_login import SystemBackend
 from apps.users.logic.use_cases.auth import (
     social_complete_login as social_complete_login_uc,
 )
 
 
 class SocialLoginCompleteMutation(BaseUseCaseMutation):
-    """Complete login mutation after redirection from Gitlab."""
+    """Complete login mutation after redirection."""
 
     class Meta:
         use_case_class = social_complete_login_uc.UseCase
@@ -22,7 +20,10 @@ class SocialLoginCompleteMutation(BaseUseCaseMutation):
     class Arguments:
         code = graphene.String(required=True)
         state = graphene.String(required=True)
-        system = graphene.Argument(GrapheneSystemBackend, required=True)
+        system = graphene.Argument(
+            graphene.Enum.from_enum(SystemBackend),
+            required=True,
+        )
 
     token = graphene.Field(TokenType)
 
@@ -38,7 +39,7 @@ class SocialLoginCompleteMutation(BaseUseCaseMutation):
             request=info.context,
             code=kwargs["code"],
             state=kwargs["state"],
-            system=GrapheneSystemBackend.get(kwargs["system"]),
+            system=SystemBackend(kwargs["system"]),
         )
 
     @classmethod

@@ -1,4 +1,4 @@
-def backend_is_valid(backend_name, **kwargs) -> bool:
+def backend_is_valid(backend_name: str, **kwargs) -> bool:
     """
     Check valid backend.
 

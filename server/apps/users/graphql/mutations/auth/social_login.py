@@ -7,8 +7,6 @@ from apps.core.graphql.mutations import BaseUseCaseMutation
 from apps.users.logic.interfaces.social_login import SystemBackend
 from apps.users.logic.use_cases.auth import social_login as social_login_uc
 
-GrapheneSystemBackend = graphene.Enum.from_enum(SystemBackend)
-
 
 class SocialLoginMutation(BaseUseCaseMutation):
     """Login mutation through social."""
@@ -18,7 +16,7 @@ class SocialLoginMutation(BaseUseCaseMutation):
 
     class Arguments:
         system = graphene.Argument(
-            GrapheneSystemBackend,
+            graphene.Enum.from_enum(SystemBackend),
             required=True,
         )
 
@@ -34,7 +32,7 @@ class SocialLoginMutation(BaseUseCaseMutation):
         """Prepare use case input data."""
         return social_login_uc.InputDto(
             request=info.context,
-            system=GrapheneSystemBackend.get(kwargs["system"]),
+            system=SystemBackend(kwargs["system"]),
         )
 
     @classmethod

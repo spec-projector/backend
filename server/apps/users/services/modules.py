@@ -30,7 +30,7 @@ class UserInfrastructureModule(injector.Module):
             scope=injector.singleton,
         )
         binder.bind(
-            interfaces.ICreateUserService,
-            services.CreateUserService,
+            interfaces.IUserService,
+            services.UserService,
             scope=injector.singleton,
         )

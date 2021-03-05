@@ -14,7 +14,7 @@ class CreateUserData:
     avatar: str
 
 
-class ICreateUserService(abc.ABC):
+class IUserService(abc.ABC):
     """Interface create user."""
 
     @abc.abstractmethod
