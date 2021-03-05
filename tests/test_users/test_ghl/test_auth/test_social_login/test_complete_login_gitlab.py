@@ -2,9 +2,8 @@ import pytest
 from rest_framework.exceptions import AuthenticationFailed
 from social_core.backends.gitlab import GitLabOAuth2
 
-from apps.users.models import Token
 from apps.users.logic.interfaces.social_login import SystemBackend
-
+from apps.users.models import Token
 
 KEY_TOKEN_TYPE = "token_type"  # noqa: S105
 KEY_EXPIRES_IN = "expires_in"

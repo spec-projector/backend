@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.http import HttpResponseBadRequest
 from django.utils import timezone
 from social_core.backends.gitlab import GitLabOAuth2 as SocialGitLabOAuth2
@@ -40,12 +42,17 @@ class GitLabOAuth2Backend(SocialGitLabOAuth2):
         """Callback URL after approving access on Gitlab."""
         return self.setting("REDIRECT_URI")
 
-    def authenticate(self, *args, **kwargs):
+    def authenticate(self, *args, **kwargs) -> Optional[User]:
         """Return authenticated user."""
+        if not isinstance(self, kwargs.get("backend", None).__class__):
+            return None
+
         response = kwargs.get("response")
 
-        if response:
+        if response and "username" in response:
             return User.objects.filter(login=response["username"]).first()
+
+        return None
 
     def set_data(self, **kwargs):
         """

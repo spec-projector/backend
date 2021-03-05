@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.http import HttpResponseBadRequest
 from django.utils import timezone
 from social_core.backends.google import GoogleOAuth2 as SocialGoogleOAuth2
@@ -13,11 +15,7 @@ class GoogleOAuth2Backend(SocialGoogleOAuth2):
 
     @handle_http_errors
     def auth_complete(self, *args, **kwargs):
-        """
-        Do GitLab OAuth and return token.
-
-        User must be exist in DB.
-        """
+        """Do Google OAuth and return token."""
         user = super().auth_complete(*args, **kwargs)
 
         if not user:
@@ -35,12 +33,17 @@ class GoogleOAuth2Backend(SocialGoogleOAuth2):
         """Callback URL after approving access on Google."""
         return self.setting("REDIRECT_URI")
 
-    def authenticate(self, *args, **kwargs):
+    def authenticate(self, *args, **kwargs) -> Optional[User]:
         """Return authenticated user."""
+        if not isinstance(self, kwargs.get("backend", None).__class__):
+            return None
+
         response = kwargs.get("response")
 
-        if response:
-          return User.objects.filter(email=response["email"]).first()
+        if response and "email" in response:
+            return User.objects.filter(email=response["email"]).first()
+
+        return None
 
     def set_data(self, **kwargs):
         """

@@ -2,9 +2,8 @@ import pytest
 from rest_framework.exceptions import AuthenticationFailed
 from social_core.backends.google import GoogleOAuth2
 
-from apps.users.models import Token
 from apps.users.logic.interfaces.social_login import SystemBackend
-
+from apps.users.models import Token
 
 KEY_TOKEN_TYPE = "token_type"  # noqa: S105
 KEY_EXPIRES_IN = "expires_in"
@@ -23,8 +22,13 @@ def test_complete_login(
 ):
     """Test complete login."""
     google_mocker.register_get(
-        "/user",
-        {"id": user.pk, "username": user.login, "email": user.email},
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {"id": user.pk, "name": user.name, "email": user.email},
+    )
+
+    google_mocker.register_post(
+        "https://www.googleapis.com/o/oauth2/token",
+        {"id": user.pk, "name": user.name, "email": user.email},
     )
 
     google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
@@ -57,8 +61,13 @@ def test_user_not_in_system(
 ):
     """Test complete login."""
     google_mocker.register_get(
-        "/user",
-        {"id": 1, "username": "user", "email": "user@mail.ru"},
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {"id": 1, "name": "user.name", "email": "user@mail.ru"},
+    )
+
+    google_mocker.register_post(
+        "https://www.googleapis.com/o/oauth2/token",
+        {"id": 1, "name": "user.name", "email": "user@mail.ru"},
     )
 
     google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
@@ -77,7 +86,9 @@ def test_user_not_in_system(
             root=None,
             info=google_token_request_info,
             code="test_code",
-            state=google_token_request_info.context.session["gitlab_state"],
+            state=google_token_request_info.context.session[
+                "google-oauth2_state"
+            ],
             system=SystemBackend.GOOGLE,
         )
 
@@ -90,8 +101,13 @@ def test_not_login(
 ):
     """Test not login user."""
     google_mocker.register_get(
-        "/user",
-        {"id": user.pk, "username": "test_user", "email": "bad@re.t"},
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {"id": user.pk, "name": user.name, "email": "bad@re.t"},
+    )
+
+    google_mocker.register_post(
+        "https://www.googleapis.com/o/oauth2/token",
+        {"id": user.pk, "name": user.name, "email": "bad@re.t"},
     )
 
     google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
@@ -110,6 +126,8 @@ def test_not_login(
             root=None,
             info=google_token_request_info,
             code="test_code",
-            state=google_token_request_info.context.session["state"],
+            state=google_token_request_info.context.session[
+                "google-oauth2_state"
+            ],
             system=SystemBackend.GOOGLE,
         )

@@ -28,7 +28,7 @@ def test_query(user, ghl_client, ghl_raw):
         extra_context=context,
         variable_values={
             "system": SystemBackend.GOOGLE.name,
-        }
+        },
     )
 
     assert "errors" not in response
