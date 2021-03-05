@@ -4,14 +4,21 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.users.logic.use_cases.auth import gl_login as gl_login_uc
+from apps.users.logic.interfaces.social_login import SystemBackend
+from apps.users.logic.use_cases.auth import social_login as social_login_uc
 
 
-class LoginGitlabMutation(BaseUseCaseMutation):
-    """Login mutation through Gitlab returns url."""
+class SocialLoginMutation(BaseUseCaseMutation):
+    """Login mutation through social."""
 
     class Meta:
-        use_case_class = gl_login_uc.UseCase
+        use_case_class = social_login_uc.UseCase
+
+    class Arguments:
+        system = graphene.Argument(
+            graphene.Enum.from_enum(SystemBackend),
+            required=True,
+        )
 
     redirect_url = graphene.String()
 
@@ -23,8 +30,9 @@ class LoginGitlabMutation(BaseUseCaseMutation):
         **kwargs,
     ):
         """Prepare use case input data."""
-        return gl_login_uc.InputDto(
+        return social_login_uc.InputDto(
             request=info.context,
+            system=SystemBackend(kwargs["system"]),
         )
 
     @classmethod
@@ -32,7 +40,7 @@ class LoginGitlabMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: gl_login_uc.OutputDto,
+        output_dto: social_login_uc.OutputDto,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

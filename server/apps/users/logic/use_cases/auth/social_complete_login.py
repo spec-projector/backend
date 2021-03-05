@@ -5,6 +5,8 @@ from django.http import HttpRequest
 
 from apps.core.logic.use_cases import BaseUseCase
 from apps.users.logic.interfaces import ISocialLoginService
+from apps.users.logic.interfaces.social_login import SystemBackend
+from apps.users.models import Token
 
 
 @dataclass(frozen=True)
@@ -12,13 +14,16 @@ class InputDto:
     """GitLab login input data."""
 
     request: HttpRequest
+    code: str
+    state: str
+    system: SystemBackend
 
 
 @dataclass(frozen=True)
 class OutputDto:
-    """Login output dto."""
+    """GitLab complete auth output dto."""
 
-    redirect_url: str
+    token: Token
 
 
 class UseCase(BaseUseCase):
@@ -31,10 +36,13 @@ class UseCase(BaseUseCase):
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
-        redirect_url = self._social_login_service.begin_login(
+        token = self._social_login_service.complete_login(
             input_dto.request,
+            input_dto.code,
+            input_dto.state,
+            input_dto.system,
         )
 
         return OutputDto(
-            redirect_url=redirect_url,
+            token=token,
         )

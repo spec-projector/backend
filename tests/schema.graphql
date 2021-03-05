@@ -18,10 +18,6 @@ type ChangePasswordMutation {
   ok: Boolean
 }
 
-type CompleteGitlabAuthMutation {
-  token: Token
-}
-
 input CreateProjectAssetInput {
   project: ID!
   url: String!
@@ -97,10 +93,6 @@ input IssueInput {
   system: System!
 }
 
-type LoginGitlabMutation {
-  redirectUrl: String
-}
-
 type LoginMutation {
   token: Token
 }
@@ -114,8 +106,8 @@ interface ModelRelayNode {
 }
 
 type Mutation {
-  completeGitlabAuth(code: String!, state: String!): CompleteGitlabAuthMutation
-  loginGitlab: LoginGitlabMutation
+  socialLogin(system: SystemBackend!): SocialLoginMutation
+  socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
   login(login: String!, password: String!): LoginMutation
   logout: LogoutMutation
   register(input: RegisterInput!): RegisterMutation
@@ -226,10 +218,23 @@ type SendPasswordResetSecurityCodeMutation {
   ok: Boolean
 }
 
+type SocialLoginCompleteMutation {
+  token: Token
+}
+
+type SocialLoginMutation {
+  redirectUrl: String
+}
+
 enum System {
   GITHUB
   GITLAB
   DUMMY
+}
+
+enum SystemBackend {
+  GITLAB
+  GOOGLE
 }
 
 type Token implements ModelRelayNode {

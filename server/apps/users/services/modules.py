@@ -29,3 +29,8 @@ class UserInfrastructureModule(injector.Module):
             services.ResetPasswordRequestService,
             scope=injector.singleton,
         )
+        binder.bind(
+            interfaces.IUserService,
+            services.UserService,
+            scope=injector.singleton,
+        )
