@@ -1,8 +1,13 @@
+import pytest
 from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
 from apps.core import injector
 from apps.users.logic.interfaces import IAuthenticationService
+from apps.users.logic.use_cases.change_password.errors import (
+    PasswordNotSetError,
+)
 
+OLD_PASSWORD = "old_password"  # noqa: S105
 NEW_PASSWORD = "new user password"  # noqa: S105
 
 
@@ -37,11 +42,28 @@ def test_success(user, ghl_auth_mock_info, change_password_mutation):
     _check_auth(user.login, NEW_PASSWORD)
 
 
+def test_change_to_empty_password(
+    user,
+    ghl_auth_mock_info,
+    change_password_mutation,
+):
+    """Test success change password."""
+    user.set_password(OLD_PASSWORD)
+    user.save()
+
+    with pytest.raises(PasswordNotSetError):
+        change_password_mutation(
+            root=None,
+            info=ghl_auth_mock_info,
+            input={"password": ""},
+        )
+
+    _check_auth(user.login, OLD_PASSWORD)
+
+
 def test_change_not_auth(user, ghl_mock_info, change_password_mutation):
     """Test not change password."""
-    old_password = "old_password"  # noqa: S105
-
-    user.set_password(old_password)
+    user.set_password(OLD_PASSWORD)
     user.save()
 
     response = change_password_mutation(
@@ -51,7 +73,7 @@ def test_change_not_auth(user, ghl_mock_info, change_password_mutation):
     )
 
     assert isinstance(response, GraphQLPermissionDenied)
-    _check_auth(user.login, old_password)
+    _check_auth(user.login, OLD_PASSWORD)
 
 
 def _check_auth(username, password) -> None:
