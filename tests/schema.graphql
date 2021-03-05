@@ -122,6 +122,7 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): ResetPasswordMutation
   sendPasswordResetSecurityCode(input: SendPasswordResetSecurityCodeInput!): SendPasswordResetSecurityCodeMutation
   changePassword(input: ChangePasswordInput!): ChangePasswordMutation
+  updateMe(input: UpdateMeInput!): UpdateMeMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -248,6 +249,15 @@ input UpdateGitHubIntegrationType {
 
 input UpdateGitLabIntegrationType {
   token: String
+}
+
+input UpdateMeInput {
+  name: String
+  avatar: String
+}
+
+type UpdateMeMutation {
+  me: User
 }
 
 input UpdateProjectInput {
