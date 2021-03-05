@@ -31,7 +31,7 @@ class OutputDto:
 
 
 class UseCase(BaseUseCase):
-    """Use case for retrieve issue."""
+    """Use case for reset password."""
 
     @injector.inject
     def __init__(
