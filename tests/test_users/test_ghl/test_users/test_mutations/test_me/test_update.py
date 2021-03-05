@@ -29,7 +29,7 @@ def test_query(user, ghl_client, ghl_raw):
 
 def test_success(user, ghl_auth_mock_info, update_me_mutation):
     """Test update me success."""
-    response = update_me_mutation(
+    update_me_mutation(
         root=None,
         info=ghl_auth_mock_info,
         input={

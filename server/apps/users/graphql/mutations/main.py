@@ -1,6 +1,5 @@
-from apps.users.graphql.mutations import auth, change_password, register
+from apps.users.graphql.mutations import auth, change_password, me, register
 from apps.users.graphql.mutations import reset_password as reset_pwd
-from apps.users.graphql.mutations import me
 
 
 class UsersMutations:

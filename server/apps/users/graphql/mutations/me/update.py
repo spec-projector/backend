@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from typing import Dict, Optional
 
 import graphene
@@ -48,4 +49,4 @@ class UpdateMeMutation(BaseUseCaseMutation):
         output_dto: update_me_uc.OutputDto,
     ) -> Dict[str, object]:
         """Prepare response data."""
-        return {"me": output_dto.user}
+        return asdict(output_dto)

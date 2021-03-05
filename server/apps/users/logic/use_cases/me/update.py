@@ -1,29 +1,10 @@
 from dataclasses import asdict, dataclass
-from typing import Dict
 
 import injector
-from django.db import models
-from rest_framework import serializers
 
 from apps.core.logic.use_cases import BaseUseCase
 from apps.users.logic.interfaces import ITokenService
-from apps.users.logic.use_cases.register.errors import (
-    RegistrationInputError,
-    UserAlreadyExistsError,
-)
-from apps.users.models import Token, User
-
-
-class RegistrationInputSerializer(serializers.Serializer):
-    """Registration serializer."""
-
-    name = serializers.CharField(max_length=50, required=True)  # noqa: WPS432
-    login = serializers.CharField(max_length=20, required=True)  # noqa: WPS432
-    email = serializers.EmailField(
-        max_length=50,  # noqa: WPS432
-        required=True,
-    )
-    password = serializers.CharField(required=True)
+from apps.users.models import User
 
 
 @dataclass(frozen=True)
@@ -37,13 +18,13 @@ class InputDto:
 
 @dataclass(frozen=True)
 class OutputDto:
-    """Register output dto."""
+    """Update me output dto."""
 
-    user: User
+    me: User
 
 
 class UseCase(BaseUseCase):
-    """Use case for register new user."""
+    """Use case for update user."""
 
     @injector.inject
     def __init__(
@@ -57,7 +38,7 @@ class UseCase(BaseUseCase):
         """Main logic here."""
         user = self._update_user(input_dto)
 
-        return OutputDto(user=user)
+        return OutputDto(me=user)
 
     def _update_user(self, input_dto: InputDto) -> User:
         """Update user fields from input dto."""
