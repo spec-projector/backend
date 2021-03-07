@@ -4,7 +4,7 @@ from apps.users import services
 from apps.users.logic import interfaces
 
 
-class UserInfrastructureModule(injector.Module):
+class UserInfrastructureServicesModule(injector.Module):
     """Setup di for user services."""
 
     def configure(self, binder: injector.Binder) -> None:
@@ -27,10 +27,5 @@ class UserInfrastructureModule(injector.Module):
         binder.bind(
             interfaces.IResetPasswordRequestService,
             services.ResetPasswordRequestService,
-            scope=injector.singleton,
-        )
-        binder.bind(
-            interfaces.IUserService,
-            services.UserService,
             scope=injector.singleton,
         )

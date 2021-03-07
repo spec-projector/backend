@@ -5,7 +5,7 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class CreateUserData:
+class SignupUserData:
     """Data for create user."""
 
     email: str
@@ -14,9 +14,9 @@ class CreateUserData:
     avatar: str
 
 
-class IUserService(abc.ABC):
-    """Interface create user."""
+class ISignupService(abc.ABC):
+    """Signup user interface."""
 
     @abc.abstractmethod
-    def create_user(self, user_data: CreateUserData) -> User:
-        """Create new user by provided data."""
+    def signup_user(self, signup_data: SignupUserData) -> User:
+        """Signup user by provided data."""
