@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from functools import partial
 from typing import Dict, Type
 
@@ -134,7 +133,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
     def get_filters_from_args(
         cls,
         args: Dict[str, object],
-        filter_class: dataclass,
+        filter_class,
     ):
         """Extract filter args from query."""
         if not cls.query.filterset_class:

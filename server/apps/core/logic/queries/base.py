@@ -1,6 +1,6 @@
 import abc
 import dataclasses
-from typing import Generic, Type, TypeVar
+from typing import Dict, Generic, Type, TypeVar
 
 import django_filters
 from django.db import models
@@ -42,11 +42,7 @@ class BaseQuery(Generic[TInput], metaclass=abc.ABCMeta):
         if not filters or not self.filterset_class:
             return queryset
 
-        filters = {
-            data_key: data_value
-            for data_key, data_value in dataclasses.asdict(filters).items()
-            if data_value != empty
-        }
+        filters = self._prepare_filters(filters)
 
         if not filters:
             return queryset
@@ -59,3 +55,10 @@ class BaseQuery(Generic[TInput], metaclass=abc.ABCMeta):
             raise InvalidInputApplicationError(filterset.errors)
 
         return filterset.qs
+
+    def _prepare_filters(self, filters) -> Dict[str, object]:
+        return {
+            data_key: data_value
+            for data_key, data_value in dataclasses.asdict(filters).items()
+            if data_value != empty
+        }

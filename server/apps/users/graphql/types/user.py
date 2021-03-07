@@ -30,7 +30,7 @@ class UserType(BaseModelObjectType):
         """Provides queryset."""
         return users_query.Query().execute(
             users_query.InputDto(
-                user=info.context.user,
+                user=info.context.user,  # type: ignore
                 filters=users_query.UserFilter(is_active=True),
             ),
         )
