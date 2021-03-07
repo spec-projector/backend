@@ -29,7 +29,7 @@ class UserConnectionField(BaseQueryConnectionField):
         """Prepare query input data."""
         return users.InputDto(
             user=info.context.user,  # type: ignore
-            sort=cls.get_sort_from_args(args),
-            filters=cls.get_filters_from_args(args),
             queryset=queryset,
+            filters=cls.get_filters_from_args(args, users.UserFilter),
+            sort=cls.get_sort_from_args(args),
         )

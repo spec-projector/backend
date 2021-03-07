@@ -1,4 +1,5 @@
 import abc
+import dataclasses
 from typing import Generic, Type, TypeVar
 
 import django_filters
@@ -6,6 +7,7 @@ from django.db import models
 
 from apps.core.logic.errors import InvalidInputApplicationError
 from apps.core.logic.queries.sort import SortHandler
+from apps.core.utils.objects import empty
 
 TInput = TypeVar("TInput")
 
@@ -37,7 +39,16 @@ class BaseQuery(Generic[TInput], metaclass=abc.ABCMeta):
         filters,
     ) -> models.QuerySet:
         """Filter queryset."""
-        if not self.filterset_class:
+        if not filters or not self.filterset_class:
+            return queryset
+
+        filters = {
+            data_key: data_value
+            for data_key, data_value in dataclasses.asdict(filters).items()
+            if data_value != empty
+        }
+
+        if not filters:
             return queryset
 
         filterset = self.filterset_class(
