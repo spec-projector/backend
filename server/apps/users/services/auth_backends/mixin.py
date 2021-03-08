@@ -7,7 +7,7 @@ from social_core.utils import handle_http_errors
 
 from apps.core import injector
 from apps.users.logic.interfaces import ITokenService
-from apps.users.logic.interfaces.signup import ISignupService, SignupUserData
+from apps.users.logic.interfaces.signup import ISignupService, SocialSignupData
 from apps.users.models import User
 
 
@@ -42,13 +42,15 @@ class OAuth2BackendMixin(BaseOAuth2):
             return user
 
         signup_service = injector.get(ISignupService)
-        return signup_service.signup_user(self.get_signup_data(response))
+        return signup_service.signup_from_social(
+            self.get_signup_data(response),
+        )
 
     def find_user(self, response) -> Optional[User]:
         """Find user for response."""
         raise NotImplementedError()
 
-    def get_signup_data(self, response) -> SignupUserData:
+    def get_signup_data(self, response) -> SocialSignupData:
         """Return data for signup user."""
         raise NotImplementedError()
 

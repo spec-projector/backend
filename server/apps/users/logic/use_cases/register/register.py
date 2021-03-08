@@ -5,7 +5,8 @@ from django.db import models
 from rest_framework import serializers
 
 from apps.core.logic.use_cases import BaseUseCase
-from apps.users.logic.interfaces import ITokenService
+from apps.users.logic.interfaces import ISignupService, ITokenService
+from apps.users.logic.interfaces.signup import SignupData
 from apps.users.logic.use_cases.register.errors import (
     RegistrationInputError,
     UserAlreadyExistsError,
@@ -49,20 +50,23 @@ class UseCase(BaseUseCase):
     def __init__(
         self,
         token_service: ITokenService,
+        signup_service: ISignupService,
     ):
         """Initializing."""
         self._token_service = token_service
+        self._signup_service = signup_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
         self._validate_data(input_dto)
 
-        user = User.objects.create_user(
-            login=input_dto.login,
-            password=input_dto.password,
-            email=input_dto.email,
-            name=input_dto.name,
-            is_staff=False,
+        user = self._signup_service.signup(
+            SignupData(
+                login=input_dto.login,
+                password=input_dto.password,
+                email=input_dto.email,
+                name=input_dto.name,
+            ),
         )
 
         return OutputDto(

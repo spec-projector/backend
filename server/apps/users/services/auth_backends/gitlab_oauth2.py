@@ -1,6 +1,6 @@
 from social_core.backends.gitlab import GitLabOAuth2 as SocialGitLabOAuth2
 
-from apps.users.logic.interfaces.signup import SignupUserData
+from apps.users.logic.interfaces.signup import SocialSignupData
 from apps.users.models import User
 from apps.users.services.auth_backends.mixin import OAuth2BackendMixin
 
@@ -21,9 +21,9 @@ class GitLabOAuth2Backend(OAuth2BackendMixin, SocialGitLabOAuth2):
 
         return user
 
-    def get_signup_data(self, response) -> SignupUserData:
+    def get_signup_data(self, response) -> SocialSignupData:
         """Return data for signup user."""
-        return SignupUserData(
+        return SocialSignupData(
             email=response["email"],
             login=response["username"] or response["email"],
             name=response["name"],

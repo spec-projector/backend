@@ -3,7 +3,6 @@ from dataclasses import asdict
 import pytest
 
 from apps.core import injector
-from apps.users.logic.interfaces import ITokenService
 from apps.users.logic.use_cases.register import register as register_uc
 from apps.users.logic.use_cases.register.errors import (
     RegistrationInputError,
@@ -18,7 +17,7 @@ EMAIL = "new_user@mail.net"
 @pytest.fixture()
 def use_case(db):
     """Create registration use case."""
-    return register_uc.UseCase(token_service=injector.get(ITokenService))
+    return injector.get(register_uc.UseCase)
 
 
 @pytest.fixture()
