@@ -4,13 +4,13 @@ from graphql import ResolveInfo
 
 from apps.core.graphql.fields import BaseQueryConnectionField
 from apps.users.graphql.types import UserType
-from apps.users.logic.queries import users
+from apps.users.logic.queries.users import fetch
 
 
 class UserConnectionField(BaseQueryConnectionField):
     """Handler for user collection."""
 
-    query = users.Query
+    query = fetch.Query
 
     def __init__(self):
         """Initialize."""
@@ -27,9 +27,9 @@ class UserConnectionField(BaseQueryConnectionField):
         args,
     ):
         """Prepare query input data."""
-        return users.InputDto(
+        return fetch.InputDto(
             user=info.context.user,  # type: ignore
             queryset=queryset,
-            filters=cls.get_filters_from_args(args, users.UserFilter),
+            filters=cls.get_filters_from_args(args, fetch.UserFilter),
             sort=cls.get_sort_from_args(args),
         )

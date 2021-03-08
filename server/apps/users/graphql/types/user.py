@@ -3,7 +3,7 @@ from django.db.models import QuerySet
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
-from apps.users.logic.queries import users as users_query
+from apps.users.logic.queries.users import allowed
 from apps.users.models import User
 
 
@@ -28,9 +28,8 @@ class UserType(BaseModelObjectType):
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Provides queryset."""
-        return users_query.Query().execute(
-            users_query.InputDto(
+        return allowed.Query().execute(
+            allowed.InputDto(
                 user=info.context.user,  # type: ignore
-                filters=users_query.UserFilter(is_active=True),
             ),
         )
