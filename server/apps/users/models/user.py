@@ -1,8 +1,16 @@
+import hashlib
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.users.models.managers import UserManager
+
+
+def avatar_upload_to(user, filename: str) -> str:
+    """Generate folder for uploads."""
+    user_hash = hashlib.md5(str(user.pk).encode()).hexdigest()  # noqa: S303
+    return "users/{0}/{1}".format(user_hash, filename)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -49,7 +57,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text=_("HT__IS_ACTIVE"),
     )
 
-    avatar = models.URLField(
+    avatar = models.ImageField(
+        upload_to=avatar_upload_to,
+        max_length=256,  # noqa: WPS432
         blank=True,
         verbose_name=_("VN__AVATAR"),
         help_text=_("HT__AVATAR"),
