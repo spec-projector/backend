@@ -3,7 +3,7 @@ import pytest
 from graphene_django.rest_framework.tests.test_mutation import mock_info
 from graphql import ResolveInfo
 
-from apps.users.auth.backends import GoogleOAuth2Backend
+from apps.users.services.auth_backends.google_oauth2 import GoogleOAuth2Backend
 from tests.helpers.httpretty_client import HttprettyMock
 
 

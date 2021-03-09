@@ -9,8 +9,8 @@ AUTH_USER_MODEL = "users.User"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "login"
 
 AUTHENTICATION_BACKENDS = [
-    "apps.users.auth.backends.GitLabOAuth2Backend",
-    "apps.users.auth.backends.GoogleOAuth2Backend",
+    "apps.users.services.auth_backends.GitLabOAuth2Backend",
+    "apps.users.services.auth_backends.GoogleOAuth2Backend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 

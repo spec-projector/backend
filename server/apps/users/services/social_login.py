@@ -1,3 +1,5 @@
+import types
+
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
@@ -11,10 +13,12 @@ from apps.users.logic.interfaces import ISocialLoginService
 from apps.users.logic.interfaces.social_login import SystemBackend
 from apps.users.models import Token
 
-SYSTEM_BACKEND_MAP = {  # noqa: WPS407
-    SystemBackend.GITLAB: "gitlab",
-    SystemBackend.GOOGLE: "google-oauth2",
-}
+SYSTEM_BACKEND_MAP = types.MappingProxyType(
+    {
+        SystemBackend.GITLAB: "gitlab",
+        SystemBackend.GOOGLE: "google-oauth2",
+    },
+)
 
 
 class SocialLoginService(ISocialLoginService):

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Union
+from typing import Optional, Union
 
 import django_filters
 from django.db.models import QuerySet
@@ -23,12 +23,14 @@ class UserFilter:
     """Users collection filters."""
 
     email: Union[Empty, str] = empty
+    is_active: Union[Empty, bool] = empty
 
 
 class _UsersFilterSet(django_filters.FilterSet):
     """User filterset."""
 
     email = django_filters.CharFilter()
+    is_active = django_filters.BooleanFilter()
 
 
 @dataclass(frozen=True)
@@ -36,9 +38,9 @@ class InputDto:
     """Get users query input data."""
 
     user: User
-    filters: UserFilter
-    sort: UserSort
-    queryset: QuerySet
+    filters: Optional[UserFilter] = None
+    sort: Optional[UserSort] = None
+    queryset: Optional[QuerySet] = None
 
 
 class Query(BaseQuery):
@@ -50,9 +52,9 @@ class Query(BaseQuery):
     def execute(self, input_dto: InputDto) -> QuerySet:
         """Handler."""
         queryset = (
-            input_dto.queryset
-            if input_dto.queryset is not None
-            else User.objects.all()
+            User.objects.all()
+            if input_dto.queryset is None
+            else input_dto.queryset
         )
         queryset = self.filter_queryset(queryset, input_dto.filters)
         return self.sort_queryset(queryset, input_dto.sort)

@@ -130,18 +130,25 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
         return args.get("sort")
 
     @classmethod
-    def get_filters_from_args(cls, args: Dict[str, object]):
+    def get_filters_from_args(
+        cls,
+        args: Dict[str, object],
+        filter_class,
+    ):
         """Extract filter args from query."""
         if not cls.query.filterset_class:
-            return {}
+            return None
 
         filters_keys = cls.query.filterset_class.declared_filters.keys()
-
-        return {
+        filters = {
             item_key: item_value
             for item_key, item_value in args.items()
             if item_key in filters_keys
         }
+        if not filters:
+            return None
+
+        return filter_class(**filters)
 
     @classmethod
     def resolve_connection(  # noqa: WPS210
