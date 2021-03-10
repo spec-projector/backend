@@ -1,3 +1,4 @@
+import hashlib
 import json
 import pathlib
 from typing import IO, Dict, List, Optional
@@ -36,6 +37,16 @@ class AssetsProvider:
                 mode="r",
             ).read(),
         )
+
+    def get_hash(self, filename: str) -> str:
+        """Get md5-hash of file."""
+        filepath = find_path(self._cwd, filename)
+
+        hash_md5 = hashlib.md5()  # noqa: S303
+        with open(filepath, "rb") as reader:
+            for chunk in iter(lambda: reader.read(4096), b""):  # noqa: WPS426
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
 
     def close(self) -> None:
         """Close opened files."""

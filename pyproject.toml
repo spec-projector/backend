@@ -36,6 +36,8 @@ django-minio-storage = "^0.3.10"
 redis = "*"
 flower = "*"
 celery = "4.*"
+pillow = "*"
+graphene-file-upload = "*"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"

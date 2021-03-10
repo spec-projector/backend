@@ -1,0 +1,9 @@
+mutation($input: UploadUserAvatarInput!) {
+    uploadUserAvatar(input: $input) {
+        user {
+          id
+          name
+          avatar
+        }
+    }
+}

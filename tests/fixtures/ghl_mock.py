@@ -12,7 +12,7 @@ def ghl_auth_mock_info(user, auth_rf) -> ResolveInfo:
     :param auth_rf:
     :rtype: ResolveInfo
     """
-    request = auth_rf.get("/graphql/")
+    request = auth_rf.post("/graphql/")
 
     return _get_mock_info(request)
 
@@ -25,7 +25,7 @@ def ghl_mock_info(rf) -> ResolveInfo:
     :param rf:
     :rtype: ResolveInfo
     """
-    request = rf.get("/graphql/")
+    request = rf.post("/graphql/")
 
     return _get_mock_info(request)
 

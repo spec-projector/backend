@@ -114,6 +114,8 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): ResetPasswordMutation
   sendPasswordResetSecurityCode(input: SendPasswordResetSecurityCodeInput!): SendPasswordResetSecurityCodeMutation
   changePassword(input: ChangePasswordInput!): ChangePasswordMutation
+  updateMe(input: UpdateMeInput!): UpdateMeMutation
+  uploadUserAvatar(input: UploadUserAvatarInput!): UploadUserAvatarMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -255,6 +257,14 @@ input UpdateGitLabIntegrationType {
   token: String
 }
 
+input UpdateMeInput {
+  name: String
+}
+
+type UpdateMeMutation {
+  me: User
+}
+
 input UpdateProjectInput {
   title: String
   isPublic: Boolean
@@ -267,6 +277,22 @@ input UpdateProjectInput {
 
 type UpdateProjectMutation {
   project: Project
+}
+
+scalar Upload
+
+input UploadUserAvatarInput {
+  user: Int!
+  file: Upload!
+  left: Int!
+  top: Int!
+  width: Int!
+  height: Int!
+  scale: Float!
+}
+
+type UploadUserAvatarMutation {
+  user: User
 }
 
 type User implements ModelRelayNode {
