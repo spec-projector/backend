@@ -18,4 +18,4 @@ class UsersMutations:
     change_password = change_password.ChangePasswordMutation.Field()
 
     update_me = me.UpdateMeMutation.Field()
-    upload_image = me.UploadImageMutation.Field()
+    upload_user_avatar = me.UploadUserAvatarMutation.Field()

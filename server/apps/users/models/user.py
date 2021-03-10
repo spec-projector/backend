@@ -72,11 +72,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Text representation."""
         return self.login
 
-    def delete(self, using=None, keep_parents=False):
+    def delete(self, *args, **kwargs):
         """Delete user."""
         image_path = self.avatar.path if self.avatar else None
 
-        super().delete(using=using, keep_parents=keep_parents)
+        super().delete(*args, **kwargs)
 
         if image_path and default_storage.exists(image_path):
             default_storage.delete(image_path)

@@ -16,7 +16,7 @@ class InputDto:
 class OutputDto:
     """Update me output dto."""
 
-    me: User
+    user: User
 
 
 class UseCase(BaseUseCase):
@@ -24,9 +24,7 @@ class UseCase(BaseUseCase):
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
-        user = self._update_user(input_dto)
-
-        return OutputDto(me=user)
+        return OutputDto(user=self._update_user(input_dto))
 
     def _update_user(self, input_dto: InputDto) -> User:
         """Update user fields from input dto."""

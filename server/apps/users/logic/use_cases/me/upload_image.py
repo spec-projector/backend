@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from apps.core.logic.use_cases import BaseUseCase
@@ -24,7 +25,7 @@ class InputDto:
 class OutputDto:
     """Upload image output dto."""
 
-    path: str
+    user: User
 
 
 class UseCase(BaseUseCase):
@@ -32,6 +33,9 @@ class UseCase(BaseUseCase):
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
+        user = input_dto.user
+        old_avatar = user.avatar.path if user.avatar else None
+
         cropped_image = crop_image(
             file_object=input_dto.file,
             parameters=CroppingParameters(
@@ -43,7 +47,10 @@ class UseCase(BaseUseCase):
             ),
         )
 
-        input_dto.user.avatar = cropped_image
-        input_dto.user.save()
+        user.avatar = cropped_image
+        user.save()
 
-        return OutputDto(path=input_dto.user.avatar.url)
+        if old_avatar and default_storage.exists(old_avatar):
+            default_storage.delete(old_avatar)
+
+        return OutputDto(user=user)

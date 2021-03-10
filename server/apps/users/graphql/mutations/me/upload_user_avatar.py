@@ -1,4 +1,3 @@
-from dataclasses import asdict
 from typing import Dict, Optional
 
 import graphene
@@ -6,12 +5,16 @@ from graphene_file_upload.scalars import Upload
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.users.graphql.mutations.me.errors import UserNotExistsError
+from apps.users.graphql.types import UserType
 from apps.users.logic.use_cases.me import upload_image as upload_image_uc
+from apps.users.models import User
 
 
-class UploadImageInput(graphene.InputObjectType):
-    """User upload image."""
+class UploadUserAvatarInput(graphene.InputObjectType):
+    """User user avatar input."""
 
+    user = graphene.Int(required=True)
     file = graphene.Field(Upload, required=True)  # noqa: WPS110
     left = graphene.Int(required=True)
     top = graphene.Int(required=True)
@@ -20,17 +23,17 @@ class UploadImageInput(graphene.InputObjectType):
     scale = graphene.Float(required=True)
 
 
-class UploadImageMutation(BaseUseCaseMutation):
-    """Upload image mutation."""
+class UploadUserAvatarMutation(BaseUseCaseMutation):
+    """Upload user avatar mutation."""
 
     class Meta:
         use_case_class = upload_image_uc.UseCase
         auth_required = True
 
     class Arguments:
-        input = graphene.Argument(UploadImageInput, required=True)
+        input = graphene.Argument(UploadUserAvatarInput, required=True)
 
-    path = graphene.String()
+    user = graphene.Field(UserType)
 
     @classmethod
     def get_input_dto(
@@ -40,10 +43,13 @@ class UploadImageMutation(BaseUseCaseMutation):
         **kwargs,
     ):
         """Prepare use case input data."""
-        return upload_image_uc.InputDto(
-            user=info.context.user,  # type: ignore
-            **kwargs["input"],
-        )
+        input_data = kwargs["input"]
+        try:
+            user = User.objects.get(id=input_data.pop("user"))
+        except User.DoesNotExist:
+            raise UserNotExistsError()
+
+        return upload_image_uc.InputDto(user=user, **input_data)
 
     @classmethod
     def get_response_data(
@@ -53,4 +59,4 @@ class UploadImageMutation(BaseUseCaseMutation):
         output_dto: upload_image_uc.OutputDto,
     ) -> Dict[str, object]:
         """Prepare response data."""
-        return asdict(output_dto)
+        return {"user": output_dto.user}
