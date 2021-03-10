@@ -1,6 +1,7 @@
 import hashlib
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core.files.storage import default_storage
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -70,6 +71,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Text representation."""
         return self.login
+
+    def delete(self, using=None, keep_parents=False):
+        """Delete user."""
+        image_path = self.avatar.path if self.avatar else None
+
+        super().delete(using=using, keep_parents=keep_parents)
+
+        if image_path and default_storage.exists(image_path):
+            default_storage.delete(image_path)
 
     def get_short_name(self):
         """Get user short name."""

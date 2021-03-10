@@ -13,7 +13,6 @@ class UpdateMeInput(graphene.InputObjectType):
     """User register input."""
 
     name = graphene.String()
-    avatar = graphene.String()
 
 
 class UpdateMeMutation(BaseUseCaseMutation):

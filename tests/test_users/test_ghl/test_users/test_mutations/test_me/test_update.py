@@ -12,7 +12,6 @@ def test_query(user, ghl_client, ghl_raw):
         variable_values={
             "input": {
                 "name": NEW_NAME,
-                "avatar": None,
             },
         },
     )
@@ -34,14 +33,12 @@ def test_success(user, ghl_auth_mock_info, update_me_mutation):
         info=ghl_auth_mock_info,
         input={
             "name": NEW_NAME,
-            "avatar": "https://images.com/avatar.jpg",
         },
     )
 
     user.refresh_from_db()
 
     assert user.name == NEW_NAME
-    assert user.avatar == "https://images.com/avatar.jpg"
 
 
 def test_not_auth(user, ghl_mock_info, update_me_mutation):
@@ -51,7 +48,6 @@ def test_not_auth(user, ghl_mock_info, update_me_mutation):
         info=ghl_mock_info,
         input={
             "name": NEW_NAME,
-            "avatar": None,
         },
     )
 

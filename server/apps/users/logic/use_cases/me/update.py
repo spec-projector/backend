@@ -1,9 +1,6 @@
 from dataclasses import asdict, dataclass
 
-import injector
-
 from apps.core.logic.use_cases import BaseUseCase
-from apps.users.logic.interfaces import ITokenService
 from apps.users.models import User
 
 
@@ -13,7 +10,6 @@ class InputDto:
 
     user: User
     name: str
-    avatar: str
 
 
 @dataclass(frozen=True)
@@ -25,14 +21,6 @@ class OutputDto:
 
 class UseCase(BaseUseCase):
     """Use case for update user."""
-
-    @injector.inject
-    def __init__(
-        self,
-        token_service: ITokenService,
-    ):
-        """Initializing."""
-        self._token_service = token_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
