@@ -1,7 +1,6 @@
 import pytest
 
-from apps.projects.services.projects.figma import FigmaService
-from apps.projects.services.projects.figma.errors import InvalidUrlFigmaError
+from apps.projects.services.figma import FigmaService, InvalidUrlFigmaError
 from tests.test_projects.factories.figma_integration import (
     FigmaIntegrationFactory,
 )

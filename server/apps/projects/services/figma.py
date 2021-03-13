@@ -1,39 +1,49 @@
-import abc
 import re
-from collections import namedtuple
 from typing import Dict
 from urllib.parse import parse_qs, unquote, urlsplit
 
 import requests
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.errors import BaseError
+from apps.projects.logic.interfaces.figma import (
+    IFigmaService,
+    IFigmaServiceFactory,
+    ImageParams,
+)
 from apps.projects.models import FigmaIntegration, Project
-from apps.projects.services.projects.figma import errors
 
 API_URL_IMAGES = "https://api.figma.com/v1/images/{0}"
 RE_FIGMA_URL = r"https://www.figma.com/file/[\w\d_-].+/[\w\d_-].+\?*node-id="
 
-ImageParams = namedtuple("ImageParams", ("key", "title", "id"))
+
+class FigmaError(BaseError):
+    """Main figma-exception."""
 
 
-class IFigmaService(abc.ABC):
-    """Figma service interface."""
+class IntegrationNotFoundFigmaError(FigmaError):
+    """Figma integration not found."""
 
-    @abc.abstractmethod
-    def get_image_url(self, inbound_url) -> str:
-        """Get direct url for image."""
-
-    @abc.abstractmethod
-    def get_image_params(self, inbound_url) -> ImageParams:
-        """Parse url, get image params."""
+    code: str = "figma_integration_not_found"
+    message = _("MSG__FIGMA_INTEGRATION_NOT_FOUND")
 
 
-class IFigmaServiceFactory(abc.ABC):
-    """Figma service factory interface."""
+class InvalidUrlFigmaError(FigmaError):
+    """Figma integration not found."""
 
-    @abc.abstractmethod
-    def create(self, project: Project) -> IFigmaService:
-        """Create figma service."""
+    code: str = "figma_invalid_url"
+    message = _("MSG__FIGMA_NOT_VALID_URL")
+
+
+class ApiFigmaError(FigmaError):
+    """Figma api exception."""
+
+    code: str = "figma_api_error"
+
+    def __init__(self, message) -> None:
+        """Initialize."""
+        self.message = message
+        super().__init__()
 
 
 class FigmaService(IFigmaService):
@@ -49,12 +59,12 @@ class FigmaService(IFigmaService):
         figma_api_response = self._get_response(image_params)
 
         if figma_api_response["err"]:
-            exception = _(
+            err = _(
                 "MSG__FIGMA_REQUEST_ERROR {error}".format(
                     error=figma_api_response["err"],
                 ),
             )
-            raise errors.ApiFigmaError(exception)
+            raise ApiFigmaError(err)
 
         return figma_api_response["images"][image_params.id]  # type: ignore
 
@@ -63,7 +73,7 @@ class FigmaService(IFigmaService):
         try:
             return self._get_image_params(inbound_url)
         except ValueError:  # noqa: WPS329
-            raise errors.InvalidUrlFigmaError
+            raise InvalidUrlFigmaError()
 
     def _get_image_params(self, inbound_url: str) -> ImageParams:
         """Parse url-parameters."""
@@ -105,6 +115,6 @@ class FigmaServiceFactory(IFigmaServiceFactory):
         try:  # noqa: WPS503
             token = project.figma_integration.token
         except FigmaIntegration.DoesNotExist:  # noqa: WPS329
-            raise errors.IntegrationNotFoundFigmaError
+            raise IntegrationNotFoundFigmaError()
         else:
             return FigmaService(token)

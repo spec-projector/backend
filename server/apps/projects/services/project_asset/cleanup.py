@@ -37,7 +37,7 @@ def _get_project_assets_for_cleanup() -> models.QuerySet:
     return ProjectAsset.objects.filter(project__isnull=True)
 
 
-def _remove_file(file_path) -> None:
+def _remove_file(file_path: str) -> None:
     """Remove file if exists."""
     if os.path.exists(file_path):
         os.remove(file_path)

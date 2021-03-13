@@ -3,7 +3,7 @@ from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
 from apps.projects.models import FigmaIntegration
 from apps.projects.models.project_asset import ProjectAssetSource
-from apps.projects.services.projects.figma.errors import (
+from apps.projects.services.figma import (
     ApiFigmaError,
     IntegrationNotFoundFigmaError,
 )

@@ -13,9 +13,14 @@ class AppConfig(BaseAppConfig):
     def ready(self):
         """Trigger on app ready."""
         from apps.projects.services.modules import (  # noqa: WPS433
-            ProjectServicesModule,
+            ProjectInfrastructureServicesModule,
+        )
+
+        from apps.projects.logic.services.modules import (  # noqa: WPS433
+            ProjectLogicServicesModule,
         )
 
         super().ready()
 
-        injector.binder.install(ProjectServicesModule)
+        injector.binder.install(ProjectInfrastructureServicesModule)
+        injector.binder.install(ProjectLogicServicesModule)

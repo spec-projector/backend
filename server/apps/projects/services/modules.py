@@ -1,12 +1,12 @@
 import injector
 
-from apps.projects.services.projects.figma import (
+from apps.projects.services.figma import (
     FigmaServiceFactory,
     IFigmaServiceFactory,
 )
 
 
-class ProjectServicesModule(injector.Module):
+class ProjectInfrastructureServicesModule(injector.Module):
     """Setup di for user services."""
 
     def configure(self, binder: injector.Binder) -> None:
