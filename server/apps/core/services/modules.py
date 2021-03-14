@@ -13,12 +13,10 @@ class CoreInfrastructureModule(injector.Module):
         binder.bind(
             interfaces.IEmailService,
             services.EmailService,
-            scope=injector.singleton,
         )
         binder.bind(
             interfaces.IExternalFilesService,
             services.ExternalFilesService,
-            scope=injector.singleton,
         )
         binder.bind(
             services.email.dispatcher.EmailDispatcher,
