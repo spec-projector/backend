@@ -6,7 +6,7 @@ from rest_framework import serializers
 from apps.core.logic.errors import AccessDeniedApplicationError
 from apps.core.logic.interfaces import IExternalFilesService
 from apps.core.logic.use_cases import BaseUseCase
-from apps.projects.logic.interfaces.figma import IFigmaServiceFactory
+from apps.projects.logic.interfaces import IFigmaServiceFactory
 from apps.projects.logic.services.project_asset import (
     ProjectAssetPermissionsService,
 )

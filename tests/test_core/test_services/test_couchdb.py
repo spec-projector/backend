@@ -1,7 +1,6 @@
 from apps.core import injector
 from apps.core.logic.interfaces import ICouchDBService
 from apps.projects.models import Project
-from apps.projects.services.projects.couchdb import cleanup_couch_databases
 from tests.test_projects.factories.project import ProjectFactory
 
 
@@ -16,7 +15,7 @@ def test_delete_db(couchdb_service):
     assert couchdb_service.delete_database_called
 
 
-def test_cleanup_couch_databases(db, couchdb_service):
+def test_cleanup_couch_databases(db, couchdb_service, couchdb_cleanup_service):
     """Test cleanup couchdb."""
     db_names = ("db-1", "db-2")
 
@@ -25,7 +24,7 @@ def test_cleanup_couch_databases(db, couchdb_service):
     for db_name in db_names:
         ProjectFactory.create(db_name=db_name)
 
-    cleanup_couch_databases()
+    couchdb_cleanup_service.cleanup()
 
     assert couchdb_service.delete_database_called
 

@@ -8,7 +8,6 @@ from jnt_django_graphene_toolbox.errors import (
 from jnt_django_graphene_toolbox.errors.input import INPUT_ERROR
 
 from apps.projects.models import Project
-from apps.projects.services.projects.couchdb import cleanup_couch_databases
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_DELETE_PROJECT = """
@@ -84,11 +83,11 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
 
 
 def test_delete_couch_db(
-    user,
     ghl_auth_mock_info,
     delete_project_mutation,
     project,
     couchdb_service,
+    couchdb_cleanup_service,
 ):
     """Test delete couch db."""
     response = delete_project_mutation(
@@ -100,6 +99,6 @@ def test_delete_couch_db(
     assert response.status == "success"
     assert not Project.objects.exists()
 
-    cleanup_couch_databases()
+    couchdb_cleanup_service.cleanup()
 
     assert PROJECT_DB_NAME in couchdb_service.deleted_db_names

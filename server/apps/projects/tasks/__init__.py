@@ -1,2 +1,2 @@
-from .cleanup_couchdb import cleanup_couchdb_task
-from .cleanup_project_assets import cleanup_project_assets_task
+from .couchdb import cleanup_couchdb_task
+from .project_assets import cleanup_project_assets_task
