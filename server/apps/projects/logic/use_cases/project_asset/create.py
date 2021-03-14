@@ -1,12 +1,10 @@
 from dataclasses import dataclass
-from tempfile import TemporaryFile
 
 import injector
-import requests
-from django.core.files import File
 from rest_framework import serializers
 
 from apps.core.logic.errors import AccessDeniedApplicationError
+from apps.core.logic.interfaces import IExternalFilesService
 from apps.core.logic.use_cases import BaseUseCase
 from apps.projects.logic.interfaces.figma import IFigmaServiceFactory
 from apps.projects.logic.services.project_asset import (
@@ -14,8 +12,6 @@ from apps.projects.logic.services.project_asset import (
 )
 from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
 from apps.users.models import User
-
-CHUNK_SIZE = 4096
 
 
 class ProjectAssetDtoValidator(serializers.Serializer):
@@ -58,10 +54,12 @@ class UseCase(BaseUseCase):
         self,
         permissions_service: ProjectAssetPermissionsService,
         figma_service_factory: IFigmaServiceFactory,
+        external_files_service: IExternalFilesService,
     ):
         """Initialize."""
         self._permissions_service = permissions_service
         self._figma_service_factory = figma_service_factory
+        self._external_files_service = external_files_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
@@ -70,7 +68,7 @@ class UseCase(BaseUseCase):
             ProjectAssetDtoValidator,
         )
 
-        can_upload = self._permissions_service.can_upload_project_asset(
+        can_upload = self._permissions_service.can_upload(
             input_dto.user,
             validated_data["project"],
         )
@@ -99,17 +97,8 @@ class UseCase(BaseUseCase):
         image_params = figma_service.get_image_params(url)
         image_url = figma_service.get_image_url(url)
 
-        self._save_to_field(
+        self._external_files_service.download_to_field(
             project_asset.file,
             image_url,
             image_params.title,
         )
-
-    def _save_to_field(self, field, image_url, title) -> None:
-        with TemporaryFile() as tmp_file:
-            stream_request = requests.get(image_url, stream=True)
-            for chunk in stream_request.iter_content(chunk_size=CHUNK_SIZE):
-                tmp_file.write(chunk)
-
-            tmp_file.seek(0)
-            field.save("{0}.png".format(title), File(tmp_file))

@@ -10,5 +10,17 @@ class CoreInfrastructureModule(injector.Module):
     def configure(self, binder: injector.Binder) -> None:
         """Bind services."""
         binder.bind(interfaces.ICouchDBService, services.CouchDBService)
-        binder.bind(interfaces.IEmailService, services.EmailService)
-        binder.bind(services.email.dispatcher.EmailDispatcher)
+        binder.bind(
+            interfaces.IEmailService,
+            services.EmailService,
+            scope=injector.singleton,
+        )
+        binder.bind(
+            interfaces.IExternalFilesService,
+            services.ExternalFilesService,
+            scope=injector.singleton,
+        )
+        binder.bind(
+            services.email.dispatcher.EmailDispatcher,
+            scope=injector.singleton,
+        )

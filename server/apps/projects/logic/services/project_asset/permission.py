@@ -5,7 +5,7 @@ from apps.users.models import User
 class ProjectAssetPermissionsService:
     """Check access service."""
 
-    def can_upload_project_asset(self, user: User, project: Project) -> bool:
+    def can_upload(self, user: User, project: Project) -> bool:
         """
         Check can user create project asset.
 
