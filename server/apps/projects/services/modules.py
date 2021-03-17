@@ -14,10 +14,7 @@ class ProjectInfrastructureServicesModule(injector.Module):
             services.FigmaServiceFactory,
             scope=injector.singleton,
         )
-        binder.bind(
-            services.CouchDBCleanupService,
-            scope=injector.singleton,
-        )
+        binder.bind(services.CouchDBCleanupService)
         binder.bind(
             services.ProjectAssetCleanupService,
             scope=injector.singleton,
