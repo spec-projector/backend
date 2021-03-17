@@ -9,8 +9,6 @@ ENV C_FORCE_ROOT=true \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    # prometheus
-    prometheus_multiproc_dir=/var/run/prometheus \
     # poetry:
     POETRY_VERSION=1.1.4 \
     POETRY_NO_INTERACTION=1 \
