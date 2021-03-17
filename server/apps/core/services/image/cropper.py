@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 from io import BytesIO
 from typing import Tuple
@@ -61,7 +62,7 @@ def crop_image(
 
     image = Image.open(file_object).convert(IMAGE_MODE)
 
-    if parameters.scale != 1.0:
+    if not math.isclose(parameters.scale, 1.0):
         image = image.resize(
             tuple(
                 round(dimension * parameters.scale) for dimension in image.size

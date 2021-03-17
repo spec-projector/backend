@@ -2,7 +2,6 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from jnt_admin_tools.menu import Menu as BaseMenu
 from jnt_admin_tools.menu import items
-from jnt_admin_tools.menu.items import MenuItem
 
 MANAGEMENT_MENU_ITEMS = (
     (_("Constance"), reverse_lazy("admin:configuration"), None),
@@ -12,7 +11,7 @@ MANAGEMENT_MENU_ITEMS = (
 UTILS_MENU_ITEMS = ((_("VN__GRAPHQL_PLAYGROUND"), "/graphql/", None),)
 
 
-class AdminMenuItem(MenuItem):
+class AdminMenuItem(items.MenuItem):
     """Admin menu item."""
 
     def __init__(self, title, menu_items) -> None:
@@ -26,7 +25,7 @@ class AdminMenuItem(MenuItem):
             if perm and not context.request.user.has_perm(perm):
                 continue
 
-            self.children.append(MenuItem(title, url))
+            self.children.append(items.MenuItem(title, url))
 
 
 class Menu(BaseMenu):

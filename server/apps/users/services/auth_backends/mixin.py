@@ -58,7 +58,7 @@ class OAuth2BackendMixin(BaseOAuth2):
         """Callback URL after approving access on Google."""
         return self.setting("REDIRECT_URI")
 
-    def set_data(self, **kwargs):
+    def set_data(self, **kwargs):  # noqa: WPS615
         """Set data."""
         self.data = kwargs  # noqa: WPS110
 

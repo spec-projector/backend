@@ -79,7 +79,7 @@ class UseCase(BaseUseCase):
         if system == System.DUMMY:
             return ""
 
-        try:
+        try:  # noqa: WPS503
             integration = getattr(project, INTEGRATION_MAP[system])
         except ObjectDoesNotExist:
             raise ProjectIntegrationNotFoundError()

@@ -20,7 +20,11 @@ class GraphQLClient(Client):
         self._token: Optional[Token] = None
         self._token_service = TokenService()
 
-    def set_user(self, user: User, token: Optional[Token] = None) -> None:
+    def set_user(  # noqa: WPS615
+        self,
+        user: User,
+        token: Optional[Token] = None,
+    ) -> None:
         """Set user for auth requests."""
         self._user = user
 

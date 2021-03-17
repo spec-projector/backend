@@ -55,7 +55,7 @@ class UseCase(BaseUseCase):
         """Main logic here."""
         self._validate_input(input_dto)
 
-        try:
+        try:  # noqa: WPS503
             user = self._auth_service.auth(
                 input_dto.username,
                 input_dto.password,

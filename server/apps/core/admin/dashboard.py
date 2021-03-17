@@ -1,6 +1,5 @@
 from jnt_admin_tools.dashboard import Dashboard as BaseDashboard
 from jnt_admin_tools.dashboard import modules
-from jnt_admin_tools.dashboard.modules import RecentActions
 
 
 class Dashboard(BaseDashboard):
@@ -11,4 +10,4 @@ class Dashboard(BaseDashboard):
         self.children.append(
             modules.AppList("Applications", exclude=["constance.*"]),
         )
-        self.children.append(RecentActions("Recent actions", 5))
+        self.children.append(modules.RecentActions("Recent actions", 5))

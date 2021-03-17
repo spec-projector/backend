@@ -1,3 +1,5 @@
+import math
+
 from apps.projects.logic.use_cases.issue.retrieve import (
     ProjectIntegrationNotFoundError,
 )
@@ -80,7 +82,7 @@ def test_gitlab_issue(user, ghl_client, gl_mocker, gitlab_integration):
 
     assert issue["title"] == gl_issue["title"]
     assert issue["state"] == gl_issue["state"]
-    assert issue["spent"] == 1.0
+    assert math.isclose(issue["spent"], 1.0)
 
     assert assignee["name"] == gl_issue["assignee"]["name"]  # type: ignore
 

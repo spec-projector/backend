@@ -56,7 +56,7 @@ class BaseUseCaseMutation(BaseMutation):
         """Overrideable mutation operation."""
         use_case = injector.get(cls._meta.use_case_class)
 
-        try:
+        try:  # noqa: WPS503
             output_dto = use_case.execute(
                 cls.get_input_dto(root, info, **kwargs),
             )

@@ -3,8 +3,6 @@ from typing import Dict, Type
 
 import graphene
 from django.db import models
-from django.db.models import QuerySet
-from graphene import Int, NonNull
 from graphene.relay import ConnectionField, PageInfo
 from graphene.relay import connection as relay_connection
 from graphene_django import settings, utils
@@ -39,7 +37,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             "enforce_first_or_last",
             settings.graphene_settings.RELAY_CONNECTION_ENFORCE_FIRST_OR_LAST,
         )
-        kwargs.setdefault("offset", Int())
+        kwargs.setdefault("offset", graphene.Int())
 
         if self.query.sort_handler:
             kwargs["sort"] = graphene.Argument(
@@ -60,7 +58,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             self,
         ).type
         non_null = False
-        if isinstance(_type, NonNull):
+        if isinstance(_type, graphene.NonNull):
             _type = _type.of_type  # noqa: WPS122
             non_null = True
 
@@ -78,13 +76,13 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
 
         connection_type = _type._meta.connection  # noqa: WPS437
         if non_null:
-            return NonNull(connection_type)
+            return graphene.NonNull(connection_type)
         return connection_type
 
     @property
     def connection_type(self):
         """Return connection type."""
-        if isinstance(self.type, NonNull):
+        if isinstance(self.type, graphene.NonNull):
             return self.type.of_type
         return self.type
 
@@ -118,7 +116,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
     @classmethod
     def get_input_dto(
         cls,
-        queryset: QuerySet,
+        queryset: models.QuerySet,
         info: ResolveInfo,  # noqa: WPS110
         args,
     ):
