@@ -112,9 +112,9 @@ class FigmaServiceFactory(IFigmaServiceFactory):
 
     def create(self, project: Project) -> FigmaService:
         """Create figma service."""
-        try:  # noqa: WPS503
+        try:
             token = project.figma_integration.token
         except FigmaIntegration.DoesNotExist:  # noqa: WPS329
             raise IntegrationNotFoundFigmaError()
-        else:
-            return FigmaService(token)
+
+        return FigmaService(token)

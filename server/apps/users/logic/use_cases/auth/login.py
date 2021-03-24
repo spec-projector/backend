@@ -55,19 +55,19 @@ class UseCase(BaseUseCase):
         """Main logic here."""
         self._validate_input(input_dto)
 
-        try:  # noqa: WPS503
+        try:
             user = self._auth_service.auth(
                 input_dto.username,
                 input_dto.password,
             )
         except BaseInfrastructureError as err:
             raise LoginError(err.code, str(err))
-        else:
-            self._update_user(user)
 
-            return OutputDto(
-                token=self._token_service.create_user_token(user),
-            )
+        self._update_user(user)
+
+        return OutputDto(
+            token=self._token_service.create_user_token(user),
+        )
 
     def _validate_input(self, input_dto: InputDto) -> None:
         if not input_dto.username or not input_dto.password:

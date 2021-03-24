@@ -56,7 +56,7 @@ class BaseUseCaseMutation(BaseMutation):
         """Overrideable mutation operation."""
         use_case = injector.get(cls._meta.use_case_class)
 
-        try:  # noqa: WPS503
+        try:
             output_dto = use_case.execute(
                 cls.get_input_dto(root, info, **kwargs),
             )
@@ -66,10 +66,8 @@ class BaseUseCaseMutation(BaseMutation):
             return GraphQLPermissionDenied()
         except BaseApplicationError as err:
             return GenericGraphQLError(err)
-        else:
-            return cls(
-                **cls.get_response_data(root, info, output_dto),
-            )
+
+        return cls(**cls.get_response_data(root, info, output_dto))
 
     @classmethod
     def get_input_dto(
