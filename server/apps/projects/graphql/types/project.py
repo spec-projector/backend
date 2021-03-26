@@ -10,10 +10,8 @@ from apps.projects.graphql.types import (
     GitLabIntegrationType,
 )
 from apps.projects.graphql.types.project_member import ProjectMemberType
+from apps.projects.logic.queries.project import allowed
 from apps.projects.models import Project
-from apps.projects.services.projects.available_projects import (
-    get_available_projects,
-)
 from apps.users.graphql.types import UserType
 
 
@@ -53,6 +51,10 @@ class ProjectType(BaseModelObjectType):
         queryset: QuerySet,
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
-        user = info.context.user  # type: ignore
-
-        return get_available_projects(queryset, user)
+        return allowed.Query().execute(
+            allowed.InputDto(
+                user=info.context.user,  # type: ignore
+                queryset=queryset,
+                include_public=True,
+            ),
+        )

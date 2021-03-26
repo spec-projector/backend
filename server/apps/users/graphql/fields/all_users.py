@@ -4,7 +4,7 @@ from graphql import ResolveInfo
 
 from apps.core.graphql.fields import BaseQueryConnectionField
 from apps.users.graphql.types import UserType
-from apps.users.logic.queries.users import fetch
+from apps.users.logic.queries.user import fetch
 
 
 class UserConnectionField(BaseQueryConnectionField):

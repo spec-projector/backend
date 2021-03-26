@@ -1,9 +1,7 @@
 import django_filters
 from django.db import models
 
-from apps.projects.services.projects.available_projects import (
-    get_projects_for_user,
-)
+from apps.projects.logic.queries.project import allowed
 
 
 class ProjectsFilterSet(django_filters.FilterSet):
@@ -13,6 +11,11 @@ class ProjectsFilterSet(django_filters.FilterSet):
 
     def filter_queryset(self, queryset) -> models.QuerySet:
         """Filter for user."""
-        projects = super().filter_queryset(queryset)
+        queryset = super().filter_queryset(queryset)
 
-        return get_projects_for_user(projects, self.request.user)
+        return allowed.Query().execute(
+            allowed.InputDto(
+                user=self.request.user,
+                queryset=queryset,
+            ),
+        )

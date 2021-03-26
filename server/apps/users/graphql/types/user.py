@@ -3,7 +3,7 @@ from django.db.models import QuerySet
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
-from apps.users.logic.queries.users import allowed
+from apps.users.logic.queries.user import allowed
 from apps.users.models import User
 
 
