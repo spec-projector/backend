@@ -38,14 +38,14 @@ def test_projects_as_owner(user, private_project):
     assert projects.first() == private_project
 
 
-def test_user_is_project_member(user, project_member, private_project):
+def test_user_is_project_member(user, private_project):
     """Test empty projects."""
     ProjectMemberFactory.create(user=user, project=private_project)
 
     projects = _execute_query(user)
 
     assert projects.count() == 1
-    assert projects.first() == project_member.project
+    assert projects.first() == private_project
 
 
 def test_user_and_public_project(user, public_project, private_project):
