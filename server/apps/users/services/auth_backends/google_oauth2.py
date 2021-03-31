@@ -16,7 +16,7 @@ class GoogleOAuth2Backend(OAuth2BackendMixin, SocialGoogleOAuth2):
         """Return data for signup user."""
         return SocialSignupData(
             email=response["email"],
-            login=response["email"],
+            login=response["email"].split("@")[0],
             name=response["name"],
             avatar=response["picture"],
         )

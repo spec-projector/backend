@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-03 17:49+0300\n"
+"POT-Creation-Date: 2021-03-30 17:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,9 +221,6 @@ msgstr "User"
 msgid "HT__USER"
 msgstr "User"
 
-msgid "MSG_GITHUB_ISSUE_URL_NOT_VALID"
-msgstr " Github issue url not valid"
-
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma integration not found"
 
@@ -234,11 +231,23 @@ msgstr "Figma: not valid url"
 msgid "MSG__FIGMA_REQUEST_ERROR {error}"
 msgstr "Figma request error: {error}"
 
+msgid "MSG_GITHUB_ISSUE_URL_NOT_VALID"
+msgstr " Github issue url not valid"
+
+msgid "MSG__LOGIN_ENTER_VALID_VALUE"
+msgstr "Enter a valid value. Using the letters in lower case, numbers and special symbols: . or _ or -, from 6 to 15 symbols."
+
 msgid "VN__USERS"
 msgstr "User"
 
+msgid "MSG__USER_NOT_EXISTS"
+msgstr "User not exists"
+
 msgid "MSG__MUST_INCLUDE_LOGIN_AND_PASSWORD"
 msgstr "Must include login and password"
+
+msgid "MSG__PASSWORD_NOT_SET"
+msgstr "Password not set"
 
 msgid "MSG__USER_ALREADY_EXISTS"
 msgstr "User already exists"
@@ -246,8 +255,35 @@ msgstr "User already exists"
 msgid "MSG__NOT_VALID_REGISTRATION_INPUT"
 msgstr "Not valid registration input"
 
+msgid "MSG__EMAIL_NOT_EXISTS"
+msgstr "Email not exists"
+
+msgid "MSG__CODE_NOT_VALID"
+msgstr "Code not valid"
+
+msgid "MSG__SUBJECT_PASSWORD_RESET_SECURITY_CODE"
+msgstr "Subject password reset security code"
+
 msgid "VN__USER_MUST_HAVE_A_LOGIN"
 msgstr "User must have a login"
+
+msgid "VN__RESET_PASSWORD_REQUEST"
+msgstr "Reset password request"
+
+msgid "VN__RESET_PASSWORD_REQUESTS"
+msgstr "Reset password requests"
+
+msgid "VN__CODE"
+msgstr "Core"
+
+msgid "HT__CODE"
+msgstr " "
+
+msgid "VN__EXPIRED_AT"
+msgstr "Expired at"
+
+msgid "HT__EXPIRED_AT"
+msgstr " "
 
 msgid "VN__TOKENS"
 msgstr "Tokens"
