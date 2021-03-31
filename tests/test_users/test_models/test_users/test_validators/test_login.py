@@ -1,7 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from apps.users.admin.validators import LoginValidator
+from apps.users.models.validators import LoginValidator
 
 
 @pytest.fixture()

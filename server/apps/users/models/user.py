@@ -5,6 +5,7 @@ from django.core.files.storage import default_storage
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.users.models import validators
 from apps.users.models.managers import UserManager
 
 
@@ -30,6 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         unique=True,
         verbose_name=_("VN__LOGIN"),
         help_text=_("HT__LOGIN"),
+        validators=[validators.LoginValidator()],
     )
 
     name = models.CharField(
@@ -71,6 +73,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Text representation."""
         return self.login
+
+    def save(self, *args, **kwargs):
+        """Save instance."""
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         """Delete user."""

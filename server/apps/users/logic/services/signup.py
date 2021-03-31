@@ -1,5 +1,7 @@
 from dataclasses import asdict
 
+from django.contrib.auth.hashers import make_password
+
 from apps.users.logic.interfaces import ISignupService
 from apps.users.logic.interfaces.signup import SignupData, SocialSignupData
 from apps.users.models import User
@@ -20,4 +22,8 @@ class SignupService(ISignupService):
 
     def signup_from_social(self, signup_data: SocialSignupData) -> User:
         """Signup user by provided data."""
-        return User.objects.create(is_staff=False, **asdict(signup_data))
+        return User.objects.create(
+            is_staff=False,
+            **asdict(signup_data),
+            password=make_password(None),
+        )
