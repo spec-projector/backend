@@ -49,3 +49,7 @@ class ResetPasswordRequest(Timestamps):
         verbose_name=_("VN__USER"),
         help_text=_("HT__USER"),
     )
+
+    def __str__(self):
+        """Object present."""
+        return self.code
