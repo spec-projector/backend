@@ -1,6 +1,6 @@
 import pytest
 
-DEFAULT_USERNAME = "username"
+DEFAULT_USERNAME = "test_user"
 DEFAULT_USER_PASSWORD = "password"  # noqa: S105
 
 

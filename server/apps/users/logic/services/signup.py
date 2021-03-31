@@ -12,7 +12,7 @@ class SignupService(ISignupService):
 
     def signup(self, signup_data: SignupData) -> User:
         """Signup user by provided data."""
-        return User.objects.create_user(
+        user = self._create_user(
             login=signup_data.login,
             password=signup_data.password,
             email=signup_data.email,
@@ -20,10 +20,23 @@ class SignupService(ISignupService):
             is_staff=False,
         )
 
+        user.set_password(signup_data.password)
+        user.save()
+
+        return user
+
     def signup_from_social(self, signup_data: SocialSignupData) -> User:
         """Signup user by provided data."""
-        return User.objects.create(
+        return self._create_user(
             is_staff=False,
             **asdict(signup_data),
             password=make_password(None),
         )
+
+    def _create_user(self, **kwargs) -> User:
+        """Validate and create user."""
+        user = User(**kwargs)
+        user.full_clean()
+        user.save()
+
+        return user

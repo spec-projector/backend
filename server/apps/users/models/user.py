@@ -74,11 +74,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Text representation."""
         return self.login
 
-    def save(self, *args, **kwargs):
-        """Save instance."""
-        self.full_clean()
-        super().save(*args, **kwargs)
-
     def delete(self, *args, **kwargs):
         """Delete user."""
         image_path = self.avatar.path if self.avatar else None
