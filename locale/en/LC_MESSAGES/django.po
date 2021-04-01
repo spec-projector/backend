@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 17:58+0300\n"
+"POT-Creation-Date: 2021-04-01 11:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,93 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "VN__BILLING"
+msgstr "Billing"
+
+msgid "CH__PROJECT_MEMBERS_ROLES"
+msgstr "Project members roles"
+
+msgid "CH__PRINT_CONTRACT"
+msgstr "Print contract"
+
+msgid "CH__EXPORT_IMPORT"
+msgstr "Export import"
+
+msgid "CH__COMMUNITY_CHAT"
+msgstr "Community chat"
+
+msgid "CH__SLACK_SUPPORT"
+msgstr "Slack support"
+
+msgid "CH__EXCLUSIVE_SLACK_SUPPORT"
+msgstr "Exclusive slack support"
+
+msgid "VN__TARIFF"
+msgstr "Tariff"
+
+msgid "VN__TARIFFS"
+msgstr "Tariffs"
+
+msgid "VN__ORDER"
+msgstr "Order"
+
+msgid "HT__ORDER"
+msgstr " "
+
+msgid "VN__CODE"
+msgstr "Code"
+
+msgid "HT__CODE"
+msgstr " "
+
+msgid "VN__TITLE"
+msgstr "Title"
+
+msgid "HT__TITLE"
+msgstr " "
+
+msgid "VN__TEASER"
+msgstr "Teaser"
+
+msgid "HT__TEASER"
+msgstr " "
+
+msgid "VN__ICON"
+msgstr "Icon"
+
+msgid "HT__ICON"
+msgstr " "
+
+msgid "VN__PRICE"
+msgstr "Price"
+
+msgid "HT__PRICE"
+msgstr " "
+
+msgid "VN__IS_ACTIVE"
+msgstr "Is active"
+
+msgid "HT__IS_ACTIVE"
+msgstr " "
+
+msgid "VN__FEATURES"
+msgstr "Features"
+
+msgid "HT__FEATURES"
+msgstr " "
+
+msgid "VN__MAX_PROJECTS"
+msgstr "Max projects"
+
+msgid "HT__MAX_PROJECTS"
+msgstr " "
+
+msgid "VN__MAX_PROJECT_MEMBERS"
+msgstr "Max project members"
+
+msgid "HT__MAX_PROJECT_MEMBERS"
+msgstr " "
 
 msgid "Constance"
 msgstr "Configuration"
@@ -146,12 +233,6 @@ msgstr "Is public"
 msgid "HT__IS_PUBLIC"
 msgstr "Is public"
 
-msgid "VN__TITLE"
-msgstr "Title"
-
-msgid "HT__TITLE"
-msgstr "Title"
-
 msgid "VN__DESCRIPTION"
 msgstr "Description"
 
@@ -234,9 +315,6 @@ msgstr "Figma request error: {error}"
 msgid "MSG_GITHUB_ISSUE_URL_NOT_VALID"
 msgstr " Github issue url not valid"
 
-msgid "MSG__LOGIN_ENTER_VALID_VALUE"
-msgstr "Enter a valid value. Using the letters in lower case, numbers and special symbols: . or _ or -, from 6 to 15 symbols."
-
 msgid "VN__USERS"
 msgstr "User"
 
@@ -273,12 +351,6 @@ msgstr "Reset password request"
 msgid "VN__RESET_PASSWORD_REQUESTS"
 msgstr "Reset password requests"
 
-msgid "VN__CODE"
-msgstr "Core"
-
-msgid "HT__CODE"
-msgstr " "
-
 msgid "VN__EXPIRED_AT"
 msgstr "Expired at"
 
@@ -312,17 +384,16 @@ msgstr "Is staff"
 msgid "HT__IS_STAFF"
 msgstr "Is staff"
 
-msgid "VN__IS_ACTIVE"
-msgstr "Is active"
-
-msgid "HT__IS_ACTIVE"
-msgstr "Is active"
-
 msgid "VN__AVATAR"
 msgstr "Avatar"
 
 msgid "HT__AVATAR"
 msgstr "Avatar"
+
+msgid "MSG__LOGIN_ENTER_VALID_VALUE"
+msgstr ""
+"Enter a valid value. Using the letters in lower case, numbers and special "
+"symbols: . or _ or -, from 6 to 15 symbols."
 
 msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"
