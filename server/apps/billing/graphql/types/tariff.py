@@ -16,7 +16,7 @@ class TariffType(BaseModelObjectType):
     title = graphene.String()
     teaser = graphene.String()
     icon = graphene.String()
-    price = graphene.Decimal()
+    price = graphene.Float()
     is_active = graphene.Boolean()
     features = BitField()
     max_projects = graphene.Int()
