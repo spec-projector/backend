@@ -42,6 +42,8 @@ type CreateProjectMutation {
 
 scalar DateTime
 
+scalar Decimal
+
 type DeleteProjectMutation {
   status: String
 }
@@ -181,6 +183,7 @@ type ProjectTypeEdge {
 }
 
 type Query {
+  allTariffs(offset: Int, sort: [TariffSort], before: String, after: String, first: Int, last: Int): TariffTypeConnection
   user(id: ID!): User
   me: User
   allUsers(email: String, offset: Int, sort: [UserSort], before: String, after: String, first: Int, last: Int): UserTypeConnection
@@ -236,6 +239,36 @@ enum System {
 enum SystemBackend {
   GITLAB
   GOOGLE
+}
+
+type Tariff implements ModelRelayNode {
+  id: ID!
+  order: Int
+  code: String
+  title: String
+  teaser: String
+  icon: String
+  price: Decimal
+  isActive: Boolean
+  features: BitField
+  maxProjects: Int
+  maxProjectMembers: Int
+}
+
+enum TariffSort {
+  ORDER_ASC
+  ORDER_DESC
+}
+
+type TariffTypeConnection {
+  pageInfo: PageInfo!
+  edges: [TariffTypeEdge]!
+  count: Int
+}
+
+type TariffTypeEdge {
+  node: Tariff
+  cursor: String!
 }
 
 type Token implements ModelRelayNode {

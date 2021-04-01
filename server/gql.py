@@ -2,6 +2,7 @@ import graphene
 from graphene_django.debug import DjangoDebug
 from jnt_django_graphene_toolbox import scheme
 
+from apps.billing.graphql.queries import TariffsQueries
 from apps.core.graphql.views import ApiGraphQLView, PlaygroundGraphQLView
 from apps.projects.graphql.mutations import ProjectsMutations
 from apps.projects.graphql.queries import ProjectsQueries
@@ -12,6 +13,7 @@ from apps.users.graphql.queries import UsersQueries
 class Query(  # noqa: WPS215
     ProjectsQueries,
     UsersQueries,
+    TariffsQueries,
     graphene.ObjectType,
 ):
     """Graphql queries."""

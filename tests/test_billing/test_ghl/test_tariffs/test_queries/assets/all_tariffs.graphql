@@ -1,0 +1,17 @@
+{
+  allTariffs {
+    count
+    edges {
+      node {
+        id
+        title
+        teaser
+        icon
+        price
+        features
+        maxProjects
+        maxProjectMembers
+      }
+    }
+  }
+}
