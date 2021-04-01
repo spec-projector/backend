@@ -1,9 +1,9 @@
 from django.db.models import QuerySet
 from graphql import ResolveInfo
 
-from apps.core.graphql.fields import BaseQueryConnectionField
-from apps.billing.logic.queries.tariff import fetch
 from apps.billing.graphql.types import TariffType
+from apps.billing.logic.queries.tariff import fetch
+from apps.core.graphql.fields import BaseQueryConnectionField
 
 
 class TariffConnectionField(BaseQueryConnectionField):
