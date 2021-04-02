@@ -1,0 +1,12 @@
+query ($id: ID!) {
+  tariff(id: $id) {
+    id
+    title
+    teaser
+    icon
+    price
+    features
+    maxProjects
+    maxProjectMembers
+  }
+}

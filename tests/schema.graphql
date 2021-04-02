@@ -42,8 +42,6 @@ type CreateProjectMutation {
 
 scalar DateTime
 
-scalar Decimal
-
 type DeleteProjectMutation {
   status: String
 }
@@ -183,6 +181,7 @@ type ProjectTypeEdge {
 }
 
 type Query {
+  tariff(id: ID!): Tariff
   allTariffs(offset: Int, sort: [TariffSort], before: String, after: String, first: Int, last: Int): TariffTypeConnection
   user(id: ID!): User
   me: User
@@ -248,7 +247,7 @@ type Tariff implements ModelRelayNode {
   title: String
   teaser: String
   icon: String
-  price: Decimal
+  price: Float
   isActive: Boolean
   features: BitField
   maxProjects: Int
