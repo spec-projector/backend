@@ -11,7 +11,7 @@ def test_query(user, ghl_client, ghl_raw):
         ghl_raw("update_me"),
         variable_values={
             "input": {
-                "name": NEW_NAME,
+                "firstName": NEW_NAME,
             },
         },
     )
@@ -22,7 +22,7 @@ def test_query(user, ghl_client, ghl_raw):
     me_response = response["data"]["updateMe"]["me"]
 
     assert me_response["id"] == str(user.id)
-    assert me_response["name"] == user.name == NEW_NAME
+    assert me_response["firstName"] == user.first_name == NEW_NAME
     assert not me_response["avatar"]
 
 
@@ -32,13 +32,13 @@ def test_success(user, ghl_auth_mock_info, update_me_mutation):
         root=None,
         info=ghl_auth_mock_info,
         input={
-            "name": NEW_NAME,
+            "first_name": NEW_NAME,
         },
     )
 
     user.refresh_from_db()
 
-    assert user.name == NEW_NAME
+    assert user.first_name == NEW_NAME
 
 
 def test_not_auth(user, ghl_mock_info, update_me_mutation):
@@ -47,9 +47,9 @@ def test_not_auth(user, ghl_mock_info, update_me_mutation):
         root=None,
         info=ghl_mock_info,
         input={
-            "name": NEW_NAME,
+            "first_name": NEW_NAME,
         },
     )
 
     assert isinstance(response, GraphQLPermissionDenied)
-    assert user.name != NEW_NAME
+    assert user.first_name != NEW_NAME

@@ -7,5 +7,5 @@ class IAuthenticationService(abc.ABC):
     """User login service."""
 
     @abc.abstractmethod
-    def auth(self, username: str, password: str) -> User:
+    def auth(self, email: str, password: str) -> User:
         """Login user by provided credentials."""

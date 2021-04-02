@@ -15,17 +15,13 @@ class GitLabOAuth2Backend(OAuth2BackendMixin, SocialGitLabOAuth2):
 
     def find_user(self, response):
         """Find user for response."""
-        user = User.objects.filter(email=response["email"]).first()
-        if not user:
-            user = User.objects.filter(login=response["username"]).first()
-
-        return user
+        return User.objects.filter(email=response["email"]).first()
 
     def get_signup_data(self, response) -> SocialSignupData:
         """Return data for signup user."""
         return SocialSignupData(
             email=response["email"],
-            login=response["username"] or response["email"],
-            name=response["name"],
+            first_name=response["username"],
+            last_name=response["name"],
             avatar=response["avatar_url"],
         )

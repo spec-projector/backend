@@ -14,25 +14,25 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
     """User admin."""
 
     list_display = (
-        "login",
-        "name",
         "email",
+        "first_name",
+        "last_name",
         "last_login",
         "is_active",
         "is_staff",
         "change_password_link",
     )
     list_filter = ("is_active", "is_staff", "is_active")
-    ordering = ("login",)
+    ordering = ("email",)
     sortable_by = ()
     autocomplete_fields = ("groups",)
-    search_fields = ("login",)
+    search_fields = ("email", "first_name", "last_name", "=id")
     add_fieldsets = (
         (
             None,
             {
                 "classes": ("wide",),
-                "fields": ("login", "password1", "password2"),
+                "fields": ("email", "password1", "password2"),
             },
         ),
     )
@@ -43,9 +43,9 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
             None,
             {
                 "fields": (
-                    "login",
                     "email",
-                    "name",
+                    "first_name",
+                    "last_name",
                     "avatar",
                     "is_superuser",
                     "is_staff",

@@ -15,7 +15,7 @@ class LoginMutation(BaseUseCaseMutation):
         use_case_class = login_uc.UseCase
 
     class Arguments:
-        login = graphene.String(required=True)
+        email = graphene.String(required=True)
         password = graphene.String(required=True)
 
     token = graphene.Field(TokenType)
@@ -29,7 +29,7 @@ class LoginMutation(BaseUseCaseMutation):
     ):
         """Prepare use case input data."""
         return login_uc.InputDto(
-            username=kwargs["login"],
+            email=kwargs["email"],
             password=kwargs["password"],
         )
 

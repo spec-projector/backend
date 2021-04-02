@@ -2,7 +2,9 @@ mutation ($input: UpdateMeInput!) {
   updateMe(input: $input) {
     me {
       id
-      name
+      email
+      firstName
+      lastName
       avatar
     }
   }

@@ -9,7 +9,8 @@ class InputDto:
     """Update input data."""
 
     user: User
-    name: str
+    first_name: str = ""
+    last_name: str = ""
 
 
 @dataclass(frozen=True)
