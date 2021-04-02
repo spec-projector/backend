@@ -1,25 +1,11 @@
 from tests.test_users.factories.user import UserFactory
 
-GHL_QUERY_ALL_USERS = """
-query ($email: String, $sort: [UserSort]) {
-    allUsers(email: $email, sort: $sort) {
-      edges {
-        node {
-          id
-          login
-          email
-        }
-      }
-    }
-  }
-"""
 
-
-def test_query(user, ghl_client):
+def test_query(user, ghl_client, ghl_raw):
     """Test getting all users raw query."""
     ghl_client.set_user(user)
 
-    response = ghl_client.execute(GHL_QUERY_ALL_USERS)
+    response = ghl_client.execute(ghl_raw("all_users"))
 
     assert "errors" not in response
 

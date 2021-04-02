@@ -1,0 +1,11 @@
+query ($email: String, $sort: [UserSort]) {
+  allUsers(email: $email, sort: $sort) {
+    edges {
+      node {
+        id
+        login
+        email
+      }
+    }
+  }
+}

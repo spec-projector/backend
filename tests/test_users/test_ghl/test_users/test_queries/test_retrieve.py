@@ -1,19 +1,9 @@
-GHL_QUERY_USER = """
-query ($id: ID!) {
-  user(id: $id) {
-    id
-    login
-  }
-}
-"""
-
-
-def test_query(user, ghl_client):
+def test_query(user, ghl_client, ghl_raw):
     """Test getting user raw query."""
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_USER,
+        ghl_raw("user"),
         variable_values={"id": user.id},
     )
 
