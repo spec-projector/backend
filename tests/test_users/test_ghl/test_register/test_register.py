@@ -6,7 +6,7 @@ from apps.core import injector
 from apps.users.logic.interfaces import IAuthenticationService
 from apps.users.logic.use_cases.register.errors import UserAlreadyExistsError
 from apps.users.models import Token, User
-from tests.fixtures.users import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
+from tests.fixtures.users import DEFAULT_USER_PASSWORD
 
 EMAIL = "new_user@mail.net"
 
@@ -16,6 +16,9 @@ def test_query(db, ghl_client, ghl_raw):
     assert not User.objects.filter(email=EMAIL).exists()
 
     register_data = _get_register_data()
+    register_data["firstName"] = register_data.pop("first_name")
+    register_data["lastName"] = register_data.pop("last_name")
+
     response = ghl_client.execute(
         ghl_raw("register"),
         variable_values={
@@ -29,7 +32,7 @@ def test_query(db, ghl_client, ghl_raw):
     token = Token.objects.get(user=user)
 
     assert response["data"]["register"]["token"]["key"] == token.key
-    _check_auth(register_data["login"], register_data["password"])
+    _check_auth(register_data["email"], register_data["password"])
 
 
 def test_success(db, ghl_mock_info, register_mutation):
@@ -44,25 +47,16 @@ def test_success(db, ghl_mock_info, register_mutation):
     )
 
     assert Token.objects.get(pk=response.token.pk, user__email=EMAIL)
-    _check_auth(register_data["login"], register_data["password"])
+    _check_auth(register_data["email"], register_data["password"])
 
 
-@pytest.mark.parametrize(
-    ("user_field", "field_value"),
-    [
-        ("login", DEFAULT_USERNAME),
-        ("email", EMAIL),
-    ],
-)
 def test_wrong_register(
     user,
     register_mutation,
     ghl_mock_info,
-    user_field,
-    field_value,
 ):
     """Test exists user."""
-    setattr(user, user_field, field_value)
+    user.email = EMAIL
     user.save()
 
     register_data = _get_register_data()
@@ -76,17 +70,17 @@ def test_wrong_register(
     assert User.objects.count() == 1
 
 
-def _check_auth(username, password) -> None:
+def _check_auth(email, password) -> None:
     """Check success auth after register user."""
     auth = injector.get(IAuthenticationService)
-    assert auth.auth(username, password)
+    assert auth.auth(email, password)
 
 
 def _get_register_data() -> Dict[str, str]:
     """Create register data."""
     return {
-        "name": DEFAULT_USERNAME,
-        "login": DEFAULT_USERNAME,
         "email": EMAIL,
         "password": DEFAULT_USER_PASSWORD,
+        "first_name": "first name",
+        "last_name": "last name",
     }

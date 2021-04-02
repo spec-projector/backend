@@ -22,9 +22,9 @@ class AuthenticationError(LoginError):
 class AuthenticationService(IAuthenticationService):
     """Login service."""
 
-    def auth(self, username: str, password: str) -> User:
+    def auth(self, email: str, password: str) -> User:
         """Login user by provided credentials."""
-        user = authenticate(login=username, password=password)
+        user = authenticate(email=email, password=password)
 
         if not user:
             raise AuthenticationError()

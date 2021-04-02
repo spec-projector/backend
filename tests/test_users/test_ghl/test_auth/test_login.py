@@ -1,7 +1,7 @@
 from apps.core.graphql.errors import GenericGraphQLError
 from apps.users.models import Token
 from apps.users.services.auth import AuthenticationError
-from tests.fixtures.users import DEFAULT_USER_PASSWORD, DEFAULT_USERNAME
+from tests.fixtures.users import DEFAULT_EMAIL, DEFAULT_USER_PASSWORD
 
 
 def test_query(user, ghl_client, ghl_raw):
@@ -11,7 +11,7 @@ def test_query(user, ghl_client, ghl_raw):
     response = ghl_client.execute(
         ghl_raw("login"),
         variable_values={
-            "login": DEFAULT_USERNAME,
+            "email": DEFAULT_EMAIL,
             "password": DEFAULT_USER_PASSWORD,
         },
     )
@@ -30,7 +30,7 @@ def test_success(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         root=None,
         info=ghl_mock_info,
-        login=DEFAULT_USERNAME,
+        email=DEFAULT_EMAIL,
         password=DEFAULT_USER_PASSWORD,
     )
 
@@ -44,7 +44,7 @@ def test_wrong_username(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         None,
         ghl_mock_info,
-        login="wrong{0}".format(DEFAULT_USERNAME),
+        email="wrong{0}".format(DEFAULT_EMAIL),
         password=DEFAULT_USER_PASSWORD,
     )
 
@@ -60,7 +60,7 @@ def test_wrong_password(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         None,
         ghl_mock_info,
-        login=DEFAULT_USERNAME,
+        email=DEFAULT_EMAIL,
         password="wrong{0}".format(DEFAULT_USER_PASSWORD),
     )
 
@@ -76,7 +76,7 @@ def test_empty_credentials(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         None,
         ghl_mock_info,
-        login="",
+        email="",
         password="",
     )
 

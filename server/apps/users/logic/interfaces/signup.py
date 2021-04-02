@@ -8,10 +8,10 @@ from apps.users.models import User
 class SignupData:
     """Data for create user."""
 
-    login: str
+    last_name: str
     password: str
     email: str
-    name: str
+    first_name: str
 
 
 @dataclass(frozen=True)
@@ -19,8 +19,8 @@ class SocialSignupData:
     """Data for create user."""
 
     email: str
-    login: str
-    name: str
+    first_name: str
+    last_name: str
     avatar: str
 
 

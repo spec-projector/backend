@@ -3,8 +3,9 @@ query ($email: String, $sort: [UserSort]) {
     edges {
       node {
         id
-        login
         email
+        firstName
+        lastName
       }
     }
   }

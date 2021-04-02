@@ -11,7 +11,8 @@ from apps.users.logic.use_cases.me import update as update_me_uc
 class UpdateMeInput(graphene.InputObjectType):
     """User register input."""
 
-    name = graphene.String()
+    first_name = graphene.String()
+    last_name = graphene.String()
 
 
 class UpdateMeMutation(BaseUseCaseMutation):

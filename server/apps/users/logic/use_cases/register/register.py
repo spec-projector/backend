@@ -1,7 +1,6 @@
 from dataclasses import asdict, dataclass
 
 import injector
-from django.db import models
 from rest_framework import serializers
 
 from apps.core.logic.use_cases import BaseUseCase
@@ -17,8 +16,14 @@ from apps.users.models import Token, User
 class RegistrationInputSerializer(serializers.Serializer):
     """Registration serializer."""
 
-    name = serializers.CharField(max_length=50, required=True)  # noqa: WPS432
-    login = serializers.CharField(max_length=20, required=True)  # noqa: WPS432
+    first_name = serializers.CharField(
+        max_length=50,  # noqa: WPS432
+        required=True,
+    )
+    last_name = serializers.CharField(
+        max_length=50,  # noqa: WPS432
+        required=True,
+    )
     email = serializers.EmailField(
         max_length=50,  # noqa: WPS432
         required=True,
@@ -30,8 +35,8 @@ class RegistrationInputSerializer(serializers.Serializer):
 class InputDto:
     """Register input data."""
 
-    name: str
-    login: str
+    first_name: str
+    last_name: str
     email: str
     password: str
 
@@ -62,10 +67,10 @@ class UseCase(BaseUseCase):
 
         user = self._signup_service.signup(
             SignupData(
-                login=input_dto.login,
+                first_name=input_dto.first_name,
                 password=input_dto.password,
                 email=input_dto.email,
-                name=input_dto.name,
+                last_name=input_dto.last_name,
             ),
         )
 
@@ -82,9 +87,5 @@ class UseCase(BaseUseCase):
 
         validated_data = serializer.validated_data
 
-        query = models.Q(login=validated_data["login"]) | models.Q(
-            email=validated_data["email"],
-        )
-
-        if User.objects.filter(query).exists():
+        if User.objects.filter(email=validated_data["email"]).exists():
             raise UserAlreadyExistsError()

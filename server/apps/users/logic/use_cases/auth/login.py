@@ -16,7 +16,7 @@ from apps.users.models import Token, User
 class InputDto:
     """Login input data."""
 
-    username: str
+    email: str
     password: str
 
 
@@ -35,7 +35,7 @@ class EmptyCredentialsError(LoginError):
     """Empty credentials error."""
 
     code = "empty_credentials"
-    message = _("MSG__MUST_INCLUDE_LOGIN_AND_PASSWORD")
+    message = _("MSG__MUST_INCLUDE_EMAIL_AND_PASSWORD")
 
 
 class UseCase(BaseUseCase):
@@ -57,7 +57,7 @@ class UseCase(BaseUseCase):
 
         try:
             user = self._auth_service.auth(
-                input_dto.username,
+                input_dto.email,
                 input_dto.password,
             )
         except BaseInfrastructureError as err:
@@ -70,7 +70,7 @@ class UseCase(BaseUseCase):
         )
 
     def _validate_input(self, input_dto: InputDto) -> None:
-        if not input_dto.username or not input_dto.password:
+        if not input_dto.email or not input_dto.password:
             raise EmptyCredentialsError()
 
     def _update_user(self, user: User):

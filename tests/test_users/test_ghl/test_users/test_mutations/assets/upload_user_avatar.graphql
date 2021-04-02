@@ -2,7 +2,9 @@ mutation($input: UploadUserAvatarInput!) {
     uploadUserAvatar(input: $input) {
         user {
           id
-          name
+          email
+          firstName
+          lastName
           avatar
         }
     }

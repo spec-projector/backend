@@ -11,9 +11,9 @@ from apps.users.logic.use_cases.register import register as register_uc
 class RegisterInput(graphene.InputObjectType):
     """User register input."""
 
-    login = graphene.String(required=True)
+    first_name = graphene.String(required=True)
+    last_name = graphene.String(required=True)
     email = graphene.String(required=True)
-    name = graphene.String(required=True)
     password = graphene.String(required=True)
 
 

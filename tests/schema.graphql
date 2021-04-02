@@ -108,7 +108,7 @@ interface ModelRelayNode {
 type Mutation {
   socialLogin(system: SystemBackend!): SocialLoginMutation
   socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
-  login(login: String!, password: String!): LoginMutation
+  login(email: String!, password: String!): LoginMutation
   logout: LogoutMutation
   register(input: RegisterInput!): RegisterMutation
   resetPassword(input: ResetPasswordInput!): ResetPasswordMutation
@@ -193,9 +193,9 @@ type Query {
 }
 
 input RegisterInput {
-  login: String!
+  firstName: String!
+  lastName: String!
   email: String!
-  name: String!
   password: String!
 }
 
@@ -290,7 +290,8 @@ input UpdateGitLabIntegrationType {
 }
 
 input UpdateMeInput {
-  name: String
+  firstName: String
+  lastName: String
 }
 
 type UpdateMeMutation {
@@ -329,8 +330,8 @@ type UploadUserAvatarMutation {
 
 type User implements ModelRelayNode {
   id: ID!
-  login: String
-  name: String
+  firstName: String
+  lastName: String
   email: String
   isStaff: Boolean
   isActive: Boolean

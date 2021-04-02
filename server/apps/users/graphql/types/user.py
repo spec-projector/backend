@@ -13,8 +13,8 @@ class UserType(BaseModelObjectType):
     class Meta:
         model = User
 
-    login = graphene.String()
-    name = graphene.String()
+    first_name = graphene.String()
+    last_name = graphene.String()
     email = graphene.String()
     is_staff = graphene.Boolean()
     is_active = graphene.Boolean()

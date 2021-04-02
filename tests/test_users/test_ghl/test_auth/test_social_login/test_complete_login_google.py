@@ -23,7 +23,12 @@ def test_complete_login(
     """Test complete login."""
     google_mocker.register_get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
-        {"id": user.pk, "name": user.name, "email": user.email},
+        {
+            "id": user.pk,
+            "given_name": user.first_name,
+            "family_name": user.last_name,
+            "email": user.email,
+        },
     )
 
     google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
