@@ -38,6 +38,7 @@ flower = "*"
 celery = "4.*"
 pillow = "*"
 graphene-file-upload = "*"
+cloudpayments = "^1.6.3"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"

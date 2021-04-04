@@ -214,6 +214,18 @@ python-versions = "*"
 requests = ">=2.7.0,<3.0.0"
 
 [[package]]
+name = "cloudpayments"
+version = "1.6.3"
+description = "CloudPayments Python Client Library"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pytz = ">=2015.7"
+requests = ">=2.9.1"
+
+[[package]]
 name = "colorama"
 version = "0.4.4"
 description = "Cross-platform colored terminal text."
@@ -1971,7 +1983,7 @@ requests = ">=2.0,<3.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8b1ee6f8ec7c0bcd28b502b3d3ccef9acbb4827a5dd34c0cfd598e59ca36b828"
+content-hash = "a7c3da2e06abe92c5b047761648309580262f3c6b8e2e842fe6a55985815ad5b"
 
 [metadata.files]
 amqp = [
@@ -2075,6 +2087,9 @@ click = [
 cloudant = [
     {file = "cloudant-2.14.0-py2-none-any.whl", hash = "sha256:13db6dd913effc62f3a3ded9898a106e640d1e2a31de570542e772290fec0ede"},
     {file = "cloudant-2.14.0.tar.gz", hash = "sha256:afb00331a6c8593ba849294e907ebf188ee90548b1b96d0ee98669ffeb5df320"},
+]
+cloudpayments = [
+    {file = "cloudpayments-1.6.3.tar.gz", hash = "sha256:3c3037d091840afc55415cf8b66c38e4e429f11f157b6e7c5b12228dea84bf7a"},
 ]
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},

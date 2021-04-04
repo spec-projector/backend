@@ -36,7 +36,7 @@ class InputDto:
     """Get tariffs query input data."""
 
     filters: Optional[TariffFilter] = None
-    sort: Optional[TariffSort] = None
+    sort: TariffSort = TariffSort.ORDER_DESC
     queryset: Optional[QuerySet] = None
 
 

@@ -15,6 +15,8 @@ CONSTANCE_CONFIG = {
     "EMAIL_HOST_PASSWORD": empty_default_str,
     "EMAIL_USE_TLS": (True, "", bool),
     "DEFAULT_FROM_EMAIL": empty_default_str,
+    "CLOUD_PAYMENT_PUBLIC_ID": empty_default_str,
+    "CLOUD_PAYMENT_API_SECRET": empty_default_str,
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -25,6 +27,13 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "COUCHDB_URL",
                 "COUCHDB_USER",
                 "COUCHDB_PASSWORD",
+            ),
+        ),
+        (
+            "Payment",
+            (
+                "CLOUD_PAYMENT_PUBLIC_ID",
+                "CLOUD_PAYMENT_API_SECRET",
             ),
         ),
         (
