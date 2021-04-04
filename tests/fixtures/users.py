@@ -1,6 +1,6 @@
 import pytest
 
-DEFAULT_USERNAME = "test_user"
+DEFAULT_EMAIL = "user@mail.com"
 DEFAULT_USER_PASSWORD = "password"  # noqa: S105
 
 
@@ -15,10 +15,10 @@ def user(db, django_user_model, django_username_field):
 
     try:
         return django_user_model.objects.get(
-            **{username_field: DEFAULT_USERNAME},
+            **{username_field: DEFAULT_EMAIL},
         )
     except django_user_model.DoesNotExist:
         return django_user_model.objects.create_user(
-            DEFAULT_USERNAME,
+            DEFAULT_EMAIL,
             DEFAULT_USER_PASSWORD,
         )

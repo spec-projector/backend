@@ -5,7 +5,6 @@ from django.core.files.storage import default_storage
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.users.models import validators
 from apps.users.models.managers import UserManager
 
 
@@ -21,29 +20,27 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _("VN__USER")
         verbose_name_plural = _("VN__USERS")
-        ordering = ("login",)
+        ordering = ("email",)
 
-    USERNAME_FIELD = "login"  # noqa: WPS115
+    USERNAME_FIELD = "email"  # noqa: WPS115
 
-    login = models.CharField(
-        max_length=128,  # noqa:  WPS432
-        blank=True,
-        unique=True,
-        verbose_name=_("VN__LOGIN"),
-        help_text=_("HT__LOGIN"),
-        validators=[validators.LoginValidator()],
-    )
-
-    name = models.CharField(
+    first_name = models.CharField(
         max_length=50,  # noqa:  WPS432
         blank=True,
-        verbose_name=_("VN__NAME"),
-        help_text=_("HT__NAME"),
+        verbose_name=_("VN__FIRST_NAME"),
+        help_text=_("HT__FIRST_NAME"),
+    )
+
+    last_name = models.CharField(
+        max_length=50,  # noqa:  WPS432
+        blank=True,
+        verbose_name=_("VN__LAST_NAME"),
+        help_text=_("HT__LAST_NAME"),
     )
 
     email = models.EmailField(
-        max_length=128,  # noqa:  WPS432
-        blank=True,
+        unique=True,
+        db_index=True,
         verbose_name=_("VN__EMAIL"),
         help_text=_("HT__EMAIL"),
     )
@@ -72,7 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         """Text representation."""
-        return self.login
+        return self.email
 
     def delete(self, *args, **kwargs):
         """Delete user."""
@@ -85,4 +82,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         """Get user short name."""
-        return self.login
+        return self.first_name or self.email

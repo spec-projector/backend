@@ -1,7 +1,9 @@
-query ($id: ID!) {
-  user(id: $id) {
+{
+  me {
     id
     email
+    avatar
+    lastLogin
     firstName
     lastName
   }

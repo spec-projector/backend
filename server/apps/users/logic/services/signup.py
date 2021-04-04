@@ -13,10 +13,10 @@ class SignupService(ISignupService):
     def signup(self, signup_data: SignupData) -> User:
         """Signup user by provided data."""
         user = self._create_user(
-            login=signup_data.login,
+            first_name=signup_data.first_name,
             password=signup_data.password,
             email=signup_data.email,
-            name=signup_data.name,
+            last_name=signup_data.last_name,
             is_staff=False,
         )
 

@@ -27,7 +27,7 @@ def test_query(user, ghl_client, ghl_raw):
     assert "errors" not in response
 
     assert response["data"]["changePassword"]["ok"]
-    _check_auth(user.login, NEW_PASSWORD)
+    _check_auth(user.email, NEW_PASSWORD)
 
 
 def test_success(user, ghl_auth_mock_info, change_password_mutation):
@@ -39,7 +39,7 @@ def test_success(user, ghl_auth_mock_info, change_password_mutation):
     )
 
     assert response.ok
-    _check_auth(user.login, NEW_PASSWORD)
+    _check_auth(user.email, NEW_PASSWORD)
 
 
 def test_change_to_empty_password(
@@ -58,7 +58,7 @@ def test_change_to_empty_password(
             input={"password": ""},
         )
 
-    _check_auth(user.login, OLD_PASSWORD)
+    _check_auth(user.email, OLD_PASSWORD)
 
 
 def test_change_not_auth(user, ghl_mock_info, change_password_mutation):
@@ -73,10 +73,10 @@ def test_change_not_auth(user, ghl_mock_info, change_password_mutation):
     )
 
     assert isinstance(response, GraphQLPermissionDenied)
-    _check_auth(user.login, OLD_PASSWORD)
+    _check_auth(user.email, OLD_PASSWORD)
 
 
-def _check_auth(username, password) -> None:
+def _check_auth(email, password) -> None:
     """Check success auth with password."""
     auth = injector.get(IAuthenticationService)
-    assert auth.auth(username, password)
+    assert auth.auth(email, password)

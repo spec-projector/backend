@@ -10,9 +10,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    login = factory.Sequence(lambda index: "user_{0}".format(index))
     email = factory.Sequence(lambda index: "user_{0}@gl.com".format(index))
-    name = factory.Faker("name")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
     password = make_password(None)
     is_staff = False
     is_active = True
