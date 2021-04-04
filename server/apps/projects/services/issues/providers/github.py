@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from github import Github, Issue
 from rest_framework.exceptions import ValidationError
 
-from apps.projects.services.issues.meta import AssigneeMeta, IssueMeta
+from apps.projects.logic.interfaces.issues import AssigneeMeta, IssueMeta
 from apps.projects.services.issues.providers.base import BaseProvider
 
 

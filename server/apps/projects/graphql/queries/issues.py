@@ -2,7 +2,7 @@ import graphene
 
 from apps.projects.graphql.resolvers.issue import resolve_issue
 from apps.projects.graphql.types import IssueType
-from apps.projects.services.issues.meta import System
+from apps.projects.logic.interfaces.issues import IssuesManagementSystem
 
 
 class IssueInput(graphene.InputObjectType):
@@ -10,7 +10,7 @@ class IssueInput(graphene.InputObjectType):
 
     project = graphene.ID(required=True)
     url = graphene.String(required=True)
-    system = graphene.Enum.from_enum(System)(required=True)
+    system = graphene.Enum.from_enum(IssuesManagementSystem)(required=True)
 
 
 class IssuesQueries(graphene.ObjectType):

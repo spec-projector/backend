@@ -5,7 +5,7 @@ import gitlab
 from django.conf import settings
 from gitlab.v4.objects import Issue
 
-from apps.projects.services.issues.meta import AssigneeMeta, IssueMeta
+from apps.projects.logic.interfaces.issues import AssigneeMeta, IssueMeta
 from apps.projects.services.issues.providers.base import BaseProvider
 
 

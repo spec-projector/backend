@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
+from apps.projects.logic.interfaces.issues import IssuesManagementSystem
 from apps.projects.models import Project
-from apps.projects.services.issues.meta import System
 
 
 class IssueDtoValidator(serializers.Serializer):
@@ -13,7 +13,7 @@ class IssueDtoValidator(serializers.Serializer):
         queryset=Project.objects.all(),
     )
     url = serializers.CharField()
-    system = serializers.ChoiceField(choices=System)
+    system = serializers.ChoiceField(choices=IssuesManagementSystem)
 
 
 @dataclass(frozen=True)
@@ -22,4 +22,4 @@ class InputDto:
 
     project: str
     url: str
-    system: System
+    system: IssuesManagementSystem

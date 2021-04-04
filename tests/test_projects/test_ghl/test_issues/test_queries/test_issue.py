@@ -1,9 +1,9 @@
 import math
 
-from apps.projects.logic.use_cases.issue.retrieve import (
+from apps.projects.logic.interfaces.issues import IssuesManagementSystem
+from apps.projects.services.issues.service import (
     ProjectIntegrationNotFoundError,
 )
-from apps.projects.services.issues.retriever import System
 from tests.test_projects.factories.project import ProjectFactory
 
 GHL_QUERY_ISSUE = """
@@ -33,7 +33,7 @@ def test_query(user, ghl_client):
             "input": {
                 "url": "https://dummy.com",
                 "project": project.pk,
-                "system": System.DUMMY.name,
+                "system": IssuesManagementSystem.DUMMY.name,
             },
         },
     )
@@ -72,7 +72,7 @@ def test_gitlab_issue(user, ghl_client, gl_mocker, gitlab_integration):
             "input": {
                 "url": "https://gitlab.com/test-project/issues/33",
                 "project": gitlab_integration.project.pk,
-                "system": System.GITLAB.name,
+                "system": IssuesManagementSystem.GITLAB.name,
             },
         },
     )
@@ -116,7 +116,7 @@ def test_githab_issue(user, ghl_client, gh_mocker, github_integration):
             "input": {
                 "url": "https://github.com/owner/django_issue/issues/5",
                 "project": github_integration.project.pk,
-                "system": System.GITHUB.name,
+                "system": IssuesManagementSystem.GITHUB.name,
             },
         },
     )
@@ -139,7 +139,7 @@ def test_integration_not_found(user, ghl_client):
             "input": {
                 "url": "https://github.com/owner/django_issue/issues/5",
                 "project": ProjectFactory.create().pk,
-                "system": System.GITHUB.name,
+                "system": IssuesManagementSystem.GITHUB.name,
             },
         },
     )

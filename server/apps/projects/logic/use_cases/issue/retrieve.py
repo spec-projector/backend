@@ -1,27 +1,13 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from django.core.exceptions import ObjectDoesNotExist
-from django.utils.translation import gettext_lazy as _
+import injector
 
-from apps.core.logic.errors import BaseApplicationError
 from apps.core.logic.use_cases import BaseUseCase
 from apps.core.utils.date import seconds_to_hours
 from apps.projects.graphql.types import AssigneeType
+from apps.projects.logic.interfaces import IIssuesService
 from apps.projects.logic.use_cases.issue.dto import InputDto, IssueDtoValidator
-from apps.projects.services.issues.retriever import System, get_issue
-
-INTEGRATION_MAP = {  # noqa: WPS407
-    System.GITHUB: "github_integration",
-    System.GITLAB: "gitlab_integration",
-}
-
-
-class ProjectIntegrationNotFoundError(BaseApplicationError):
-    """Project integration not found error."""
-
-    code = "not_found"
-    message = _("MSG__PROJECT_INTEGRATION_NOT_FOUND")
 
 
 @dataclass(frozen=True)
@@ -38,6 +24,11 @@ class OutputDto:
 class UseCase(BaseUseCase):
     """Use case for retrieve issue."""
 
+    @injector.inject
+    def __init__(self, issues_service: IIssuesService):
+        """Initialize."""
+        self._issues_service = issues_service
+
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
         validated_data = self.validate_input(
@@ -45,12 +36,9 @@ class UseCase(BaseUseCase):
             IssueDtoValidator,
         )
 
-        issue_meta = get_issue(
+        issue_meta = self._issues_service.get_issue_meta(
             url=validated_data["url"],
-            token=self._get_token(
-                validated_data["project"],
-                validated_data["system"],
-            ),
+            project=validated_data["project"],
             system=validated_data["system"],
         )
 
@@ -73,15 +61,3 @@ class UseCase(BaseUseCase):
             spent=spent,
             assignee=assignee,
         )
-
-    def _get_token(self, project, system) -> str:
-        """Getting integration token."""
-        if system == System.DUMMY:
-            return ""
-
-        try:
-            integration = getattr(project, INTEGRATION_MAP[system])
-        except ObjectDoesNotExist:
-            raise ProjectIntegrationNotFoundError()
-
-        return integration.token

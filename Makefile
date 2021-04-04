@@ -4,6 +4,9 @@ generate_graphql_schema:
 lint:
 	@./scripts/lint.sh
 
+test:
+	@pytest
+
 make_messages:
 	@./manage.py makemessages --ignore=.venv/* -l en --no-location
 
