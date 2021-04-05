@@ -20,7 +20,7 @@ _PROVIDERS_MAP = types.MappingProxyType(
     },
 )
 
-_INTEGRATION_MAP = types.MappingProxyType(
+_INTEGRATION_ATTR_MAP = types.MappingProxyType(
     {
         IssuesManagementSystem.GITHUB: "github_integration",
         IssuesManagementSystem.GITLAB: "gitlab_integration",
@@ -58,7 +58,7 @@ class IssuesService(IIssuesService):
             return ""
 
         try:
-            integration = getattr(project, _INTEGRATION_MAP[system])
+            integration = getattr(project, _INTEGRATION_ATTR_MAP[system])
         except ObjectDoesNotExist:
             raise ProjectIntegrationNotFoundError()
 

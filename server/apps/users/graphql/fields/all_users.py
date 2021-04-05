@@ -14,10 +14,7 @@ class UserConnectionField(BaseQueryConnectionField):
 
     def __init__(self):
         """Initialize."""
-        super().__init__(
-            UserType,
-            email=graphene.String(),
-        )
+        super().__init__(UserType, email=graphene.String())
 
     @classmethod
     def get_input_dto(

@@ -3,7 +3,6 @@ from django.db.models import QuerySet
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
-from apps.projects.graphql.resolvers import resolve_project_members
 from apps.projects.graphql.types import (
     FigmaIntegrationType,
     GitHubIntegrationType,
@@ -11,6 +10,7 @@ from apps.projects.graphql.types import (
 )
 from apps.projects.graphql.types.project_member import ProjectMemberType
 from apps.projects.logic.queries.project import allowed
+from apps.projects.logic.queries.project_member import active
 from apps.projects.models import Project
 from apps.users.graphql.types import UserType
 
@@ -26,10 +26,7 @@ class ProjectType(BaseModelObjectType):
     description = graphene.String()
     db_name = graphene.String()
     owner = graphene.Field(UserType)
-    members = graphene.List(
-        ProjectMemberType,
-        resolver=resolve_project_members,
-    )
+    members = graphene.List(ProjectMemberType)
     created_at = graphene.DateTime()
     updated_at = graphene.DateTime()
     figma_integration = graphene.Field(FigmaIntegrationType)
@@ -43,18 +40,21 @@ class ProjectType(BaseModelObjectType):
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Get queryset."""
-        return cls._get_queryset(queryset, info)
-
-    @classmethod
-    def _get_queryset(
-        cls,
-        queryset: QuerySet,
-        info: ResolveInfo,  # noqa: WPS110
-    ) -> QuerySet:
         return allowed.Query().execute(
             allowed.InputDto(
                 user=info.context.user,  # type: ignore
                 queryset=queryset,
                 include_public=True,
+            ),
+        )
+
+    def resolve_members(
+        self: Project,
+        info: ResolveInfo,  # noqa: WPS110
+    ) -> QuerySet:
+        """Resolves project members."""
+        return active.Query().execute(
+            active.InputDto(
+                project=self,
             ),
         )
