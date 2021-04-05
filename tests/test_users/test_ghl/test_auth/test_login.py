@@ -11,8 +11,10 @@ def test_query(user, ghl_client, ghl_raw):
     response = ghl_client.execute(
         ghl_raw("login"),
         variable_values={
-            "email": DEFAULT_EMAIL,
-            "password": DEFAULT_USER_PASSWORD,
+            "input": {
+                "email": DEFAULT_EMAIL,
+                "password": DEFAULT_USER_PASSWORD,
+            },
         },
     )
 
@@ -30,8 +32,10 @@ def test_success(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         root=None,
         info=ghl_mock_info,
-        email=DEFAULT_EMAIL,
-        password=DEFAULT_USER_PASSWORD,
+        input={
+            "email": DEFAULT_EMAIL,
+            "password": DEFAULT_USER_PASSWORD,
+        },
     )
 
     assert Token.objects.filter(pk=response.token.pk, user=user).exists()
@@ -44,8 +48,10 @@ def test_wrong_username(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         None,
         ghl_mock_info,
-        email="wrong{0}".format(DEFAULT_EMAIL),
-        password=DEFAULT_USER_PASSWORD,
+        input={
+            "email": "wrong{0}".format(DEFAULT_EMAIL),
+            "password": DEFAULT_USER_PASSWORD,
+        },
     )
 
     assert isinstance(response, GenericGraphQLError)
@@ -60,8 +66,10 @@ def test_wrong_password(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         None,
         ghl_mock_info,
-        email=DEFAULT_EMAIL,
-        password="wrong{0}".format(DEFAULT_USER_PASSWORD),
+        input={
+            "email": DEFAULT_EMAIL,
+            "password": "wrong{0}".format(DEFAULT_USER_PASSWORD),
+        },
     )
 
     assert isinstance(response, GenericGraphQLError)
@@ -76,8 +84,10 @@ def test_empty_credentials(user, ghl_mock_info, login_mutation):
     response = login_mutation(
         None,
         ghl_mock_info,
-        email="",
-        password="",
+        input={
+            "email": "",
+            "password": "",
+        },
     )
 
     assert isinstance(response, GenericGraphQLError)

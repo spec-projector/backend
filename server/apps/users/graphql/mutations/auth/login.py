@@ -8,6 +8,13 @@ from apps.users.graphql.types import TokenType
 from apps.users.logic.use_cases.auth import login as login_uc
 
 
+class LoginInput(graphene.InputObjectType):
+    """User login input."""
+
+    email = graphene.String(required=True)
+    password = graphene.String(required=True)
+
+
 class LoginMutation(BaseUseCaseMutation):
     """Login mutation returns token."""
 
@@ -15,8 +22,7 @@ class LoginMutation(BaseUseCaseMutation):
         use_case_class = login_uc.UseCase
 
     class Arguments:
-        email = graphene.String(required=True)
-        password = graphene.String(required=True)
+        input = graphene.Argument(LoginInput, required=True)
 
     token = graphene.Field(TokenType)
 
@@ -28,10 +34,7 @@ class LoginMutation(BaseUseCaseMutation):
         **kwargs,
     ):
         """Prepare use case input data."""
-        return login_uc.InputDto(
-            email=kwargs["email"],
-            password=kwargs["password"],
-        )
+        return login_uc.InputDto(**kwargs["input"])
 
     @classmethod
     def get_response_data(

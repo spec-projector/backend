@@ -1,7 +1,8 @@
-mutation ($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+mutation ($input: LoginInput!) {
+    login(input: $input) {
         token {
-          key
+            key
+            created
         }
     }
 }
