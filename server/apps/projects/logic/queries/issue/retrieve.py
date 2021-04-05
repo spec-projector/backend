@@ -2,16 +2,29 @@ from dataclasses import dataclass
 from typing import Optional
 
 import injector
+from rest_framework import serializers
 
-from apps.core.logic.use_cases import BaseUseCase
+from apps.core.logic.helpers.validation import validate_input
 from apps.core.utils.date import seconds_to_hours
 from apps.projects.graphql.types import AssigneeType
-from apps.projects.logic.interfaces import IIssuesService
-from apps.projects.logic.use_cases.issue.dto import InputDto, IssueDtoValidator
+from apps.projects.logic.interfaces.issues import (
+    IIssuesService,
+    IssuesManagementSystem,
+)
+from apps.projects.models import Project
 
 
 @dataclass(frozen=True)
-class OutputDto:
+class InputDto:
+    """Create issue input dto."""
+
+    project: str
+    url: str
+    system: IssuesManagementSystem
+
+
+@dataclass(frozen=True)
+class Issue:
     """Create issue output dto."""
 
     title: str
@@ -21,20 +34,27 @@ class OutputDto:
     assignee: Optional[AssigneeType]
 
 
-class UseCase(BaseUseCase):
-    """Use case for retrieve issue."""
+class _InputDtoValidator(serializers.Serializer):
+    """Create issue input dto validator."""
+
+    project = serializers.PrimaryKeyRelatedField(
+        queryset=Project.objects.all(),
+    )
+    url = serializers.CharField()
+    system = serializers.ChoiceField(choices=IssuesManagementSystem)
+
+
+class Query:
+    """Get issue from external system."""
 
     @injector.inject
     def __init__(self, issues_service: IIssuesService):
         """Initialize."""
         self._issues_service = issues_service
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
-        """Main logic here."""
-        validated_data = self.validate_input(
-            input_dto,
-            IssueDtoValidator,
-        )
+    def execute(self, input_dto: InputDto) -> Issue:
+        """Handler."""
+        validated_data = validate_input(input_dto, _InputDtoValidator)
 
         issue_meta = self._issues_service.get_issue_meta(
             url=validated_data["url"],
@@ -54,7 +74,7 @@ class UseCase(BaseUseCase):
         if spent:
             spent = seconds_to_hours(issue_meta.spent)
 
-        return OutputDto(
+        return Issue(
             title=issue_meta.title,
             state=issue_meta.state.upper() if issue_meta.state else None,
             due_date=issue_meta.due_date,

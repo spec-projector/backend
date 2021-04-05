@@ -10,11 +10,11 @@ class IFigmaService(abc.ABC):
     """Figma service interface."""
 
     @abc.abstractmethod
-    def get_image_url(self, inbound_url) -> str:
+    def get_image_url(self, inbound_url: str) -> str:
         """Get direct url for image."""
 
     @abc.abstractmethod
-    def get_image_params(self, inbound_url) -> ImageParams:
+    def get_image_params(self, inbound_url: str) -> ImageParams:
         """Parse url, get image params."""
 
 

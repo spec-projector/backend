@@ -4,6 +4,7 @@ from typing import Union
 from rest_framework import serializers
 
 from apps.core import injector
+from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.interfaces import ICouchDBService
 from apps.core.logic.use_cases import BaseUseCase
 from apps.core.utils.objects import Empty, empty
@@ -78,7 +79,7 @@ class UseCase(BaseUseCase):
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
-        validated_data = self.validate_input(
+        validated_data = validate_input(
             input_dto.data,
             ProjectDtoValidator,
         )

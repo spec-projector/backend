@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from typing import List, Type, Union
 
 from django.db import models
-from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+from rest_framework import exceptions, serializers
 
+from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.use_cases import BaseUseCase
 from apps.core.serializers.fields import BitField
 from apps.core.utils.objects import Empty, empty
@@ -66,7 +66,7 @@ class OutputDto:
     project: Project
 
 
-class ProjectMemberValidator(serializers.Serializer):
+class _ProjectMemberValidator(serializers.Serializer):
     """Project member serializer."""
 
     id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125
@@ -77,17 +77,17 @@ class ProjectMemberValidator(serializers.Serializer):
     def validate_roles(self, roles):
         """Roles validation."""
         if not roles:
-            raise ValidationError("Roles not set")
+            raise exceptions.ValidationError("Roles not set")
         return roles
 
 
-class ProjectDtoValidator(serializers.Serializer):
+class _ProjectDtoValidator(serializers.Serializer):
     """Update project input."""
 
     title = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
     is_public = serializers.BooleanField(required=False)
-    users = ProjectMemberValidator(many=True, required=False)
+    users = _ProjectMemberValidator(many=True, required=False)
     figma_integration = FigmaIntegrationDtoValidator(
         allow_null=True,
         required=False,
@@ -111,11 +111,11 @@ class UseCase(BaseUseCase):
         """Main logic here."""
         project = Project.objects.filter(pk=input_dto.project).first()
         if not project:
-            raise ValidationError("Project not found")
+            raise exceptions.ValidationError("Project not found")
 
-        validated_data = self.validate_input(
+        validated_data = validate_input(
             input_dto.data,
-            ProjectDtoValidator,
+            _ProjectDtoValidator,
         )
         members = validated_data.pop("users", None)
         if members is not None:

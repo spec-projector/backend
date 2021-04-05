@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
+from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.use_cases import BaseUseCase
 from apps.projects.models import Project
 from apps.users.models import User
@@ -33,7 +34,7 @@ class UseCase(BaseUseCase):
 
     def execute(self, input_dto: InputDto) -> None:
         """Main logic here."""
-        validated_data = self.validate_input(
+        validated_data = validate_input(
             input_dto.data,
             InputDtoValidator,
         )
