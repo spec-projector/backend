@@ -1,3 +1,4 @@
+from cloudant.database import CouchDatabase
 from cloudant.document import Document
 from django.core.management import BaseCommand
 
@@ -16,7 +17,7 @@ class Command(BaseCommand):
 
         couch_db.close()
 
-    def _upgrade_db(self, db):
+    def _upgrade_db(self, db: CouchDatabase) -> None:
         with Document(db, "spec") as doc:
             packages = doc.get("packages")
             if packages:
@@ -29,7 +30,7 @@ class Command(BaseCommand):
 
             doc.save()
 
-    def _update_package(self, db, package_id):
+    def _update_package(self, db: CouchDatabase, package_id: str) -> None:
         with Document(db, package_id) as doc:
             entities = doc.get("entities")
             if not entities:
@@ -38,7 +39,7 @@ class Command(BaseCommand):
             for entity in entities:
                 self._update_entity(db, entity["_id"])
 
-    def _update_entity(self, db, entity_id):
+    def _update_entity(self, db: CouchDatabase, entity_id: str) -> None:
         with Document(db, entity_id) as doc:
             fields = doc.get("fields")
             if not fields:
