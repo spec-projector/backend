@@ -90,7 +90,18 @@ type Issue {
 input IssueInput {
   project: ID!
   url: String!
-  system: System!
+  system: IssuesManagementSystem!
+}
+
+enum IssuesManagementSystem {
+  GITHUB
+  GITLAB
+  DUMMY
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 type LoginMutation {
@@ -108,7 +119,7 @@ interface ModelRelayNode {
 type Mutation {
   socialLogin(system: SystemBackend!): SocialLoginMutation
   socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
-  login(email: String!, password: String!): LoginMutation
+  login(input: LoginInput!): LoginMutation
   logout: LogoutMutation
   register(input: RegisterInput!): RegisterMutation
   resetPassword(input: ResetPasswordInput!): ResetPasswordMutation
@@ -227,12 +238,6 @@ type SocialLoginCompleteMutation {
 
 type SocialLoginMutation {
   redirectUrl: String
-}
-
-enum System {
-  GITHUB
-  GITLAB
-  DUMMY
 }
 
 enum SystemBackend {
