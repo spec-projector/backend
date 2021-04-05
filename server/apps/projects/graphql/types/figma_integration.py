@@ -1,12 +1,8 @@
-import graphene
-
-from apps.projects.graphql.resolvers import resolve_token_integration
+from apps.projects.graphql.types.base import BaseIntegrationType
 
 
-class FigmaIntegrationType(graphene.ObjectType):
+class FigmaIntegrationType(BaseIntegrationType):
     """FigmaIntegration type."""
 
     class Meta:
         name = "FigmaIntegration"
-
-    token = graphene.String(required=True, resolver=resolve_token_integration)

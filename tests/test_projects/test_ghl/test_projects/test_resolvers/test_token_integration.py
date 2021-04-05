@@ -1,6 +1,6 @@
 from graphene_django.rest_framework.tests.test_mutation import mock_info
 
-from apps.projects.graphql.resolvers import resolve_token_integration
+from apps.projects.graphql.types.base import BaseIntegrationType
 
 
 def test_resolve_token(
@@ -13,7 +13,9 @@ def test_resolve_token(
     integrations = (figma_integration, github_integration, gitlab_integration)
 
     for integration in integrations:
-        assert resolve_token_integration(integration, mock_info()) == "*"
+        assert (
+            BaseIntegrationType.resolve_token(integration, mock_info()) == "*"
+        )
 
 
 def test_resolve_empty_tokens(
@@ -29,4 +31,6 @@ def test_resolve_empty_tokens(
         integration.token = ""
         integration.save()
 
-        assert not resolve_token_integration(integration, mock_info())
+        assert (
+            BaseIntegrationType.resolve_token(integration, mock_info()) is None
+        )

@@ -1,12 +1,8 @@
-import graphene
-
-from apps.projects.graphql.resolvers import resolve_token_integration
+from apps.projects.graphql.types.base import BaseIntegrationType
 
 
-class GitLabIntegrationType(graphene.ObjectType):
+class GitLabIntegrationType(BaseIntegrationType):
     """GitLabIntegration type."""
 
     class Meta:
         name = "GitLabIntegration"
-
-    token = graphene.String(required=True, resolver=resolve_token_integration)
