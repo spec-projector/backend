@@ -26,13 +26,14 @@ class IssuesQueries(graphene.ObjectType):
     def resolve_issue(
         self,
         info: ResolveInfo,  # noqa: WPS110
-        input_dto,
+        **kwargs,
     ) -> retrieve.Issue:
         """Resolve issue."""
+        input_data = kwargs["input"]
         return injector.get(retrieve.Query).execute(
             retrieve.InputDto(
-                project=input_dto.project,
-                url=input_dto.url,
-                system=IssuesManagementSystem(input_dto.system),
+                project=input_data.project,
+                url=input_data.url,
+                system=IssuesManagementSystem(input_data.system),
             ),
         )
