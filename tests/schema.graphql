@@ -112,6 +112,17 @@ type LogoutMutation {
   status: String
 }
 
+type MeUserType {
+  firstName: String
+  lastName: String
+  email: String
+  isStaff: Boolean
+  isActive: Boolean
+  avatar: String
+  lastLogin: DateTime
+  subscription: Subscription
+}
+
 interface ModelRelayNode {
   id: ID!
 }
@@ -195,7 +206,7 @@ type Query {
   tariff(id: ID!): Tariff
   allTariffs(offset: Int, sort: [TariffSort], before: String, after: String, first: Int, last: Int): TariffTypeConnection
   user(id: ID!): User
-  me: User
+  me: MeUserType
   allUsers(email: String, offset: Int, sort: [UserSort], before: String, after: String, first: Int, last: Int): UserTypeConnection
   project(id: ID!): Project
   allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
@@ -238,6 +249,13 @@ type SocialLoginCompleteMutation {
 
 type SocialLoginMutation {
   redirectUrl: String
+}
+
+type Subscription implements ModelRelayNode {
+  id: ID!
+  created: DateTime
+  tariff: Tariff
+  activeUntil: DateTime
 }
 
 enum SystemBackend {

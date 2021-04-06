@@ -1,0 +1,8 @@
+{
+  me {
+    email
+    subscription{
+      id
+    }
+  }
+}

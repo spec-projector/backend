@@ -49,6 +49,7 @@ class Subscription(models.Model):
         models.CASCADE,
         verbose_name=_("VN__USER"),
         help_text=_("HT__USER"),
+        related_name="subscriptions",
     )
 
     tariff = models.ForeignKey(
