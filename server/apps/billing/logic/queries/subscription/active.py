@@ -21,3 +21,5 @@ class Query:
         subscription = input_dto.user.subscriptions.latest("created")
         if subscription.status == SubscriptionStatus.ACTIVE:
             return subscription
+
+        return None

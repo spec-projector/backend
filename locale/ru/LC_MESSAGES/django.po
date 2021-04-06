@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 15:53+0300\n"
+"POT-Creation-Date: 2021-04-06 18:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,21 +187,6 @@ msgstr "Неверный ввод"
 msgid "MSG__OPERATION_NOT_PERMITTED"
 msgstr "Операция не разрешена"
 
-msgid "CH__CREATED"
-msgstr "Создано"
-
-msgid "CH__READY"
-msgstr "Готово"
-
-msgid "CH__SENDING"
-msgstr "Отправляется"
-
-msgid "CH__SENT"
-msgstr "Отправлено"
-
-msgid "CH__ERROR"
-msgstr "Ошика"
-
 msgid "VN__EMAIL_MESSAGE"
 msgstr "Электронное сообщение"
 
@@ -243,6 +228,21 @@ msgstr "Информация о статусе"
 
 msgid "HT__EMAIL_MESSAGE_STATUS_INFO"
 msgstr " "
+
+msgid "CH__CREATED"
+msgstr "Создано"
+
+msgid "CH__READY"
+msgstr "Готово"
+
+msgid "CH__SENDING"
+msgstr "Отправляется"
+
+msgid "CH__SENT"
+msgstr "Отправлено"
+
+msgid "CH__ERROR"
+msgstr "Ошика"
 
 msgid "VN__PROJECTS"
 msgstr "Проекты"

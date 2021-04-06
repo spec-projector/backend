@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 15:53+0300\n"
+"POT-Creation-Date: 2021-04-06 18:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,21 +185,6 @@ msgstr "Invalid input"
 msgid "MSG__OPERATION_NOT_PERMITTED"
 msgstr "Operation not permitted"
 
-msgid "CH__CREATED"
-msgstr "Created"
-
-msgid "CH__READY"
-msgstr "Ready"
-
-msgid "CH__SENDING"
-msgstr "Sending"
-
-msgid "CH__SENT"
-msgstr "Sent"
-
-msgid "CH__ERROR"
-msgstr "Error"
-
 msgid "VN__EMAIL_MESSAGE"
 msgstr "Email message"
 
@@ -241,6 +226,21 @@ msgstr "Status info"
 
 msgid "HT__EMAIL_MESSAGE_STATUS_INFO"
 msgstr " "
+
+msgid "CH__CREATED"
+msgstr "Created"
+
+msgid "CH__READY"
+msgstr "Ready"
+
+msgid "CH__SENDING"
+msgstr "Sending"
+
+msgid "CH__SENT"
+msgstr "Sent"
+
+msgid "CH__ERROR"
+msgstr "Error"
 
 msgid "VN__PROJECTS"
 msgstr "Projects"
