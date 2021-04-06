@@ -51,61 +51,61 @@ msgid "VN__ORDER"
 msgstr "Порядок"
 
 msgid "HT__ORDER"
-msgstr ""
+msgstr " "
 
 msgid "VN__CODE"
 msgstr "Код"
 
 msgid "HT__CODE"
-msgstr ""
+msgstr " "
 
 msgid "VN__TITLE"
 msgstr "Заголовок"
 
 msgid "HT__TITLE"
-msgstr ""
+msgstr " "
 
 msgid "VN__TEASER"
 msgstr "Тизер"
 
 msgid "HT__TEASER"
-msgstr ""
+msgstr " "
 
 msgid "VN__ICON"
 msgstr "Иконка"
 
 msgid "HT__ICON"
-msgstr ""
+msgstr " "
 
 msgid "VN__PRICE"
 msgstr "Цена"
 
 msgid "HT__PRICE"
-msgstr ""
+msgstr " "
 
 msgid "VN__IS_ACTIVE"
 msgstr "Активно"
 
 msgid "HT__IS_ACTIVE"
-msgstr ""
+msgstr " "
 
 msgid "VN__FEATURES"
 msgstr "Особенности"
 
 msgid "HT__FEATURES"
-msgstr ""
+msgstr " "
 
 msgid "VN__MAX_PROJECTS"
 msgstr "Максимальное количество проектов"
 
 msgid "HT__MAX_PROJECTS"
-msgstr ""
+msgstr " "
 
 msgid "VN__MAX_PROJECT_MEMBERS"
 msgstr "Максимальное количество участников в проекте"
 
 msgid "HT__MAX_PROJECT_MEMBERS"
-msgstr ""
+msgstr " "
 
 msgid "Constance"
 msgstr "Конфигурация"
@@ -162,37 +162,37 @@ msgid "VN__EMAIL_MESSAGE_STATUS"
 msgstr "Статус"
 
 msgid "HT__EMAIL_MESSAGE_STATUS"
-msgstr ""
+msgstr " "
 
 msgid "VN__EMAIL_MESSAGE_SUBJECT"
 msgstr "Тема"
 
 msgid "HT__EMAIL_MESSAGE_SUBJECT"
-msgstr ""
+msgstr " "
 
 msgid "VN__EMAIL_MESSAGE_TO"
 msgstr "Получатель"
 
 msgid "HT__EMAIL_MESSAGE_TO"
-msgstr ""
+msgstr " "
 
 msgid "VN__EMAIL_MESSAGE_SENDER"
 msgstr "Отправитель"
 
 msgid "HT__EMAIL_MESSAGE_SENDER"
-msgstr ""
+msgstr " "
 
 msgid "VN__EMAIL_MESSAGE_SENT_AT"
 msgstr "Время отправления"
 
 msgid "HT__EMAIL_MESSAGE_SENT_AT"
-msgstr ""
+msgstr " "
 
 msgid "VN__EMAIL_MESSAGE_STATUS_INFO"
 msgstr "Информация о статусе"
 
 msgid "HT__EMAIL_MESSAGE_STATUS_INFO"
-msgstr ""
+msgstr " "
 
 msgid "VN__PROJECTS"
 msgstr "Проекты"
@@ -207,13 +207,13 @@ msgid "VN__TOKEN"
 msgstr "Токен"
 
 msgid "HT__TOKEN"
-msgstr ""
+msgstr " "
 
 msgid "VN__PROJECT"
 msgstr "Проект"
 
 msgid "HT__PROJECT"
-msgstr ""
+msgstr " "
 
 msgid "VN__GITHUB_INTEGRATION"
 msgstr "Github интеграция"
@@ -231,25 +231,25 @@ msgid "VN__IS_PUBLIC"
 msgstr "Публичный"
 
 msgid "HT__IS_PUBLIC"
-msgstr ""
+msgstr " "
 
 msgid "VN__DESCRIPTION"
 msgstr "Описание"
 
 msgid "HT__DESCRIPTION"
-msgstr ""
+msgstr " "
 
 msgid "VN__DB_NAME"
 msgstr "Название базы данных"
 
 msgid "HT__DB_NAME"
-msgstr ""
+msgstr " "
 
 msgid "VN__OWNER"
 msgstr "Владелец"
 
 msgid "HT__OWNER"
-msgstr ""
+msgstr " "
 
 msgid "CH__FIGMA"
 msgstr "Figma"
@@ -264,13 +264,13 @@ msgid "VN__PROJECT_ASSET_SOURCE"
 msgstr "Источник ресурса проекта"
 
 msgid "HT__PROJECT_ASSET_SOURCE"
-msgstr ""
+msgstr " "
 
 msgid "VN__FILE"
 msgstr "Файл"
 
 msgid "HT__FILE"
-msgstr ""
+msgstr " "
 
 msgid "CH__FRONTEND_DEVELOPER"
 msgstr "Фронтенд разработчик"
@@ -300,7 +300,7 @@ msgid "VN__USER"
 msgstr "Пользователь"
 
 msgid "HT__USER"
-msgstr ""
+msgstr " "
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma интеграция не найдена"
@@ -358,7 +358,7 @@ msgid "VN__EXPIRED_AT"
 msgstr "Истекает в"
 
 msgid "HT__EXPIRED_AT"
-msgstr ""
+msgstr " "
 
 msgid "VN__TOKENS"
 msgstr "Токены"
@@ -367,31 +367,31 @@ msgid "VN__FIRST_NAME"
 msgstr "Имя"
 
 msgid "HT__FIRST_NAME"
-msgstr ""
+msgstr " "
 
 msgid "VN__LAST_NAME"
 msgstr "Фамилия"
 
 msgid "HT__LAST_NAME"
-msgstr ""
+msgstr " "
 
 msgid "VN__EMAIL"
 msgstr "Email"
 
 msgid "HT__EMAIL"
-msgstr ""
+msgstr " "
 
 msgid "VN__IS_STAFF"
 msgstr "Доступ к администрированию"
 
 msgid "HT__IS_STAFF"
-msgstr ""
+msgstr " "
 
 msgid "VN__AVATAR"
 msgstr "Аватар"
 
 msgid "HT__AVATAR"
-msgstr ""
+msgstr " "
 
 msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Невозможно авторизоваться с представленными данными"
