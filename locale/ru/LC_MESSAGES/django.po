@@ -1,0 +1,409 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-06 08:42+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+msgid "VN__BILLING"
+msgstr "Формирование счетов"
+
+msgid "CH__PROJECT_MEMBERS_ROLES"
+msgstr "Роли участников проекта"
+
+msgid "CH__PRINT_CONTRACT"
+msgstr "Печать договора"
+
+msgid "CH__EXPORT_IMPORT"
+msgstr "Экспорт импорт"
+
+msgid "CH__COMMUNITY_CHAT"
+msgstr "Общий чат"
+
+msgid "CH__SLACK_SUPPORT"
+msgstr "Поддержка в Slack"
+
+msgid "CH__EXCLUSIVE_SLACK_SUPPORT"
+msgstr "Эксклюзивная slack-поддержка"
+
+msgid "VN__TARIFF"
+msgstr "Тариф"
+
+msgid "VN__TARIFFS"
+msgstr "Тарифы"
+
+msgid "VN__ORDER"
+msgstr "Порядок"
+
+msgid "HT__ORDER"
+msgstr ""
+
+msgid "VN__CODE"
+msgstr "Код"
+
+msgid "HT__CODE"
+msgstr ""
+
+msgid "VN__TITLE"
+msgstr "Заголовок"
+
+msgid "HT__TITLE"
+msgstr ""
+
+msgid "VN__TEASER"
+msgstr "Тизер"
+
+msgid "HT__TEASER"
+msgstr ""
+
+msgid "VN__ICON"
+msgstr "Иконка"
+
+msgid "HT__ICON"
+msgstr ""
+
+msgid "VN__PRICE"
+msgstr "Цена"
+
+msgid "HT__PRICE"
+msgstr ""
+
+msgid "VN__IS_ACTIVE"
+msgstr "Активно"
+
+msgid "HT__IS_ACTIVE"
+msgstr ""
+
+msgid "VN__FEATURES"
+msgstr "Особенности"
+
+msgid "HT__FEATURES"
+msgstr ""
+
+msgid "VN__MAX_PROJECTS"
+msgstr "Максимальное количество проектов"
+
+msgid "HT__MAX_PROJECTS"
+msgstr ""
+
+msgid "VN__MAX_PROJECT_MEMBERS"
+msgstr "Максимальное количество участников в проекте"
+
+msgid "HT__MAX_PROJECT_MEMBERS"
+msgstr ""
+
+msgid "Constance"
+msgstr "Конфигурация"
+
+msgid "VN__JOB_QUEUE"
+msgstr "Очередь задач"
+
+msgid "VN__GRAPHQL_PLAYGROUND"
+msgstr "GraphQL конструктор"
+
+msgid "VN__HOME"
+msgstr "Домой"
+
+msgid "VN__APPLICATIONS"
+msgstr "Приложения"
+
+msgid "VN__MANAGEMENT"
+msgstr "Управление"
+
+msgid "VN__UTILS"
+msgstr "Утилиты"
+
+msgid "VN__CORE"
+msgstr "Основные модели"
+
+msgid "MSG__INVALID_INPUT"
+msgstr "Неверный ввод"
+
+msgid "MSG__OPERATION_NOT_PERMITTED"
+msgstr "Операция не разрешена"
+
+msgid "CH__CREATED"
+msgstr "Создано"
+
+msgid "CH__READY"
+msgstr "Готово"
+
+msgid "CH__SENDING"
+msgstr "Отправляется"
+
+msgid "CH__SENT"
+msgstr "Отправлено"
+
+msgid "CH__ERROR"
+msgstr "Ошика"
+
+msgid "VN__EMAIL_MESSAGE"
+msgstr "Электронное сообщение"
+
+msgid "VN__EMAIL_MESSAGES"
+msgstr "Электронное сообщения"
+
+msgid "VN__EMAIL_MESSAGE_STATUS"
+msgstr "Статус"
+
+msgid "HT__EMAIL_MESSAGE_STATUS"
+msgstr ""
+
+msgid "VN__EMAIL_MESSAGE_SUBJECT"
+msgstr "Тема"
+
+msgid "HT__EMAIL_MESSAGE_SUBJECT"
+msgstr ""
+
+msgid "VN__EMAIL_MESSAGE_TO"
+msgstr "Получатель"
+
+msgid "HT__EMAIL_MESSAGE_TO"
+msgstr ""
+
+msgid "VN__EMAIL_MESSAGE_SENDER"
+msgstr "Отправитель"
+
+msgid "HT__EMAIL_MESSAGE_SENDER"
+msgstr ""
+
+msgid "VN__EMAIL_MESSAGE_SENT_AT"
+msgstr "Время отправления"
+
+msgid "HT__EMAIL_MESSAGE_SENT_AT"
+msgstr ""
+
+msgid "VN__EMAIL_MESSAGE_STATUS_INFO"
+msgstr "Информация о статусе"
+
+msgid "HT__EMAIL_MESSAGE_STATUS_INFO"
+msgstr ""
+
+msgid "VN__PROJECTS"
+msgstr "Проекты"
+
+msgid "VN__FIGMA_INTEGRATION"
+msgstr "Figma интеграция"
+
+msgid "VN__FIGMA_INTERGRATIONS"
+msgstr "Figma интеграции"
+
+msgid "VN__TOKEN"
+msgstr "Токен"
+
+msgid "HT__TOKEN"
+msgstr ""
+
+msgid "VN__PROJECT"
+msgstr "Проект"
+
+msgid "HT__PROJECT"
+msgstr ""
+
+msgid "VN__GITHUB_INTEGRATION"
+msgstr "Github интеграция"
+
+msgid "VN__GITHUB_INTERGRATIONS"
+msgstr "Github интеграции"
+
+msgid "VN__GITLAB_INTEGRATION"
+msgstr "Gitlab интеграция"
+
+msgid "VN__GITLAB_INTERGRATIONS"
+msgstr "Gitlab интеграции"
+
+msgid "VN__IS_PUBLIC"
+msgstr "Публичный"
+
+msgid "HT__IS_PUBLIC"
+msgstr ""
+
+msgid "VN__DESCRIPTION"
+msgstr "Описание"
+
+msgid "HT__DESCRIPTION"
+msgstr ""
+
+msgid "VN__DB_NAME"
+msgstr "Название базы данных"
+
+msgid "HT__DB_NAME"
+msgstr ""
+
+msgid "VN__OWNER"
+msgstr "Владелец"
+
+msgid "HT__OWNER"
+msgstr ""
+
+msgid "CH__FIGMA"
+msgstr "Figma"
+
+msgid "VN__PROJECT_ASSET"
+msgstr "Ресур проекта"
+
+msgid "VN__PROJECTS_ASSETS"
+msgstr "Ресурсы проектов"
+
+msgid "VN__PROJECT_ASSET_SOURCE"
+msgstr "Источник ресурса проекта"
+
+msgid "HT__PROJECT_ASSET_SOURCE"
+msgstr ""
+
+msgid "VN__FILE"
+msgstr "Файл"
+
+msgid "HT__FILE"
+msgstr ""
+
+msgid "CH__FRONTEND_DEVELOPER"
+msgstr "Фронтенд разработчик"
+
+msgid "CH__BACKEND_DEVELOPER"
+msgstr "Бэкенд разработчик"
+
+msgid "CH__PROJECT_MANAGER"
+msgstr "Менеджер проекта"
+
+msgid "CH__DESIGNER"
+msgstr "Дизайнер"
+
+msgid "CH__TESTER"
+msgstr "Тестировщик"
+
+msgid "CH__CUSTOMER"
+msgstr "Заказчик"
+
+msgid "VN__PROJECT_MEMBER"
+msgstr "Участник проекта"
+
+msgid "VN__PROJECT_MEMBERS"
+msgstr "Участники проекта"
+
+msgid "VN__USER"
+msgstr "Пользователь"
+
+msgid "HT__USER"
+msgstr ""
+
+msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
+msgstr "Figma интеграция не найдена"
+
+msgid "MSG__FIGMA_NOT_VALID_URL"
+msgstr "Неверная ссылка на figma"
+
+#, python-brace-format
+msgid "MSG__FIGMA_REQUEST_ERROR {error}"
+msgstr "Ошибка запроса к figma: {error}"
+
+msgid "MSG_GITHUB_ISSUE_URL_NOT_VALID"
+msgstr "Неверная ссылка на github задачу"
+
+msgid "MSG__PROJECT_INTEGRATION_NOT_FOUND"
+msgstr "Интеграция для проекта не найдена"
+
+msgid "VN__USERS"
+msgstr "Пользователи"
+
+msgid "MSG__USER_NOT_EXISTS"
+msgstr "Пользователь не найден"
+
+msgid "MSG__MUST_INCLUDE_EMAIL_AND_PASSWORD"
+msgstr "Необходимо указать email и пароль"
+
+msgid "MSG__PASSWORD_NOT_SET"
+msgstr "Пароль не установлен"
+
+msgid "MSG__USER_ALREADY_EXISTS"
+msgstr "Пользователь уже существует"
+
+msgid "MSG__NOT_VALID_REGISTRATION_INPUT"
+msgstr "Неверные данные для регистрации"
+
+msgid "MSG__EMAIL_NOT_EXISTS"
+msgstr "Email не найден"
+
+msgid "MSG__CODE_NOT_VALID"
+msgstr "Неверный код"
+
+msgid "MSG__SUBJECT_PASSWORD_RESET_SECURITY_CODE"
+msgstr "Секретный код для сброса пароля"
+
+msgid "VN__USER_MUST_HAVE_A_EMAIL"
+msgstr "У пользователья должен быть email"
+
+msgid "VN__RESET_PASSWORD_REQUEST"
+msgstr "Запрос на сброс пароля"
+
+msgid "VN__RESET_PASSWORD_REQUESTS"
+msgstr "Запросы на сброс паролей"
+
+msgid "VN__EXPIRED_AT"
+msgstr "Истекает в"
+
+msgid "HT__EXPIRED_AT"
+msgstr ""
+
+msgid "VN__TOKENS"
+msgstr "Токены"
+
+msgid "VN__FIRST_NAME"
+msgstr "Имя"
+
+msgid "HT__FIRST_NAME"
+msgstr ""
+
+msgid "VN__LAST_NAME"
+msgstr "Фамилия"
+
+msgid "HT__LAST_NAME"
+msgstr ""
+
+msgid "VN__EMAIL"
+msgstr "Email"
+
+msgid "HT__EMAIL"
+msgstr ""
+
+msgid "VN__IS_STAFF"
+msgstr "Доступ к администрированию"
+
+msgid "HT__IS_STAFF"
+msgstr ""
+
+msgid "VN__AVATAR"
+msgstr "Аватар"
+
+msgid "HT__AVATAR"
+msgstr ""
+
+msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
+msgstr "Невозможно авторизоваться с представленными данными"
+
+msgid "MSG__AUTHENTICATION_ERROR"
+msgstr "Ошибка авторизации"
+
+msgid "MESSAGE__ENGLISH"
+msgstr "Английский"
+
+msgid "MESSAGE__RUSSIAN"
+msgstr "Русский"
+
+msgid "VN__ADMIN_DASHBOARD"
+msgstr "Панель управления"
