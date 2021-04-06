@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.models.choices.email_status import EmailMessageStatus
+from apps.core.models.enums.email_status import EmailMessageStatus
 from apps.core.models.mixins import Timestamps
 
 

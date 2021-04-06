@@ -1,6 +1,6 @@
 from apps.core import injector
 from apps.core.logic.interfaces import IEmailService
-from apps.core.models.choices.email_status import EmailMessageStatus
+from apps.core.models.enums.email_status import EmailMessageStatus
 
 
 def test_create_email(db):

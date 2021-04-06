@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from apps.core.models import EmailMessage
-from apps.core.models.choices.email_status import EmailMessageStatus
+from apps.core.models.enums.email_status import EmailMessageStatus
 
 BATCH_SIZE = 20
 

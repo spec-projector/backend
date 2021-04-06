@@ -2,7 +2,7 @@ import pytest
 from django.core import mail
 
 from apps.core import injector
-from apps.core.models.choices.email_status import EmailMessageStatus
+from apps.core.models.enums.email_status import EmailMessageStatus
 from apps.core.services.email import EmailDispatcher
 from tests.test_core.factories.email_message import EmailMessageFactory
 

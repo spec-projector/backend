@@ -52,7 +52,7 @@ COPY . .
 
 RUN export DJANGO_ENV=build \
     && python manage.py collectstatic --noinput --verbosity 0 \
-    && django-admin compilemessages \
+    && python manage.py compilemessages \
     && cp deploy/nginx/* /etc/nginx \
     && chmod -R 755 /app \
     && mkdir /var/run/app \

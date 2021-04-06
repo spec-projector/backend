@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 08:42+0300\n"
+"POT-Creation-Date: 2021-04-06 15:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,21 @@ msgstr ""
 
 msgid "VN__BILLING"
 msgstr "Billing"
+
+msgid "CH__CONFIRMING"
+msgstr "Confirming"
+
+msgid "CH__ACTIVE"
+msgstr "Active"
+
+msgid "CH__CANCELED"
+msgstr "Canceled"
+
+msgid "CH__OPTION"
+msgstr "Option"
+
+msgid "CH__EXPIRED"
+msgstr "Expired"
 
 msgid "CH__PROJECT_MEMBERS_ROLES"
 msgstr "Project members roles"
@@ -38,7 +53,43 @@ msgstr "Slack support"
 msgid "CH__EXCLUSIVE_SLACK_SUPPORT"
 msgstr "Exclusive slack support"
 
+msgid "VN__SUBSCRIPTION"
+msgstr "Subscription"
+
+msgid "VN__CREATED"
+msgstr "Created"
+
+msgid "HT__CREATED"
+msgstr "Created"
+
+msgid "VN__ACTIVE_UNTIL"
+msgstr "Active until"
+
+msgid "HT__ACTIVE_UNTIL"
+msgstr "Active until"
+
+msgid "VN__HASH"
+msgstr "Hash"
+
+msgid "HT__SUBSCRIPTION_HASH"
+msgstr "Subscription hash"
+
+msgid "VN__STATUS"
+msgstr "Status"
+
+msgid "HT__STATUS"
+msgstr " "
+
+msgid "VN__USER"
+msgstr "User"
+
+msgid "HT__USER"
+msgstr "User"
+
 msgid "VN__TARIFF"
+msgstr "Tariff"
+
+msgid "HT__TARIFF"
 msgstr "Tariff"
 
 msgid "VN__TARIFFS"
@@ -292,12 +343,6 @@ msgstr "Project Member"
 
 msgid "VN__PROJECT_MEMBERS"
 msgstr "Project Members"
-
-msgid "VN__USER"
-msgstr "User"
-
-msgid "HT__USER"
-msgstr "User"
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma integration not found"

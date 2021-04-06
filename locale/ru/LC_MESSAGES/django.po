@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 08:42+0300\n"
+"POT-Creation-Date: 2021-04-06 15:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +21,21 @@ msgstr ""
 
 msgid "VN__BILLING"
 msgstr "Формирование счетов"
+
+msgid "CH__CONFIRMING"
+msgstr " "
+
+msgid "CH__ACTIVE"
+msgstr " "
+
+msgid "CH__CANCELED"
+msgstr "Создано"
+
+msgid "CH__OPTION"
+msgstr " "
+
+msgid "CH__EXPIRED"
+msgstr " "
 
 msgid "CH__PROJECT_MEMBERS_ROLES"
 msgstr "Роли участников проекта"
@@ -41,7 +55,43 @@ msgstr "Поддержка в Slack"
 msgid "CH__EXCLUSIVE_SLACK_SUPPORT"
 msgstr "Эксклюзивная slack-поддержка"
 
+msgid "VN__SUBSCRIPTION"
+msgstr "Подписка"
+
+msgid "VN__CREATED"
+msgstr "Создано"
+
+msgid "HT__CREATED"
+msgstr "Создано"
+
+msgid "VN__ACTIVE_UNTIL"
+msgstr "Активно до"
+
+msgid "HT__ACTIVE_UNTIL"
+msgstr " "
+
+msgid "VN__HASH"
+msgstr "Хэш"
+
+msgid "HT__SUBSCRIPTION_HASH"
+msgstr "Уникальный хэш подписки"
+
+msgid "VN__STATUS"
+msgstr "Статус"
+
+msgid "HT__STATUS"
+msgstr " "
+
+msgid "VN__USER"
+msgstr "Пользователь"
+
+msgid "HT__USER"
+msgstr " "
+
 msgid "VN__TARIFF"
+msgstr "Тариф"
+
+msgid "HT__TARIFF"
 msgstr "Тариф"
 
 msgid "VN__TARIFFS"
@@ -295,12 +345,6 @@ msgstr "Участник проекта"
 
 msgid "VN__PROJECT_MEMBERS"
 msgstr "Участники проекта"
-
-msgid "VN__USER"
-msgstr "Пользователь"
-
-msgid "HT__USER"
-msgstr " "
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma интеграция не найдена"
