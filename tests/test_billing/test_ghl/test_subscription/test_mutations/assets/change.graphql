@@ -1,0 +1,7 @@
+mutation ($input: ChangeSubscriptionInput!) {
+  changeSubscription(input: $input) {
+    request{
+      id
+    }
+  }
+}

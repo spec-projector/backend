@@ -1,4 +1,4 @@
-from apps.projects.graphql.mutations.projects import create, delete, update
+from apps.projects.graphql.mutations.project import create, delete, update
 
 
 class ProjectsMutations:

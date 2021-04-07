@@ -1,1 +1,1 @@
-from .tariffs import TariffsQueries
+from .main import BillingQueries

@@ -1,0 +1,11 @@
+{
+  me {
+    email
+    subscription{
+      id
+    }
+    changeSubscriptionRequest{
+      id
+    }
+  }
+}

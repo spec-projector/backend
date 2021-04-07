@@ -18,6 +18,23 @@ type ChangePasswordMutation {
   ok: Boolean
 }
 
+input ChangeSubscriptionInput {
+  tariff: ID!
+  hash: String!
+}
+
+type ChangeSubscriptionMutation {
+  request: ChangeSubscriptionRequest
+}
+
+type ChangeSubscriptionRequest implements ModelRelayNode {
+  id: ID!
+  createdAt: DateTime!
+  isActive: Boolean!
+  tariff: Tariff!
+  status: SubscriptionStatus!
+}
+
 input CreateProjectAssetInput {
   project: ID!
   url: String!
@@ -112,11 +129,25 @@ type LogoutMutation {
   status: String
 }
 
+type MeUserType {
+  id: ID
+  firstName: String
+  lastName: String
+  email: String
+  isStaff: Boolean
+  isActive: Boolean
+  avatar: String
+  lastLogin: DateTime
+  subscription: Subscription
+  changeSubscriptionRequest: ChangeSubscriptionRequest
+}
+
 interface ModelRelayNode {
   id: ID!
 }
 
 type Mutation {
+  changeSubscription(input: ChangeSubscriptionInput!): ChangeSubscriptionMutation
   socialLogin(system: SystemBackend!): SocialLoginMutation
   socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
   login(input: LoginInput!): LoginMutation
@@ -195,7 +226,7 @@ type Query {
   tariff(id: ID!): Tariff
   allTariffs(offset: Int, sort: [TariffSort], before: String, after: String, first: Int, last: Int): TariffTypeConnection
   user(id: ID!): User
-  me: User
+  me: MeUserType
   allUsers(email: String, offset: Int, sort: [UserSort], before: String, after: String, first: Int, last: Int): UserTypeConnection
   project(id: ID!): Project
   allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
@@ -238,6 +269,22 @@ type SocialLoginCompleteMutation {
 
 type SocialLoginMutation {
   redirectUrl: String
+}
+
+type Subscription implements ModelRelayNode {
+  id: ID!
+  createdAt: DateTime!
+  tariff: Tariff!
+  activeUntil: DateTime
+  status: SubscriptionStatus!
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  REJECTED
+  EXPIRED
 }
 
 enum SystemBackend {

@@ -1,4 +1,5 @@
 from django.utils.translation import gettext_lazy as _
+from jnt_django_toolbox.helpers.modules import load_module_from_app
 
 from apps.core import injector
 from apps.core.utils.apps import BaseAppConfig
@@ -18,4 +19,5 @@ class AppConfig(BaseAppConfig):
 
         super().ready()
 
+        load_module_from_app(self, "models.lookups")
         injector.binder.install(CoreInfrastructureModule)

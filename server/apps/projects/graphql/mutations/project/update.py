@@ -5,7 +5,7 @@ from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.fields import BitField
 
 from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.projects.graphql.mutations.projects.inputs import BaseProjectInput
+from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
 from apps.projects.logic.use_cases.project import update as project_update
 

@@ -12,3 +12,4 @@ class TariffFactory(factory.django.DjangoModelFactory):
     code = factory.Faker("word")
     title = factory.Faker("word")
     teaser = factory.Faker("word")
+    is_active = True
