@@ -8,8 +8,8 @@ def test_none(user, ghl_client, ghl_raw):
 
     response = ghl_client.execute(ghl_raw("me_subscription"))
 
+    assert "errors" not in response
     dto = response["data"]["me"]["changeSubscriptionRequest"]
-
     assert dto is None
 
 
@@ -20,8 +20,8 @@ def test_single_active(user, ghl_client, ghl_raw):
 
     response = ghl_client.execute(ghl_raw("me_subscription"))
 
+    assert "errors" not in response
     dto = response["data"]["me"]["changeSubscriptionRequest"]
-
     assert dto is not None
     assert int(dto["id"]) == request.id
 
@@ -38,8 +38,8 @@ def test_many(user, ghl_client, ghl_raw):
 
     response = ghl_client.execute(ghl_raw("me_subscription"))
 
+    assert "errors" not in response
     dto = response["data"]["me"]["changeSubscriptionRequest"]
-
     assert dto is not None
     assert int(dto["id"]) == request.id
 
@@ -53,6 +53,6 @@ def test_another_user(user, ghl_client, ghl_raw):
 
     response = ghl_client.execute(ghl_raw("me_subscription"))
 
+    assert "errors" not in response
     dto = response["data"]["me"]["changeSubscriptionRequest"]
-
     assert dto is None

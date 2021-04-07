@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 
+import injector
 from rest_framework import serializers
 
 from apps.billing.logic.services import SubscriptionService
-from apps.billing.logic.use_cases.subscription import errors
 from apps.billing.models import ChangeSubscriptionRequest, Tariff
+from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.use_cases import BaseUseCase
 from apps.users.models import User
 
@@ -25,8 +26,8 @@ class OutputDto:
     change_subcription_request: ChangeSubscriptionRequest
 
 
-class InputDtoValidator(serializers.Serializer):
-    """Delete project input."""
+class _InputDtoValidator(serializers.Serializer):
+    """Validator."""
 
     tariff = serializers.PrimaryKeyRelatedField(queryset=Tariff.objects)
 
@@ -34,25 +35,22 @@ class InputDtoValidator(serializers.Serializer):
 class UseCase(BaseUseCase):
     """Use case for initiate change subscription."""
 
+    @injector.inject
     def __init__(self, subscription_service: SubscriptionService):
         """Initilize."""
         self._subscription_service = subscription_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
-        tariff = self._get_tariff(input_dto.tariff)
-        request = self._subscription_service.change_user_subscription(
-            input_dto.user,
-            tariff,
-            input_dto.hash,
+        validated = validate_input(input_dto, _InputDtoValidator)
+        request = (
+            self._subscription_service.create_change_subscription_request(
+                input_dto.user,
+                validated["tariff"],
+                input_dto.hash,
+            )
         )
 
         return OutputDto(
             change_subcription_request=request,
         )
-
-    def _get_tariff(self, tariff_id: int) -> Tariff:
-        try:
-            return Tariff.objects.get(is_active=True, pk=tariff_id)
-        except Tariff.DoesNotExist:  # noqa: WPS329
-            raise errors.InvalidTariffError()

@@ -42,10 +42,11 @@ class ChangeSubscriptionMutation(BaseUseCaseMutation):
         **kwargs,
     ):
         """Prepare use case input data."""
+        input_dto = kwargs["input"]
         return change_subscription.InputDto(
             user=info.context.user,  # type: ignore
-            tariff=kwargs["tariff"],
-            hash=kwargs["hash"],
+            tariff=input_dto["tariff"],
+            hash=input_dto["hash"],
         )
 
     @classmethod

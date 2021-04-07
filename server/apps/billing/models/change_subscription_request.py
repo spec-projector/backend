@@ -19,12 +19,6 @@ class ChangeSubscriptionRequest(models.Model):
                 fields=("user", "hash"),
                 name="%(app_label)s_%(class)s_unique",  # noqa: WPS323
             ),
-            models.CheckConstraint(
-                check=models.Q(
-                    from_subscription__ne=models.F("to_subscription"),
-                ),
-                name="%(app_label)s_%(class)s_subscriptions_not_equal",  # noqa: WPS323 E501
-            ),
         ]
 
     created_at = models.DateTimeField(
@@ -66,6 +60,7 @@ class ChangeSubscriptionRequest(models.Model):
         Subscription,
         models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name=_("VN__FROM_SUBSCRIPTION"),
         help_text=_("HT__FROM_SUBSCRIPTION"),
         related_name="+",
@@ -75,6 +70,7 @@ class ChangeSubscriptionRequest(models.Model):
         Subscription,
         models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name=_("VN__TO_SUBSCRIPTION"),
         help_text=_("HT__TO_SUBSCRIPTION"),
         related_name="+",
@@ -86,5 +82,9 @@ class ChangeSubscriptionRequest(models.Model):
 
     def clean(self):
         """Validate instance."""
-        if self.from_subscription == self.to_subscription:
+        same_subscriptions = (
+            self.from_subscription
+            and self.from_subscription == self.to_subscription
+        )
+        if same_subscriptions:
             raise ValidationError(_("MSG__CHANGE_SUBSCRIPTION_REQUEST_SAME"))

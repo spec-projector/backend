@@ -1,11 +1,4 @@
-from datetime import timedelta
-
-import pytest
-from django.utils import timezone
-
-from apps.billing.models.enums import SubscriptionStatus
 from tests.test_billing.factories import SubscriptionFactory
-from tests.test_users.factories.user import UserFactory
 
 
 def test_none(user, ghl_client, ghl_raw):
@@ -14,8 +7,8 @@ def test_none(user, ghl_client, ghl_raw):
 
     response = ghl_client.execute(ghl_raw("me_subscription"))
 
+    assert "errors" not in response
     subscription_dto = response["data"]["me"]["subscription"]
-
     assert subscription_dto is None
 
 
@@ -26,88 +19,7 @@ def test_single_active(user, ghl_client, ghl_raw):
 
     response = ghl_client.execute(ghl_raw("me_subscription"))
 
+    assert "errors" not in response
     subscription_dto = response["data"]["me"]["subscription"]
-
     assert subscription_dto is not None
     assert int(subscription_dto["id"]) == subscription.id
-
-
-@pytest.mark.parametrize(
-    "status",
-    [
-        SubscriptionStatus.PAST_DUE,
-        SubscriptionStatus.CANCELED,
-        SubscriptionStatus.REJECTED,
-        SubscriptionStatus.EXPIRED,
-    ],
-)
-def test_inactive(user, ghl_client, ghl_raw, status):
-    """Test single active subscription."""
-    SubscriptionFactory.create(user=user, status=status)
-    ghl_client.set_user(user)
-
-    response = ghl_client.execute(ghl_raw("me_subscription"))
-
-    subscription_dto = response["data"]["me"]["subscription"]
-
-    assert subscription_dto is None
-
-
-def test_many(user, ghl_client, ghl_raw):
-    """Test many subscription."""
-    SubscriptionFactory.create(
-        created_at=timezone.now() - timedelta(days=1),
-        user=user,
-    )
-
-    subscription = SubscriptionFactory.create(
-        created_at=timezone.now(),
-        user=user,
-        status=SubscriptionStatus.ACTIVE,
-    )
-
-    ghl_client.set_user(user)
-
-    response = ghl_client.execute(ghl_raw("me_subscription"))
-
-    subscription_dto = response["data"]["me"]["subscription"]
-
-    assert subscription_dto is not None
-    assert int(subscription_dto["id"]) == subscription.id
-
-
-def test_many_inactive(user, ghl_client, ghl_raw):
-    """Test many inactive subscription."""
-    SubscriptionFactory.create(
-        created_at=timezone.now() - timedelta(days=1),
-        user=user,
-        status=SubscriptionStatus.PAST_DUE,
-    )
-
-    SubscriptionFactory.create(
-        created_at=timezone.now(),
-        user=user,
-        status=SubscriptionStatus.EXPIRED,
-    )
-
-    ghl_client.set_user(user)
-
-    response = ghl_client.execute(ghl_raw("me_subscription"))
-
-    subscription_dto = response["data"]["me"]["subscription"]
-
-    assert subscription_dto is None
-
-
-def test_another_user(user, ghl_client, ghl_raw):
-    """Test another user active subscription."""
-    another_user = UserFactory.create()
-    SubscriptionFactory.create(user=another_user)
-
-    ghl_client.set_user(user)
-
-    response = ghl_client.execute(ghl_raw("me_subscription"))
-
-    subscription_dto = response["data"]["me"]["subscription"]
-
-    assert subscription_dto is None
