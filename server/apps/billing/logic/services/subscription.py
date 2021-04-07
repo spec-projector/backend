@@ -18,6 +18,15 @@ class SubscriptionService:
 
         return None
 
+    def get_user_change_subscription_request(
+        self,
+        user: User,
+    ) -> Optional[ChangeSubscriptionRequest]:
+        """Retrieve active user change subscription request."""
+        return user.change_subscriptions_requests.filter(
+            is_active=True,
+        ).latest("created_at")
+
     def change_user_subscription(
         self,
         user: User,

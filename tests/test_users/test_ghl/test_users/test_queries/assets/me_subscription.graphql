@@ -4,5 +4,8 @@
     subscription{
       id
     }
+    changeSubscriptionRequest{
+      id
+    }
   }
 }

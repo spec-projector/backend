@@ -139,6 +139,7 @@ type MeUserType {
   avatar: String
   lastLogin: DateTime
   subscription: Subscription
+  changeSubscriptionRequest: ChangeSubscriptionRequest
 }
 
 interface ModelRelayNode {
