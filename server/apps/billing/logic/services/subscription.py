@@ -1,6 +1,8 @@
 from typing import Optional
 
-from apps.billing.models import Subscription
+from django.db import transaction
+
+from apps.billing.models import ChangeSubscriptionRequest, Subscription, Tariff
 from apps.billing.models.enums import SubscriptionStatus
 from apps.users.models import User
 
@@ -15,3 +17,28 @@ class SubscriptionService:
             return subscription
 
         return None
+
+    def change_user_subscription(
+        self,
+        user: User,
+        tariff: Tariff,
+        request_hash: str,
+    ) -> ChangeSubscriptionRequest:
+        """Generate change subscription request."""
+        subscription = self.get_user_subscription(user)
+
+        with transaction.atomic():
+            ChangeSubscriptionRequest.objects.filter(user=user).update(
+                is_active=False,
+            )
+
+            request = ChangeSubscriptionRequest(
+                user=user,
+                tariff=tariff,
+                from_subscription=subscription,
+                hash=request_hash,
+            )
+            request.full_clean()
+            request.save()
+
+        return request

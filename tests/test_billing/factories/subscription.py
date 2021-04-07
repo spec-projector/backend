@@ -12,5 +12,4 @@ class SubscriptionFactory(factory.django.DjangoModelFactory):
         model = Subscription
 
     tariff = factory.SubFactory(TariffFactory)
-    hash = factory.Faker("md5")
-    status = SubscriptionStatus.CONFIRMING
+    status = SubscriptionStatus.ACTIVE

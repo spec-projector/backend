@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 18:38+0300\n"
+"POT-Creation-Date: 2021-04-07 14:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,68 @@ msgstr ""
 msgid "VN__BILLING"
 msgstr "Billing"
 
-msgid "CH__CONFIRMING"
-msgstr "Confirming"
+msgid "MSG__INVALID_TARIFF"
+msgstr "Invalid tariff"
+
+msgid "VN__CHANGE_SUBSCRIPTION_REQUEST"
+msgstr "Change subscription request"
+
+msgid "VN__CREATED"
+msgstr "Created"
+
+msgid "HT__CREATED"
+msgstr "Created"
+
+msgid "VN__HASH"
+msgstr "Hash"
+
+msgid "HT__SUBSCRIPTION_HASH"
+msgstr "Subscription hash"
+
+msgid "VN__IS_ACTIVE"
+msgstr "Is active"
+
+msgid "HT__IS_ACTIVE"
+msgstr " "
+
+msgid "VN__USER"
+msgstr "User"
+
+msgid "HT__USER"
+msgstr "User"
+
+msgid "VN__TARIFF"
+msgstr "Tariff"
+
+msgid "HT__TARIFF"
+msgstr "Tariff"
+
+msgid "VN__FROM_SUBSCRIPTION"
+msgstr "From subscription"
+
+msgid "HT__FROM_SUBSCRIPTION"
+msgstr " "
+
+msgid "VN__TO_SUBSCRIPTION"
+msgstr "To subscription"
+
+msgid "HT__TO_SUBSCRIPTION"
+msgstr " "
+
+msgid "MSG__CHANGE_SUBSCRIPTION_REQUEST_SAME"
+msgstr "Same subscriptions for change"
 
 msgid "CH__ACTIVE"
 msgstr "Active"
 
+msgid "CH__PAST_DUE"
+msgstr "Past due"
+
 msgid "CH__CANCELED"
 msgstr "Canceled"
 
-msgid "CH__OPTION"
-msgstr "Option"
+msgid "CH__REJECTED"
+msgstr "Rejected"
 
 msgid "CH__EXPIRED"
 msgstr "Expired"
@@ -56,41 +107,17 @@ msgstr "Exclusive slack support"
 msgid "VN__SUBSCRIPTION"
 msgstr "Subscription"
 
-msgid "VN__CREATED"
-msgstr "Created"
-
-msgid "HT__CREATED"
-msgstr "Created"
-
 msgid "VN__ACTIVE_UNTIL"
 msgstr "Active until"
 
 msgid "HT__ACTIVE_UNTIL"
 msgstr "Active until"
 
-msgid "VN__HASH"
-msgstr "Hash"
-
-msgid "HT__SUBSCRIPTION_HASH"
-msgstr "Subscription hash"
-
 msgid "VN__STATUS"
 msgstr "Status"
 
 msgid "HT__STATUS"
 msgstr " "
-
-msgid "VN__USER"
-msgstr "User"
-
-msgid "HT__USER"
-msgstr "User"
-
-msgid "VN__TARIFF"
-msgstr "Tariff"
-
-msgid "HT__TARIFF"
-msgstr "Tariff"
 
 msgid "VN__TARIFFS"
 msgstr "Tariffs"
@@ -129,12 +156,6 @@ msgid "VN__PRICE"
 msgstr "Price"
 
 msgid "HT__PRICE"
-msgstr " "
-
-msgid "VN__IS_ACTIVE"
-msgstr "Is active"
-
-msgid "HT__IS_ACTIVE"
 msgstr " "
 
 msgid "VN__FEATURES"

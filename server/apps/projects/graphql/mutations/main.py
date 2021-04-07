@@ -1,8 +1,8 @@
-from apps.projects.graphql.mutations import projects, projects_assets
+from apps.projects.graphql.mutations import project, projects_asset
 
 
 class ProjectsMutations(
-    projects.ProjectsMutations,
-    projects_assets.ProjectsAssetsMutations,
+    project.ProjectsMutations,
+    projects_asset.ProjectsAssetsMutations,
 ):
     """All projects mutations."""

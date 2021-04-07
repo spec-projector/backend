@@ -1,4 +1,4 @@
-from apps.projects.graphql.mutations.projects_assets import create
+from apps.projects.graphql.mutations.projects_asset import create
 
 
 class ProjectsAssetsMutations:

@@ -1,6 +1,5 @@
 from django.apps import AppConfig
-
-from apps.core.utils.modules import load_module_from_app
+from jnt_django_toolbox.helpers.modules import load_module_from_app
 
 
 class BaseAppConfig(AppConfig):
@@ -8,4 +7,4 @@ class BaseAppConfig(AppConfig):
 
     def ready(self):
         """Run this code when Django starts."""
-        load_module_from_app(self.name, "graphql.types")
+        load_module_from_app(self, "graphql.types")

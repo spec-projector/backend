@@ -2,7 +2,8 @@ import graphene
 from graphene_django.debug import DjangoDebug
 from jnt_django_graphene_toolbox import scheme
 
-from apps.billing.graphql.queries import TariffsQueries
+from apps.billing.graphql.mutations import BillingMutations
+from apps.billing.graphql.queries import BillingQueries
 from apps.core.graphql.views import ApiGraphQLView, PlaygroundGraphQLView
 from apps.projects.graphql.mutations import ProjectsMutations
 from apps.projects.graphql.queries import ProjectsQueries
@@ -13,7 +14,7 @@ from apps.users.graphql.queries import UsersQueries
 class Query(  # noqa: WPS215
     ProjectsQueries,
     UsersQueries,
-    TariffsQueries,
+    BillingQueries,
     graphene.ObjectType,
 ):
     """Graphql queries."""
@@ -21,9 +22,10 @@ class Query(  # noqa: WPS215
     debug = graphene.Field(DjangoDebug, name="_debug")
 
 
-class Mutation(
+class Mutation(  # noqa: WPS215
     ProjectsMutations,
     UsersMutations,
+    BillingMutations,
     graphene.ObjectType,
 ):
     """Graphql mutations."""

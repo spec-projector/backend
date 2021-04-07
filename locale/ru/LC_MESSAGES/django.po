@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 18:38+0300\n"
+"POT-Creation-Date: 2021-04-07 14:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,20 +22,71 @@ msgstr ""
 msgid "VN__BILLING"
 msgstr "Формирование счетов"
 
-msgid "CH__CONFIRMING"
-msgstr " "
+msgid "MSG__INVALID_TARIFF"
+msgstr "Тариф не найден"
 
-msgid "CH__ACTIVE"
-msgstr " "
+msgid "VN__CHANGE_SUBSCRIPTION_REQUEST"
+msgstr "Запрос на смену подписки"
 
-msgid "CH__CANCELED"
+msgid "VN__CREATED"
 msgstr "Создано"
 
-msgid "CH__OPTION"
+msgid "HT__CREATED"
+msgstr "Создано"
+
+msgid "VN__HASH"
+msgstr "Хэш"
+
+msgid "HT__SUBSCRIPTION_HASH"
+msgstr "Уникальный хэш подписки"
+
+msgid "VN__IS_ACTIVE"
+msgstr "Активно"
+
+msgid "HT__IS_ACTIVE"
 msgstr " "
 
-msgid "CH__EXPIRED"
+msgid "VN__USER"
+msgstr "Пользователь"
+
+msgid "HT__USER"
 msgstr " "
+
+msgid "VN__TARIFF"
+msgstr "Тариф"
+
+msgid "HT__TARIFF"
+msgstr "Тариф"
+
+msgid "VN__FROM_SUBSCRIPTION"
+msgstr "С подписки"
+
+msgid "HT__FROM_SUBSCRIPTION"
+msgstr " "
+
+msgid "VN__TO_SUBSCRIPTION"
+msgstr "На подписку"
+
+msgid "HT__TO_SUBSCRIPTION"
+msgstr " "
+
+msgid "MSG__CHANGE_SUBSCRIPTION_REQUEST_SAME"
+msgstr "Одинаковые подписки для изменения"
+
+msgid "CH__ACTIVE"
+msgstr "Активна"
+
+msgid "CH__PAST_DUE"
+msgstr "Просрочена"
+
+msgid "CH__CANCELED"
+msgstr "Отменена"
+
+msgid "CH__REJECTED"
+msgstr "Отклонена"
+
+msgid "CH__EXPIRED"
+msgstr "Завершена"
 
 msgid "CH__PROJECT_MEMBERS_ROLES"
 msgstr "Роли участников проекта"
@@ -58,41 +109,17 @@ msgstr "Эксклюзивная slack-поддержка"
 msgid "VN__SUBSCRIPTION"
 msgstr "Подписка"
 
-msgid "VN__CREATED"
-msgstr "Создано"
-
-msgid "HT__CREATED"
-msgstr "Создано"
-
 msgid "VN__ACTIVE_UNTIL"
 msgstr "Активно до"
 
 msgid "HT__ACTIVE_UNTIL"
 msgstr " "
 
-msgid "VN__HASH"
-msgstr "Хэш"
-
-msgid "HT__SUBSCRIPTION_HASH"
-msgstr "Уникальный хэш подписки"
-
 msgid "VN__STATUS"
 msgstr "Статус"
 
 msgid "HT__STATUS"
 msgstr " "
-
-msgid "VN__USER"
-msgstr "Пользователь"
-
-msgid "HT__USER"
-msgstr " "
-
-msgid "VN__TARIFF"
-msgstr "Тариф"
-
-msgid "HT__TARIFF"
-msgstr "Тариф"
 
 msgid "VN__TARIFFS"
 msgstr "Тарифы"
@@ -131,12 +158,6 @@ msgid "VN__PRICE"
 msgstr "Цена"
 
 msgid "HT__PRICE"
-msgstr " "
-
-msgid "VN__IS_ACTIVE"
-msgstr "Активно"
-
-msgid "HT__IS_ACTIVE"
 msgstr " "
 
 msgid "VN__FEATURES"

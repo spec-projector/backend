@@ -21,10 +21,7 @@ def test_none(user, ghl_client, ghl_raw):
 
 def test_single_active(user, ghl_client, ghl_raw):
     """Test single active subscription."""
-    subscription = SubscriptionFactory.create(
-        user=user,
-        status=SubscriptionStatus.ACTIVE,
-    )
+    subscription = SubscriptionFactory.create(user=user)
     ghl_client.set_user(user)
 
     response = ghl_client.execute(ghl_raw("me_subscription"))
@@ -38,9 +35,9 @@ def test_single_active(user, ghl_client, ghl_raw):
 @pytest.mark.parametrize(
     "status",
     [
-        SubscriptionStatus.CONFIRMING,
+        SubscriptionStatus.PAST_DUE,
         SubscriptionStatus.CANCELED,
-        SubscriptionStatus.OPTION,
+        SubscriptionStatus.REJECTED,
         SubscriptionStatus.EXPIRED,
     ],
 )
@@ -84,11 +81,13 @@ def test_many_inactive(user, ghl_client, ghl_raw):
     SubscriptionFactory.create(
         created_at=timezone.now() - timedelta(days=1),
         user=user,
+        status=SubscriptionStatus.PAST_DUE,
     )
 
     SubscriptionFactory.create(
         created_at=timezone.now(),
         user=user,
+        status=SubscriptionStatus.EXPIRED,
     )
 
     ghl_client.set_user(user)
@@ -103,10 +102,7 @@ def test_many_inactive(user, ghl_client, ghl_raw):
 def test_another_user(user, ghl_client, ghl_raw):
     """Test another user active subscription."""
     another_user = UserFactory.create()
-    SubscriptionFactory.create(
-        user=another_user,
-        status=SubscriptionStatus.ACTIVE,
-    )
+    SubscriptionFactory.create(user=another_user)
 
     ghl_client.set_user(user)
 

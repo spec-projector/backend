@@ -11,6 +11,6 @@ class SubscriptionAdmin(BaseModelAdmin):
     list_display = ("user", "tariff", "created_at", "status")
     list_filter = ("tariff", "status")
     search_fields = ("user__email",)
-    fields = ("hash", "created_at", "status", "active_until", "user", "tariff")
-    readonly_fields = ("hash", "created_at", "active_until")
+    fields = ("created_at", "status", "active_until", "user", "tariff")
+    readonly_fields = ("created_at", "active_until")
     ordering = ("-created_at",)

@@ -18,6 +18,23 @@ type ChangePasswordMutation {
   ok: Boolean
 }
 
+input ChangeSubscriptionInput {
+  tariff: ID!
+  hash: String!
+}
+
+type ChangeSubscriptionMutation {
+  request: ChangeSubscriptionRequest
+}
+
+type ChangeSubscriptionRequest implements ModelRelayNode {
+  id: ID!
+  createdAt: DateTime!
+  isActive: Boolean!
+  tariff: Tariff!
+  status: SubscriptionStatus!
+}
+
 input CreateProjectAssetInput {
   project: ID!
   url: String!
@@ -113,6 +130,7 @@ type LogoutMutation {
 }
 
 type MeUserType {
+  id: ID
   firstName: String
   lastName: String
   email: String
@@ -128,6 +146,7 @@ interface ModelRelayNode {
 }
 
 type Mutation {
+  changeSubscription(input: ChangeSubscriptionInput!): ChangeSubscriptionMutation
   socialLogin(system: SystemBackend!): SocialLoginMutation
   socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
   login(input: LoginInput!): LoginMutation
@@ -253,9 +272,18 @@ type SocialLoginMutation {
 
 type Subscription implements ModelRelayNode {
   id: ID!
-  created: DateTime
-  tariff: Tariff
+  createdAt: DateTime!
+  tariff: Tariff!
   activeUntil: DateTime
+  status: SubscriptionStatus!
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  REJECTED
+  EXPIRED
 }
 
 enum SystemBackend {
