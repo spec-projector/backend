@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import Optional
 
+from apps.billing.logic.services import SubscriptionService
 from apps.billing.models import Subscription
-from apps.billing.models.enums import SubscriptionStatus
+from apps.core import injector
 from apps.users.models import User
 
 
@@ -18,8 +19,5 @@ class Query:
 
     def execute(self, input_dto: InputDto) -> Optional[Subscription]:
         """Handler."""
-        subscription = input_dto.user.subscriptions.latest("created")
-        if subscription.status == SubscriptionStatus.ACTIVE:
-            return subscription
-
-        return None
+        service = injector.get(SubscriptionService)
+        return service.get_user_subscription(input_dto.user)

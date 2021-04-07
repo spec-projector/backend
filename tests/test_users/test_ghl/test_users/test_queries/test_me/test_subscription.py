@@ -59,12 +59,12 @@ def test_inactive(user, ghl_client, ghl_raw, status):
 def test_many(user, ghl_client, ghl_raw):
     """Test many subscription."""
     SubscriptionFactory.create(
-        created=timezone.now() - timedelta(days=1),
+        created_at=timezone.now() - timedelta(days=1),
         user=user,
     )
 
     subscription = SubscriptionFactory.create(
-        created=timezone.now(),
+        created_at=timezone.now(),
         user=user,
         status=SubscriptionStatus.ACTIVE,
     )
@@ -82,12 +82,12 @@ def test_many(user, ghl_client, ghl_raw):
 def test_many_inactive(user, ghl_client, ghl_raw):
     """Test many inactive subscription."""
     SubscriptionFactory.create(
-        created=timezone.now() - timedelta(days=1),
+        created_at=timezone.now() - timedelta(days=1),
         user=user,
     )
 
     SubscriptionFactory.create(
-        created=timezone.now(),
+        created_at=timezone.now(),
         user=user,
     )
 

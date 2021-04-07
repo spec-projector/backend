@@ -17,7 +17,7 @@ class Subscription(models.Model):
         verbose_name_plural = _("VN__SUBSCRIPTION")
         unique_together = ("user", "hash")
 
-    created = models.DateTimeField(
+    created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_("VN__CREATED"),
         help_text=_("HT__CREATED"),
