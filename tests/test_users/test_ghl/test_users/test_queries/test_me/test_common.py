@@ -11,7 +11,8 @@ def test_unauth(ghl_client, ghl_raw):
     """Test unauth query."""
     response = ghl_client.execute(ghl_raw("me"))
 
-    assert "errors" in response
+    assert "errors" not in response
+    assert response["data"]["me"] is None
 
 
 def test_resolver(user, ghl_auth_mock_info, me_query):
