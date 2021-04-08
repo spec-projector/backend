@@ -16,7 +16,7 @@ class BaseQuery(Generic[TInput], metaclass=abc.ABCMeta):
     """Represents base query."""
 
     filterset_class: Type[django_filters.FilterSet]
-    sort_handler: SortHandler
+    sort_handler: SortHandler = None
 
     @abc.abstractmethod
     def execute(self, input_dto: TInput) -> models.QuerySet:

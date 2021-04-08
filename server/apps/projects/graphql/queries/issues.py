@@ -30,7 +30,7 @@ class IssuesQueries(graphene.ObjectType):
         **kwargs,
     ) -> retrieve.Issue:
         """Resolve issue."""
-        if not info.context.user.is_authenticated:
+        if not info.context.user.is_authenticated:  # type: ignore
             raise GraphQLPermissionDenied()
 
         input_data = kwargs["input"]

@@ -1,11 +1,34 @@
 from dataclasses import dataclass
+from enum import Enum
 from typing import Optional
 
+import django_filters
 from django.db import models
 
 from apps.core.logic.queries import BaseQuery
+from apps.core.logic.queries.sort import SortHandler
 from apps.projects.models import Project, ProjectMember
 from apps.users.models import User
+
+
+class ProjectSort(Enum):
+    """Allowed sort fields."""
+
+    CREATED_AT_ASC = "created_at"  # noqa: WPS115
+    CREATED_AT_DESC = "-created_at"  # noqa: WPS115
+
+
+class _ProjectFilterSet(django_filters.FilterSet):
+    """Tariff filterSet."""
+
+    title = django_filters.CharFilter()
+
+
+@dataclass(frozen=True)
+class ProjectFilter:
+    """Project filter ."""
+
+    title: str
 
 
 @dataclass(frozen=True)
@@ -14,11 +37,16 @@ class InputDto:
 
     user: User
     queryset: Optional[models.QuerySet] = None
+    sort: Optional[ProjectSort] = None
+    filters: Optional[ProjectFilter] = None
     include_public: bool = False
 
 
 class Query(BaseQuery):
     """Allowed for user query."""
+
+    filterset_class = _ProjectFilterSet
+    sort_handler = SortHandler(ProjectSort)
 
     def execute(self, input_dto: InputDto) -> models.QuerySet:
         """Handler."""
@@ -37,7 +65,9 @@ class Query(BaseQuery):
         if input_dto.include_public:
             project_ids.extend(self._get_public_project_ids(projects))
 
-        return projects.filter(id__in=set(project_ids))
+        projects = projects.filter(id__in=set(project_ids))
+        projects = self.filter_queryset(projects, input_dto.filters)
+        return self.sort_queryset(projects, input_dto.sort)
 
     def _get_public_project_ids(
         self,
