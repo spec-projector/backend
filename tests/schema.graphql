@@ -225,9 +225,7 @@ type ProjectTypeEdge {
 type Query {
   tariff(id: ID!): Tariff
   allTariffs(offset: Int, sort: [TariffSort], before: String, after: String, first: Int, last: Int): TariffTypeConnection
-  user(id: ID!): User
   me: MeUserType
-  allUsers(email: String, offset: Int, sort: [UserSort], before: String, after: String, first: Int, last: Int): UserTypeConnection
   project(id: ID!): Project
   allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
   issue(input: IssueInput!): Issue
@@ -389,20 +387,4 @@ type User implements ModelRelayNode {
   isActive: Boolean
   avatar: String
   lastLogin: DateTime
-}
-
-enum UserSort {
-  EMAIL_ASC
-  EMAIL_DESC
-}
-
-type UserTypeConnection {
-  pageInfo: PageInfo!
-  edges: [UserTypeEdge]!
-  count: Int
-}
-
-type UserTypeEdge {
-  node: User
-  cursor: String!
 }

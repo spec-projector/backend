@@ -11,6 +11,7 @@ class ChangeSubscriptionRequestType(BaseModelObjectType):
 
     class Meta:
         model = ChangeSubscriptionRequest
+        auth_required = True
 
     created_at = graphene.DateTime(required=True)
     is_active = graphene.Boolean(required=True)

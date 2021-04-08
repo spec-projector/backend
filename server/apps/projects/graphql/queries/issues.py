@@ -1,5 +1,6 @@
 import graphene
 from graphql import ResolveInfo
+from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
 from apps.core import injector
 from apps.projects.graphql.types import IssueType
@@ -29,6 +30,9 @@ class IssuesQueries(graphene.ObjectType):
         **kwargs,
     ) -> retrieve.Issue:
         """Resolve issue."""
+        if not info.context.user.is_authenticated:
+            raise GraphQLPermissionDenied()
+
         input_data = kwargs["input"]
         return injector.get(retrieve.Query).execute(
             retrieve.InputDto(

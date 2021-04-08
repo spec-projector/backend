@@ -11,6 +11,7 @@ class SubscriptionType(BaseModelObjectType):
 
     class Meta:
         model = Subscription
+        auth_required = True
 
     created_at = graphene.DateTime(required=True)
     tariff = graphene.Field(TariffType, required=True)
