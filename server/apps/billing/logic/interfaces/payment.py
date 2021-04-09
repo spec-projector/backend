@@ -1,5 +1,6 @@
 import abc
 from dataclasses import dataclass
+from typing import Dict
 
 
 @dataclass(frozen=True)
@@ -18,7 +19,7 @@ class IPaymentService(abc.ABC):
 
     def handle_payment_webhook(
         self,
-        payment_data: dict[str, str],
-        payment_meta: dict[str, str],
+        payment_data: Dict[str, str],
+        payment_meta: Dict[str, str],
     ) -> PaymentInfo:
         """Handle payment webhook."""

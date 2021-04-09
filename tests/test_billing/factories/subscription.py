@@ -13,3 +13,4 @@ class SubscriptionFactory(factory.django.DjangoModelFactory):
 
     tariff = factory.SubFactory(TariffFactory)
     status = SubscriptionStatus.ACTIVE
+    merchant_id = factory.Faker("sha256")

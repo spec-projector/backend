@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Dict
 
 from cloudpayments import TransactionStatus
 from django.utils.translation import gettext_lazy as _
@@ -33,8 +34,8 @@ class PaymentService(IPaymentService):
 
     def handle_payment_webhook(
         self,
-        payment_data: dict[str, str],
-        payment_meta: dict[str, str],
+        payment_data: Dict[str, str],
+        payment_meta: Dict[str, str],
     ) -> PaymentInfo:
         """Handle payment webhook."""
         operation_type = payment_data["OperationType"]

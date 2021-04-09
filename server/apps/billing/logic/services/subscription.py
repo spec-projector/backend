@@ -93,24 +93,11 @@ class SubscriptionService:
             raise SameTariffChangeError()
 
         with transaction.atomic():
-            new_subscription = Subscription(
-                user=request.user,
-                status=SubscriptionStatus.ACTIVE,
-                tariff=request.tariff,
-                merchant_id=merchant_id,
-                active_until=self._get_active_until(),
+            new_subscription = self._change_subscription(
+                request,
+                current_subscription,
+                merchant_id,
             )
-            new_subscription.full_clean()
-            new_subscription.save()
-
-            if current_subscription:
-                current_subscription.status = SubscriptionStatus.CANCELED
-                current_subscription.full_clean()
-                current_subscription.save()
-
-            request.from_subscription = current_subscription
-            request.to_subscription = new_subscription
-            request.save()
 
         logger.info(
             "Subscription for user '{0}' was changed from '{1}'[id:{2}] to '{3}'[id: {4}]".format(  # noqa: E501
@@ -123,6 +110,33 @@ class SubscriptionService:
                 request.to_subscription.pk,
             ),
         )
+
+        return new_subscription
+
+    def _change_subscription(
+        self,
+        request: ChangeSubscriptionRequest,
+        current_subscription: Subscription,
+        merchant_id: str,
+    ) -> Subscription:
+        new_subscription = Subscription(
+            user=request.user,
+            status=SubscriptionStatus.ACTIVE,
+            tariff=request.tariff,
+            merchant_id=merchant_id,
+            active_until=self._get_active_until(),
+        )
+        new_subscription.full_clean()
+        new_subscription.save()
+
+        if current_subscription:
+            current_subscription.status = SubscriptionStatus.CANCELED
+            current_subscription.full_clean()
+            current_subscription.save()
+
+        request.from_subscription = current_subscription
+        request.to_subscription = new_subscription
+        request.save()
 
         return new_subscription
 

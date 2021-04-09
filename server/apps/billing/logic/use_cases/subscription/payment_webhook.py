@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from typing import Dict
 
 import injector
 from django.utils.translation import gettext_lazy as _
@@ -19,8 +20,8 @@ logger = logging.getLogger(__name__)
 class InputDto:
     """Delete project input dto."""
 
-    payment_data: dict[str, str]
-    payment_meta: dict[str, str]
+    payment_data: Dict[str, str]
+    payment_meta: Dict[str, str]
 
 
 class BasePaymentWebhookError(BaseApplicationError):
