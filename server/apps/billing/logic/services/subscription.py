@@ -143,6 +143,7 @@ class SubscriptionService:
 
         request.from_subscription = current_subscription
         request.to_subscription = new_subscription
+        request.is_active = False
         request.save()
 
         return new_subscription

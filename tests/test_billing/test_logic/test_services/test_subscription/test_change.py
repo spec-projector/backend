@@ -40,6 +40,7 @@ def test_new(user, change_request, subscription_service):
     change_request.refresh_from_db()
     assert change_request.from_subscription is None
     assert change_request.to_subscription == subscription
+    assert not change_request.is_active
 
 
 def test_deactivate_old(user, change_request, subscription_service):
