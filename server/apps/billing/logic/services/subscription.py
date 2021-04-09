@@ -1,7 +1,10 @@
 import logging
+from datetime import datetime
 from typing import Optional
 
+from dateutil import relativedelta
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.billing.models import ChangeSubscriptionRequest, Subscription, Tariff
@@ -95,6 +98,7 @@ class SubscriptionService:
                 status=SubscriptionStatus.ACTIVE,
                 tariff=request.tariff,
                 merchant_id=merchant_id,
+                active_until=self._get_active_until(),
             )
             new_subscription.full_clean()
             new_subscription.save()
@@ -121,3 +125,6 @@ class SubscriptionService:
         )
 
         return new_subscription
+
+    def _get_active_until(self) -> datetime:
+        return timezone.now() + relativedelta.relativedelta(months=1)
