@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.billing.logic.interfaces import IPaymentService
 from apps.billing.logic.interfaces.payment import PaymentInfo
 from apps.billing.logic.services import SubscriptionService
-from apps.billing.models import ChangeSubscriptionRequest
+from apps.billing.models import ChangeSubscriptionRequest, Tariff
 from apps.core.logic.errors import BaseApplicationError
 from apps.core.logic.use_cases import BaseUseCase
 from apps.users.models import User
@@ -40,13 +40,6 @@ class UserInactivePaymentWebhookError(BasePaymentWebhookError):
 
     code = "payment_user_inactive"
     message = _("MSG_PAYMENT_USER_INACTIVE")
-
-
-class ChangeRequestNotFoundPaymentWebhookError(BasePaymentWebhookError):
-    """Change subscription request not found error."""
-
-    code = "payment_change_request_not_found"
-    message = _("MSG_PAYMENT_CHANGE_REQUEST_NOT_FOUND")
 
 
 class ChangeRequestInactivePaymentWebhookError(BasePaymentWebhookError):
@@ -118,10 +111,15 @@ class UseCase(BaseUseCase):
             request = ChangeSubscriptionRequest.objects.get(
                 user=user,
                 hash=payment_info.request_hash,
-                is_active=True,
             )
         except ChangeSubscriptionRequest.DoesNotExist:
-            raise ChangeRequestNotFoundPaymentWebhookError()
+            request = (
+                self._subscription_service.create_change_subscription_request(
+                    user,
+                    Tariff.objects.get(id=payment_info.tariff_id),
+                    payment_info.request_hash,
+                )
+            )
 
         if not request.is_active:
             logger.debug(

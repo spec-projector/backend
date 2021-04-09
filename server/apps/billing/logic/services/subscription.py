@@ -52,6 +52,13 @@ class SubscriptionService:
         request_hash: str,
     ) -> ChangeSubscriptionRequest:
         """Generate change subscription request."""
+        request = ChangeSubscriptionRequest.objects.filter(
+            user=user,
+            hash=request_hash,
+        ).first()
+        if request:
+            return request
+
         current_subscription = self.get_user_subscription(user)
         is_same_tariff = (
             current_subscription and current_subscription.tariff == tariff

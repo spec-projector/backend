@@ -52,6 +52,7 @@ class PaymentService(IPaymentService):
 
         return PaymentInfo(
             user_id=int(custom_data["user"]),
+            tariff_id=int(custom_data["tariff"]),
             request_hash=custom_data["hash"],
             user_email=payment_data["Email"],
             merchant_id=payment_data["SubscriptionId"],

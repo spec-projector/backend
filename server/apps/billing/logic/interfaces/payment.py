@@ -8,6 +8,7 @@ class PaymentInfo:
     """Payment info."""
 
     user_id: int
+    tariff_id: int
     user_email: str
     merchant_id: str
     request_hash: str
