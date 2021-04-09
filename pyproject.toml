@@ -39,6 +39,7 @@ celery = "4.*"
 pillow = "*"
 graphene-file-upload = "*"
 cloudpayments = "^1.6.3"
+fluent-logger = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"

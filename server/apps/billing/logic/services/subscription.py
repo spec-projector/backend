@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 from django.db import transaction
@@ -7,6 +8,8 @@ from apps.billing.models import ChangeSubscriptionRequest, Subscription, Tariff
 from apps.billing.models.enums import SubscriptionStatus
 from apps.core.logic.errors import BaseApplicationError
 from apps.users.models import User
+
+logger = logging.getLogger(__name__)
 
 
 class BaseSubscriptionError(BaseApplicationError):
@@ -66,9 +69,17 @@ class SubscriptionService:
             request.full_clean()
             request.save()
 
+        logger.info(
+            "Change subscription request '{0}' was created".format(request),
+        )
+
         return request
 
-    def change_user_subscription(self, request: ChangeSubscriptionRequest):
+    def change_user_subscription(
+        self,
+        request: ChangeSubscriptionRequest,
+        merchant_id: str,
+    ) -> Subscription:
         """Change user subscription."""
         current_subscription = self.get_user_subscription(request.user)
         is_same_tariff = (
@@ -83,6 +94,7 @@ class SubscriptionService:
                 user=request.user,
                 status=SubscriptionStatus.ACTIVE,
                 tariff=request.tariff,
+                merchant_id=merchant_id,
             )
             new_subscription.full_clean()
             new_subscription.save()
@@ -95,3 +107,17 @@ class SubscriptionService:
             request.from_subscription = current_subscription
             request.to_subscription = new_subscription
             request.save()
+
+        logger.info(
+            "Subscription for user '{0}' was changed from '{1}'[id:{2}] to '{3}'[id: {4}]".format(  # noqa: E501
+                request.user,
+                request.from_subscription or "none",
+                request.from_subscription.pk
+                if request.from_subscription
+                else "-",
+                request.to_subscription,
+                request.to_subscription.pk,
+            ),
+        )
+
+        return new_subscription

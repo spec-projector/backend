@@ -6,6 +6,8 @@ from apps.billing.models import Tariff
 from apps.billing.models.enums import SubscriptionStatus
 from apps.core.models.helpers.enums import max_enum_len
 
+MAX_MERCHANT_ID_LENGTH = 128
+
 
 class Subscription(models.Model):
     """Subscription model."""
@@ -32,6 +34,12 @@ class Subscription(models.Model):
         max_length=max_enum_len(SubscriptionStatus),
         verbose_name=_("VN__STATUS"),
         help_text=_("HT__STATUS"),
+    )
+
+    merchant_id = models.CharField(
+        verbose_name=_("VN__MERCHANT_ID"),
+        help_text=_("HT__MERCHANT_ID"),
+        max_length=MAX_MERCHANT_ID_LENGTH,
     )
 
     user = models.ForeignKey(

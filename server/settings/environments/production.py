@@ -32,3 +32,42 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = "https://{0}/login/google".format(
 CONSTANCE_DATABASE_CACHE_BACKEND = "default"
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
+
+FLUENTD_HOST = config("DJANGO_FLUENTD", default=None)
+if FLUENTD_HOST:
+    LOGGING = {
+        "version": 1,
+        "formatters": {
+            "fluentd": {
+                "()": "fluent.handler.FluentRecordFormatter",
+                "exclude_attrs": ("exc_info",),
+            },
+        },
+        "handlers": {
+            "fluentd": {
+                "level": "DEBUG",
+                "class": "fluent.handler.FluentHandler",
+                "formatter": "fluentd",
+                "tag": DOMAIN_NAME,
+                "host": FLUENTD_HOST,
+                "port": 24224,
+            },
+        },
+        "loggers": {
+            "django": {
+                "handlers": ("fluentd",),
+                "level": "WARNING",
+                "propagate": False,
+            },
+            "apps": {
+                "handlers": ("fluentd",),
+                "level": "DEBUG",
+                "propagate": False,
+            },
+            "celery": {
+                "handlers": ("fluentd",),
+                "level": "INFO",
+                "propagate": False,
+            },
+        },
+    }
