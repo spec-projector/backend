@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-07 19:12+0300\n"
+"POT-Creation-Date: 2021-04-10 22:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,15 @@ msgstr "Billing"
 
 msgid "MSG__SAME_TARIFF_CHANGE"
 msgstr "Same tariff change is prevented"
+
+msgid "MSG_USER_NOT_FOUND"
+msgstr "User not found"
+
+msgid "MSG_USER_INACTIVE"
+msgstr "User is inactive"
+
+msgid "MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE"
+msgstr "Change subscription request is inactive"
 
 msgid "VN__CHANGE_SUBSCRIPTION_REQUEST"
 msgstr "Change subscription request"
@@ -119,6 +128,12 @@ msgstr "Status"
 msgid "HT__STATUS"
 msgstr " "
 
+msgid "VN__MERCHANT_ID"
+msgstr "Merchant ID"
+
+msgid "HT__MERCHANT_ID"
+msgstr " "
+
 msgid "VN__TARIFFS"
 msgstr "Tariffs"
 
@@ -158,6 +173,12 @@ msgstr "Price"
 msgid "HT__PRICE"
 msgstr " "
 
+msgid "VN__IS_DEFAULT"
+msgstr "Is default"
+
+msgid "HT__IS_DEFAULT"
+msgstr " "
+
 msgid "VN__FEATURES"
 msgstr "Features"
 
@@ -175,6 +196,12 @@ msgstr "Max project members"
 
 msgid "HT__MAX_PROJECT_MEMBERS"
 msgstr " "
+
+msgid "MSG_WEBHOOK_NOT_PAYMENT"
+msgstr ""
+
+msgid "MSG_WEBHOOK_WRONG_SIGNATURE"
+msgstr ""
 
 msgid "Constance"
 msgstr "Configuration"

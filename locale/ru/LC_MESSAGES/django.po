@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-07 19:12+0300\n"
+"POT-Creation-Date: 2021-04-10 22:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,15 @@ msgstr "Формирование счетов"
 
 msgid "MSG__SAME_TARIFF_CHANGE"
 msgstr "Попытка смены подписки на уже активный тариф"
+
+msgid "MSG_USER_NOT_FOUND"
+msgstr "Пользователь не найден"
+
+msgid "MSG_USER_INACTIVE"
+msgstr "Пользователь неактивен"
+
+msgid "MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE"
+msgstr "Запрос на смену подписки неактивен"
 
 msgid "VN__CHANGE_SUBSCRIPTION_REQUEST"
 msgstr "Запрос на смену подписки"
@@ -121,6 +130,12 @@ msgstr "Статус"
 msgid "HT__STATUS"
 msgstr " "
 
+msgid "VN__MERCHANT_ID"
+msgstr "Идентификатор системы платежей"
+
+msgid "HT__MERCHANT_ID"
+msgstr " "
+
 msgid "VN__TARIFFS"
 msgstr "Тарифы"
 
@@ -160,6 +175,12 @@ msgstr "Цена"
 msgid "HT__PRICE"
 msgstr " "
 
+msgid "VN__IS_DEFAULT"
+msgstr "По умолчанию"
+
+msgid "HT__IS_DEFAULT"
+msgstr " "
+
 msgid "VN__FEATURES"
 msgstr "Особенности"
 
@@ -177,6 +198,12 @@ msgstr "Максимальное количество участников в п
 
 msgid "HT__MAX_PROJECT_MEMBERS"
 msgstr " "
+
+msgid "MSG_WEBHOOK_NOT_PAYMENT"
+msgstr ""
+
+msgid "MSG_WEBHOOK_WRONG_SIGNATURE"
+msgstr ""
 
 msgid "Constance"
 msgstr "Конфигурация"

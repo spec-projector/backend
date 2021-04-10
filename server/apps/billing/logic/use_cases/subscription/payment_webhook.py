@@ -32,21 +32,21 @@ class UserNotFoundPaymentWebhookError(BasePaymentWebhookError):
     """User not found error."""
 
     code = "payment_user_not_found"
-    message = _("MSG_PAYMENT_USER_NOT_FOUND")
+    message = _("MSG_USER_NOT_FOUND")
 
 
 class UserInactivePaymentWebhookError(BasePaymentWebhookError):
     """User inactive error."""
 
     code = "payment_user_inactive"
-    message = _("MSG_PAYMENT_USER_INACTIVE")
+    message = _("MSG_USER_INACTIVE")
 
 
 class ChangeRequestInactivePaymentWebhookError(BasePaymentWebhookError):
     """Change subscription request inactive error."""
 
     code = "payment_change_request_inactive"
-    message = _("MSG_PAYMENT_CHANGE_REQUEST_INACTIVE")
+    message = _("MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE")
 
 
 class UseCase(BaseUseCase):
