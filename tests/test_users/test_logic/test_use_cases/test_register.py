@@ -2,6 +2,8 @@ from dataclasses import asdict
 
 import pytest
 
+from apps.billing.models import Subscription
+from apps.billing.models.enums import SubscriptionStatus
 from apps.core import injector
 from apps.users.logic.use_cases.register import register as register_uc
 from apps.users.logic.use_cases.register.errors import (
@@ -9,6 +11,7 @@ from apps.users.logic.use_cases.register.errors import (
     UserAlreadyExistsError,
 )
 from apps.users.models import User
+from tests.test_billing.factories import TariffFactory
 
 LAST_NAME = "newuser"
 EMAIL = "new_user@mail.net"
@@ -31,7 +34,7 @@ def input_dto(db):
     )
 
 
-def test_register_success(use_case, input_dto):
+def test_success(use_case, input_dto):
     """Test success register."""
     output_dto = use_case.execute(input_dto)
 
@@ -39,6 +42,22 @@ def test_register_success(use_case, input_dto):
 
     _assert_user(user, input_dto)
     assert user.is_active
+
+
+def test_subscription(use_case, input_dto):
+    """Test auto create default subscription."""
+    tariff = TariffFactory.create(is_default=True)
+    output_dto = use_case.execute(input_dto)
+
+    user = output_dto.token.user
+
+    _assert_user(user, input_dto)
+    assert user.is_active
+    assert Subscription.objects.filter(
+        user=user,
+        tariff=tariff,
+        status=SubscriptionStatus.ACTIVE,
+    ).exists()
 
 
 def test_exists_user(user, input_dto, use_case):

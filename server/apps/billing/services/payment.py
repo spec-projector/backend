@@ -1,8 +1,12 @@
+import base64
+import hashlib
+import hmac
 import json
 import logging
 from typing import Dict
 
 from cloudpayments import TransactionStatus
+from constance import config
 from django.utils.translation import gettext_lazy as _
 
 from apps.billing.logic.interfaces import IPaymentService
@@ -29,6 +33,13 @@ class NotPaymentWebhookError(BasePaymentServiceError):
     message = _("MSG_WEBHOOK_NOT_PAYMENT")
 
 
+class WrongSignatureError(BasePaymentServiceError):
+    """Request wrong signature."""
+
+    code = "webhook_wrong_signature"
+    message = _("MSG_WEBHOOK_WRONG_SIGNATURE")
+
+
 class PaymentService(IPaymentService):
     """Cloud payment service."""
 
@@ -36,8 +47,11 @@ class PaymentService(IPaymentService):
         self,
         payment_data: Dict[str, str],
         payment_meta: Dict[str, str],
+        raw_body: bytes,
     ) -> PaymentInfo:
         """Handle payment webhook."""
+        self._validate_request(raw_body, payment_meta)
+
         operation_type = payment_data["OperationType"]
         if payment_data["OperationType"] != OPERATION_TYPE_PAYMENT:
             logging.debug(
@@ -58,3 +72,21 @@ class PaymentService(IPaymentService):
             merchant_id=payment_data["SubscriptionId"],
             is_payed=payment_data["Status"] in PAYED_STATUSES,
         )
+
+    def _validate_request(self, raw: bytes, payment_meta: Dict[str, str]):
+        # based on https://developers.cloudpayments.ru/#proverka-uvedomleniy
+        if not config.CLOUD_PAYMENT_API_SECRET:
+            return
+
+        signature = base64.b64encode(
+            hmac.new(
+                bytes(config.CLOUD_PAYMENT_API_SECRET, "utf-8"),
+                raw,
+                digestmod=hashlib.sha256,
+            ).digest(),
+        )
+
+        req_signature = payment_meta.get("Content-Hmac")
+        is_valid = req_signature and req_signature == signature.decode("utf-8")
+        if not is_valid:
+            raise WrongSignatureError()

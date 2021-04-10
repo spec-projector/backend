@@ -64,7 +64,7 @@ class _BeforeSendHandler:
 
 sentry_dsn = config("DJANGO_SENTRY_DSN", default=None)
 if sentry_dsn:
-    sentry_sdk.init(  # type:ignore
+    sentry_sdk.init(  # type: ignore
         dsn=sentry_dsn,
         release=SP_APP_VERSION,
         integrations=[DjangoIntegration()],

@@ -5,9 +5,8 @@ from typing import Dict
 import injector
 from django.utils.translation import gettext_lazy as _
 
-from apps.billing.logic.interfaces import IPaymentService
+from apps.billing.logic.interfaces import IPaymentService, ISubscriptionService
 from apps.billing.logic.interfaces.payment import PaymentInfo
-from apps.billing.logic.services import SubscriptionService
 from apps.billing.models import ChangeSubscriptionRequest, Tariff
 from apps.core.logic.errors import BaseApplicationError
 from apps.core.logic.use_cases import BaseUseCase
@@ -22,6 +21,7 @@ class InputDto:
 
     payment_data: Dict[str, str]
     payment_meta: Dict[str, str]
+    raw_body: bytes
 
 
 class BasePaymentWebhookError(BaseApplicationError):
@@ -55,7 +55,7 @@ class UseCase(BaseUseCase):
     @injector.inject
     def __init__(
         self,
-        subscription_service: SubscriptionService,
+        subscription_service: ISubscriptionService,
         payment_service: IPaymentService,
     ):
         """Initialize."""
@@ -67,6 +67,7 @@ class UseCase(BaseUseCase):
         payment_info = self._payment_service.handle_payment_webhook(
             input_dto.payment_data,
             input_dto.payment_meta,
+            input_dto.raw_body,
         )
         user = self._get_user(payment_info)
         request = self._get_change_request(user, payment_info)

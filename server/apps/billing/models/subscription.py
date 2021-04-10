@@ -39,6 +39,8 @@ class Subscription(models.Model):
     merchant_id = models.CharField(
         verbose_name=_("VN__MERCHANT_ID"),
         help_text=_("HT__MERCHANT_ID"),
+        default="",
+        blank=True,
         max_length=MAX_MERCHANT_ID_LENGTH,
     )
 

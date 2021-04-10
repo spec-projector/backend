@@ -28,6 +28,7 @@ class CloudPaymentsWebhookView(View):
             payment_webhook.InputDto(
                 payment_data=dict(request.POST.items()),
                 payment_meta=dict(request.headers.items()),
+                raw_body=request.body,
             ),
         )
         return JsonResponse({"code": 0})

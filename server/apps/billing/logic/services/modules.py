@@ -1,6 +1,6 @@
 import injector
 
-from apps.billing.logic import services
+from apps.billing.logic import interfaces, services
 
 
 class BillingLogicServicesModule(injector.Module):
@@ -8,4 +8,7 @@ class BillingLogicServicesModule(injector.Module):
 
     def configure(self, binder: injector.Binder) -> None:
         """Bind services."""
-        binder.bind(services.SubscriptionService)
+        binder.bind(
+            interfaces.ISubscriptionService,
+            services.SubscriptionService,
+        )

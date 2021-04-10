@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import injector
 from rest_framework import serializers
 
-from apps.billing.logic.services import SubscriptionService
+from apps.billing.logic.interfaces import ISubscriptionService
 from apps.billing.models import ChangeSubscriptionRequest, Tariff
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.use_cases import BaseUseCase
@@ -36,7 +36,7 @@ class UseCase(BaseUseCase):
     """Use case for initiate change subscription."""
 
     @injector.inject
-    def __init__(self, subscription_service: SubscriptionService):
+    def __init__(self, subscription_service: ISubscriptionService):
         """Initilize."""
         self._subscription_service = subscription_service
 

@@ -3,6 +3,7 @@ from dataclasses import asdict, dataclass
 import injector
 from rest_framework import serializers
 
+from apps.billing.logic.interfaces import ISubscriptionService
 from apps.core.logic.use_cases import BaseUseCase
 from apps.users.logic.interfaces import ISignupService, ITokenService
 from apps.users.logic.interfaces.signup import SignupData
@@ -56,10 +57,12 @@ class UseCase(BaseUseCase):
         self,
         token_service: ITokenService,
         signup_service: ISignupService,
+        subscription_service: ISubscriptionService,
     ):
         """Initializing."""
         self._token_service = token_service
         self._signup_service = signup_service
+        self._subscription_service = subscription_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
@@ -73,6 +76,8 @@ class UseCase(BaseUseCase):
                 last_name=input_dto.last_name,
             ),
         )
+
+        self._subscription_service.add_default_subscription(user)
 
         return OutputDto(
             token=self._token_service.create_user_token(user),

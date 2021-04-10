@@ -7,6 +7,7 @@ from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from apps.billing.logic.interfaces import ISubscriptionService
 from apps.billing.models import ChangeSubscriptionRequest, Subscription, Tariff
 from apps.billing.models.enums import SubscriptionStatus
 from apps.core.logic.errors import BaseApplicationError
@@ -26,7 +27,7 @@ class SameTariffChangeError(BaseSubscriptionError):
     message = _("MSG__SAME_TARIFF_CHANGE")
 
 
-class SubscriptionService:
+class SubscriptionService(ISubscriptionService):
     """Service for subscription management."""
 
     def get_user_subscription(self, user: User) -> Optional[Subscription]:
@@ -119,6 +120,23 @@ class SubscriptionService:
         )
 
         return new_subscription
+
+    def add_default_subscription(self, user: User) -> Optional[Subscription]:
+        """Add default subscription to a user."""
+        tariff = Tariff.objects.filter(is_active=True, is_default=True).first()
+        if not tariff:
+            return None
+
+        subscription = Subscription(
+            user=user,
+            status=SubscriptionStatus.ACTIVE,
+            tariff=tariff,
+        )
+
+        subscription.full_clean()
+        subscription.save()
+
+        return subscription
 
     def _change_subscription(
         self,

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from apps.billing.logic.services import SubscriptionService
+from apps.billing.logic.interfaces import ISubscriptionService
 from apps.billing.models import Subscription
 from apps.core import injector
 from apps.users.models import User
@@ -19,5 +19,5 @@ class Query:
 
     def execute(self, input_dto: InputDto) -> Optional[Subscription]:
         """Handler."""
-        service = injector.get(SubscriptionService)
+        service = injector.get(ISubscriptionService)
         return service.get_user_subscription(input_dto.user)

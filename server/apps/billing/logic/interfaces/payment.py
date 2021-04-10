@@ -18,9 +18,11 @@ class PaymentInfo:
 class IPaymentService(abc.ABC):
     """Payment service interface."""
 
+    @abc.abstractmethod
     def handle_payment_webhook(
         self,
         payment_data: Dict[str, str],
         payment_meta: Dict[str, str],
+        raw_body: bytes,
     ) -> PaymentInfo:
         """Handle payment webhook."""

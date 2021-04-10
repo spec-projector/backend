@@ -8,7 +8,7 @@ from apps.core.admin.base import BaseModelAdmin
 class ChangeSubscriptionRequestAdmin(BaseModelAdmin):
     """Change subscription request admin."""
 
-    list_display = ("user", "tariff", "created_at")
+    list_display = ("user", "tariff", "created_at", "is_active")
     list_filter = ("tariff",)
     search_fields = ("user__email",)
     fields = (
