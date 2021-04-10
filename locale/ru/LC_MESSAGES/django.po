@@ -200,10 +200,10 @@ msgid "HT__MAX_PROJECT_MEMBERS"
 msgstr " "
 
 msgid "MSG_WEBHOOK_NOT_PAYMENT"
-msgstr ""
+msgstr "Webhook is not payment webhook"
 
 msgid "MSG_WEBHOOK_WRONG_SIGNATURE"
-msgstr ""
+msgstr "Wrong webhook signature"
 
 msgid "Constance"
 msgstr "Конфигурация"
