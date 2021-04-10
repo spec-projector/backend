@@ -1065,7 +1065,7 @@ i18n = ["Babel (>=0.8)"]
 
 [[package]]
 name = "jnt-django-admin-tools"
-version = "0.9.33"
+version = "0.9.34"
 description = "A collection of tools for the django administration interface"
 category = "main"
 optional = false
@@ -2427,8 +2427,8 @@ jinja2 = [
     {file = "Jinja2-2.11.3.tar.gz", hash = "sha256:a6d58433de0ae800347cab1fa3043cebbabe8baa9d29e668f1c768cb87a333c6"},
 ]
 jnt-django-admin-tools = [
-    {file = "jnt-django-admin-tools-0.9.33.tar.gz", hash = "sha256:1bedf203039905b79605919cc2ef5fb9a4809fe6e55c970c42b56de0ed356aaf"},
-    {file = "jnt_django_admin_tools-0.9.33-py3-none-any.whl", hash = "sha256:c0cccb057811b59e91b1a129c6a9d4fb9923d32b7c136b5690a6618cb12390bb"},
+    {file = "jnt-django-admin-tools-0.9.34.tar.gz", hash = "sha256:c1740cbaded31692486bd2c575094b045be625660fb5fb2192db394e6b8637fb"},
+    {file = "jnt_django_admin_tools-0.9.34-py3-none-any.whl", hash = "sha256:0bcd2adfe1db47104d415377f64945517ffe9475c8666f199b062db49ea0cda6"},
 ]
 jnt-django-graphene-toolbox = [
     {file = "jnt-django-graphene-toolbox-0.2.5.tar.gz", hash = "sha256:f3ca74c94b531fc3b4703ac58289030ad194254ea8b4708682a872caca45ed35"},
