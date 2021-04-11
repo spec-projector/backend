@@ -3,9 +3,9 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
 from apps.users.graphql.types import TokenType
-from apps.users.logic.use_cases.auth import login as login_uc
+from apps.users.logic.commands.auth import login
 
 
 class LoginInput(graphene.InputObjectType):
@@ -15,11 +15,8 @@ class LoginInput(graphene.InputObjectType):
     password = graphene.String(required=True)
 
 
-class LoginMutation(BaseUseCaseMutation):
+class LoginMutation(BaseCommandMutation):
     """Login mutation returns token."""
-
-    class Meta:
-        use_case_class = login_uc.UseCase
 
     class Arguments:
         input = graphene.Argument(LoginInput, required=True)
@@ -27,23 +24,23 @@ class LoginMutation(BaseUseCaseMutation):
     token = graphene.Field(TokenType)
 
     @classmethod
-    def get_input_dto(
+    def get_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ):
-        """Prepare use case input data."""
-        return login_uc.InputDto(**kwargs["input"])
+        """Create command."""
+        return login.Command(**kwargs["input"])
 
     @classmethod
     def get_response_data(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: login_uc.OutputDto,
+        command_result: login.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
-            "token": output_dto.token,
+            "token": command_result.token,
         }

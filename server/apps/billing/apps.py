@@ -12,14 +12,16 @@ class AppConfig(BaseAppConfig):
 
     def ready(self):
         """Trigger on app ready."""
+        self._setup_dependency_injection()
+        super().ready()
+
+    def _setup_dependency_injection(self):
         from apps.billing.services.modules import (  # noqa: WPS433
             BillingInfrastructureServicesModule,
         )
         from apps.billing.logic.services.modules import (  # noqa: WPS433
             BillingLogicServicesModule,
         )
-
-        super().ready()
 
         injector.binder.install(BillingLogicServicesModule)
         injector.binder.install(BillingInfrastructureServicesModule)

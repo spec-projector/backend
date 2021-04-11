@@ -13,11 +13,14 @@ class AppConfig(BaseAppConfig):
 
     def ready(self):
         """Trigger on app ready."""
+        super().ready()
+
+        load_module_from_app(self, "models.lookups")
+        self._setup_dependency_injection()
+
+    def _setup_dependency_injection(self):
         from apps.core.services.modules import (  # noqa: WPS433
             CoreInfrastructureModule,
         )
 
-        super().ready()
-
-        load_module_from_app(self, "models.lookups")
         injector.binder.install(CoreInfrastructureModule)
