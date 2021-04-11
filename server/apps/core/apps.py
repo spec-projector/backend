@@ -18,7 +18,7 @@ class AppConfig(BaseAppConfig):
         load_module_from_app(self, "models.lookups")
         self._setup_dependency_injection()
 
-    def _setup_dependency_injection(self):
+    def _setup_dependency_injection(self) -> None:
         from apps.core.services.modules import (  # noqa: WPS433
             CoreInfrastructureModule,
         )

@@ -15,7 +15,7 @@ class AppConfig(BaseAppConfig):
         self._setup_dependency_injection()
         super().ready()
 
-    def _setup_dependency_injection(self):
+    def _setup_dependency_injection(self) -> None:
         from apps.billing.services.modules import (  # noqa: WPS433
             BillingInfrastructureServicesModule,
         )

@@ -16,8 +16,10 @@ class CommandHandler(Generic[TCommand]):
 class CommandBus:
     """Commands dispatcher."""
 
-    def dispatch(self, command: Any) -> Any:
+    def dispatch(self, command: Any) -> Any:  # type: ignore
         """Find command handler and executes it."""
         # CommandBus uses injector to find a handler
-        command_handler = injector.get(CommandHandler[type(command)])
+        command_handler = injector.get(
+            CommandHandler[type(command)],  # type: ignore
+        )
         return command_handler.execute(command)
