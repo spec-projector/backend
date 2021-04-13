@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -34,7 +35,7 @@ class UseCase(BaseUseCase):
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
         user = input_dto.user
-        old_avatar = user.avatar.path if user.avatar else None
+        old_avatar = self._get_old_avatar_path(user)
 
         cropped_image = crop_image(
             file_object=input_dto.file,
@@ -54,3 +55,10 @@ class UseCase(BaseUseCase):
             default_storage.delete(old_avatar)
 
         return OutputDto(user=user)
+
+    def _get_old_avatar_path(self, user) -> Optional[str]:
+        """Get old user avatar."""
+        try:
+            return user.avatar.path if user.avatar else None
+        except NotImplementedError:
+            return None
