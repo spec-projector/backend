@@ -1,2 +1,2 @@
 from .update import UpdateMeMutation
-from .upload_user_avatar import UploadUserAvatarMutation
+from .upload_me_avatar import UploadMeAvatarMutation

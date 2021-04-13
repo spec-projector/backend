@@ -32,7 +32,8 @@ type ChangeSubscriptionRequest implements ModelRelayNode {
   createdAt: DateTime!
   isActive: Boolean!
   tariff: Tariff!
-  status: SubscriptionStatus!
+  fromSubscription: Subscription
+  toSubscription: Subscription
 }
 
 input CreateProjectAssetInput {
@@ -157,7 +158,7 @@ type Mutation {
   sendPasswordResetSecurityCode(input: SendPasswordResetSecurityCodeInput!): SendPasswordResetSecurityCodeMutation
   changePassword(input: ChangePasswordInput!): ChangePasswordMutation
   updateMe(input: UpdateMeInput!): UpdateMeMutation
-  uploadUserAvatar(input: UploadUserAvatarInput!): UploadUserAvatarMutation
+  uploadMeAvatar(input: UploadMeAvatarInput!): UploadMeAvatarMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -364,8 +365,7 @@ type UpdateProjectMutation {
 
 scalar Upload
 
-input UploadUserAvatarInput {
-  user: Int!
+input UploadMeAvatarInput {
   file: Upload!
   left: Int!
   top: Int!
@@ -374,7 +374,7 @@ input UploadUserAvatarInput {
   scale: Float!
 }
 
-type UploadUserAvatarMutation {
+type UploadMeAvatarMutation {
   user: User
 }
 
