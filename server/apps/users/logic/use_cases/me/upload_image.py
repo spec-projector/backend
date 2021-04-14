@@ -34,7 +34,7 @@ class UseCase(BaseUseCase):
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
         user = input_dto.user
-        old_avatar = user.avatar.path if user.avatar else None
+        old_avatar = user.avatar.name
 
         cropped_image = crop_image(
             file_object=input_dto.file,

@@ -1,5 +1,5 @@
-mutation($input: UploadUserAvatarInput!) {
-    uploadUserAvatar(input: $input) {
+mutation($input: UploadMeAvatarInput!) {
+    uploadMeAvatar(input: $input) {
         user {
           id
           email
