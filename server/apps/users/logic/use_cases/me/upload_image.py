@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
