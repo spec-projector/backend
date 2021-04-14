@@ -41,7 +41,7 @@ class UploadMeAvatarMutation(BaseUseCaseMutation):
     ):
         """Prepare use case input data."""
         return upload_image_uc.InputDto(
-            user=info.context.user,
+            user=info.context.user,  # type: ignore
             **kwargs["input"],
         )
 
