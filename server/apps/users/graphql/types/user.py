@@ -3,7 +3,7 @@ from django.db.models import QuerySet
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
-from apps.core.utils.images import generate_file_path
+from apps.core.utils.media import get_absolute_path
 from apps.users.logic.queries.user import allowed
 from apps.users.models import User
 
@@ -37,4 +37,4 @@ class UserType(BaseModelObjectType):
 
     def resolve_avatar(self, info):  # noqa: WPS110
         """Resolve image absolute path."""
-        return generate_file_path(self.avatar, info.context)
+        return get_absolute_path(self.avatar, info.context)

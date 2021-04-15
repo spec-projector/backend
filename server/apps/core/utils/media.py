@@ -2,7 +2,7 @@ from django.db import models
 from rest_framework.request import Request
 
 
-def generate_file_path(
+def get_absolute_path(
     file_field: models.FileField,
     request: Request,
 ) -> str:

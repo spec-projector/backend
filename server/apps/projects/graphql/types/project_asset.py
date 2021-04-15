@@ -1,6 +1,6 @@
 import graphene
 
-from apps.core.utils.images import generate_file_path
+from apps.core.utils.media import get_absolute_path
 from apps.projects.graphql.types import ProjectType
 
 
@@ -17,4 +17,4 @@ class ProjectAssetType(graphene.ObjectType):
 
     def resolve_file(self, info):  # noqa: WPS110
         """Resolve file absolute path."""
-        return generate_file_path(self.file, info.context)
+        return get_absolute_path(self.file, info.context)
