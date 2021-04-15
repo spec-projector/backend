@@ -37,4 +37,4 @@ class UserType(BaseModelObjectType):
 
     def resolve_avatar(self, info):  # noqa: WPS110
         """Resolve image absolute path."""
-        return get_absolute_path(self.avatar, info.context)
+        return get_absolute_path(self.avatar)

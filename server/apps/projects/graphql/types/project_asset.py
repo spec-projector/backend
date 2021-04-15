@@ -17,4 +17,4 @@ class ProjectAssetType(graphene.ObjectType):
 
     def resolve_file(self, info):  # noqa: WPS110
         """Resolve file absolute path."""
-        return get_absolute_path(self.file, info.context)
+        return get_absolute_path(self.file)
