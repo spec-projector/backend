@@ -9,6 +9,7 @@ from apps.billing.logic.queries.change_subscription_request import (
     active as change_subscription_request,
 )
 from apps.billing.logic.queries.subscription import active as subscription
+from apps.core.utils.media import get_absolute_path
 
 
 class MeUserType(graphene.ObjectType):
@@ -37,3 +38,7 @@ class MeUserType(graphene.ObjectType):
         return change_subscription_request.Query().execute(
             change_subscription_request.InputDto(user=self),
         )
+
+    def resolve_avatar(self, info):  # noqa: WPS110
+        """Resolve image absolute path."""
+        return get_absolute_path(self.avatar)

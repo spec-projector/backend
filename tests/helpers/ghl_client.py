@@ -42,6 +42,7 @@ class GraphQLClient(Client):
 
         context.update(kwargs.get("extra_context", {}))
 
-        kwargs["context_value"] = dict2obj(context)
+        context_obj = dict2obj(context)
+        kwargs["context_value"] = context_obj
 
         return super().execute(*args, **kwargs)

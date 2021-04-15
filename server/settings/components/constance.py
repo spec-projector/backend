@@ -6,7 +6,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
     "default_tariff": [
         "apps.core.admin.config.fields.ForeignConfigField",
         {"model": "billing.Tariff"},
-    ]
+    ],
 }
 
 empty_default_str = ("", "", str)

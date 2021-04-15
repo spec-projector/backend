@@ -1,37 +1,5 @@
-import pytest
 from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
-
-IMAGE_FILE = "image.jpg"
-
-
-@pytest.fixture()
-def image_in_memory(assets):
-    """Wrap image to in memory."""
-    image = assets.open_file(IMAGE_FILE)
-    return InMemoryUploadedFile(
-        image,
-        "image",
-        "middle.jpeg",
-        "image/jpeg",
-        42,
-        "utf-8",
-    )
-
-
-@pytest.fixture()
-def image_in_memory2(assets):
-    """Wrap image to in memory."""
-    image = assets.open_file(IMAGE_FILE)
-    return InMemoryUploadedFile(
-        image,
-        "image",
-        "strong.jpeg",
-        "image/jpeg",
-        42,
-        "utf-8",
-    )
 
 
 def test_upload_me_avatar(

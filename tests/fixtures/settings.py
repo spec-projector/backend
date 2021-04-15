@@ -14,6 +14,7 @@ def _django_settings(settings, tmpdir_factory) -> None:
         "django.contrib.staticfiles.storage.StaticFilesStorage"
     )
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
+    settings.DOMAIN_NAME = "testserver"
 
 
 @pytest.fixture(autouse=True)

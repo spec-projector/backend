@@ -23,9 +23,9 @@ class ForeignConfigField(forms.ModelChoiceField):
 
         kwargs["queryset"] = current_model.objects.all()
         kwargs["widget"] = AutocompleteSelect(
-                rel=MockRelation(current_model),
-                admin_site=admin.site,
-            )
+            rel=MockRelation(current_model),
+            admin_site=admin.site,
+        )
         kwargs["required"] = False
 
         super().__init__(*args, **kwargs)
