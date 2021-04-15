@@ -8,6 +8,8 @@ from apps.users.models import Token, User
 from apps.users.services.token import TokenService
 from gql import schema
 
+TEST_DOMAIN = "testserver"
+
 
 class GraphQLClient(Client):
     """Test graphql client."""
@@ -42,6 +44,13 @@ class GraphQLClient(Client):
 
         context.update(kwargs.get("extra_context", {}))
 
-        kwargs["context_value"] = dict2obj(context)
+        context_obj = dict2obj(context)
+        context_obj.build_absolute_uri = build_absolute_uri
+        kwargs["context_value"] = context_obj
 
         return super().execute(*args, **kwargs)
+
+
+def build_absolute_uri(location=None) -> str:
+    """Generate absolut url."""
+    return "https://{0}{1}".format(TEST_DOMAIN, location or "")
