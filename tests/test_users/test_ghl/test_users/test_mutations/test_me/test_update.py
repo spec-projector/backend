@@ -1,6 +1,5 @@
+from django.conf import settings
 from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
-
-from tests.helpers.ghl_client import TEST_DOMAIN
 
 NEW_NAME = "new User NaMe"
 
@@ -28,7 +27,9 @@ def test_query(user, ghl_client, ghl_raw, image_in_memory):
 
     assert me_response["id"] == str(user.id)
     assert me_response["firstName"] == user.first_name == NEW_NAME
-    assert me_response["avatar"].startswith("https://{0}".format(TEST_DOMAIN))
+    assert me_response["avatar"].startswith(
+        "https://{0}".format(settings.DOMAIN_NAME),
+    )
 
 
 def test_success(user, ghl_auth_mock_info, update_me_mutation):
