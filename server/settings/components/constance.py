@@ -2,6 +2,13 @@ from collections import OrderedDict
 
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
+CONSTANCE_ADDITIONAL_FIELDS = {
+    "default_tariff": [
+        "apps.core.admin.config.fields.ForeignConfigField",
+        {"model": "billing.Tariff"},
+    ],
+}
+
 empty_default_str = ("", "", str)
 
 CONSTANCE_CONFIG = {
@@ -17,6 +24,7 @@ CONSTANCE_CONFIG = {
     "DEFAULT_FROM_EMAIL": empty_default_str,
     "CLOUD_PAYMENT_PUBLIC_ID": empty_default_str,
     "CLOUD_PAYMENT_API_SECRET": empty_default_str,
+    "DEFAULT_TARIFF": (None, "Current default tariff", "default_tariff"),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -47,5 +55,6 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "DEFAULT_FROM_EMAIL",
             ),
         ),
+        ("Billing", ("DEFAULT_TARIFF",)),
     ),
 )
