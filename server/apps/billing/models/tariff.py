@@ -12,7 +12,6 @@ class Tariff(models.Model):
     class Meta:
         verbose_name = _("VN__TARIFF")
         verbose_name_plural = _("VN__TARIFFS")
-        ordering = ("order",)
 
     order = models.PositiveSmallIntegerField(
         default=0,

@@ -2,16 +2,14 @@ from collections import OrderedDict
 
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
-empty_default_str = ("", "", str)
-
-
 CONSTANCE_ADDITIONAL_FIELDS = {
-    "tariff_select": [
-        "django.forms.fields.ChoiceField",
-        {"widget": "django.forms.Select", "choices": ((None, "-----"),)},
-    ],
+    "default_tariff": [
+        "apps.core.admin.config.fields.ForeignConfigField",
+        {"model": "billing.Tariff"},
+    ]
 }
 
+empty_default_str = ("", "", str)
 
 CONSTANCE_CONFIG = {
     "COUCHDB_URL": ("http://couchdb:5984", "", str),
@@ -26,7 +24,7 @@ CONSTANCE_CONFIG = {
     "DEFAULT_FROM_EMAIL": empty_default_str,
     "CLOUD_PAYMENT_PUBLIC_ID": empty_default_str,
     "CLOUD_PAYMENT_API_SECRET": empty_default_str,
-    "DEFAULT_TARIFF": (None, "Current default tariff", "tariff_select"),
+    "DEFAULT_TARIFF": (None, "Current default tariff", "default_tariff"),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -57,6 +55,6 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "DEFAULT_FROM_EMAIL",
             ),
         ),
-        ("Defaults", ("DEFAULT_TARIFF",)),
+        ("Billing", ("DEFAULT_TARIFF",)),
     ),
 )

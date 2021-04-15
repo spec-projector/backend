@@ -11,6 +11,7 @@ class TariffAdmin(BaseModelAdmin):
     list_display = ("title", "code", "price", "is_active")
     list_filter = ("is_active",)
     search_fields = ("title", "code", "teaser", "=id")
+    ordering = ("order",)
     fields = (
         "order",
         "code",
