@@ -1,10 +1,15 @@
 from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
+from tests.helpers.ghl_client import TEST_DOMAIN
+
 NEW_NAME = "new User NaMe"
 
 
-def test_query(user, ghl_client, ghl_raw):
+def test_query(user, ghl_client, ghl_raw, image_in_memory):
     """Test raw query success."""
+    user.avatar = image_in_memory
+    user.save()
+
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
@@ -23,7 +28,7 @@ def test_query(user, ghl_client, ghl_raw):
 
     assert me_response["id"] == str(user.id)
     assert me_response["firstName"] == user.first_name == NEW_NAME
-    assert not me_response["avatar"]
+    assert me_response["avatar"].startswith("https://{0}".format(TEST_DOMAIN))
 
 
 def test_success(user, ghl_auth_mock_info, update_me_mutation):
