@@ -4,6 +4,15 @@ CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
 empty_default_str = ("", "", str)
 
+
+CONSTANCE_ADDITIONAL_FIELDS = {
+    "tariff_select": [
+        "django.forms.fields.ChoiceField",
+        {"widget": "django.forms.Select", "choices": ((None, "-----"),)},
+    ],
+}
+
+
 CONSTANCE_CONFIG = {
     "COUCHDB_URL": ("http://couchdb:5984", "", str),
     "COUCHDB_USER": empty_default_str,
@@ -17,6 +26,7 @@ CONSTANCE_CONFIG = {
     "DEFAULT_FROM_EMAIL": empty_default_str,
     "CLOUD_PAYMENT_PUBLIC_ID": empty_default_str,
     "CLOUD_PAYMENT_API_SECRET": empty_default_str,
+    "DEFAULT_TARIFF": (None, "Current default tariff", "tariff_select"),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
@@ -47,5 +57,6 @@ CONSTANCE_CONFIG_FIELDSETS = OrderedDict(
                 "DEFAULT_FROM_EMAIL",
             ),
         ),
+        ("Defaults", ("DEFAULT_TARIFF",)),
     ),
 )
