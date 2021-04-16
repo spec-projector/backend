@@ -4,34 +4,12 @@ import pytest
 
 from apps.billing.models import Subscription
 from apps.billing.models.enums import SubscriptionStatus
-from apps.core import injector
 from apps.users.logic.use_cases.register import register as register_uc
 from apps.users.logic.use_cases.register.errors import (
     RegistrationInputError,
     UserAlreadyExistsError,
 )
 from apps.users.models import User
-from tests.test_billing.factories import TariffFactory
-
-LAST_NAME = "newuser"
-EMAIL = "new_user@mail.net"
-
-
-@pytest.fixture()
-def use_case(db):
-    """Create registration use case."""
-    return injector.get(register_uc.UseCase)
-
-
-@pytest.fixture()
-def input_dto(db):
-    """Create register input dto."""
-    return register_uc.InputDto(
-        first_name="new user",
-        email=EMAIL,
-        last_name=LAST_NAME,
-        password="123456",
-    )
 
 
 def test_success(use_case, input_dto):
@@ -44,9 +22,13 @@ def test_success(use_case, input_dto):
     assert user.is_active
 
 
-def test_subscription(use_case, input_dto):
+def test_subscription(
+    use_case,
+    input_dto,
+    default_tariff_config,
+    default_tariff,
+):
     """Test auto create default subscription."""
-    tariff = TariffFactory.create(is_default=True)
     output_dto = use_case.execute(input_dto)
 
     user = output_dto.token.user
@@ -55,7 +37,7 @@ def test_subscription(use_case, input_dto):
     assert user.is_active
     assert Subscription.objects.filter(
         user=user,
-        tariff=tariff,
+        tariff=default_tariff,
         status=SubscriptionStatus.ACTIVE,
     ).exists()
 

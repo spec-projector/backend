@@ -2,14 +2,19 @@ import logging
 from datetime import datetime
 from typing import Optional
 
+from constance import config
 from dateutil import relativedelta
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.billing.logic.interfaces import ISubscriptionService
-from apps.billing.models import ChangeSubscriptionRequest, Subscription, Tariff
-from apps.billing.models.enums import SubscriptionStatus
+from apps.billing.models import (
+    ChangeSubscriptionRequest,
+    Subscription,
+    Tariff,
+    enums,
+)
 from apps.core.logic.errors import BaseApplicationError
 from apps.users.models import User
 
@@ -33,7 +38,12 @@ class SubscriptionService(ISubscriptionService):
     def get_user_subscription(self, user: User) -> Optional[Subscription]:
         """Retrieve active user subscription."""
         subscription = user.subscriptions.order_by("-created_at").first()
-        if subscription and subscription.status == SubscriptionStatus.ACTIVE:
+
+        is_active = (
+            subscription
+            and subscription.status == enums.SubscriptionStatus.ACTIVE
+        )
+        if is_active:
             return subscription
 
         return None
@@ -123,13 +133,13 @@ class SubscriptionService(ISubscriptionService):
 
     def add_default_subscription(self, user: User) -> Optional[Subscription]:
         """Add default subscription to a user."""
-        tariff = Tariff.objects.filter(is_active=True, is_default=True).first()
-        if not tariff:
+        tariff = config.DEFAULT_TARIFF
+        if not tariff or not tariff.is_active:
             return None
 
         subscription = Subscription(
             user=user,
-            status=SubscriptionStatus.ACTIVE,
+            status=enums.SubscriptionStatus.ACTIVE,
             tariff=tariff,
         )
 
@@ -146,7 +156,7 @@ class SubscriptionService(ISubscriptionService):
     ) -> Subscription:
         new_subscription = Subscription(
             user=request.user,
-            status=SubscriptionStatus.ACTIVE,
+            status=enums.SubscriptionStatus.ACTIVE,
             tariff=request.tariff,
             merchant_id=merchant_id,
             active_until=self._get_active_until(),
@@ -155,7 +165,7 @@ class SubscriptionService(ISubscriptionService):
         new_subscription.save()
 
         if current_subscription:
-            current_subscription.status = SubscriptionStatus.CANCELED
+            current_subscription.status = enums.SubscriptionStatus.CANCELED
             current_subscription.full_clean()
             current_subscription.save()
 

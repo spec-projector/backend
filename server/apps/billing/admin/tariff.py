@@ -20,7 +20,6 @@ class TariffAdmin(BaseModelAdmin):
         "icon",
         "price",
         "is_active",
-        "is_default",
         "features",
         "max_projects",
         "max_project_members",

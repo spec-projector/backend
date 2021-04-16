@@ -48,11 +48,6 @@ class Tariff(models.Model):
         verbose_name=_("VN__IS_ACTIVE"),
         help_text=_("HT__IS_ACTIVE"),
     )
-    is_default = models.BooleanField(
-        default=False,
-        verbose_name=_("VN__IS_DEFAULT"),
-        help_text=_("HT__IS_DEFAULT"),
-    )
     features = BitField(
         flags=TariffFeatures.choices,
         default=0,
