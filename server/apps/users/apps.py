@@ -12,9 +12,14 @@ class AppConfig(BaseAppConfig):
 
     def ready(self):
         """Trigger on app ready."""
+        from apps.users.logic.commands import register_commands  # noqa: WPS433
+        from apps.core.logic.interfaces import ICommandBus  # noqa: WPS433
+
         super().ready()
 
         self._setup_dependency_injection()
+
+        register_commands(injector.get(ICommandBus))
 
     def _setup_dependency_injection(self) -> None:
         from apps.users.services.modules import (  # noqa: WPS433
@@ -23,10 +28,6 @@ class AppConfig(BaseAppConfig):
         from apps.users.logic.services.modules import (  # noqa: WPS433
             UserLogicServicesModule,
         )
-        from apps.users.logic.commands.modules import (  # noqa: WPS433
-            UserCommandsModule,
-        )
 
         injector.binder.install(UserInfrastructureServicesModule)
         injector.binder.install(UserLogicServicesModule)
-        injector.binder.install(UserCommandsModule)

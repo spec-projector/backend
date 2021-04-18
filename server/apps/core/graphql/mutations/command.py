@@ -9,12 +9,12 @@ from jnt_django_graphene_toolbox.mutations import BaseMutation
 
 from apps.core import injector
 from apps.core.graphql.errors import GenericGraphQLError
-from apps.core.logic.commands.handlers import CommandBus
 from apps.core.logic.errors import (
     AccessDeniedApplicationError,
     BaseApplicationError,
     InvalidInputApplicationError,
 )
+from apps.core.logic.interfaces import ICommandBus
 
 
 class BaseCommandMutation(BaseMutation):
@@ -31,7 +31,7 @@ class BaseCommandMutation(BaseMutation):
         **kwargs,
     ) -> Union["BaseCommandMutation", GraphQLError]:
         """Overrideable mutation operation."""
-        command_bus = injector.get(CommandBus)
+        command_bus = injector.get(ICommandBus)
 
         try:
             command_result = command_bus.dispatch(

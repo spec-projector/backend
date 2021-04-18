@@ -1,25 +1,33 @@
-from typing import Any, Generic, TypeVar
+from typing import Any, Type
 
 from apps.core import injector
-
-TCommand = TypeVar("TCommand")
-TResult = TypeVar("TResult")
-
-
-class CommandHandler(Generic[TCommand]):
-    """Handler type hint."""
-
-    def execute(self, command: TCommand) -> TResult:
-        """Stub."""
+from apps.core.logic.interfaces import ICommandBus
+from apps.core.logic.interfaces.command_bus import CommandHandler, TCommand
 
 
-class CommandBus:
+class CommandBus(ICommandBus):
     """Commands dispatcher."""
+
+    def __init__(self):
+        """Initializing."""
+        self._registry = {}
+
+    def register_handler(
+        self,
+        command_type: Type[TCommand],
+        command_handler: Type[CommandHandler[TCommand]],
+    ) -> None:
+        """Register command handler."""
+        self._registry[command_type] = command_handler
 
     def dispatch(self, command: Any) -> Any:  # type: ignore
         """Find command handler and executes it."""
-        # CommandBus uses injector to find a handler
-        command_handler = injector.get(
-            CommandHandler[type(command)],  # type: ignore
-        )
+        handler_type = self._registry.get(type(command))
+        if not handler_type:
+            raise ValueError(
+                'Handler for command "{0}" is not registered'.format(
+                    type(command),
+                ),
+            )
+        command_handler = injector.get(handler_type)
         return command_handler.execute(command)

@@ -22,5 +22,9 @@ class AppConfig(BaseAppConfig):
         from apps.core.services.modules import (  # noqa: WPS433
             CoreInfrastructureModule,
         )
+        from apps.core.logic.modules import (  # noqa: WPS433
+            CoreApplicationModule,
+        )
 
         injector.binder.install(CoreInfrastructureModule)
+        injector.binder.install(CoreApplicationModule)
