@@ -1,6 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
 from apps.core import injector
+from apps.core.logic.commands.bus import ICommandBus
 from apps.core.utils.apps import BaseAppConfig
 
 
@@ -13,7 +14,6 @@ class AppConfig(BaseAppConfig):
     def ready(self):
         """Trigger on app ready."""
         from apps.users.logic.commands import register_commands  # noqa: WPS433
-        from apps.core.logic.interfaces import ICommandBus  # noqa: WPS433
 
         super().ready()
 

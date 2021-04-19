@@ -1,4 +1,4 @@
-from apps.core.logic.interfaces import ICommandBus
+from apps.core.logic.commands.bus import ICommandBus
 from apps.users.logic.commands.auth import login
 
 

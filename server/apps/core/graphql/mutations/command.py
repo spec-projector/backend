@@ -9,12 +9,12 @@ from jnt_django_graphene_toolbox.mutations import BaseMutation
 
 from apps.core import injector
 from apps.core.graphql.errors import GenericGraphQLError
+from apps.core.logic.commands.bus import ICommandBus
 from apps.core.logic.errors import (
     AccessDeniedApplicationError,
     BaseApplicationError,
     InvalidInputApplicationError,
 )
-from apps.core.logic.interfaces import ICommandBus
 
 
 class BaseCommandMutation(BaseMutation):
