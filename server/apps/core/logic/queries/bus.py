@@ -20,8 +20,8 @@ class IQueryBus(abc.ABC):
     @abc.abstractmethod
     def register_handler(
         self,
-        command_type: Type[TQuery],
-        command_handler: Type[QueryHandler[TQuery]],
+        query_type: Type[TQuery],
+        query_handler: Type[QueryHandler[TQuery]],
     ) -> None:
         """Register query handler."""
 

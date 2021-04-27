@@ -117,6 +117,7 @@ class UseCase(BaseUseCase):
             input_dto.data,
             _ProjectDtoValidator,
         )
+
         members = validated_data.pop("users", None)
         if members is not None:
             self._update_members(project, members)

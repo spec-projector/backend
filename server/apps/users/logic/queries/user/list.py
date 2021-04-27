@@ -3,9 +3,9 @@ from enum import Enum
 from typing import Optional, Union
 
 import django_filters
-from django.db.models import QuerySet
+from django.db import models
 
-from apps.core.logic.queries import BaseQuery
+from apps.core.logic.queries.handler import BaseQueryHandler
 from apps.core.logic.queries.sort import SortHandler
 from apps.core.utils.objects import Empty, empty
 from apps.users.models import User
@@ -34,27 +34,25 @@ class _UsersFilterSet(django_filters.FilterSet):
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Get users query input data."""
+class ListUsersQuery:
+    """List users query."""
 
     user: User
     filters: Optional[UserFilter] = None
     sort: Optional[UserSort] = None
-    queryset: Optional[QuerySet] = None
+    queryset: Optional[models.QuerySet] = None
 
 
-class Query(BaseQuery):
+class QueryHandler(BaseQueryHandler[ListUsersQuery, models.QuerySet]):
     """Users query."""
 
     filterset_class = _UsersFilterSet
     sort_handler = SortHandler(UserSort)
 
-    def execute(self, input_dto: InputDto) -> QuerySet:
+    def ask(self, query: ListUsersQuery) -> models.QuerySet:
         """Handler."""
         queryset = (
-            User.objects.all()
-            if input_dto.queryset is None
-            else input_dto.queryset
+            User.objects.all() if query.queryset is None else query.queryset
         )
-        queryset = self.filter_queryset(queryset, input_dto.filters)
-        return self.sort_queryset(queryset, input_dto.sort)
+        queryset = self.filter_queryset(queryset, query.filters)
+        return self.sort_queryset(queryset, query.sort)
