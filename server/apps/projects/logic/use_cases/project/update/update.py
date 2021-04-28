@@ -45,7 +45,7 @@ class UseCase(BaseUseCase):
         )
         members = validated_data.pop("users", None)
         if members is not None:
-            self._tariff_limits_service.is_project_member_count_allowed(
+            self._tariff_limits_service.assert_project_member_count_allowed(
                 project,
                 len(members),
             )

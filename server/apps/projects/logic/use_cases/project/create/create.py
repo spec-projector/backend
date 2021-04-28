@@ -37,7 +37,7 @@ class UseCase(BaseUseCase):
             input_dto.data,
             ProjectDtoValidator,
         )
-        self._tariff_limits_service.is_new_project_allowed(input_dto.user)
+        self._tariff_limits_service.assert_new_project_allowed(input_dto.user)
 
         project = Project.objects.create(
             title=validated_data["title"],

@@ -16,14 +16,14 @@ class ITariffLimitsService(abc.ABC):
         self._subscription_service = subscription_service
 
     @abc.abstractmethod
-    def is_new_project_allowed(
+    def assert_new_project_allowed(
         self,
         user: User,
     ) -> None:
         """Check new project allowed."""
 
     @abc.abstractmethod
-    def is_project_member_count_allowed(
+    def assert_project_member_count_allowed(
         self,
         project: Project,
         members_count: int,

@@ -16,7 +16,7 @@ def project(user) -> Project:
     return ProjectFactory.create(owner=user)
 
 
-def test_is_project_member_count_allowed_is_empty(
+def test_project_member_count_allowed_is_empty(
     project,
     tariff_limits_service,
 ):
@@ -27,12 +27,12 @@ def test_is_project_member_count_allowed_is_empty(
     )
 
     assert (
-        tariff_limits_service.is_project_member_count_allowed(project, 10)
+        tariff_limits_service.assert_project_member_count_allowed(project, 10)
         is None
     )
 
 
-def test_is_project_member_count_allowed(project, tariff_limits_service):
+def test_assert_project_member_count_allowed(project, tariff_limits_service):
     """Test validate max project members."""
     SubscriptionFactory.create(
         user=project.owner,
@@ -40,7 +40,7 @@ def test_is_project_member_count_allowed(project, tariff_limits_service):
     )
 
     assert (
-        tariff_limits_service.is_project_member_count_allowed(project, 4)
+        tariff_limits_service.assert_project_member_count_allowed(project, 4)
         is None
     )
 
@@ -48,7 +48,7 @@ def test_is_project_member_count_allowed(project, tariff_limits_service):
 def test_validate_not_active_subscription(project, tariff_limits_service):
     """Test validate not subscription."""
     with pytest.raises(NoActiveSubscriptionError):
-        tariff_limits_service.is_project_member_count_allowed(project, 0)
+        tariff_limits_service.assert_project_member_count_allowed(project, 0)
 
 
 def test_validate_not_tariff(project, tariff_limits_service):
@@ -56,7 +56,7 @@ def test_validate_not_tariff(project, tariff_limits_service):
     SubscriptionFactory.create(user=project.owner, tariff=None)
 
     with pytest.raises(NotFoundTariffError):
-        tariff_limits_service.is_project_member_count_allowed(project, 0)
+        tariff_limits_service.assert_project_member_count_allowed(project, 0)
 
 
 def test_max_project_members_limit(project, tariff_limits_service):
@@ -67,4 +67,4 @@ def test_max_project_members_limit(project, tariff_limits_service):
     )
 
     with pytest.raises(MaxProjectMembersTariffError, match="1"):
-        tariff_limits_service.is_project_member_count_allowed(project, 2)
+        tariff_limits_service.assert_project_member_count_allowed(project, 2)

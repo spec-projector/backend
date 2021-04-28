@@ -15,10 +15,10 @@ def test_validate_max_projects_is_empty(user, tariff_limits_service):
         tariff__max_projects=0,
     )
 
-    assert tariff_limits_service.is_new_project_allowed(user) is None
+    assert tariff_limits_service.assert_new_project_allowed(user) is None
 
 
-def test_is_new_project_allowed(user, tariff_limits_service):
+def test_assert_new_project_allowed(user, tariff_limits_service):
     """Test validate max projects."""
     ProjectFactory.create_batch(3, owner=user)
     SubscriptionFactory.create(
@@ -26,7 +26,7 @@ def test_is_new_project_allowed(user, tariff_limits_service):
         tariff__max_projects=4,
     )
 
-    assert tariff_limits_service.is_new_project_allowed(user) is None
+    assert tariff_limits_service.assert_new_project_allowed(user) is None
 
 
 def test_validate_not_tariff(user, tariff_limits_service):
@@ -34,7 +34,7 @@ def test_validate_not_tariff(user, tariff_limits_service):
     SubscriptionFactory.create(user=user, tariff=None)
 
     with pytest.raises(NotFoundTariffError):
-        tariff_limits_service.is_new_project_allowed(user)
+        tariff_limits_service.assert_new_project_allowed(user)
 
 
 def test_max_projects_limit(user, tariff_limits_service):
@@ -46,4 +46,4 @@ def test_max_projects_limit(user, tariff_limits_service):
     )
 
     with pytest.raises(MaxProjectsTariffError, match="1"):
-        tariff_limits_service.is_new_project_allowed(user)
+        tariff_limits_service.assert_new_project_allowed(user)
