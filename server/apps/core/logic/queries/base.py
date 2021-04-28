@@ -6,7 +6,7 @@ import django_filters
 from django.db import models
 
 from apps.core.logic.errors import InvalidInputApplicationError
-from apps.core.logic.queries.sort import SortHandler
+from apps.core.logic.queries import SortHandler
 from apps.core.utils.objects import empty
 
 TInput = TypeVar("TInput")

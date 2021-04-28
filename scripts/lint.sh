@@ -17,7 +17,7 @@ run_checkers() {
   xenon --max-absolute A \
         --max-modules A \
         --max-average A \
-        --exclude server/apps/core/graphql/fields/query_connection.py \
+        --exclude server/apps/core/graphql/fields/query_connection.py,server/apps/core/graphql/fields/new_query_connection.py \
         server
 
   # Check that all migrations worked fine:

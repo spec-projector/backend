@@ -1,21 +1,23 @@
 from dataclasses import dataclass
 
-from django.db.models import QuerySet
+from django.db import models
 
-from apps.core.logic.queries import BaseQuery
+from apps.core.logic import queries
 from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Get users query input data."""
+class ListAllowedUsersQuery:
+    """Allowed users query."""
 
     user: User
 
 
-class Query(BaseQuery):
+class QueryHandler(
+    queries.IQueryHandler[ListAllowedUsersQuery, models.QuerySet],
+):
     """Users query."""
 
-    def execute(self, input_dto: InputDto) -> QuerySet:
+    def ask(self, query: ListAllowedUsersQuery) -> models.QuerySet:
         """Handler."""
         return User.objects.filter(is_active=True)

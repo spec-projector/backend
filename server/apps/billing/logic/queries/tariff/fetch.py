@@ -6,8 +6,7 @@ import django_filters
 from django.db.models import QuerySet
 
 from apps.billing.models import Tariff
-from apps.core.logic.queries import BaseQuery
-from apps.core.logic.queries.sort import SortHandler
+from apps.core.logic.queries import BaseQuery, SortHandler
 from apps.core.utils.objects import Empty, empty
 
 

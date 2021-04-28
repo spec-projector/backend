@@ -1,8 +1,10 @@
 import pytest
 from django.contrib.auth.models import AnonymousUser
-from django.db import models
 
-from apps.projects.logic.queries.project import allowed
+from apps.core.logic import queries
+from apps.projects.logic.queries.project.allowed import (
+    ListAllowedProjectsQuery,
+)
 from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 
@@ -19,47 +21,51 @@ def private_project(db):
     return ProjectFactory.create(is_public=False)
 
 
-def test_as_anonymus(public_project, private_project):
+def test_as_anonymus(public_project, private_project, query_bus):
     """Test available is public project."""
-    projects = _execute_query(AnonymousUser)
+    projects = queries.execute_query(
+        ListAllowedProjectsQuery(user=AnonymousUser, include_public=True),
+    )
 
     assert projects.count() == 1
     assert projects.first() == public_project
 
 
-def test_projects_as_owner(user, private_project):
+def test_projects_as_owner(user, private_project, query_bus):
     """Test empty projects."""
     private_project.owner = user
     private_project.save()
 
-    projects = _execute_query(user)
+    projects = queries.execute_query(
+        ListAllowedProjectsQuery(user=user, include_public=True),
+    )
 
     assert projects.count() == 1
     assert projects.first() == private_project
 
 
-def test_user_is_project_member(user, private_project):
+def test_user_is_project_member(user, private_project, query_bus):
     """Test empty projects."""
     ProjectMemberFactory.create(user=user, project=private_project)
 
-    projects = _execute_query(user)
+    projects = queries.execute_query(
+        ListAllowedProjectsQuery(user=user, include_public=True),
+    )
 
     assert projects.count() == 1
     assert projects.first() == private_project
 
 
-def test_user_and_public_project(user, public_project, private_project):
+def test_user_and_public_project(
+    user,
+    public_project,
+    private_project,
+    query_bus,
+):
     """Test empty projects."""
-    projects = _execute_query(user)
+    projects = queries.execute_query(
+        ListAllowedProjectsQuery(user=user, include_public=True),
+    )
 
     assert projects.count() == 1
     assert projects.first() == public_project
-
-
-def _execute_query(user) -> models.QuerySet:
-    return allowed.Query().execute(
-        allowed.InputDto(
-            user=user,
-            include_public=True,
-        ),
-    )

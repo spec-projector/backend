@@ -1,17 +1,11 @@
 import abc
-from typing import Any, Generic, Type, TypeVar
+from typing import Any, Type, TypeVar
 
 from apps.core import injector
+from apps.core.logic.commands import ICommandHandler
 
 TCommand = TypeVar("TCommand")
 TResult = TypeVar("TResult")
-
-
-class CommandHandler(Generic[TCommand]):
-    """Handler type hint."""
-
-    def execute(self, command: TCommand) -> TResult:
-        """Stub."""
 
 
 class ICommandBus(abc.ABC):
@@ -21,7 +15,7 @@ class ICommandBus(abc.ABC):
     def register_handler(
         self,
         command_type: Type[TCommand],
-        command_handler: Type[CommandHandler[TCommand]],
+        command_handler: Type[ICommandHandler[TCommand, TResult]],
     ) -> None:
         """Register command handler."""
 
@@ -40,7 +34,7 @@ class CommandBus(ICommandBus):
     def register_handler(
         self,
         command_type: Type[TCommand],
-        command_handler: Type[CommandHandler[TCommand]],
+        command_handler: Type[ICommandHandler[TCommand, TResult]],
     ) -> None:
         """Register command handler."""
         self._registry[command_type] = command_handler

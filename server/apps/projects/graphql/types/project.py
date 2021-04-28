@@ -3,6 +3,7 @@ from django.db.models import QuerySet
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
+from apps.core.logic import queries
 from apps.projects.graphql.types import (
     FigmaIntegrationType,
     GitHubIntegrationType,
@@ -40,8 +41,8 @@ class ProjectType(BaseModelObjectType):
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Get queryset."""
-        return allowed.Query().execute(
-            allowed.InputDto(
+        return queries.execute_query(
+            allowed.ListAllowedProjectsQuery(
                 user=info.context.user,  # type: ignore
                 queryset=queryset,
                 include_public=True,
