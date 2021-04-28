@@ -5,6 +5,7 @@ import injector
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.logic.commands import ICommandHandler
 from apps.core.logic.errors import BaseApplicationError
 from apps.core.services.errors import BaseInfrastructureError
 from apps.users.logic.interfaces import IAuthenticationService, ITokenService
@@ -37,7 +38,7 @@ class EmptyCredentialsError(LoginError):
     message = _("MSG__MUST_INCLUDE_EMAIL_AND_PASSWORD")
 
 
-class CommandHandler:
+class CommandHandler(ICommandHandler[LoginCommand, LoginCommandResult]):
     """Login command handler."""
 
     @injector.inject

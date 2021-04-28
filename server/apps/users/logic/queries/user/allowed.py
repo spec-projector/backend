@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from django.db import models
 
-from apps.core.logic.queries.handler import BaseQueryHandler
+from apps.core.logic import queries
 from apps.users.models import User
 
 
@@ -13,7 +13,9 @@ class ListAllowedUsersQuery:
     user: User
 
 
-class QueryHandler(BaseQueryHandler[ListAllowedUsersQuery, models.QuerySet]):
+class QueryHandler(
+    queries.IQueryHandler[ListAllowedUsersQuery, models.QuerySet],
+):
     """Users query."""
 
     def ask(self, query: ListAllowedUsersQuery) -> models.QuerySet:

@@ -2,15 +2,18 @@ import graphene
 from django.db import models
 from graphql import ResolveInfo
 
-from apps.core.graphql.fields import BaseQueryConnectionField
+from apps.core.graphql.fields.new_query_connection import (
+    BaseNewQueryConnectionField,
+)
+from apps.core.logic.queries import IQuery
 from apps.projects.graphql.types import ProjectType
 from apps.projects.logic.queries.project import allowed
 
 
-class ProjectConnectionField(BaseQueryConnectionField):
+class ProjectConnectionField(BaseNewQueryConnectionField):
     """Handler for projects collections."""
 
-    query = allowed.Query
+    query = allowed.ListAllowedProjectsQuery
     auth_required = True
 
     def __init__(self):
@@ -21,16 +24,18 @@ class ProjectConnectionField(BaseQueryConnectionField):
         )
 
     @classmethod
-    def get_input_dto(
+    def build_query(
         cls,
         queryset: models.QuerySet,
         info: ResolveInfo,  # noqa: WPS110
         args,
-    ):
+    ) -> IQuery:
         """Prepare query input data."""
-        return allowed.InputDto(
+        return cls.query(
             queryset=queryset,
-            filters=cls.get_filters_from_args(args, allowed.ProjectFilter),
-            sort=cls.get_sort_from_args(args),
+            filters=allowed.ProjectFilter(
+                title=args.get("title"),
+            ),
+            sort=args.get("sort"),
             user=info.context.user,  # type: ignore
         )

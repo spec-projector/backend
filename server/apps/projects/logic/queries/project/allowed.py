@@ -5,8 +5,7 @@ from typing import Optional
 import django_filters
 from django.db import models
 
-from apps.core.logic.queries import BaseQuery
-from apps.core.logic.queries.sort import SortHandler
+from apps.core.logic import queries
 from apps.projects.models import Project, ProjectMember
 from apps.users.models import User
 
@@ -32,8 +31,8 @@ class ProjectFilter:
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Get users query input data."""
+class ListAllowedProjectsQuery(queries.IQuery):
+    """List allowed projects."""
 
     user: User
     queryset: Optional[models.QuerySet] = None
@@ -42,32 +41,41 @@ class InputDto:
     include_public: bool = False
 
 
-class Query(BaseQuery):
-    """Allowed for user query."""
+class QueryHandler(
+    queries.IQueryHandler[ListAllowedProjectsQuery, models.QuerySet],
+):
+    """Allowed projects for user query."""
 
     filterset_class = _ProjectFilterSet
-    sort_handler = SortHandler(ProjectSort)
+    sort_handler = queries.SortHandler(ProjectSort)
 
-    def execute(self, input_dto: InputDto) -> models.QuerySet:
+    def ask(self, query: ListAllowedProjectsQuery) -> models.QuerySet:
         """Handler."""
-        projects = input_dto.queryset
+        projects = query.queryset
         if projects is None:
             projects = Project.objects.all()
 
-        if input_dto.user.is_anonymous:
+        if query.user.is_anonymous:
             return projects.filter(is_public=True)
 
         project_ids = [
-            *self._get_project_member_ids(input_dto.user),
-            *self._get_project_owner_ids(input_dto.user, projects),
+            *self._get_project_member_ids(query.user),
+            *self._get_project_owner_ids(query.user, projects),
         ]
 
-        if input_dto.include_public:
+        if query.include_public:
             project_ids.extend(self._get_public_project_ids(projects))
 
         projects = projects.filter(id__in=set(project_ids))
-        projects = self.filter_queryset(projects, input_dto.filters)
-        return self.sort_queryset(projects, input_dto.sort)
+        return queries.sort_queryset(
+            queries.filter_queryset(
+                projects,
+                _ProjectFilterSet,
+                query.filters,
+            ),
+            queries.SortHandler(ProjectSort),
+            query.sort,
+        )
 
     def _get_public_project_ids(
         self,

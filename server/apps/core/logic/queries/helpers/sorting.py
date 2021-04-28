@@ -1,5 +1,5 @@
+import typing as ty
 from enum import Enum
-from typing import List, Type
 
 from django.db import models
 from django_filters import OrderingFilter
@@ -38,7 +38,7 @@ class SortHandler(OrderingFilter):
 
     def __init__(
         self,
-        enum: Type[Enum],
+        enum: ty.Type[Enum],
         *args,
         **kwargs,
     ) -> None:
@@ -62,7 +62,7 @@ class SortHandler(OrderingFilter):
 
         return super().filter(queryset, ordering_fields)
 
-    def _build_fields(self, enum: Type[Enum]):
+    def _build_fields(self, enum: ty.Type[Enum]):
         fields = {DEFAULT_SORT_FIELD}
 
         if enum:
@@ -71,7 +71,7 @@ class SortHandler(OrderingFilter):
 
         return set(fields)
 
-    def _get_model_ordering(self, model: models.Model) -> List[str]:
+    def _get_model_ordering(self, model: models.Model) -> ty.List[str]:
         """Get default ordering for model."""
         return (
             list(model._meta.ordering)  # noqa: WPS437
@@ -79,7 +79,7 @@ class SortHandler(OrderingFilter):
             else []
         )
 
-    def _adjust_default_sort(self, ordering: List[str]) -> List[str]:
+    def _adjust_default_sort(self, ordering: ty.List[str]) -> ty.List[str]:
         """Append ordering field."""
         default_exists = any(
             field.strip("-") == DEFAULT_SORT_FIELD for field in ordering
@@ -88,3 +88,12 @@ class SortHandler(OrderingFilter):
             return ordering
 
         return [*ordering, "-{0}".format(DEFAULT_SORT_FIELD)]
+
+
+def sort_queryset(
+    queryset: models.QuerySet,
+    sort_handler: SortHandler,
+    sort,
+) -> models.QuerySet:
+    """Sort queryset."""
+    return sort_handler.filter(queryset, sort)
