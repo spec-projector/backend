@@ -5,12 +5,6 @@ from tests.test_projects.factories.project import ProjectFactory
 
 
 @pytest.fixture()
-def project():
-    """Provides project."""
-    return ProjectFactory.create()
-
-
-@pytest.fixture()
 def user(user):
     """Add subscription for user."""
     SubscriptionFactory.create(
@@ -18,3 +12,9 @@ def user(user):
         tariff__max_project_members=0,
     )
     return user
+
+
+@pytest.fixture()
+def project(user):
+    """Provides project."""
+    return ProjectFactory.create(owner=user)

@@ -1,9 +1,6 @@
 import injector
 
-from apps.billing.logic.interfaces import (
-    ISubscriptionService,
-    IUserTariffService,
-)
+from apps.billing.logic.interfaces import ITariffLimitsService
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.interfaces import ICouchDBService
 from apps.core.logic.use_cases import BaseUseCase
@@ -27,13 +24,11 @@ class UseCase(BaseUseCase):
     @injector.inject
     def __init__(
         self,
-        subscription_service: ISubscriptionService,
-        user_tariff_service: IUserTariffService,
+        tariff_limits_service: ITariffLimitsService,
         couch_db_service: ICouchDBService,
     ):
         """Initialize."""
-        self._subscription_service = subscription_service
-        self._user_tariff_service = user_tariff_service
+        self._tariff_limits_service = tariff_limits_service
         self._couch_db_service = couch_db_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
@@ -42,13 +37,7 @@ class UseCase(BaseUseCase):
             input_dto.data,
             ProjectDtoValidator,
         )
-
-        self._user_tariff_service.validate_max_projects(
-            self._subscription_service.get_user_subscription(
-                input_dto.user,
-            ),
-            Project.objects.filter(owner=input_dto.user).count() + 1,
-        )
+        self._tariff_limits_service.is_new_project_allowed(input_dto.user)
 
         project = Project.objects.create(
             title=validated_data["title"],

@@ -2,7 +2,7 @@ import pytest
 
 from apps.billing.logic.interfaces import (
     ISubscriptionService,
-    IUserTariffService,
+    ITariffLimitsService,
 )
 from apps.core import injector
 
@@ -14,6 +14,6 @@ def subscription_service():
 
 
 @pytest.fixture()
-def user_tariff_service():
+def tariff_limits_service():
     """Provides user tariff service."""
-    return injector.get(IUserTariffService)
+    return injector.get(ITariffLimitsService)

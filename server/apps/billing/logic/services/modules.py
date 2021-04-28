@@ -13,6 +13,6 @@ class BillingLogicServicesModule(injector.Module):
             services.SubscriptionService,
         )
         binder.bind(
-            interfaces.IUserTariffService,
-            services.UserTariffService,
+            interfaces.ITariffLimitsService,
+            services.TariffLimitsService,
         )

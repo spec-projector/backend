@@ -4,10 +4,7 @@ import injector
 from django.db import models
 from rest_framework import exceptions
 
-from apps.billing.logic.interfaces import (
-    ISubscriptionService,
-    IUserTariffService,
-)
+from apps.billing.logic.interfaces import ITariffLimitsService
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.use_cases import BaseUseCase
 from apps.core.utils.objects import empty
@@ -31,12 +28,10 @@ class UseCase(BaseUseCase):
     @injector.inject
     def __init__(
         self,
-        subscription_service: ISubscriptionService,
-        user_tariff_service: IUserTariffService,
+        tariff_limits_service: ITariffLimitsService,
     ):
         """Initialize."""
-        self._subscription_service = subscription_service
-        self._user_tariff_service = user_tariff_service
+        self._tariff_limits_service = tariff_limits_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
@@ -50,10 +45,8 @@ class UseCase(BaseUseCase):
         )
         members = validated_data.pop("users", None)
         if members is not None:
-            self._user_tariff_service.validate_max_project_members(
-                self._subscription_service.get_user_subscription(
-                    input_dto.user,
-                ),
+            self._tariff_limits_service.is_project_member_count_allowed(
+                project,
                 len(members),
             )
             self._update_members(project, members)

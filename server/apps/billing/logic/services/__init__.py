@@ -1,2 +1,2 @@
 from .subscription import SubscriptionService
-from .user_tariff import UserTariffService
+from .tariff_limits import TariffLimitsService
