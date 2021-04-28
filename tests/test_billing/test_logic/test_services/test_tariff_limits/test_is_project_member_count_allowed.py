@@ -66,6 +66,5 @@ def test_max_project_members_limit(project, tariff_limits_service):
         tariff__max_project_members=1,
     )
 
-    err_msg = "The maximum number members of project has been reached: 1"
-    with pytest.raises(MaxProjectMembersTariffError, match=err_msg):
+    with pytest.raises(MaxProjectMembersTariffError, match="1"):
         tariff_limits_service.assert_project_member_count_allowed(project, 2)
