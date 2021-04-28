@@ -117,6 +117,7 @@ def test_create_without_subscription(
     user,
     create_project_mutation,
     ghl_auth_mock_info,
+    couchdb_service,
 ):
     """Test create without subscription."""
     user.subscriptions.all().delete()
