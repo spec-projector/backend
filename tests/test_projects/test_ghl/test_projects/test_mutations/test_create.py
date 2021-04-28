@@ -1,9 +1,23 @@
+import pytest
 from jnt_django_graphene_toolbox.errors import (
     GraphQLInputError,
     GraphQLPermissionDenied,
 )
 
+from apps.billing.logic.services.subscription import NoActiveSubscriptionError
+from apps.core.graphql.errors import GenericGraphQLError
 from apps.projects.models import Project
+from tests.test_billing.factories import SubscriptionFactory
+
+
+@pytest.fixture()
+def user(user):
+    """Add subscription for user."""
+    SubscriptionFactory.create(
+        user=user,
+        tariff__max_projects=0,
+    )
+    return user
 
 
 def test_query(user, ghl_client, couchdb_service, ghl_raw):
@@ -97,3 +111,26 @@ def test_integration(
     integration = response.project.figma_integration
     assert integration
     assert integration.token == "super token"
+
+
+def test_create_without_subscription(
+    user,
+    create_project_mutation,
+    ghl_auth_mock_info,
+    couchdb_service,
+):
+    """Test create without subscription."""
+    user.subscriptions.all().delete()
+
+    response = create_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        input={
+            "title": "my project",
+            "is_public": True,
+            "description": "description",
+        },
+    )
+
+    assert isinstance(response, GenericGraphQLError)
+    assert isinstance(response.original_error, NoActiveSubscriptionError)

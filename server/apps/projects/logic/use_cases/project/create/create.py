@@ -1,20 +1,14 @@
-from dataclasses import dataclass
-from typing import Union
+import injector
 
-from rest_framework import serializers
-
-from apps.core import injector
+from apps.billing.logic.interfaces import ITariffLimitsService
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.interfaces import ICouchDBService
 from apps.core.logic.use_cases import BaseUseCase
-from apps.core.utils.objects import Empty, empty
-from apps.projects.logic.use_cases.project.dto import (
-    FigmaIntegrationDto,
-    FigmaIntegrationDtoValidator,
-    GitHubIntegrationDto,
-    GitHubIntegrationDtoValidator,
-    GitLabIntegrationDto,
-    GitLabIntegrationDtoValidator,
+from apps.core.utils.objects import empty
+from apps.projects.logic.use_cases.project.create.dto import (
+    InputDto,
+    OutputDto,
+    ProjectDtoValidator,
 )
 from apps.projects.models import (
     FigmaIntegration,
@@ -22,60 +16,20 @@ from apps.projects.models import (
     GitLabIntegration,
     Project,
 )
-from apps.users.models import User
-
-
-class ProjectDtoValidator(serializers.Serializer):
-    """Create project input."""
-
-    title = serializers.CharField()
-    is_public = serializers.BooleanField(default=False)
-    description = serializers.CharField(default="", allow_blank=True)
-    figma_integration = FigmaIntegrationDtoValidator(
-        allow_null=True,
-        required=False,
-    )
-
-    github_integration = GitHubIntegrationDtoValidator(
-        allow_null=True,
-        required=False,
-    )
-
-    gitlab_integration = GitLabIntegrationDtoValidator(
-        allow_null=True,
-        required=False,
-    )
-
-
-@dataclass(frozen=True)
-class ProjectDto:
-    """Create project data."""
-
-    title: Union[str, Empty] = empty
-    description: str = ""
-    is_public: bool = False
-    figma_integration: Union[str, FigmaIntegrationDto] = empty
-    github_integration: Union[str, GitHubIntegrationDto] = empty
-    gitlab_integration: Union[str, GitLabIntegrationDto] = empty
-
-
-@dataclass(frozen=True)
-class InputDto:
-    """Create project input dto."""
-
-    data: ProjectDto  # noqa: WPS110
-    user: User
-
-
-@dataclass(frozen=True)
-class OutputDto:
-    """Create project output dto."""
-
-    project: Project
 
 
 class UseCase(BaseUseCase):
     """Use case for creating projects."""
+
+    @injector.inject
+    def __init__(
+        self,
+        tariff_limits_service: ITariffLimitsService,
+        couch_db_service: ICouchDBService,
+    ):
+        """Initialize."""
+        self._tariff_limits_service = tariff_limits_service
+        self._couch_db_service = couch_db_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
@@ -83,6 +37,7 @@ class UseCase(BaseUseCase):
             input_dto.data,
             ProjectDtoValidator,
         )
+        self._tariff_limits_service.assert_new_project_allowed(input_dto.user)
 
         project = Project.objects.create(
             title=validated_data["title"],
@@ -95,9 +50,7 @@ class UseCase(BaseUseCase):
         self._add_github_integration(project, validated_data)
         self._add_gitlab_integration(project, validated_data)
 
-        couch_db = injector.get(ICouchDBService)
-        couch_db.create_database(project.db_name)
-        couch_db.close()
+        self._couch_db_service.create_database(project.db_name)
 
         return OutputDto(project=project)
 

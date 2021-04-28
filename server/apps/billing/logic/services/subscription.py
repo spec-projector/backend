@@ -25,6 +25,13 @@ class BaseSubscriptionError(BaseApplicationError):
     """Base subscription error."""
 
 
+class NoActiveSubscriptionError(BaseSubscriptionError):
+    """No active subscription error."""
+
+    code = "no_active_subscription"
+    message = _("MSG__NO_ACTIVE_SUBSCRIPTION")
+
+
 class SameTariffChangeError(BaseSubscriptionError):
     """Invalid tariff error."""
 

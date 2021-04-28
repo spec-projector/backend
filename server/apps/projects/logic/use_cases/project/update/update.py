@@ -1,20 +1,17 @@
-from dataclasses import dataclass
-from typing import List, Type, Union
+from typing import Type
 
+import injector
 from django.db import models
-from rest_framework import exceptions, serializers
+from rest_framework import exceptions
 
+from apps.billing.logic.interfaces import ITariffLimitsService
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.use_cases import BaseUseCase
-from apps.core.serializers.fields import BitField
-from apps.core.utils.objects import Empty, empty
-from apps.projects.logic.use_cases.project.dto import (
-    FigmaIntegrationDto,
-    FigmaIntegrationDtoValidator,
-    GitHubIntegrationDto,
-    GitHubIntegrationDtoValidator,
-    GitLabIntegrationDto,
-    GitLabIntegrationDtoValidator,
+from apps.core.utils.objects import empty
+from apps.projects.logic.use_cases.project.update.dto import (
+    InputDto,
+    OutputDto,
+    ProjectDtoValidator,
 )
 from apps.projects.models import (
     FigmaIntegration,
@@ -22,90 +19,19 @@ from apps.projects.models import (
     GitLabIntegration,
     Project,
 )
-from apps.projects.models.project_member import (
-    ProjectMember,
-    ProjectMemberRole,
-)
-from apps.users.models import User
-
-
-@dataclass(frozen=True)
-class ProjectMemberDto:
-    """Update project member data."""
-
-    user: int
-    roles: int
-
-
-@dataclass(frozen=True)
-class ProjectDto:
-    """Create project data."""
-
-    title: Union[str, Empty] = empty
-    description: str = empty
-    is_public: bool = empty
-    figma_integration: Union[str, FigmaIntegrationDto] = empty
-    github_integration: Union[str, GitHubIntegrationDto] = empty
-    gitlab_integration: Union[str, GitLabIntegrationDto] = empty
-    users: List[ProjectMemberDto] = empty
-
-
-@dataclass(frozen=True)
-class InputDto:
-    """Update project input dto."""
-
-    data: ProjectDto  # noqa: WPS110
-    project: int
-    user: User
-
-
-@dataclass(frozen=True)
-class OutputDto:
-    """Update project output dto."""
-
-    project: Project
-
-
-class _ProjectMemberValidator(serializers.Serializer):
-    """Project member serializer."""
-
-    id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125
-        queryset=User.objects,
-    )
-    roles = BitField(choices=ProjectMemberRole.choices)
-
-    def validate_roles(self, roles):
-        """Roles validation."""
-        if not roles:
-            raise exceptions.ValidationError("Roles not set")
-        return roles
-
-
-class _ProjectDtoValidator(serializers.Serializer):
-    """Update project input."""
-
-    title = serializers.CharField(required=False)
-    description = serializers.CharField(required=False)
-    is_public = serializers.BooleanField(required=False)
-    users = _ProjectMemberValidator(many=True, required=False)
-    figma_integration = FigmaIntegrationDtoValidator(
-        allow_null=True,
-        required=False,
-    )
-
-    github_integration = GitHubIntegrationDtoValidator(
-        allow_null=True,
-        required=False,
-    )
-
-    gitlab_integration = GitLabIntegrationDtoValidator(
-        allow_null=True,
-        required=False,
-    )
+from apps.projects.models.project_member import ProjectMember
 
 
 class UseCase(BaseUseCase):
     """Use case for updating projects."""
+
+    @injector.inject
+    def __init__(
+        self,
+        tariff_limits_service: ITariffLimitsService,
+    ):
+        """Initialize."""
+        self._tariff_limits_service = tariff_limits_service
 
     def execute(self, input_dto: InputDto) -> OutputDto:
         """Main logic here."""
@@ -115,11 +41,15 @@ class UseCase(BaseUseCase):
 
         validated_data = validate_input(
             input_dto.data,
-            _ProjectDtoValidator,
+            ProjectDtoValidator,
         )
 
         members = validated_data.pop("users", None)
         if members is not None:
+            self._tariff_limits_service.assert_project_member_count_allowed(
+                project,
+                len(members),
+            )
             self._update_members(project, members)
 
         self._update_figma_integration(project, validated_data)
