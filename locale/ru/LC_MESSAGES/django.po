@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-28 12:17+0300\n"
+"POT-Creation-Date: 2021-04-28 17:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,12 +32,13 @@ msgid "MSG__TARIFF_NOT_FOUND"
 msgstr "Тариф не найден"
 
 #, python-brace-format
-msgid "MSG__MAXIMUM_PROJECTS_LIMIT {0}"
-msgstr "Достигнут предел количества проектов: {0}"
+msgid "MSG__MAXIMUM_PROJECTS_LIMIT {allowed_count}"
+msgstr "Достигнут предел количества проектов: {allowed_count}"
 
 #, python-brace-format
-msgid "MSG__MAXIMUM_MEMBERS_LIMIT {0}"
-msgstr "Достигнут предел количества участников в проекте: {0}"
+msgid "MSG__MAXIMUM_PROJECT_MEMBERS_LIMIT {allowed_count}"
+msgstr "Достигнут предел количества участников в проекте: {allowed_count}"
+
 
 msgid "MSG_USER_NOT_FOUND"
 msgstr "Пользователь не найден"

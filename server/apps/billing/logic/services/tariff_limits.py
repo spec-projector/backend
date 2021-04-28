@@ -26,8 +26,8 @@ class MaxProjectsTariffError(BaseTariffError):
 
     def __init__(self, allowed_count) -> None:
         """Initialize error."""
-        msg = _("MSG__MAXIMUM_PROJECTS_LIMIT {0}")
-        super().__init__(message=msg.format(allowed_count))
+        msg = _("MSG__MAXIMUM_PROJECTS_LIMIT {allowed_count}")
+        super().__init__(message=msg.format(allowed_count=allowed_count))
 
 
 class MaxProjectMembersTariffError(BaseTariffError):
@@ -37,8 +37,8 @@ class MaxProjectMembersTariffError(BaseTariffError):
 
     def __init__(self, allowed_count) -> None:
         """Initialize error."""
-        msg = _("MSG__MAXIMUM_PROJECT_MEMBERS_LIMIT {0}")
-        super().__init__(message=msg.format(allowed_count))
+        msg = _("MSG__MAXIMUM_PROJECT_MEMBERS_LIMIT {allowed_count}")
+        super().__init__(message=msg.format(allowed_count=allowed_count))
 
 
 class TariffLimitsService(ITariffLimitsService):

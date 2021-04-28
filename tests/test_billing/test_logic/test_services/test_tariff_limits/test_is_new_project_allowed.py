@@ -45,5 +45,6 @@ def test_max_projects_limit(user, tariff_limits_service):
         tariff__max_projects=1,
     )
 
-    with pytest.raises(MaxProjectsTariffError, match="1"):
+    err_msg = "The maximum number of projects has been reached: 1"
+    with pytest.raises(MaxProjectsTariffError, match=err_msg):
         tariff_limits_service.assert_new_project_allowed(user)
