@@ -7,7 +7,7 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class ListAllowedUsersQuery:
+class ListAllowedUsersQuery(queries.IQuery):
     """Allowed users query."""
 
     user: User

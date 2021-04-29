@@ -1,1 +1,1 @@
-from .main import register_queries
+from .main import QUERIES

@@ -1,21 +1,30 @@
 import abc
-from typing import Type
+import typing as ty
 
 from apps.core import injector
 from apps.core.logic.queries import IQuery
 from apps.core.logic.queries.handler import IQueryHandler, TResult
+
+QueryInfo = ty.Tuple[
+    ty.Type[IQuery],
+    ty.Type[IQueryHandler[IQuery, TResult]],
+]
 
 
 class IQueryBus(abc.ABC):
     """Commands dispatcher."""
 
     @abc.abstractmethod
-    def register_handler(
+    def register(
         self,
-        query_type: Type[IQuery],
-        query_handler: Type[IQueryHandler[IQuery, TResult]],
+        query_type: ty.Type[IQuery],
+        query_handler: ty.Type[IQueryHandler[IQuery, TResult]],
     ) -> None:
         """Register query handler."""
+
+    @abc.abstractmethod
+    def register_many(self, handlers: ty.List[QueryInfo]) -> None:
+        """Register many query handlers."""
 
     @abc.abstractmethod
     def dispatch(self, query: IQuery) -> TResult:
@@ -29,13 +38,18 @@ class QueryBus(IQueryBus):
         """Initializing."""
         self._registry = {}
 
-    def register_handler(
+    def register(
         self,
-        query_type: Type[IQuery],
-        query_handler: Type[IQueryHandler[IQuery, TResult]],
+        query_type: ty.Type[IQuery],
+        query_handler: ty.Type[IQueryHandler[IQuery, TResult]],
     ) -> None:
         """Register command handler."""
         self._registry[query_type] = query_handler
+
+    def register_many(self, handlers: ty.List[QueryInfo]) -> None:
+        """Register many query handlers."""
+        for query, query_handler in handlers:
+            self.register(query, query_handler)
 
     def dispatch(self, query: IQuery) -> TResult:
         """Find command handler and executes it."""
