@@ -3,10 +3,10 @@ from enum import Enum
 from typing import Optional, Union
 
 import django_filters
-from django.db.models import QuerySet
+from django.db import models
 
 from apps.billing.models import Tariff
-from apps.core.logic.queries import BaseQuery, SortHandler
+from apps.core.logic import queries
 from apps.core.utils.objects import Empty, empty
 
 
@@ -31,26 +31,30 @@ class _TariffsFilterSet(django_filters.FilterSet):
 
 
 @dataclass(frozen=True)
-class InputDto:
+class ListTariffsQuery(queries.IQuery):
     """Get tariffs query input data."""
 
     filters: Optional[TariffFilter] = None
     sort: TariffSort = TariffSort.ORDER_DESC
-    queryset: Optional[QuerySet] = None
+    queryset: Optional[models.QuerySet] = None
 
 
-class Query(BaseQuery):
+class QueryHandler(
+    queries.IQueryHandler[ListTariffsQuery, models.QuerySet],
+):
     """Tariffs query."""
 
-    filterset_class = _TariffsFilterSet
-    sort_handler = SortHandler(TariffSort)
-
-    def execute(self, input_dto: InputDto) -> QuerySet:
+    def ask(self, query: ListTariffsQuery) -> models.QuerySet:
         """Handler."""
         queryset = (
-            Tariff.objects.all()
-            if input_dto.queryset is None
-            else input_dto.queryset
+            Tariff.objects.all() if query.queryset is None else query.queryset
         )
-        queryset = self.filter_queryset(queryset, input_dto.filters)
-        return self.sort_queryset(queryset, input_dto.sort)
+        return queries.sort_queryset(
+            queries.filter_queryset(
+                queryset,
+                _TariffsFilterSet,
+                query.filters,
+            ),
+            queries.SortHandler(TariffSort),
+            query.sort,
+        )

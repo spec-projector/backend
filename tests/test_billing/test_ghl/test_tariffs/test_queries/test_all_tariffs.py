@@ -24,3 +24,12 @@ def test_success(ghl_mock_info, all_tariffs_query, tariffs):
 
     assert response.length == len(tariffs)
     assert set(response.iterable) == set(tariffs)
+
+
+def test_inactive(ghl_mock_info, all_tariffs_query, tariffs):
+    """Test success all tariffs retrieving."""
+    TariffFactory.create(is_active=False)
+    response = all_tariffs_query(root=None, info=ghl_mock_info)
+
+    assert response.length == len(tariffs)
+    assert set(response.iterable) == set(tariffs)

@@ -1,30 +1,35 @@
-from django.db.models import QuerySet
+from django.db import models
 from graphql import ResolveInfo
 
 from apps.billing.graphql.types import TariffType
-from apps.billing.logic.queries.tariff import fetch
-from apps.core.graphql.fields import BaseQueryConnectionField
+from apps.billing.logic.queries.tariff import list
+from apps.core.graphql.fields.new_query_connection import (
+    BaseNewQueryConnectionField,
+)
+from apps.core.logic import queries
 
 
-class TariffConnectionField(BaseQueryConnectionField):
+class TariffConnectionField(BaseNewQueryConnectionField):
     """Handler for tariff collection."""
 
-    query = fetch.Query
+    query = list.ListTariffsQuery
 
     def __init__(self):
         """Initialize."""
         super().__init__(TariffType)
 
     @classmethod
-    def get_input_dto(
+    def build_query(
         cls,
-        queryset: QuerySet,
+        queryset: models.QuerySet,
         info: ResolveInfo,  # noqa: WPS110
         args,
-    ):
+    ) -> queries.IQuery:
         """Prepare query input data."""
-        return fetch.InputDto(
+        return cls.query(
             queryset=queryset,
-            filters=cls.get_filters_from_args(args, fetch.TariffFilter),
-            sort=cls.get_sort_from_args(args),
+            filters=list.TariffFilter(
+                is_active=True,
+            ),
+            sort=args.get("sort"),
         )
