@@ -2,15 +2,13 @@ import graphene
 from django.db import models
 from graphql import ResolveInfo
 
-from apps.core.graphql.fields.new_query_connection import (
-    BaseNewQueryConnectionField,
-)
+from apps.core.graphql.fields import BaseQueryConnectionField
 from apps.core.logic.queries import IQuery
 from apps.projects.graphql.types import ProjectType
 from apps.projects.logic.queries.project import allowed
 
 
-class ProjectConnectionField(BaseNewQueryConnectionField):
+class ProjectConnectionField(BaseQueryConnectionField):
     """Handler for projects collections."""
 
     query = allowed.ListAllowedProjectsQuery

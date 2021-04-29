@@ -3,13 +3,11 @@ from graphql import ResolveInfo
 
 from apps.billing.graphql.types import TariffType
 from apps.billing.logic.queries.tariff import list
-from apps.core.graphql.fields.new_query_connection import (
-    BaseNewQueryConnectionField,
-)
+from apps.core.graphql.fields import BaseQueryConnectionField
 from apps.core.logic import queries
 
 
-class TariffConnectionField(BaseNewQueryConnectionField):
+class TariffConnectionField(BaseQueryConnectionField):
     """Handler for tariff collection."""
 
     query = list.ListTariffsQuery

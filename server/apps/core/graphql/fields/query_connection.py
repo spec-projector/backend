@@ -1,5 +1,6 @@
+import enum
 from functools import partial
-from typing import Dict, Type
+from typing import Optional, Type, get_args, get_type_hints
 
 import graphene
 from django.db import models
@@ -17,13 +18,13 @@ from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 from promise import Promise
 
-from apps.core.logic.queries import BaseQuery
+from apps.core.logic import queries
 
 
 class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
     """Base class for model collections."""
 
-    query: Type[BaseQuery]
+    query: Type[queries.IQuery]
     auth_required: bool = False
 
     def __init__(self, *args, **kwargs):
@@ -39,14 +40,9 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
         )
         kwargs.setdefault("offset", graphene.Int())
 
-        if self.query.sort_handler:
-            kwargs["sort"] = graphene.Argument(
-                graphene.List(
-                    graphene.Enum.from_enum(
-                        self.query.sort_handler.enum,
-                    ),
-                ),
-            )
+        sort_argument = self._get_sort_argument()
+        if sort_argument:
+            kwargs["sort"] = sort_argument
 
         super().__init__(*args, **kwargs)
 
@@ -110,43 +106,17 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             info,
         )
 
-        query = cls.query()
-        return query.execute(cls.get_input_dto(queryset, info, args))
+        return queries.execute_query(cls.build_query(queryset, info, args))
 
     @classmethod
-    def get_input_dto(
+    def build_query(
         cls,
         queryset: models.QuerySet,
         info: ResolveInfo,  # noqa: WPS110
         args,
-    ):
-        """Stub for getting usecase input dto."""
-
-    @classmethod
-    def get_sort_from_args(cls, args: Dict[str, object]):
-        """Extract sort args from query."""
-        return args.get("sort")
-
-    @classmethod
-    def get_filters_from_args(
-        cls,
-        args: Dict[str, object],
-        filter_class,
-    ):
-        """Extract filter args from query."""
-        if not cls.query.filterset_class:
-            return None
-
-        filters_keys = cls.query.filterset_class.declared_filters.keys()
-        filters = {
-            item_key: item_value
-            for item_key, item_value in args.items()
-            if item_key in filters_keys
-        }
-        if not filters:
-            return None
-
-        return filter_class(**filters)
+    ) -> queries.IQuery:
+        """Get params for creating query."""
+        raise NotImplementedError()
 
     @classmethod
     def resolve_connection(  # noqa: WPS210
@@ -308,3 +278,18 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             return getattr(self.model, self.on)
 
         return self.model._default_manager  # noqa: WPS437
+
+    def _get_sort_argument(self) -> Optional[graphene.Argument]:
+        type_hints = get_type_hints(self.query)
+        sort_type = type_hints.get("sort")
+        if not sort_type:
+            return None
+
+        if not isinstance(sort_type, enum.EnumMeta):
+            sort_type = get_args(sort_type)[0]
+
+        return graphene.Argument(
+            graphene.List(
+                graphene.Enum.from_enum(sort_type),
+            ),
+        )
