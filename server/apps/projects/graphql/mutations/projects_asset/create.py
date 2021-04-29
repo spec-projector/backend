@@ -3,9 +3,10 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
 from apps.projects.graphql.types import ProjectAssetType
-from apps.projects.logic.use_cases.project_asset import (
+from apps.projects.logic.commands.project_asset import (
     create as project_asset_create,
 )
 
@@ -17,11 +18,10 @@ class CreateProjectAssetInput(graphene.InputObjectType):
     url = graphene.String(required=True)
 
 
-class CreateProjectAssetMutation(BaseUseCaseMutation):
+class CreateProjectAssetMutation(BaseCommandMutation):
     """Create project asset mutation."""
 
     class Meta:
-        use_case_class = project_asset_create.UseCase
         auth_required = True
 
     class Arguments:
@@ -33,14 +33,14 @@ class CreateProjectAssetMutation(BaseUseCaseMutation):
     project_asset = graphene.Field(ProjectAssetType)
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
+    ) -> commands.ICommand:
         """Prepare use case input data."""
-        return project_asset_create.InputDto(
+        return project_asset_create.CreateProjectAssetCommand(
             user=info.context.user,  # type: ignore
             data=project_asset_create.ProjectAssetDto(**kwargs.get("input")),
         )
@@ -50,9 +50,9 @@ class CreateProjectAssetMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: project_asset_create.OutputDto,
+        command_result: project_asset_create.CreateProjectAssetCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
-            "project_asset": output_dto.project_asset,
+            "project_asset": command_result.project_asset,
         }

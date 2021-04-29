@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
+from apps.core.logic import commands
 from apps.core.logic.helpers.validation import validate_input
-from apps.core.logic.use_cases import BaseUseCase
 from apps.projects.models import Project
 from apps.users.models import User
 
@@ -16,26 +16,26 @@ class ProjectDeleteData:
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Delete project input dto."""
+class DeleteProjectCommand(commands.ICommand):
+    """Delete project command."""
 
     data: ProjectDeleteData  # noqa: WPS110
     user: User
 
 
-class InputDtoValidator(serializers.Serializer):
+class _DataValidator(serializers.Serializer):
     """Delete project input."""
 
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects)
 
 
-class UseCase(BaseUseCase):
+class CommandHandler(commands.ICommandHandler[DeleteProjectCommand, None]):
     """Use case for deleting projects."""
 
-    def execute(self, input_dto: InputDto) -> None:
+    def execute(self, command: DeleteProjectCommand) -> None:
         """Main logic here."""
         validated_data = validate_input(
-            input_dto.data,
-            InputDtoValidator,
+            command.data,
+            _DataValidator,
         )
         validated_data["project"].delete()

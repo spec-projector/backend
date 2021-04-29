@@ -5,7 +5,7 @@ from rest_framework import exceptions, serializers
 
 from apps.core.serializers.fields import BitField
 from apps.core.utils.objects import Empty, empty
-from apps.projects.logic.use_cases.project.dto import (
+from apps.projects.logic.commands.project.dto import (
     FigmaIntegrationDto,
     FigmaIntegrationDtoValidator,
     GitHubIntegrationDto,
@@ -13,7 +13,6 @@ from apps.projects.logic.use_cases.project.dto import (
     GitLabIntegrationDto,
     GitLabIntegrationDtoValidator,
 )
-from apps.projects.models import Project
 from apps.projects.models.project_member import ProjectMemberRole
 from apps.users.models import User
 
@@ -37,22 +36,6 @@ class ProjectDto:
     github_integration: Union[str, GitHubIntegrationDto] = empty
     gitlab_integration: Union[str, GitLabIntegrationDto] = empty
     users: List[ProjectMemberDto] = empty
-
-
-@dataclass(frozen=True)
-class InputDto:
-    """Update project input dto."""
-
-    data: ProjectDto  # noqa: WPS110
-    project: int
-    user: User
-
-
-@dataclass(frozen=True)
-class OutputDto:
-    """Update project output dto."""
-
-    project: Project
 
 
 class _ProjectMemberValidator(serializers.Serializer):

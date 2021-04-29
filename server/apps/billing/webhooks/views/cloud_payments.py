@@ -6,8 +6,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from apps.billing.logic.use_cases.subscription import payment_webhook
-from apps.core import injector
+from apps.billing.logic.commands.subscription import payment_webhook
+from apps.core.logic import commands
 from apps.core.logic.errors import BaseApplicationError
 from apps.core.services.errors import BaseInfrastructureError
 
@@ -26,12 +26,11 @@ class CloudPaymentsWebhookView(View):
         """Request handler."""
         logging.info("CloudPayment webhook was triggered")
 
-        command = injector.get(payment_webhook.UseCase)
         raw_body = request.body
 
         try:
-            command.execute(
-                payment_webhook.InputDto(
+            commands.execute_command(
+                payment_webhook.HandlePaymentWebhookCommand(
                     payment_data=dict(request.POST.items()),
                     payment_meta=dict(request.headers.items()),
                     raw_body=raw_body,

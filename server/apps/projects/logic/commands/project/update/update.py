@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Type
 
 import injector
@@ -5,24 +6,42 @@ from django.db import models
 from rest_framework import exceptions
 
 from apps.billing.logic.interfaces import ITariffLimitsService
+from apps.core.logic import commands
 from apps.core.logic.helpers.validation import validate_input
-from apps.core.logic.use_cases import BaseUseCase
 from apps.core.utils.objects import empty
-from apps.projects.logic.use_cases.project.update.dto import (
-    InputDto,
-    OutputDto,
-    ProjectDtoValidator,
-)
+from apps.projects.logic.commands.project.update import dto
 from apps.projects.models import (
     FigmaIntegration,
     GitHubIntegration,
     GitLabIntegration,
     Project,
+    ProjectMember,
 )
-from apps.projects.models.project_member import ProjectMember
+from apps.users.models import User
 
 
-class UseCase(BaseUseCase):
+@dataclass(frozen=True)
+class UpdateProjectCommand(commands.ICommand):
+    """Update project command."""
+
+    data: dto.ProjectDto  # noqa: WPS110
+    project: int
+    user: User
+
+
+@dataclass(frozen=True)
+class UpdateProjectCommandResult:
+    """Update project output dto."""
+
+    project: Project
+
+
+class CommandHandler(
+    commands.ICommandHandler[
+        UpdateProjectCommand,
+        UpdateProjectCommandResult,
+    ],
+):
     """Use case for updating projects."""
 
     @injector.inject
@@ -33,15 +52,18 @@ class UseCase(BaseUseCase):
         """Initialize."""
         self._tariff_limits_service = tariff_limits_service
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
+    def execute(
+        self,
+        command: UpdateProjectCommand,
+    ) -> UpdateProjectCommandResult:
         """Main logic here."""
-        project = Project.objects.filter(pk=input_dto.project).first()
+        project = Project.objects.filter(pk=command.project).first()
         if not project:
             raise exceptions.ValidationError("Project not found")
 
         validated_data = validate_input(
-            input_dto.data,
-            ProjectDtoValidator,
+            command.data,
+            dto.ProjectDtoValidator,
         )
 
         members = validated_data.pop("users", None)
@@ -60,7 +82,7 @@ class UseCase(BaseUseCase):
             setattr(project, field, field_value)
         project.save()
 
-        return OutputDto(project=project)
+        return UpdateProjectCommandResult(project=project)
 
     def _update_members(self, project, members) -> None:
         project_members = []

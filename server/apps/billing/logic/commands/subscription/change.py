@@ -5,14 +5,14 @@ from rest_framework import serializers
 
 from apps.billing.logic.interfaces import ISubscriptionService
 from apps.billing.models import ChangeSubscriptionRequest, Tariff
+from apps.core.logic import commands
 from apps.core.logic.helpers.validation import validate_input
-from apps.core.logic.use_cases import BaseUseCase
 from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Delete project input dto."""
+class ChangeSubscriptionCommand(commands.ICommand):
+    """Change user subscription command."""
 
     user: User
     tariff: int
@@ -20,37 +20,45 @@ class InputDto:
 
 
 @dataclass(frozen=True)
-class OutputDto:
-    """Change subscription output dto."""
+class ChangeSubscriptionCommandResult:
+    """Change subscription result."""
 
     change_subcription_request: ChangeSubscriptionRequest
 
 
-class _InputDtoValidator(serializers.Serializer):
+class _CommandValidator(serializers.Serializer):
     """Validator."""
 
     tariff = serializers.PrimaryKeyRelatedField(queryset=Tariff.objects)
 
 
-class UseCase(BaseUseCase):
-    """Use case for initiate change subscription."""
+class CommandHandler(
+    commands.ICommandHandler[
+        ChangeSubscriptionCommand,
+        ChangeSubscriptionCommandResult,
+    ],
+):
+    """Command handler for initiate change subscription."""
 
     @injector.inject
     def __init__(self, subscription_service: ISubscriptionService):
         """Initilize."""
         self._subscription_service = subscription_service
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
+    def execute(
+        self,
+        command: ChangeSubscriptionCommand,
+    ) -> ChangeSubscriptionCommandResult:
         """Main logic here."""
-        validated = validate_input(input_dto, _InputDtoValidator)
+        validated = validate_input(command, _CommandValidator)
         request = (
             self._subscription_service.create_change_subscription_request(
-                input_dto.user,
+                command.user,
                 validated["tariff"],
-                input_dto.hash,
+                command.hash,
             )
         )
 
-        return OutputDto(
+        return ChangeSubscriptionCommandResult(
             change_subcription_request=request,
         )

@@ -4,7 +4,7 @@ from typing import Union
 from rest_framework import serializers
 
 from apps.core.utils.objects import Empty, empty
-from apps.projects.logic.use_cases.project.dto import (
+from apps.projects.logic.commands.project.dto import (
     FigmaIntegrationDto,
     FigmaIntegrationDtoValidator,
     GitHubIntegrationDto,
@@ -12,8 +12,6 @@ from apps.projects.logic.use_cases.project.dto import (
     GitLabIntegrationDto,
     GitLabIntegrationDtoValidator,
 )
-from apps.projects.models import Project
-from apps.users.models import User
 
 
 class ProjectDtoValidator(serializers.Serializer):
@@ -48,18 +46,3 @@ class ProjectDto:
     figma_integration: Union[str, FigmaIntegrationDto] = empty
     github_integration: Union[str, GitHubIntegrationDto] = empty
     gitlab_integration: Union[str, GitLabIntegrationDto] = empty
-
-
-@dataclass(frozen=True)
-class InputDto:
-    """Create project input dto."""
-
-    data: ProjectDto  # noqa: WPS110
-    user: User
-
-
-@dataclass(frozen=True)
-class OutputDto:
-    """Create project output dto."""
-
-    project: Project

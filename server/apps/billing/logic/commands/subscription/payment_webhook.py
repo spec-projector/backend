@@ -8,16 +8,16 @@ from django.utils.translation import gettext_lazy as _
 from apps.billing.logic.interfaces import IPaymentService, ISubscriptionService
 from apps.billing.logic.interfaces.payment import PaymentInfo
 from apps.billing.models import ChangeSubscriptionRequest, Tariff
+from apps.core.logic import commands
 from apps.core.logic.errors import BaseApplicationError
-from apps.core.logic.use_cases import BaseUseCase
 from apps.users.models import User
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Delete project input dto."""
+class HandlePaymentWebhookCommand(commands.ICommand):
+    """Process payment webhook."""
 
     payment_data: Dict[str, str]
     payment_meta: Dict[str, str]
@@ -49,8 +49,10 @@ class ChangeRequestInactivePaymentWebhookError(BasePaymentWebhookError):
     message = _("MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE")
 
 
-class UseCase(BaseUseCase):
-    """Use case for accepting payment notification."""
+class CommandHandler(
+    commands.ICommandHandler[HandlePaymentWebhookCommand, None],
+):
+    """Accept payment notification."""
 
     @injector.inject
     def __init__(
@@ -62,12 +64,12 @@ class UseCase(BaseUseCase):
         self._subscription_service = subscription_service
         self._payment_service = payment_service
 
-    def execute(self, input_dto: InputDto):
+    def execute(self, command: HandlePaymentWebhookCommand) -> None:
         """Main logic here."""
         payment_info = self._payment_service.handle_payment_webhook(
-            input_dto.payment_data,
-            input_dto.payment_meta,
-            input_dto.raw_body,
+            command.payment_data,
+            command.payment_meta,
+            command.raw_body,
         )
         user = self._get_user(payment_info)
         request = self._get_change_request(user, payment_info)

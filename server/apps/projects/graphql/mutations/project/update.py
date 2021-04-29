@@ -4,10 +4,11 @@ import graphene
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.fields import BitField
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
 from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
-from apps.projects.logic.use_cases.project import update as project_update
+from apps.projects.logic.commands.project import update as project_update
 
 
 class ProjectMemberInput(graphene.InputObjectType):
@@ -23,11 +24,10 @@ class UpdateProjectInput(BaseProjectInput):
     users = graphene.Argument(graphene.List(ProjectMemberInput))
 
 
-class UpdateProjectMutation(BaseUseCaseMutation):
+class UpdateProjectMutation(BaseCommandMutation):
     """Update project mutation."""
 
     class Meta:
-        use_case_class = project_update.UseCase
         auth_required = True
 
     class Arguments:
@@ -37,14 +37,14 @@ class UpdateProjectMutation(BaseUseCaseMutation):
     project = graphene.Field(ProjectType)
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
+    ) -> commands.ICommand:
         """Prepare use case input data."""
-        return project_update.InputDto(
+        return project_update.UpdateProjectCommand(
             user=info.context.user,  # type: ignore
             project=kwargs["id"],
             data=project_update.ProjectDto(**kwargs.get("input")),
@@ -55,9 +55,9 @@ class UpdateProjectMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: project_update.OutputDto,
+        command_result: project_update.UpdateProjectCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
-            "project": output_dto.project,
+            "project": command_result.project,
         }

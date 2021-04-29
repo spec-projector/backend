@@ -3,10 +3,10 @@ from dataclasses import dataclass
 import injector
 from rest_framework import serializers
 
+from apps.core.logic import commands
 from apps.core.logic.errors import AccessDeniedApplicationError
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.interfaces import IExternalFilesService
-from apps.core.logic.use_cases import BaseUseCase
 from apps.projects.logic.interfaces import IFigmaServiceFactory
 from apps.projects.logic.services.project_asset import (
     ProjectAssetPermissionsService,
@@ -15,7 +15,7 @@ from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
 from apps.users.models import User
 
 
-class ProjectAssetDtoValidator(serializers.Serializer):
+class _ProjectAssetDtoValidator(serializers.Serializer):
     """Create project asset input."""
 
     project = serializers.PrimaryKeyRelatedField(
@@ -33,7 +33,7 @@ class ProjectAssetDto:
 
 
 @dataclass(frozen=True)
-class InputDto:
+class CreateProjectAssetCommand(commands.ICommand):
     """Create project asset input dto."""
 
     data: ProjectAssetDto  # noqa: WPS110
@@ -41,14 +41,19 @@ class InputDto:
 
 
 @dataclass(frozen=True)
-class OutputDto:
-    """Create project output dto."""
+class CreateProjectAssetCommandResult:
+    """Create project output."""
 
     project_asset: ProjectAsset
 
 
-class UseCase(BaseUseCase):
-    """Use case for creating project asset."""
+class CommandHandler(
+    commands.ICommandHandler[
+        CreateProjectAssetCommand,
+        CreateProjectAssetCommandResult,
+    ],
+):
+    """Create project asset."""
 
     @injector.inject
     def __init__(
@@ -62,15 +67,18 @@ class UseCase(BaseUseCase):
         self._figma_service_factory = figma_service_factory
         self._external_files_service = external_files_service
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
+    def execute(
+        self,
+        command: CreateProjectAssetCommand,
+    ) -> CreateProjectAssetCommandResult:
         """Main logic here."""
         validated_data = validate_input(
-            input_dto.data,
-            ProjectAssetDtoValidator,
+            command.data,
+            _ProjectAssetDtoValidator,
         )
 
         can_upload = self._permissions_service.can_upload(
-            input_dto.user,
+            command.user,
             validated_data["project"],
         )
 
@@ -84,7 +92,9 @@ class UseCase(BaseUseCase):
 
         self._download_to_file_field(validated_data["url"], project_asset)
 
-        return OutputDto(project_asset=project_asset)
+        return CreateProjectAssetCommandResult(
+            project_asset=project_asset,
+        )
 
     def _download_to_file_field(
         self,

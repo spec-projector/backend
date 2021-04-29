@@ -6,10 +6,11 @@ from graphql import ResolveInfo
 from apps.billing.graphql.types.change_subscription_request import (
     ChangeSubscriptionRequestType,
 )
-from apps.billing.logic.use_cases.subscription import (
+from apps.billing.logic.commands.subscription import (
     change as change_subscription,
 )
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
 
 
 class ChangeSubscriptionInput(graphene.InputObjectType):
@@ -19,11 +20,10 @@ class ChangeSubscriptionInput(graphene.InputObjectType):
     hash = graphene.String(required=True)
 
 
-class ChangeSubscriptionMutation(BaseUseCaseMutation):
+class ChangeSubscriptionMutation(BaseCommandMutation):
     """Change subscription mutation."""
 
     class Meta:
-        use_case_class = change_subscription.UseCase
         auth_required = True
 
     class Arguments:
@@ -35,15 +35,15 @@ class ChangeSubscriptionMutation(BaseUseCaseMutation):
     request = graphene.Field(ChangeSubscriptionRequestType)
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
+    ) -> commands.ICommand:
         """Prepare use case input data."""
         input_dto = kwargs["input"]
-        return change_subscription.InputDto(
+        return change_subscription.ChangeSubscriptionCommand(
             user=info.context.user,  # type: ignore
             tariff=input_dto["tariff"],
             hash=input_dto["hash"],
@@ -54,9 +54,9 @@ class ChangeSubscriptionMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: change_subscription.OutputDto,
+        command_result: change_subscription.ChangeSubscriptionCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
-            "request": output_dto.change_subcription_request,
+            "request": command_result.change_subcription_request,
         }

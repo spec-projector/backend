@@ -3,10 +3,11 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
 from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
-from apps.projects.logic.use_cases.project import create as project_create
+from apps.projects.logic.commands.project import create as project_create
 
 
 class CreateProjectInput(BaseProjectInput):
@@ -15,11 +16,10 @@ class CreateProjectInput(BaseProjectInput):
     title = graphene.String(required=True)
 
 
-class CreateProjectMutation(BaseUseCaseMutation):
+class CreateProjectMutation(BaseCommandMutation):
     """Create project mutation."""
 
     class Meta:
-        use_case_class = project_create.UseCase
         auth_required = True
 
     class Arguments:
@@ -28,14 +28,14 @@ class CreateProjectMutation(BaseUseCaseMutation):
     project = graphene.Field(ProjectType)
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
+    ) -> commands.ICommand:
         """Prepare use case input data."""
-        return project_create.InputDto(
+        return project_create.CreateProjectCommand(
             user=info.context.user,  # type: ignore
             data=project_create.ProjectDto(**kwargs.get("input")),
         )
@@ -45,9 +45,9 @@ class CreateProjectMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: project_create.OutputDto,
+        command_result: project_create.CreateProjectCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
-            "project": output_dto.project,
+            "project": command_result.project,
         }

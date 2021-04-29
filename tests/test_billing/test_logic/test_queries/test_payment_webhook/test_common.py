@@ -1,16 +1,17 @@
 import json
 
-from apps.billing.logic.use_cases.subscription import payment_webhook
+from apps.billing.logic.commands.subscription import payment_webhook
 from apps.billing.models import ChangeSubscriptionRequest, Subscription
 from apps.billing.models.enums import SubscriptionStatus
+from apps.core.logic import commands
 from tests.test_billing.factories import TariffFactory
 
 
-def test_request_no_exists(use_case, user):
+def test_request_no_exists(user):
     """Test if request is not created."""
     tariff = TariffFactory.create()
-    use_case.execute(
-        payment_webhook.InputDto(
+    commands.execute_command(
+        payment_webhook.HandlePaymentWebhookCommand(
             payment_data={
                 "OperationType": "Payment",
                 "SubscriptionId": "1111",
@@ -49,7 +50,7 @@ def test_request_no_exists(use_case, user):
     assert request is not None
 
 
-def test_request_exists(use_case, user):
+def test_request_exists(user):
     """Test if request is created."""
     tariff = TariffFactory.create()
     request = ChangeSubscriptionRequest.objects.create(
@@ -58,8 +59,8 @@ def test_request_exists(use_case, user):
         tariff=tariff,
     )
 
-    use_case.execute(
-        payment_webhook.InputDto(
+    commands.execute_command(
+        payment_webhook.HandlePaymentWebhookCommand(
             payment_data={
                 "OperationType": "Payment",
                 "SubscriptionId": "1111",
