@@ -29,7 +29,11 @@ class MeUserType(graphene.ObjectType):
 
     def resolve_subscription(self, info: ResolveInfo):  # noqa: WPS110
         """Returns user subscription."""
-        return subscription.Query().execute(subscription.InputDto(user=self))
+        return queries.execute_query(
+            subscription.GetActiveSubscriptionQuery(
+                user=self,
+            ),
+        )
 
     def resolve_change_subscription_request(
         self,
@@ -37,7 +41,7 @@ class MeUserType(graphene.ObjectType):
     ):
         """Returns user change subscription request."""
         return queries.execute_query(
-            change_subscription_request.GetActiveSubscriptionQuery(
+            change_subscription_request.GetActiveSubscriptionRequestQuery(
                 user=self,
             ),
         )

@@ -10,7 +10,7 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class GetActiveSubscriptionQuery(queries.IQuery):
+class GetActiveSubscriptionRequestQuery(queries.IQuery):
     """User active change subscription request."""
 
     user: User
@@ -18,7 +18,7 @@ class GetActiveSubscriptionQuery(queries.IQuery):
 
 class QueryHandler(
     queries.IQueryHandler[
-        GetActiveSubscriptionQuery,
+        GetActiveSubscriptionRequestQuery,
         Optional[ChangeSubscriptionRequest],
     ],
 ):
@@ -31,7 +31,7 @@ class QueryHandler(
 
     def ask(
         self,
-        query: GetActiveSubscriptionQuery,
+        query: GetActiveSubscriptionRequestQuery,
     ) -> Optional[ChangeSubscriptionRequest]:
         """Handler."""
         return self._subscription_service.get_user_change_subscription_request(
