@@ -2,7 +2,7 @@ import graphene
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
-from apps.core import injector
+from apps.core.logic import queries
 from apps.projects.graphql.types import IssueType
 from apps.projects.logic.interfaces.issues import IssuesManagementSystem
 from apps.projects.logic.queries.issue import retrieve
@@ -34,8 +34,8 @@ class IssuesQueries(graphene.ObjectType):
             raise GraphQLPermissionDenied()
 
         input_data = kwargs["input"]
-        return injector.get(retrieve.Query).execute(
-            retrieve.InputDto(
+        return queries.execute_query(
+            retrieve.GetIssueQuery(
                 project=input_data.project,
                 url=input_data.url,
                 system=IssuesManagementSystem(input_data.system),

@@ -4,6 +4,7 @@ from typing import Optional
 import injector
 from rest_framework import serializers
 
+from apps.core.logic import queries
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.utils.date import seconds_to_hours
 from apps.projects.graphql.types import AssigneeType
@@ -15,7 +16,7 @@ from apps.projects.models import Project
 
 
 @dataclass(frozen=True)
-class InputDto:
+class GetIssueQuery(queries.IQuery):
     """Create issue input dto."""
 
     project: str
@@ -44,7 +45,7 @@ class _InputDtoValidator(serializers.Serializer):
     system = serializers.ChoiceField(choices=IssuesManagementSystem)
 
 
-class Query:
+class QueryHandler(queries.IQueryHandler[GetIssueQuery, Issue]):
     """Get issue from external system."""
 
     @injector.inject
@@ -52,9 +53,9 @@ class Query:
         """Initialize."""
         self._issues_service = issues_service
 
-    def execute(self, input_dto: InputDto) -> Issue:
+    def ask(self, query: GetIssueQuery) -> Issue:
         """Handler."""
-        validated_data = validate_input(input_dto, _InputDtoValidator)
+        validated_data = validate_input(query, _InputDtoValidator)
 
         issue_meta = self._issues_service.get_issue_meta(
             url=validated_data["url"],

@@ -46,9 +46,6 @@ class QueryHandler(
 ):
     """Allowed projects for user query."""
 
-    filterset_class = _ProjectFilterSet
-    sort_handler = queries.SortHandler(ProjectSort)
-
     def ask(self, query: ListAllowedProjectsQuery) -> models.QuerySet:
         """Handler."""
         projects = query.queryset
