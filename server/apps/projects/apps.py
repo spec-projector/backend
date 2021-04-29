@@ -20,7 +20,6 @@ class AppConfig(BaseAppConfig):
         super().ready()
 
         self._setup_dependency_injection()
-
         register_queries(injector.get(IQueryBus))
 
     def _setup_dependency_injection(self) -> None:

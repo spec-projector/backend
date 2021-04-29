@@ -9,6 +9,7 @@ from apps.billing.logic.queries.change_subscription_request import (
     active as change_subscription_request,
 )
 from apps.billing.logic.queries.subscription import active as subscription
+from apps.core.logic import queries
 from apps.core.utils.media import get_absolute_path
 
 
@@ -35,8 +36,10 @@ class MeUserType(graphene.ObjectType):
         info: ResolveInfo,  # noqa: WPS110
     ):
         """Returns user change subscription request."""
-        return change_subscription_request.Query().execute(
-            change_subscription_request.InputDto(user=self),
+        return queries.execute_query(
+            change_subscription_request.GetActiveSubscriptionQuery(
+                user=self,
+            ),
         )
 
     def resolve_avatar(self, info):  # noqa: WPS110
