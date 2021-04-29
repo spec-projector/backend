@@ -2,10 +2,10 @@ import pytest
 from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
 from apps.core import injector
-from apps.users.logic.interfaces import IAuthenticationService
-from apps.users.logic.use_cases.change_password.errors import (
+from apps.users.logic.commands.change_password.errors import (
     PasswordNotSetError,
 )
+from apps.users.logic.interfaces import IAuthenticationService
 
 OLD_PASSWORD = "old_password"  # noqa: S105
 NEW_PASSWORD = "new user password"  # noqa: S105

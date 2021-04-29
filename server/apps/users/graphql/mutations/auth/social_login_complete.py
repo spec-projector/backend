@@ -43,9 +43,9 @@ class SocialLoginCompleteMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: social_complete_login.SocialCompleteLoginCommandResult,
+        command_result: social_complete_login.SocialCompleteLoginCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
-            "token": output_dto.token,
+            "token": command_result.token,
         }

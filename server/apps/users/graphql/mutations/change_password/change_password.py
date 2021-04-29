@@ -3,10 +3,9 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.users.logic.use_cases.change_password import (
-    use_case as change_password_uc,
-)
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
+from apps.users.logic.commands import change_password
 
 
 class ChangePasswordInput(graphene.InputObjectType):
@@ -15,11 +14,10 @@ class ChangePasswordInput(graphene.InputObjectType):
     password = graphene.String(required=True)
 
 
-class ChangePasswordMutation(BaseUseCaseMutation):
+class ChangePasswordMutation(BaseCommandMutation):
     """Change password mutation."""
 
     class Meta:
-        use_case_class = change_password_uc.UseCase
         auth_required = True
 
     class Arguments:
@@ -28,17 +26,16 @@ class ChangePasswordMutation(BaseUseCaseMutation):
     ok = graphene.Boolean()
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
-        """Prepare use case input data."""
-        user = info.context.user  # type: ignore
-        return change_password_uc.InputDto(
+    ) -> commands.ICommand:
+        """Create command."""
+        return change_password.ChangePasswordCommand(
             password=kwargs["input"]["password"],
-            user=user,
+            user=info.context.user,  # type: ignore
         )
 
     @classmethod
@@ -46,7 +43,7 @@ class ChangePasswordMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: change_password_uc.OutputDto,
+        command_result,
     ) -> Dict[str, object]:
         """Prepare response data."""
-        return {"ok": output_dto.ok}
+        return {"ok": True}

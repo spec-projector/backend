@@ -1,12 +1,12 @@
 from dataclasses import asdict, dataclass
 
-from apps.core.logic.use_cases import BaseUseCase
+from apps.core.logic import commands
 from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Update input data."""
+class MeUpdateCommand(commands.ICommand):
+    """Update me."""
 
     user: User
     first_name: str = ""
@@ -14,22 +14,24 @@ class InputDto:
 
 
 @dataclass(frozen=True)
-class OutputDto:
+class MeUpdateCommandResult:
     """Update me output dto."""
 
     user: User
 
 
-class UseCase(BaseUseCase):
-    """Use case for update user."""
+class CommandHandler(
+    commands.ICommandHandler[MeUpdateCommand, MeUpdateCommandResult],
+):
+    """Update user."""
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
+    def execute(self, command: MeUpdateCommand) -> MeUpdateCommandResult:
         """Main logic here."""
-        return OutputDto(user=self._update_user(input_dto))
+        return MeUpdateCommandResult(user=self._update_user(command))
 
-    def _update_user(self, input_dto: InputDto) -> User:
+    def _update_user(self, command: MeUpdateCommand) -> User:
         """Update user fields from input dto."""
-        user_data = asdict(input_dto)
+        user_data = asdict(command)
         user = user_data.pop("user")
 
         for field, field_value in user_data.items():

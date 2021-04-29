@@ -4,9 +4,10 @@ import graphene
 from graphene_file_upload.scalars import Upload
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
 from apps.users.graphql.types import UserType
-from apps.users.logic.use_cases.me import upload_image as upload_image_uc
+from apps.users.logic.commands.me import upload_avatar
 
 
 class UploadMeAvatarInput(graphene.InputObjectType):
@@ -20,11 +21,10 @@ class UploadMeAvatarInput(graphene.InputObjectType):
     scale = graphene.Float(required=True)
 
 
-class UploadMeAvatarMutation(BaseUseCaseMutation):
+class UploadMeAvatarMutation(BaseCommandMutation):
     """Upload me avatar mutation."""
 
     class Meta:
-        use_case_class = upload_image_uc.UseCase
         auth_required = True
 
     class Arguments:
@@ -33,14 +33,14 @@ class UploadMeAvatarMutation(BaseUseCaseMutation):
     user = graphene.Field(UserType)
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
+    ) -> commands.ICommand:
         """Prepare use case input data."""
-        return upload_image_uc.InputDto(
+        return upload_avatar.MeUploadAvatarCommand(
             user=info.context.user,  # type: ignore
             **kwargs["input"],
         )
@@ -50,7 +50,7 @@ class UploadMeAvatarMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: upload_image_uc.OutputDto,
+        command_result: upload_avatar.MeUploadAvatarCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
-        return {"user": output_dto.user}
+        return {"user": command_result.user}

@@ -3,9 +3,10 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
 from apps.users.graphql.types import UserType
-from apps.users.logic.use_cases.me import update as update_me_uc
+from apps.users.logic.commands.me import update
 
 
 class UpdateMeInput(graphene.InputObjectType):
@@ -15,11 +16,10 @@ class UpdateMeInput(graphene.InputObjectType):
     last_name = graphene.String()
 
 
-class UpdateMeMutation(BaseUseCaseMutation):
+class UpdateMeMutation(BaseCommandMutation):
     """Register mutation returns token."""
 
     class Meta:
-        use_case_class = update_me_uc.UseCase
         auth_required = True
 
     class Arguments:
@@ -28,14 +28,14 @@ class UpdateMeMutation(BaseUseCaseMutation):
     me = graphene.Field(UserType)
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
-        """Prepare use case input data."""
-        return update_me_uc.InputDto(
+    ) -> commands.ICommand:
+        """Create command."""
+        return update.MeUpdateCommand(
             user=info.context.user,  # type: ignore
             **kwargs["input"],
         )
@@ -45,7 +45,7 @@ class UpdateMeMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: update_me_uc.OutputDto,
+        command_result: update.MeUpdateCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
-        return {"me": output_dto.user}
+        return {"me": command_result.user}

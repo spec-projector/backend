@@ -3,14 +3,14 @@ from dataclasses import dataclass
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from apps.core.logic.use_cases import BaseUseCase
+from apps.core.logic import commands
 from apps.core.services.image.cropper import CroppingParameters, crop_image
 from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Upload image input data."""
+class MeUploadAvatarCommand(commands.ICommand):
+    """Upload image command."""
 
     user: User
     file: InMemoryUploadedFile  # noqa: WPS110
@@ -22,28 +22,36 @@ class InputDto:
 
 
 @dataclass(frozen=True)
-class OutputDto:
+class MeUploadAvatarCommandResult:
     """Upload image output dto."""
 
     user: User
 
 
-class UseCase(BaseUseCase):
-    """Use case for update user."""
+class CommandHandler(
+    commands.ICommandHandler[
+        MeUploadAvatarCommand,
+        MeUploadAvatarCommandResult,
+    ],
+):
+    """Update user avatar."""
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
+    def execute(
+        self,
+        command: MeUploadAvatarCommand,
+    ) -> MeUploadAvatarCommandResult:
         """Main logic here."""
-        user = input_dto.user
+        user = command.user
         old_avatar = user.avatar.name
 
         cropped_image = crop_image(
-            file_object=input_dto.file,
+            file_object=command.file,
             parameters=CroppingParameters(
-                left=input_dto.left,
-                top=input_dto.top,
-                width=input_dto.width,
-                height=input_dto.height,
-                scale=input_dto.scale,
+                left=command.left,
+                top=command.top,
+                width=command.width,
+                height=command.height,
+                scale=command.scale,
             ),
         )
 
@@ -53,4 +61,4 @@ class UseCase(BaseUseCase):
         if old_avatar and default_storage.exists(old_avatar):
             default_storage.delete(old_avatar)
 
-        return OutputDto(user=user)
+        return MeUploadAvatarCommandResult(user=user)

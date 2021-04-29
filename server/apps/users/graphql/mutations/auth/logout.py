@@ -33,7 +33,7 @@ class LogoutMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto,
+        command_result,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

@@ -38,9 +38,9 @@ class SocialLoginMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: social_login.SocialLoginCommandResult,
+        command_result: social_login.SocialLoginCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
-            "redirect_url": output_dto.redirect_url,
+            "redirect_url": command_result.redirect_url,
         }
