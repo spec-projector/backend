@@ -14,14 +14,14 @@ class AppConfig(BaseAppConfig):
 
     def ready(self):
         """Trigger on app ready."""
-        from apps.users.logic.commands import register_commands  # noqa: WPS433
+        from apps.users.logic.commands import COMMANDS  # noqa: WPS433
         from apps.users.logic.queries import register_queries  # noqa: WPS433
 
         super().ready()
 
         self._setup_dependency_injection()
 
-        register_commands(injector.get(ICommandBus))
+        injector.get(ICommandBus).register_many(COMMANDS)
         register_queries(injector.get(IQueryBus))
 
     def _setup_dependency_injection(self) -> None:

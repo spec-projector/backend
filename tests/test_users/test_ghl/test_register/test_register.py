@@ -3,8 +3,8 @@ from typing import Dict
 import pytest
 
 from apps.core import injector
+from apps.users.logic.commands.register.errors import UserAlreadyExistsError
 from apps.users.logic.interfaces import IAuthenticationService
-from apps.users.logic.use_cases.register.errors import UserAlreadyExistsError
 from apps.users.models import Token, User
 from tests.fixtures.users import DEFAULT_USER_PASSWORD
 

@@ -3,11 +3,9 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.users.logic.use_cases.reset_password import reset as reset_uc
-from apps.users.logic.use_cases.reset_password import (
-    send_password_reset as send_reset_uc,
-)
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
+from apps.users.logic.commands.reset_password import send_password_reset
 
 
 class SendPasswordResetSecurityCodeInput(graphene.InputObjectType):
@@ -16,11 +14,8 @@ class SendPasswordResetSecurityCodeInput(graphene.InputObjectType):
     email = graphene.String(required=True)
 
 
-class SendPasswordResetSecurityCodeMutation(BaseUseCaseMutation):
+class SendPasswordResetSecurityCodeMutation(BaseCommandMutation):
     """Send password reset mutation."""
-
-    class Meta:
-        use_case_class = send_reset_uc.UseCase
 
     class Arguments:
         input = graphene.Argument(
@@ -31,22 +26,24 @@ class SendPasswordResetSecurityCodeMutation(BaseUseCaseMutation):
     ok = graphene.Boolean()
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
-        """Prepare use case input data."""
+    ) -> commands.ICommand:
+        """Build command."""
         input_data = kwargs["input"]
-        return send_reset_uc.InputDto(email=input_data["email"])
+        return send_password_reset.SendPasswordResetCommand(
+            email=input_data["email"],
+        )
 
     @classmethod
     def get_response_data(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: reset_uc.OutputDto,
+        command_result,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {"ok": True}

@@ -1,1 +1,1 @@
-from .main import register_commands
+from .main import COMMANDS

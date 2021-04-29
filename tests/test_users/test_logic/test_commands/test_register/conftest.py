@@ -3,8 +3,6 @@ from typing import Generator
 import pytest
 
 from apps.billing.models import Tariff
-from apps.core import injector
-from apps.users.logic.use_cases.register import register as register_uc
 from tests.test_billing.factories import TariffFactory
 
 
@@ -27,17 +25,11 @@ def default_tariff_config(  # noqa: PT004
 
 
 @pytest.fixture()
-def use_case(db):
-    """Create registration use case."""
-    return injector.get(register_uc.UseCase)
-
-
-@pytest.fixture()
-def input_dto(db):
-    """Create register input dto."""
-    return register_uc.InputDto(
-        first_name="new user",
-        email="new_user@mail.net",
-        last_name="newuser",
-        password="123456",
-    )
+def command_data():
+    """Create register command."""
+    return {
+        "first_name": "new user",
+        "email": "new_user@mail.net",
+        "last_name": "newuser",
+        "password": "123456",
+    }

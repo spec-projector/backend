@@ -1,8 +1,6 @@
 import pytest
 
-from apps.users.logic.use_cases.reset_password.errors import (
-    EmailNotExistsError,
-)
+from apps.users.logic.commands.reset_password.errors import EmailNotExistsError
 from apps.users.models import Token
 from tests.test_users.factories.reset_password_request import (
     ResetPasswordRequestFactory,

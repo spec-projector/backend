@@ -4,17 +4,17 @@ import injector
 from rest_framework import serializers
 
 from apps.billing.logic.interfaces import ISubscriptionService
-from apps.core.logic.use_cases import BaseUseCase
-from apps.users.logic.interfaces import ISignupService, ITokenService
-from apps.users.logic.interfaces.signup import SignupData
-from apps.users.logic.use_cases.register.errors import (
+from apps.core.logic import commands
+from apps.users.logic.commands.register.errors import (
     RegistrationInputError,
     UserAlreadyExistsError,
 )
+from apps.users.logic.interfaces import ISignupService, ITokenService
+from apps.users.logic.interfaces.signup import SignupData
 from apps.users.models import Token, User
 
 
-class RegistrationInputSerializer(serializers.Serializer):
+class _InputValidator(serializers.Serializer):
     """Registration serializer."""
 
     first_name = serializers.CharField(
@@ -33,8 +33,8 @@ class RegistrationInputSerializer(serializers.Serializer):
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Register input data."""
+class RegisterCommand(commands.ICommand):
+    """Register command."""
 
     first_name: str
     last_name: str
@@ -43,14 +43,16 @@ class InputDto:
 
 
 @dataclass(frozen=True)
-class OutputDto:
+class RegisterCommandResult:
     """Register output dto."""
 
     token: Token
 
 
-class UseCase(BaseUseCase):
-    """Use case for register new user."""
+class CommandHandler(
+    commands.ICommandHandler[RegisterCommand, RegisterCommandResult],
+):
+    """Register new user."""
 
     @injector.inject
     def __init__(
@@ -64,29 +66,28 @@ class UseCase(BaseUseCase):
         self._signup_service = signup_service
         self._subscription_service = subscription_service
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
+    def execute(self, command: RegisterCommand) -> RegisterCommandResult:
         """Main logic here."""
-        self._validate_data(input_dto)
+        self._validate_data(command)
 
         user = self._signup_service.signup(
             SignupData(
-                first_name=input_dto.first_name,
-                password=input_dto.password,
-                email=input_dto.email,
-                last_name=input_dto.last_name,
+                first_name=command.first_name,
+                password=command.password,
+                email=command.email,
+                last_name=command.last_name,
             ),
         )
 
         self._subscription_service.add_default_subscription(user)
 
-        return OutputDto(
+        return RegisterCommandResult(
             token=self._token_service.create_user_token(user),
         )
 
-    def _validate_data(self, input_dto) -> None:
+    def _validate_data(self, command) -> None:
         """Validate input data."""
-        serializer = RegistrationInputSerializer(data=asdict(input_dto))
-
+        serializer = _InputValidator(data=asdict(command))
         if not serializer.is_valid():
             raise RegistrationInputError()
 

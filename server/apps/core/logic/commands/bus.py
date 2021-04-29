@@ -1,21 +1,30 @@
 import abc
-from typing import Type
+import typing as ty
 
 from apps.core import injector
 from apps.core.logic.commands import ICommand, ICommandHandler
 from apps.core.logic.commands.handler import TResult
+
+CommandInfo = ty.Tuple[
+    ty.Type[ICommand],
+    ty.Type[ICommandHandler[ICommand, TResult]],
+]
 
 
 class ICommandBus(abc.ABC):
     """Commands dispatcher."""
 
     @abc.abstractmethod
-    def register_handler(
+    def register(
         self,
-        command_type: Type[ICommand],
-        command_handler: Type[ICommandHandler[ICommand, TResult]],
+        command_type: ty.Type[ICommand],
+        command_handler: ty.Type[ICommandHandler[ICommand, TResult]],
     ) -> None:
         """Register command handler."""
+
+    @abc.abstractmethod
+    def register_many(self, handlers: ty.List[CommandInfo]) -> None:
+        """Register many command handlers."""
 
     @abc.abstractmethod
     def dispatch(self, command: ICommand) -> TResult:
@@ -29,13 +38,18 @@ class CommandBus(ICommandBus):
         """Initializing."""
         self._registry = {}
 
-    def register_handler(
+    def register(
         self,
-        command_type: Type[ICommand],
-        command_handler: Type[ICommandHandler[ICommand, TResult]],
+        command_type: ty.Type[ICommand],
+        command_handler: ty.Type[ICommandHandler[ICommand, TResult]],
     ) -> None:
         """Register command handler."""
         self._registry[command_type] = command_handler
+
+    def register_many(self, handlers: ty.List[CommandInfo]) -> None:
+        """Register many command handlers."""
+        for command, command_handler in handlers:
+            self.register(command, command_handler)
 
     def dispatch(self, command: ICommand) -> TResult:
         """Find command handler and executes it."""
