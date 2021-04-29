@@ -3,28 +3,28 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
-from apps.users.logic.use_cases.auth import logout as logout_uc
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
+from apps.users.logic.commands.auth import logout
 
 
-class LogoutMutation(BaseUseCaseMutation):
+class LogoutMutation(BaseCommandMutation):
     """Logout mutation."""
 
     class Meta:
         auth_required = True
-        use_case_class = logout_uc.UseCase
 
     status = graphene.String()
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
-        """Prepare use case input data."""
-        return logout_uc.InputDto(
+    ) -> commands.ICommand:
+        """Create command."""
+        return logout.LogoutCommand(
             token=info.context.auth,  # type: ignore
         )
 

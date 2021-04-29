@@ -2,19 +2,19 @@ from dataclasses import dataclass
 
 import injector
 
-from apps.core.logic.use_cases import BaseUseCase
+from apps.core.logic import commands
 from apps.users.logic.interfaces import ITokenService
 from apps.users.models import Token
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """Logout unput data."""
+class LogoutCommand(commands.ICommand):
+    """Logout command."""
 
     token: Token
 
 
-class UseCase(BaseUseCase):
+class CommandHandler(commands.ICommandHandler[LogoutCommand, None]):
     """Logout service."""
 
     @injector.inject
@@ -22,6 +22,6 @@ class UseCase(BaseUseCase):
         """Initializing."""
         self._token_service = token_service
 
-    def execute(self, input_dto: InputDto) -> None:
+    def execute(self, command: LogoutCommand) -> None:
         """Main logic."""
-        self._token_service.delete_token(input_dto.token)
+        self._token_service.delete_token(command.token)

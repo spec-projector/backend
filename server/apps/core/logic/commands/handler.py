@@ -1,11 +1,11 @@
 import abc
-from typing import Generic, TypeVar
+import typing as ty
 
-TCommand = TypeVar("TCommand")
-TResult = TypeVar("TResult")
+TCommand = ty.TypeVar("TCommand")
+TResult = ty.TypeVar("TResult")
 
 
-class ICommandHandler(Generic[TCommand, TResult], metaclass=abc.ABCMeta):
+class ICommandHandler(ty.Generic[TCommand, TResult], metaclass=abc.ABCMeta):
     """Base command handler."""
 
     @abc.abstractmethod

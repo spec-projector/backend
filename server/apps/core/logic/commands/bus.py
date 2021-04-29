@@ -1,11 +1,9 @@
 import abc
-from typing import Any, Type, TypeVar
+from typing import Type
 
 from apps.core import injector
-from apps.core.logic.commands import ICommandHandler
-
-TCommand = TypeVar("TCommand")
-TResult = TypeVar("TResult")
+from apps.core.logic.commands import ICommand, ICommandHandler
+from apps.core.logic.commands.handler import TResult
 
 
 class ICommandBus(abc.ABC):
@@ -14,18 +12,18 @@ class ICommandBus(abc.ABC):
     @abc.abstractmethod
     def register_handler(
         self,
-        command_type: Type[TCommand],
-        command_handler: Type[ICommandHandler[TCommand, TResult]],
+        command_type: Type[ICommand],
+        command_handler: Type[ICommandHandler[ICommand, TResult]],
     ) -> None:
         """Register command handler."""
 
     @abc.abstractmethod
-    def dispatch(self, command: Any) -> Any:  # type: ignore
+    def dispatch(self, command: ICommand) -> TResult:
         """Send command and get result."""
 
 
 class CommandBus(ICommandBus):
-    """Commands dispatcher."""
+    """Queries dispatcher."""
 
     def __init__(self):
         """Initializing."""
@@ -33,13 +31,13 @@ class CommandBus(ICommandBus):
 
     def register_handler(
         self,
-        command_type: Type[TCommand],
-        command_handler: Type[ICommandHandler[TCommand, TResult]],
+        command_type: Type[ICommand],
+        command_handler: Type[ICommandHandler[ICommand, TResult]],
     ) -> None:
         """Register command handler."""
         self._registry[command_type] = command_handler
 
-    def dispatch(self, command: Any) -> Any:  # type: ignore
+    def dispatch(self, command: ICommand) -> TResult:
         """Find command handler and executes it."""
         handler_type = self._registry.get(type(command))
         if not handler_type:

@@ -7,9 +7,8 @@ from jnt_django_graphene_toolbox.errors import (
 )
 from jnt_django_graphene_toolbox.mutations import BaseMutation
 
-from apps.core import injector
 from apps.core.graphql.errors import GenericGraphQLError
-from apps.core.logic.commands.bus import ICommandBus
+from apps.core.logic import commands
 from apps.core.logic.errors import (
     AccessDeniedApplicationError,
     BaseApplicationError,
@@ -31,11 +30,9 @@ class BaseCommandMutation(BaseMutation):
         **kwargs,
     ) -> Union["BaseCommandMutation", GraphQLError]:
         """Overrideable mutation operation."""
-        command_bus = injector.get(ICommandBus)
-
         try:
-            command_result = command_bus.dispatch(
-                cls.get_command(root, info, **kwargs),
+            command_result = commands.execute_command(
+                cls.build_command(root, info, **kwargs),
             )
         except InvalidInputApplicationError as err:
             return GraphQLInputError(err.errors)
@@ -47,7 +44,7 @@ class BaseCommandMutation(BaseMutation):
         return cls(**cls.get_response_data(root, info, command_result))
 
     @classmethod
-    def get_command(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
