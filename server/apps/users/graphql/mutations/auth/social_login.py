@@ -3,16 +3,14 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
+from apps.users.logic.commands.auth import social_login
 from apps.users.logic.interfaces.social_login import SystemBackend
-from apps.users.logic.use_cases.auth import social_login as social_login_uc
 
 
-class SocialLoginMutation(BaseUseCaseMutation):
+class SocialLoginMutation(BaseCommandMutation):
     """Login mutation through social."""
-
-    class Meta:
-        use_case_class = social_login_uc.UseCase
 
     class Arguments:
         system = graphene.Argument(
@@ -23,14 +21,14 @@ class SocialLoginMutation(BaseUseCaseMutation):
     redirect_url = graphene.String()
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
-        """Prepare use case input data."""
-        return social_login_uc.InputDto(
+    ) -> commands.ICommand:
+        """Create command."""
+        return social_login.SocialLoginCommand(
             request=info.context,
             system=SystemBackend(kwargs["system"]),
         )
@@ -40,7 +38,7 @@ class SocialLoginMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: social_login_uc.OutputDto,
+        output_dto: social_login.SocialLoginCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

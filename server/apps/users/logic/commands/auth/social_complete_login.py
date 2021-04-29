@@ -3,15 +3,15 @@ from dataclasses import dataclass
 import injector
 from django.http import HttpRequest
 
-from apps.core.logic.use_cases import BaseUseCase
+from apps.core.logic import commands
 from apps.users.logic.interfaces import ISocialLoginService
 from apps.users.logic.interfaces.social_login import SystemBackend
 from apps.users.models import Token
 
 
 @dataclass(frozen=True)
-class InputDto:
-    """GitLab login input data."""
+class SocialCompleteLoginCommand(commands.ICommand):
+    """Social login command."""
 
     request: HttpRequest
     code: str
@@ -20,29 +20,37 @@ class InputDto:
 
 
 @dataclass(frozen=True)
-class OutputDto:
-    """GitLab complete auth output dto."""
+class SocialCompleteLoginCommandResult:
+    """Social complete auth output dto."""
 
     token: Token
 
 
-class UseCase(BaseUseCase):
-    """Use case for retrieve issue."""
+class CommandHandler(
+    commands.ICommandHandler[
+        SocialCompleteLoginCommand,
+        SocialCompleteLoginCommandResult,
+    ],
+):
+    """Complete social login."""
 
     @injector.inject
     def __init__(self, social_login_service: ISocialLoginService):
         """Initializing."""
         self._social_login_service = social_login_service
 
-    def execute(self, input_dto: InputDto) -> OutputDto:
+    def execute(
+        self,
+        command: SocialCompleteLoginCommand,
+    ) -> SocialCompleteLoginCommandResult:
         """Main logic here."""
         token = self._social_login_service.complete_login(
-            input_dto.request,
-            input_dto.code,
-            input_dto.state,
-            input_dto.system,
+            command.request,
+            command.code,
+            command.state,
+            command.system,
         )
 
-        return OutputDto(
+        return SocialCompleteLoginCommandResult(
             token=token,
         )

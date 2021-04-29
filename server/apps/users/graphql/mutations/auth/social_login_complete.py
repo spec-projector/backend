@@ -3,19 +3,15 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations import BaseUseCaseMutation
+from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.logic import commands
 from apps.users.graphql.types import TokenType
+from apps.users.logic.commands.auth import social_complete_login
 from apps.users.logic.interfaces.social_login import SystemBackend
-from apps.users.logic.use_cases.auth import (
-    social_complete_login as social_complete_login_uc,
-)
 
 
-class SocialLoginCompleteMutation(BaseUseCaseMutation):
+class SocialLoginCompleteMutation(BaseCommandMutation):
     """Complete login mutation after redirection."""
-
-    class Meta:
-        use_case_class = social_complete_login_uc.UseCase
 
     class Arguments:
         code = graphene.String(required=True)
@@ -28,14 +24,14 @@ class SocialLoginCompleteMutation(BaseUseCaseMutation):
     token = graphene.Field(TokenType)
 
     @classmethod
-    def get_input_dto(
+    def build_command(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ):
-        """Prepare use case input data."""
-        return social_complete_login_uc.InputDto(
+    ) -> commands.ICommand:
+        """Create command."""
+        return social_complete_login.SocialCompleteLoginCommand(
             request=info.context,
             code=kwargs["code"],
             state=kwargs["state"],
@@ -47,7 +43,7 @@ class SocialLoginCompleteMutation(BaseUseCaseMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        output_dto: social_complete_login_uc.OutputDto,
+        output_dto: social_complete_login.SocialCompleteLoginCommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {
