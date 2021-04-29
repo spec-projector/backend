@@ -42,7 +42,7 @@ class CommandHandler(
         UpdateProjectCommandResult,
     ],
 ):
-    """Use case for updating projects."""
+    """Updating projects."""
 
     @injector.inject
     def __init__(

@@ -22,7 +22,7 @@ class SendPasswordResetCommand(commands.ICommand):
 
 
 class CommandHandler(commands.ICommandHandler[SendPasswordResetCommand, None]):
-    """Use case for retrieve issue."""
+    """Retrieve issue."""
 
     @injector.inject
     def __init__(

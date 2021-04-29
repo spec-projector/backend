@@ -36,7 +36,7 @@ class CommandHandler(
         ResetPasswordCommandResult,
     ],
 ):
-    """Use case for reset password."""
+    """Reset password."""
 
     @injector.inject
     def __init__(

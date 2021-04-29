@@ -16,7 +16,7 @@ class ChangePasswordCommand(commands.ICommand):
 
 
 class CommandHandler(commands.ICommandHandler[ChangePasswordCommand, None]):
-    """Use case for change password."""
+    """Change password."""
 
     def execute(self, command: ChangePasswordCommand) -> None:
         """Main logic here."""

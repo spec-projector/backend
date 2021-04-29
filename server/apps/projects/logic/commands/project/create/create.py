@@ -38,7 +38,7 @@ class CommandHandler(
         CreateProjectCommandResult,
     ],
 ):
-    """Use case for creating projects."""
+    """Creating projects."""
 
     @injector.inject
     def __init__(

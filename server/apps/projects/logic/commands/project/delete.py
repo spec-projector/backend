@@ -30,7 +30,7 @@ class _DataValidator(serializers.Serializer):
 
 
 class CommandHandler(commands.ICommandHandler[DeleteProjectCommand, None]):
-    """Use case for deleting projects."""
+    """Deleting projects."""
 
     def execute(self, command: DeleteProjectCommand) -> None:
         """Main logic here."""

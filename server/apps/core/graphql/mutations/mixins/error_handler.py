@@ -8,7 +8,7 @@ from apps.core.graphql.errors import GenericGraphQLError
 
 
 class ErrorHandlerMixin(BaseMutation):
-    """Base class for mutations based on use cases."""
+    """Base class for mutations based on commands."""
 
     class Meta:
         abstract = True

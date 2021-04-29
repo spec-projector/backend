@@ -1,1 +1,1 @@
-from .use_case import BaseUseCaseMutation
+from .command import BaseCommandMutation

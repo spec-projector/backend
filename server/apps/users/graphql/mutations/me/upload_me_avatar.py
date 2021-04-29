@@ -4,7 +4,7 @@ import graphene
 from graphene_file_upload.scalars import Upload
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.graphql.mutations import BaseCommandMutation
 from apps.core.logic import commands
 from apps.users.graphql.types import UserType
 from apps.users.logic.commands.me import upload_avatar
@@ -39,7 +39,7 @@ class UploadMeAvatarMutation(BaseCommandMutation):
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> commands.ICommand:
-        """Prepare use case input data."""
+        """Build command."""
         return upload_avatar.MeUploadAvatarCommand(
             user=info.context.user,  # type: ignore
             **kwargs["input"],

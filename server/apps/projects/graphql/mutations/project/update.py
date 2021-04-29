@@ -4,7 +4,7 @@ import graphene
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.fields import BitField
 
-from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.graphql.mutations import BaseCommandMutation
 from apps.core.logic import commands
 from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
@@ -43,7 +43,7 @@ class UpdateProjectMutation(BaseCommandMutation):
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> commands.ICommand:
-        """Prepare use case input data."""
+        """Build command."""
         return project_update.UpdateProjectCommand(
             user=info.context.user,  # type: ignore
             project=kwargs["id"],

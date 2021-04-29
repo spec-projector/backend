@@ -3,7 +3,7 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.graphql.mutations import BaseCommandMutation
 from apps.core.logic import commands
 from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
@@ -34,7 +34,7 @@ class CreateProjectMutation(BaseCommandMutation):
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> commands.ICommand:
-        """Prepare use case input data."""
+        """Build command."""
         return project_create.CreateProjectCommand(
             user=info.context.user,  # type: ignore
             data=project_create.ProjectDto(**kwargs.get("input")),

@@ -3,7 +3,7 @@ from typing import Dict, Optional
 import graphene
 from graphql import ResolveInfo
 
-from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.graphql.mutations import BaseCommandMutation
 from apps.core.logic import commands
 from apps.users.graphql.types import TokenType
 from apps.users.logic.commands.auth import login

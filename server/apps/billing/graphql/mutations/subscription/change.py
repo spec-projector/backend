@@ -9,7 +9,7 @@ from apps.billing.graphql.types.change_subscription_request import (
 from apps.billing.logic.commands.subscription import (
     change as change_subscription,
 )
-from apps.core.graphql.mutations.command import BaseCommandMutation
+from apps.core.graphql.mutations import BaseCommandMutation
 from apps.core.logic import commands
 
 
@@ -41,7 +41,7 @@ class ChangeSubscriptionMutation(BaseCommandMutation):
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> commands.ICommand:
-        """Prepare use case input data."""
+        """Build command."""
         input_dto = kwargs["input"]
         return change_subscription.ChangeSubscriptionCommand(
             user=info.context.user,  # type: ignore
