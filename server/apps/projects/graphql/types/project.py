@@ -54,8 +54,8 @@ class ProjectType(BaseModelObjectType):
         info: ResolveInfo,  # noqa: WPS110
     ) -> QuerySet:
         """Resolves project members."""
-        return active.Query().execute(
-            active.InputDto(
+        return queries.execute_query(
+            active.ListActiveProjectMembersQuery(
                 project=self,
             ),
         )
