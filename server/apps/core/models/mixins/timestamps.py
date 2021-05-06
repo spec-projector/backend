@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Timestamps(models.Model):
@@ -7,8 +8,16 @@ class Timestamps(models.Model):
     class Meta:
         abstract = True
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("VN__CREATED_AT"),
+        help_text=_("HT__CREATED_AT"),
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("VN__UPDATED_AT"),
+        help_text=_("HT__UPDATED_AT"),
+    )
 
     def __str__(self):
         """String representation."""

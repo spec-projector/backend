@@ -66,6 +66,7 @@ class CommandHandler(
             is_public=validated_data["is_public"],
             description=validated_data["description"],
             owner=command.user,
+            emblem=validated_data.get("emblem"),
         )
 
         self._add_figma_integration(project, validated_data)

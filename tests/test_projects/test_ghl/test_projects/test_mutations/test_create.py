@@ -8,6 +8,7 @@ from apps.billing.logic.services.subscription import NoActiveSubscriptionError
 from apps.core.graphql.errors import GenericGraphQLError
 from apps.projects.models import Project
 from tests.test_billing.factories import SubscriptionFactory
+from tests.test_media.factories.image import ImageFactory
 
 
 @pytest.fixture()
@@ -55,6 +56,7 @@ def test_success(
             "title": "my project",
             "is_public": True,
             "description": "description",
+            "emblem": ImageFactory.create().pk,
         },
     )
 

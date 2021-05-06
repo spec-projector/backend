@@ -1,3 +1,6 @@
+import hashlib
+
+
 class Empty:
     """Represents not filled value."""
 
@@ -7,3 +10,8 @@ class Empty:
 
 
 empty = Empty()
+
+
+def get_instance_hash(instance) -> str:
+    """Generate md5 hash for instance based on pk."""
+    return hashlib.md5(str(instance.pk).encode()).hexdigest()  # noqa: S303

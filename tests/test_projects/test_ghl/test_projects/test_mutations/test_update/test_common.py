@@ -3,6 +3,8 @@ from jnt_django_graphene_toolbox.errors import (
     GraphQLPermissionDenied,
 )
 
+from tests.test_media.factories.image import ImageFactory
+
 
 def test_query(user, ghl_client, project, ghl_raw):
     """Test update raw query."""
@@ -97,3 +99,25 @@ def test_change_is_public(
 
     assert response.project is not None
     assert response.project.is_public
+
+
+def test_update_emblem(
+    user,
+    project,
+    update_project_mutation,
+    ghl_auth_mock_info,
+):
+    """Test update emblem."""
+    image = ImageFactory.create(owner=user)
+    response = update_project_mutation(
+        root=None,
+        info=ghl_auth_mock_info,
+        id=project.pk,
+        input={
+            "is_public": True,
+            "emblem": image.pk,
+        },
+    )
+
+    assert response.project is not None
+    assert response.project.emblem == image

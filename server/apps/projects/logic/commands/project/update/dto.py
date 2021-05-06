@@ -5,6 +5,7 @@ from rest_framework import exceptions, serializers
 
 from apps.core.serializers.fields import BitField
 from apps.core.utils.objects import Empty, empty
+from apps.media.models import Image
 from apps.projects.logic.commands.project.dto import (
     FigmaIntegrationDto,
     FigmaIntegrationDtoValidator,
@@ -36,6 +37,7 @@ class ProjectDto:
     github_integration: Union[str, GitHubIntegrationDto] = empty
     gitlab_integration: Union[str, GitLabIntegrationDto] = empty
     users: List[ProjectMemberDto] = empty
+    emblem: int = empty
 
 
 class _ProjectMemberValidator(serializers.Serializer):
@@ -72,5 +74,9 @@ class ProjectDtoValidator(serializers.Serializer):
 
     gitlab_integration = GitLabIntegrationDtoValidator(
         allow_null=True,
+        required=False,
+    )
+    emblem = serializers.PrimaryKeyRelatedField(
+        queryset=Image.objects,
         required=False,
     )
