@@ -7,6 +7,7 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.models.mixins import Timestamps
+from apps.media.models.fields import ImageField
 from apps.projects.models.project_member import ProjectMember
 
 
@@ -60,7 +61,10 @@ class Project(Timestamps):
         help_text=_("HT__DB_NAME"),
         blank=True,
     )
-
+    emblem = ImageField(
+        verbose_name=_("VN__EMBLEM"),
+        help_text=_("HT__EMBLEM"),
+    )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         models.CASCADE,

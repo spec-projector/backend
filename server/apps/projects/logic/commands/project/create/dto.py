@@ -4,6 +4,7 @@ from typing import Union
 from rest_framework import serializers
 
 from apps.core.utils.objects import Empty, empty
+from apps.media.models import Image
 from apps.projects.logic.commands.project.dto import (
     FigmaIntegrationDto,
     FigmaIntegrationDtoValidator,
@@ -34,6 +35,10 @@ class ProjectDtoValidator(serializers.Serializer):
         allow_null=True,
         required=False,
     )
+    emblem = serializers.PrimaryKeyRelatedField(
+        queryset=Image.objects,
+        required=False,
+    )
 
 
 @dataclass(frozen=True)
@@ -46,3 +51,4 @@ class ProjectDto:
     figma_integration: Union[str, FigmaIntegrationDto] = empty
     github_integration: Union[str, GitHubIntegrationDto] = empty
     gitlab_integration: Union[str, GitLabIntegrationDto] = empty
+    emblem: int = empty

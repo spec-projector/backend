@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-28 17:46+0300\n"
+"POT-Creation-Date: 2021-05-06 17:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,15 @@ msgstr ""
 
 msgid "VN__BILLING"
 msgstr "Billing"
+
+msgid "MSG_USER_NOT_FOUND"
+msgstr "User not found"
+
+msgid "MSG_USER_INACTIVE"
+msgstr "User is inactive"
+
+msgid "MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE"
+msgstr "Change subscription request is inactive"
 
 msgid "MSG__NO_ACTIVE_SUBSCRIPTION"
 msgstr "No active subscription"
@@ -37,15 +46,6 @@ msgstr "The maximum number of projects has been reached: {allowed_count}"
 msgid "MSG__MAXIMUM_PROJECT_MEMBERS_LIMIT {allowed_count}"
 msgstr ""
 "The maximum number members of project has been reached: {allowed_count}"
-
-msgid "MSG_USER_NOT_FOUND"
-msgstr "User not found"
-
-msgid "MSG_USER_INACTIVE"
-msgstr "User is inactive"
-
-msgid "MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE"
-msgstr "Change subscription request is inactive"
 
 msgid "VN__CHANGE_SUBSCRIPTION_REQUEST"
 msgstr "Change subscription request"
@@ -299,6 +299,48 @@ msgstr "Sent"
 msgid "CH__ERROR"
 msgstr "Error"
 
+msgid "VN__CREATED_AT"
+msgstr "Created at"
+
+msgid "HT__CREATED_AT"
+msgstr " "
+
+msgid "VN__UPDATED_AT"
+msgstr "Updated at"
+
+msgid "HT__UPDATED_AT"
+msgstr " "
+
+msgid "VN__MEDIA"
+msgstr "Media"
+
+msgid "VN__IMAGE"
+msgstr "Image"
+
+msgid "HT__IMAGE"
+msgstr " "
+
+msgid "VN__IMAGES"
+msgstr "Images"
+
+msgid "VN__STORAGE_IMAGE"
+msgstr "Storage image"
+
+msgid "HT__STORAGE_IMAGE"
+msgstr " "
+
+msgid "VN__ORIGINAL_FILENAME"
+msgstr "Original filename"
+
+msgid "HT__ORIGINAL_FILENAME"
+msgstr " "
+
+msgid "VN__OWNER"
+msgstr "Owner"
+
+msgid "HT__OWNER"
+msgstr " "
+
 msgid "VN__PROJECTS"
 msgstr "Projects"
 
@@ -350,10 +392,10 @@ msgstr "DB name"
 msgid "HT__DB_NAME"
 msgstr "Only lowercase and start from non digit"
 
-msgid "VN__OWNER"
-msgstr "Owner"
+msgid "VN__EMBLEM"
+msgstr "Emblem"
 
-msgid "HT__OWNER"
+msgid "HT__EMBLEM"
 msgstr " "
 
 msgid "CH__FIGMA"

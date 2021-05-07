@@ -4,6 +4,7 @@ from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
 from apps.core.logic import queries
+from apps.media.graphql.types import ImageType
 from apps.projects.graphql.types import (
     FigmaIntegrationType,
     GitHubIntegrationType,
@@ -33,6 +34,7 @@ class ProjectType(BaseModelObjectType):
     figma_integration = graphene.Field(FigmaIntegrationType)
     github_integration = graphene.Field(GitHubIntegrationType)
     gitlab_integration = graphene.Field(GitLabIntegrationType)
+    emblem = graphene.Field(ImageType)
 
     @classmethod
     def get_queryset(

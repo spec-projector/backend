@@ -33,4 +33,5 @@ INSTALLED_APPS = (
     "apps.users",
     "apps.projects",
     "apps.billing",
+    "apps.media",
 )

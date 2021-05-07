@@ -97,6 +97,11 @@ type GitLabIntegration {
   token: String!
 }
 
+type Image implements ModelRelayNode {
+  id: ID!
+  url: String
+}
+
 type Issue {
   title: String
   state: String
@@ -148,6 +153,7 @@ interface ModelRelayNode {
 }
 
 type Mutation {
+  uploadImage(input: UploadImageInput!): UploadImageMutation
   changeSubscription(input: ChangeSubscriptionInput!): ChangeSubscriptionMutation
   socialLogin(system: SystemBackend!): SocialLoginMutation
   socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
@@ -185,6 +191,7 @@ type Project implements ModelRelayNode {
   figmaIntegration: FigmaIntegration
   githubIntegration: GitHubIntegration
   gitlabIntegration: GitLabIntegration
+  emblem: Image
 }
 
 type ProjectAsset {
@@ -364,6 +371,19 @@ type UpdateProjectMutation {
 }
 
 scalar Upload
+
+input UploadImageInput {
+  file: Upload!
+  left: Int!
+  top: Int!
+  width: Int!
+  height: Int!
+  scale: Float!
+}
+
+type UploadImageMutation {
+  image: Image
+}
 
 input UploadMeAvatarInput {
   file: Upload!

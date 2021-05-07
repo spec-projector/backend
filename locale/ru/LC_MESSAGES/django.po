@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-28 17:46+0300\n"
+"POT-Creation-Date: 2021-05-06 17:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,15 @@ msgstr ""
 
 msgid "VN__BILLING"
 msgstr "Формирование счетов"
+
+msgid "MSG_USER_NOT_FOUND"
+msgstr "Пользователь не найден"
+
+msgid "MSG_USER_INACTIVE"
+msgstr "Пользователь неактивен"
+
+msgid "MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE"
+msgstr "Запрос на смену подписки неактивен"
 
 msgid "MSG__NO_ACTIVE_SUBSCRIPTION"
 msgstr "Активная подписка не найдена"
@@ -38,16 +47,6 @@ msgstr "Достигнут предел количества проектов: {
 #, python-brace-format
 msgid "MSG__MAXIMUM_PROJECT_MEMBERS_LIMIT {allowed_count}"
 msgstr "Достигнут предел количества участников в проекте: {allowed_count}"
-
-
-msgid "MSG_USER_NOT_FOUND"
-msgstr "Пользователь не найден"
-
-msgid "MSG_USER_INACTIVE"
-msgstr "Пользователь неактивен"
-
-msgid "MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE"
-msgstr "Запрос на смену подписки неактивен"
 
 msgid "VN__CHANGE_SUBSCRIPTION_REQUEST"
 msgstr "Запрос на смену подписки"
@@ -301,6 +300,48 @@ msgstr "Отправлено"
 msgid "CH__ERROR"
 msgstr "Ошика"
 
+msgid "VN__CREATED_AT"
+msgstr "Дата создания"
+
+msgid "HT__CREATED_AT"
+msgstr " "
+
+msgid "VN__UPDATED_AT"
+msgstr "Дата обновления"
+
+msgid "HT__UPDATED_AT"
+msgstr " "
+
+msgid "VN__MEDIA"
+msgstr "Медиа"
+
+msgid "VN__IMAGE"
+msgstr "Изображение"
+
+msgid "HT__IMAGE"
+msgstr " "
+
+msgid "VN__IMAGES"
+msgstr "Изображения"
+
+msgid "VN__STORAGE_IMAGE"
+msgstr "Хранилище изображения"
+
+msgid "HT__STORAGE_IMAGE"
+msgstr " "
+
+msgid "VN__ORIGINAL_FILENAME"
+msgstr "Наименование файла"
+
+msgid "HT__ORIGINAL_FILENAME"
+msgstr " "
+
+msgid "VN__OWNER"
+msgstr "Владелец"
+
+msgid "HT__OWNER"
+msgstr " "
+
 msgid "VN__PROJECTS"
 msgstr "Проекты"
 
@@ -352,10 +393,10 @@ msgstr "Название базы данных"
 msgid "HT__DB_NAME"
 msgstr " "
 
-msgid "VN__OWNER"
-msgstr "Владелец"
+msgid "VN__EMBLEM"
+msgstr "Эмблема"
 
-msgid "HT__OWNER"
+msgid "HT__EMBLEM"
 msgstr " "
 
 msgid "CH__FIGMA"
