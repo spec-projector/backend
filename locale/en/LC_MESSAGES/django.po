@@ -330,10 +330,10 @@ msgid "HT__STORAGE_IMAGE"
 msgstr " "
 
 msgid "VN__ORIGINAL_FILENAME"
-msgstr ""
+msgstr "Original filename"
 
 msgid "HT__ORIGINAL_FILENAME"
-msgstr ""
+msgstr " "
 
 msgid "VN__OWNER"
 msgstr "Owner"
