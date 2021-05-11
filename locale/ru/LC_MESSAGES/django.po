@@ -597,18 +597,3 @@ msgstr "Русский"
 
 msgid "VN__ADMIN_DASHBOARD"
 msgstr "Панель управления"
-
-#~ msgid "CH__FRONTEND_DEVELOPER"
-#~ msgstr "Фронтенд разработчик"
-
-#~ msgid "CH__BACKEND_DEVELOPER"
-#~ msgstr "Бэкенд разработчик"
-
-#~ msgid "CH__PROJECT_MANAGER"
-#~ msgstr "Менеджер проекта"
-
-#~ msgid "CH__DESIGNER"
-#~ msgstr "Дизайнер"
-
-#~ msgid "CH__CUSTOMER"
-#~ msgstr "Заказчик"
