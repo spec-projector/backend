@@ -9,13 +9,15 @@ from apps.core.logic import commands
 from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
 from apps.projects.logic.commands.project import update as project_update
+from apps.projects.models.enums import ProjectMemberRole
 
 
 class ProjectMemberInput(graphene.InputObjectType):
     """Project member input type."""
 
     id = graphene.ID(required=True)  # noqa: WPS125
-    roles = BitField(required=True)
+    role = graphene.Enum.from_enum(ProjectMemberRole)(required=True)
+    permissions = BitField(required=True)
 
 
 class UpdateProjectInput(BaseProjectInput):

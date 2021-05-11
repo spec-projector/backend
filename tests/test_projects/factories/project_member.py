@@ -13,7 +13,3 @@ class ProjectMemberFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
     project = factory.SubFactory(ProjectFactory)
-    roles = (
-        ProjectMember.roles.BACKEND_DEVELOPER
-        | ProjectMember.roles.FRONTEND_DEVELOPER
-    )

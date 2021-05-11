@@ -80,7 +80,12 @@ def test_unauth(user, ghl_mock_info, create_project_mutation):
     assert isinstance(response, GraphQLPermissionDenied)
 
 
-def test_empty_title(user, ghl_auth_mock_info, create_project_mutation):
+def test_empty_title(
+    user,
+    ghl_auth_mock_info,
+    create_project_mutation,
+    couchdb_service,
+):
     """Test bad input data."""
     response = create_project_mutation(
         root=None,

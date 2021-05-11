@@ -4,26 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import BitField
 
 from apps.core.models.mixins import Timestamps
-
-
-class ProjectMemberRole(models.TextChoices):
-    """Project member role choices."""
-
-    FRONTEND_DEVELOPER = (  # noqa: WPS115
-        "FRONTEND_DEVELOPER",
-        _("CH__FRONTEND_DEVELOPER"),
-    )
-    BACKEND_DEVELOPER = (  # noqa: WPS115
-        "BACKEND_DEVELOPER",
-        _("CH__BACKEND_DEVELOPER"),
-    )
-    PROJECT_MANAGER = (  # noqa: WPS115
-        "PROJECT_MANAGER",
-        _("CH__PROJECT_MANAGER"),
-    )
-    DESIGNER = "DESIGNER", _("CH__DESIGNER")  # noqa: WPS115
-    TESTER = "TESTER", _("CH__TESTER")  # noqa: WPS115
-    CUSTOMER = "CUSTOMER", _("CH__CUSTOMER")  # noqa: WPS115
+from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 
 
 class ProjectMember(Timestamps):
@@ -34,7 +15,19 @@ class ProjectMember(Timestamps):
         verbose_name_plural = _("VN__PROJECT_MEMBERS")
         unique_together = ("project", "user")
 
-    roles = BitField(flags=ProjectMemberRole.choices, default=0)
+    role = models.CharField(
+        max_length=28,  # noqa: WPS432
+        choices=ProjectMemberRole.choices,
+        default=ProjectMemberRole.VIEWER,
+        verbose_name=_("VN__ROLE"),
+        help_text=_("HT__ROLE"),
+    )
+    permissions = BitField(
+        flags=ProjectPermission.choices,
+        default=0,
+        verbose_name=_("VN__PROJECT_PERMISSIONS"),
+        help_text=_("HT__PROJECT_PERMISSIONS"),
+    )
 
     project = models.ForeignKey(
         "projects.Project",

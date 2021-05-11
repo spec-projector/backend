@@ -90,7 +90,10 @@ class CommandHandler(
             project_member, _ = ProjectMember.objects.update_or_create(
                 project=project,
                 user=project_member_input["id"],
-                defaults={"roles": project_member_input.get("roles")},
+                defaults={
+                    "role": project_member_input.get("role"),
+                    "permissions": project_member_input.get("permissions"),
+                },
             )
 
             project_members.append(project_member)

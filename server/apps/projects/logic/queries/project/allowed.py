@@ -85,7 +85,6 @@ class QueryHandler(
     def _get_project_member_ids(self, user: User) -> models.QuerySet:
         return ProjectMember.objects.filter(
             user_id=user.pk,
-            roles__gt=0,
         ).values_list("project_id", flat=True)
 
     def _get_project_owner_ids(

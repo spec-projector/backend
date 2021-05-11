@@ -2,5 +2,16 @@ query ($id: ID!) {
   project(id: $id) {
     id
     title
+    description
+    isPublic
+    publicRole
+    publicPermissions
+    members {
+      role
+      permissions
+      user {
+        id
+      }
+    }
   }
 }
