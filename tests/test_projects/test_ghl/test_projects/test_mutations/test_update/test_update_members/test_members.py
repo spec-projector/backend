@@ -1,6 +1,7 @@
 from apps.billing.logic.services.subscription import NoActiveSubscriptionError
 from apps.core.graphql.errors import GenericGraphQLError
 from apps.projects.models import ProjectMember
+from apps.projects.models.enums import ProjectPermission
 from apps.projects.models.project_member import ProjectMemberRole
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 from tests.test_users.factories.user import UserFactory
@@ -21,7 +22,8 @@ def test_delete_project_members(
     users = [
         {
             "id": project_member1.user.id,
-            "roles": [ProjectMemberRole.PROJECT_MANAGER],
+            "role": ProjectMemberRole.VIEWER,
+            "permissions": [ProjectPermission.EDIT_MODULES],
         },
     ]
 
@@ -50,8 +52,16 @@ def test_add_project_members(
     user3 = UserFactory.create()
 
     users = [
-        {"id": user2.id, "roles": [ProjectMemberRole.PROJECT_MANAGER]},
-        {"id": user3.id, "roles": [ProjectMemberRole.PROJECT_MANAGER]},
+        {
+            "id": user2.id,
+            "role": ProjectMemberRole.EDITOR,
+            "permissions": [ProjectPermission.EDIT_FEATURE_API],
+        },
+        {
+            "id": user3.id,
+            "role": ProjectMemberRole.VIEWER,
+            "permissions": [ProjectPermission.EDIT_SPRINTS],
+        },
     ]
 
     assert not project.members.exists()
@@ -81,11 +91,13 @@ def test_update_without_subscription(
     users = [
         {
             "id": UserFactory.create().id,
-            "roles": [ProjectMemberRole.PROJECT_MANAGER],
+            "role": ProjectMemberRole.VIEWER,
+            "permissions": [ProjectPermission.EDIT_SPRINTS],
         },
         {
             "id": UserFactory.create().id,
-            "roles": [ProjectMemberRole.PROJECT_MANAGER],
+            "role": ProjectMemberRole.VIEWER,
+            "permissions": [ProjectPermission.EDIT_SPRINTS],
         },
     ]
 

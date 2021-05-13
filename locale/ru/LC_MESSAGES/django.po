@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-06 17:59+0300\n"
+"POT-Creation-Date: 2021-05-11 13:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -345,6 +345,48 @@ msgstr " "
 msgid "VN__PROJECTS"
 msgstr "Проекты"
 
+msgid "CH__VIEWER"
+msgstr "Просмотрщик"
+
+msgid "CH__EDITOR"
+msgstr "Редактор"
+
+msgid "CH__EDIT_FEATURES"
+msgstr "Редактировать возможности"
+
+msgid "CH__EDIT_FEATURE_WORKFLOW"
+msgstr "Редактировать возможность workflow"
+
+msgid "CH__EDIT_FEATURE_STORY"
+msgstr "Редактировать возможность story"
+
+msgid "CH__EDIT_FEATURE_FRAMES"
+msgstr "Редактировать возможность frames"
+
+msgid "CH__EDIT_FEATURE_RESOURCES"
+msgstr "Редактировать возможность resources"
+
+msgid "CH__EDIT_FEATURE_API"
+msgstr "Редактировать возможность API"
+
+msgid "CH__EDIT_FEATURE_ISSUES"
+msgstr "Редактировать возможность issues"
+
+msgid "CH__EDIT_TERMS"
+msgstr "Редактировать terms"
+
+msgid "CH__EDIT_MODEL"
+msgstr "Редактировать модель"
+
+msgid "CH__EDIT_MODULES"
+msgstr "Редактировать модули"
+
+msgid "CH__EDIT_SPRINTS"
+msgstr "Редактировать sprints"
+
+msgid "CH__VIEW_CONTRACT"
+msgstr "Просмотр договора"
+
 msgid "VN__FIGMA_INTEGRATION"
 msgstr "Figma интеграция"
 
@@ -399,6 +441,18 @@ msgstr "Эмблема"
 msgid "HT__EMBLEM"
 msgstr " "
 
+msgid "VN__PUBLIC_PROJECT_PERMISSIONS"
+msgstr "Публичные права проекта"
+
+msgid "HT__PUBLIC_PROJECT_PERMISSIONS"
+msgstr " "
+
+msgid "VN__PUBLIC_ROLE"
+msgstr "Публичная роль"
+
+msgid "HT__PUBLIC_ROLE"
+msgstr " "
+
 msgid "CH__FIGMA"
 msgstr "Figma"
 
@@ -420,29 +474,23 @@ msgstr "Файл"
 msgid "HT__FILE"
 msgstr " "
 
-msgid "CH__FRONTEND_DEVELOPER"
-msgstr "Фронтенд разработчик"
-
-msgid "CH__BACKEND_DEVELOPER"
-msgstr "Бэкенд разработчик"
-
-msgid "CH__PROJECT_MANAGER"
-msgstr "Менеджер проекта"
-
-msgid "CH__DESIGNER"
-msgstr "Дизайнер"
-
-msgid "CH__TESTER"
-msgstr "Тестировщик"
-
-msgid "CH__CUSTOMER"
-msgstr "Заказчик"
-
 msgid "VN__PROJECT_MEMBER"
 msgstr "Участник проекта"
 
 msgid "VN__PROJECT_MEMBERS"
 msgstr "Участники проекта"
+
+msgid "VN__ROLE"
+msgstr "Роль"
+
+msgid "HT__ROLE"
+msgstr " "
+
+msgid "VN__PROJECT_PERMISSIONS"
+msgstr "Права проекта"
+
+msgid "HT__PROJECT_PERMISSIONS"
+msgstr " "
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma интеграция не найдена"

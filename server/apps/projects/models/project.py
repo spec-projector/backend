@@ -5,9 +5,11 @@ from django.db import models
 from django.utils.baseconv import BASE64_ALPHABET
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
+from jnt_django_toolbox.models.fields import BitField
 
 from apps.core.models.mixins import Timestamps
 from apps.media.models.fields import ImageField
+from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 from apps.projects.models.project_member import ProjectMember
 
 
@@ -64,6 +66,19 @@ class Project(Timestamps):
     emblem = ImageField(
         verbose_name=_("VN__EMBLEM"),
         help_text=_("HT__EMBLEM"),
+    )
+    public_permissions = BitField(
+        flags=ProjectPermission.choices,
+        default=0,
+        verbose_name=_("VN__PUBLIC_PROJECT_PERMISSIONS"),
+        help_text=_("HT__PUBLIC_PROJECT_PERMISSIONS"),
+    )
+    public_role = models.CharField(
+        max_length=32,  # noqa: WPS432
+        choices=ProjectMemberRole.choices,
+        default=ProjectMemberRole.VIEWER,
+        verbose_name=_("VN__PUBLIC_ROLE"),
+        help_text=_("HT__PUBLIC_ROLE"),
     )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,

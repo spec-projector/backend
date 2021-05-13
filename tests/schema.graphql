@@ -192,6 +192,8 @@ type Project implements ModelRelayNode {
   githubIntegration: GitHubIntegration
   gitlabIntegration: GitLabIntegration
   emblem: Image
+  publicRole: ProjectMemberRole
+  publicPermissions: BitField
 }
 
 type ProjectAsset {
@@ -203,7 +205,8 @@ type ProjectAsset {
 
 type ProjectMember implements ModelRelayNode {
   id: ID!
-  roles: BitField
+  role: ProjectMemberRole
+  permissions: BitField
   user: User
   createdAt: DateTime
   updatedAt: DateTime
@@ -211,7 +214,13 @@ type ProjectMember implements ModelRelayNode {
 
 input ProjectMemberInput {
   id: ID!
-  roles: BitField!
+  role: ProjectMemberRole!
+  permissions: BitField!
+}
+
+enum ProjectMemberRole {
+  VIEWER
+  EDITOR
 }
 
 enum ProjectSort {

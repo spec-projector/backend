@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-06 17:59+0300\n"
+"POT-Creation-Date: 2021-05-11 13:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -344,6 +344,48 @@ msgstr " "
 msgid "VN__PROJECTS"
 msgstr "Projects"
 
+msgid "CH__VIEWER"
+msgstr "Viewer"
+
+msgid "CH__EDITOR"
+msgstr "Editor"
+
+msgid "CH__EDIT_FEATURES"
+msgstr "Edit features"
+
+msgid "CH__EDIT_FEATURE_WORKFLOW"
+msgstr "Edit feature workflow"
+
+msgid "CH__EDIT_FEATURE_STORY"
+msgstr "Edit feature story"
+
+msgid "CH__EDIT_FEATURE_FRAMES"
+msgstr "Edit feature frames"
+
+msgid "CH__EDIT_FEATURE_RESOURCES"
+msgstr "Edit feature resources"
+
+msgid "CH__EDIT_FEATURE_API"
+msgstr "Edit feature API"
+
+msgid "CH__EDIT_FEATURE_ISSUES"
+msgstr "Edit feature issues"
+
+msgid "CH__EDIT_TERMS"
+msgstr "Edit terms"
+
+msgid "CH__EDIT_MODEL"
+msgstr "Edit model"
+
+msgid "CH__EDIT_MODULES"
+msgstr "Edit modules"
+
+msgid "CH__EDIT_SPRINTS"
+msgstr "Edit sprints"
+
+msgid "CH__VIEW_CONTRACT"
+msgstr "View contract"
+
 msgid "VN__FIGMA_INTEGRATION"
 msgstr "Figma integration"
 
@@ -398,6 +440,18 @@ msgstr "Emblem"
 msgid "HT__EMBLEM"
 msgstr " "
 
+msgid "VN__PUBLIC_PROJECT_PERMISSIONS"
+msgstr "Public project permissions"
+
+msgid "HT__PUBLIC_PROJECT_PERMISSIONS"
+msgstr " "
+
+msgid "VN__PUBLIC_ROLE"
+msgstr "Public role"
+
+msgid "HT__PUBLIC_ROLE"
+msgstr " "
+
 msgid "CH__FIGMA"
 msgstr "Figma"
 
@@ -419,29 +473,23 @@ msgstr "File"
 msgid "HT__FILE"
 msgstr "Asset file"
 
-msgid "CH__FRONTEND_DEVELOPER"
-msgstr "Frontend Developer"
-
-msgid "CH__BACKEND_DEVELOPER"
-msgstr "Backend Developer"
-
-msgid "CH__PROJECT_MANAGER"
-msgstr "Project Manager"
-
-msgid "CH__DESIGNER"
-msgstr "Designer"
-
-msgid "CH__TESTER"
-msgstr "Tester"
-
-msgid "CH__CUSTOMER"
-msgstr "Customer"
-
 msgid "VN__PROJECT_MEMBER"
 msgstr "Project Member"
 
 msgid "VN__PROJECT_MEMBERS"
 msgstr "Project Members"
+
+msgid "VN__ROLE"
+msgstr "Role"
+
+msgid "HT__ROLE"
+msgstr " "
+
+msgid "VN__PROJECT_PERMISSIONS"
+msgstr "Project permissions"
+
+msgid "HT__PROJECT_PERMISSIONS"
+msgstr " "
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma integration not found"

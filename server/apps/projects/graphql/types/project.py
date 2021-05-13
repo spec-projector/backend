@@ -1,7 +1,7 @@
 import graphene
-from django.db.models import QuerySet
+from django.db import models
 from graphql import ResolveInfo
-from jnt_django_graphene_toolbox.types import BaseModelObjectType
+from jnt_django_graphene_toolbox import fields, types
 
 from apps.core.logic import queries
 from apps.media.graphql.types import ImageType
@@ -13,11 +13,11 @@ from apps.projects.graphql.types import (
 from apps.projects.graphql.types.project_member import ProjectMemberType
 from apps.projects.logic.queries.project import allowed
 from apps.projects.logic.queries.project_member import active
-from apps.projects.models import Project
+from apps.projects.models import Project, enums
 from apps.users.graphql.types import UserType
 
 
-class ProjectType(BaseModelObjectType):
+class ProjectType(types.BaseModelObjectType):
     """Project type."""
 
     class Meta:
@@ -35,13 +35,15 @@ class ProjectType(BaseModelObjectType):
     github_integration = graphene.Field(GitHubIntegrationType)
     gitlab_integration = graphene.Field(GitLabIntegrationType)
     emblem = graphene.Field(ImageType)
+    public_role = graphene.Enum.from_enum(enums.ProjectMemberRole)()
+    public_permissions = fields.BitField()
 
     @classmethod
     def get_queryset(
         cls,
-        queryset: QuerySet,
+        queryset: models.QuerySet,
         info: ResolveInfo,  # noqa: WPS110
-    ) -> QuerySet:
+    ) -> models.QuerySet:
         """Get queryset."""
         return queries.execute_query(
             allowed.ListAllowedProjectsQuery(
@@ -54,7 +56,7 @@ class ProjectType(BaseModelObjectType):
     def resolve_members(
         self: Project,
         info: ResolveInfo,  # noqa: WPS110
-    ) -> QuerySet:
+    ) -> models.QuerySet:
         """Resolves project members."""
         return queries.execute_query(
             active.ListActiveProjectMembersQuery(

@@ -14,7 +14,7 @@ from apps.projects.logic.commands.project.dto import (
     GitLabIntegrationDto,
     GitLabIntegrationDtoValidator,
 )
-from apps.projects.models.project_member import ProjectMemberRole
+from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 from apps.users.models import User
 
 
@@ -45,14 +45,19 @@ class _ProjectMemberValidator(serializers.Serializer):
 
     id = serializers.PrimaryKeyRelatedField(  # noqa: WPS125
         queryset=User.objects,
+        required=True,
     )
-    roles = BitField(choices=ProjectMemberRole.choices)
+    permissions = BitField(choices=ProjectPermission.choices)
+    role = serializers.ChoiceField(
+        choices=ProjectMemberRole.choices,
+        required=True,
+    )
 
-    def validate_roles(self, roles):
+    def validate_permissions(self, permissions):
         """Roles validation."""
-        if not roles:
-            raise exceptions.ValidationError("Roles not set")
-        return roles
+        if not permissions:
+            raise exceptions.ValidationError("Permissions not set")
+        return permissions
 
 
 class ProjectDtoValidator(serializers.Serializer):
