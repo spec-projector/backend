@@ -1,3 +1,4 @@
+from httpretty import httpretty
 from social_core.backends.gitlab import GitLabOAuth2
 
 from apps.users.logic.interfaces.social_login import SystemBackend
@@ -65,6 +66,11 @@ def test_user_not_in_system(
         "/user",
         assets.read_json("gitlab_user_response"),
     )
+    httpretty.register_uri(
+        httpretty.GET,
+        "http://assets.gitlab-static.net/uploads/user/avatar/312/avatar.jpg",
+        body=assets.open_file("avatar.jpg").read(),
+    )
 
     gl_mocker.base_api_url = GitLabOAuth2.ACCESS_TOKEN_URL
     gl_mocker.register_post(
@@ -85,7 +91,8 @@ def test_user_not_in_system(
         system=SystemBackend.GITLAB,
     )
 
-    assert Token.objects.filter(
+    token = Token.objects.get(
         pk=response.token.pk,
         user__email=CREATED_EMAIL,
-    ).exists()
+    )
+    assert token.user.avatar

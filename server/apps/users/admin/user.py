@@ -46,7 +46,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
                     "email",
                     "first_name",
                     "last_name",
-                    "avatar",
+                    # "avatar",
                     "is_superuser",
                     "is_staff",
                     "is_active",

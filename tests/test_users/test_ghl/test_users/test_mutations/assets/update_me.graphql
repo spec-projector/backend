@@ -5,7 +5,10 @@ mutation ($input: UpdateMeInput!) {
       email
       firstName
       lastName
-      avatar
+      avatar {
+        id
+        url
+      }
     }
   }
 }

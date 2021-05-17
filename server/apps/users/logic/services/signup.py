@@ -1,7 +1,9 @@
 from dataclasses import asdict
 
+import injector
 from django.contrib.auth.hashers import make_password
 
+from apps.media.logic.interfaces import IImageService
 from apps.users.logic.interfaces import ISignupService
 from apps.users.logic.interfaces.signup import SignupData, SocialSignupData
 from apps.users.models import User
@@ -9,6 +11,11 @@ from apps.users.models import User
 
 class SignupService(ISignupService):
     """Service for signup new user."""
+
+    @injector.inject
+    def __init__(self, image_service: IImageService):
+        """Initialize."""
+        self._image_service = image_service
 
     def signup(self, signup_data: SignupData) -> User:
         """Signup user by provided data."""
@@ -27,9 +34,16 @@ class SignupService(ISignupService):
 
     def signup_from_social(self, signup_data: SocialSignupData) -> User:
         """Signup user by provided data."""
+        social_data = asdict(signup_data)
+        avatar_url = social_data.pop("avatar", None)
+        if avatar_url:
+            avatar = self._image_service.upload_image_from_url(avatar_url)
+            if avatar:
+                social_data["avatar"] = avatar
+
         return self._create_user(
             is_staff=False,
-            **asdict(signup_data),
+            **social_data,
             password=make_password(None),
         )
 

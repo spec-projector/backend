@@ -17,4 +17,12 @@ class AppConfig(BaseAppConfig):
 
         super().ready()
 
+        self._setup_dependency_injection()
         injector.get(ICommandBus).register_many(COMMANDS)
+
+    def _setup_dependency_injection(self) -> None:
+        from apps.media.services.modules import (  # noqa: WPS433
+            MediaInfrastructureServicesModule,
+        )
+
+        injector.binder.install(MediaInfrastructureServicesModule)

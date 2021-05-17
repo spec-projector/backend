@@ -1,3 +1,4 @@
+from httpretty import httpretty
 from social_core.backends.google import GoogleOAuth2
 
 from apps.users.logic.interfaces.social_login import SystemBackend
@@ -67,6 +68,11 @@ def test_user_not_in_system(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         assets.read_json("google_user_response"),
     )
+    httpretty.register_uri(
+        httpretty.GET,
+        "https://lh3.googleusercontent.com/-3OOPP/VV/CC/RR/s96-c/photo.jpg",
+        body=assets.open_file("avatar.jpg").read(),
+    )
 
     google_mocker.base_api_url = GoogleOAuth2.ACCESS_TOKEN_URL
     google_mocker.register_post(
@@ -87,7 +93,8 @@ def test_user_not_in_system(
         system=SystemBackend.GOOGLE,
     )
 
-    assert Token.objects.filter(
+    token = Token.objects.get(
         pk=response.token.pk,
         user__email=CREATED_EMAIL,
-    ).exists()
+    )
+    assert token.user.avatar

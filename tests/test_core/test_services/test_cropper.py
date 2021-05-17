@@ -1,11 +1,11 @@
 from sys import getsizeof
 
 import pytest
-from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
 
 from apps.core.services.image.cropper import CroppingParameters, crop_image
+from tests.test_media.factories.image import ImageFactory
 
 
 def test_crop_image(assets):
@@ -48,11 +48,11 @@ def test_cropper_upload(  # noqa: WPS211
             scale=scale,
         ),
     )
+    image = ImageFactory()
+    image.storage_image = cropped
+    image.save()
 
-    user.avatar = cropped
-    user.save()
-
-    path = user.avatar.path
+    path = image.storage_image.path
     standard_file = "{0}_{1}_{2}_{3}_{4}.jpg".format(
         left,
         top,
@@ -62,9 +62,6 @@ def test_cropper_upload(  # noqa: WPS211
     )
 
     assert assets.get_hash(path) == assets.get_hash(standard_file)
-
-    user.delete()
-    assert not default_storage.exists(path)
 
 
 def _get_in_memory(assets, filename) -> InMemoryUploadedFile:
