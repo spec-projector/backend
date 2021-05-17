@@ -1,4 +1,5 @@
 from dataclasses import asdict, dataclass
+from typing import Optional
 
 from rest_framework import serializers
 
@@ -24,7 +25,7 @@ class MeUpdateCommand(commands.ICommand):
     """Update me."""
 
     user: User
-    avatar: int
+    avatar: Optional[int] = None
     first_name: str = ""
     last_name: str = ""
 
