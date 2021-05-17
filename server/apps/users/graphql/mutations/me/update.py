@@ -10,14 +10,15 @@ from apps.users.logic.commands.me import update
 
 
 class UpdateMeInput(graphene.InputObjectType):
-    """User register input."""
+    """User update input."""
 
     first_name = graphene.String()
     last_name = graphene.String()
+    avatar = graphene.ID()
 
 
 class UpdateMeMutation(BaseCommandMutation):
-    """Register mutation returns token."""
+    """Register mutation returns user as me."""
 
     class Meta:
         auth_required = True

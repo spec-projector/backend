@@ -359,6 +359,7 @@ input UpdateGitLabIntegrationType {
 input UpdateMeInput {
   firstName: String
   lastName: String
+  avatar: ID
 }
 
 type UpdateMeMutation {
@@ -414,6 +415,7 @@ type User implements ModelRelayNode {
   email: String
   isStaff: Boolean
   isActive: Boolean
-  avatar: String
+  oldAvatar: String
   lastLogin: DateTime
+  avatar: Image
 }
