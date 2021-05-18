@@ -142,7 +142,7 @@ type MeUserType {
   email: String
   isStaff: Boolean
   isActive: Boolean
-  avatar: String
+  avatar: Image
   lastLogin: DateTime
   subscription: Subscription
   changeSubscriptionRequest: ChangeSubscriptionRequest

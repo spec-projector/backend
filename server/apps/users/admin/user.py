@@ -25,7 +25,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
     list_filter = ("is_active", "is_staff", "is_active")
     ordering = ("email",)
     sortable_by = ()
-    autocomplete_fields = ("groups",)
+    autocomplete_fields = ("groups", "avatar")
     search_fields = ("email", "first_name", "last_name", "=id")
     add_fieldsets = (
         (
@@ -46,7 +46,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
                     "email",
                     "first_name",
                     "last_name",
-                    # "avatar",
+                    "avatar",
                     "is_superuser",
                     "is_staff",
                     "is_active",
