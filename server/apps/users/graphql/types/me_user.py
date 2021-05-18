@@ -10,7 +10,7 @@ from apps.billing.logic.queries.change_subscription_request import (
 )
 from apps.billing.logic.queries.subscription import active as subscription
 from apps.core.logic import queries
-from apps.core.utils.media import get_absolute_path
+from apps.media.graphql.types import ImageType
 
 
 class MeUserType(graphene.ObjectType):
@@ -22,7 +22,7 @@ class MeUserType(graphene.ObjectType):
     email = graphene.String()
     is_staff = graphene.Boolean()
     is_active = graphene.Boolean()
-    avatar = graphene.String()
+    avatar = graphene.Field(ImageType)
     last_login = graphene.DateTime()
     subscription = graphene.Field(SubscriptionType)
     change_subscription_request = graphene.Field(ChangeSubscriptionRequestType)
@@ -45,7 +45,3 @@ class MeUserType(graphene.ObjectType):
                 user=self,
             ),
         )
-
-    def resolve_avatar(self, info):  # noqa: WPS110
-        """Resolve image absolute path."""
-        return get_absolute_path(self.avatar)

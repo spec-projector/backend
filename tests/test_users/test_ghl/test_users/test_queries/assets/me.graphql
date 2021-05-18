@@ -2,7 +2,10 @@
   me {
     id
     email
-    avatar
+    avatar {
+      id
+      url
+    }
     lastLogin
     firstName
     lastName
