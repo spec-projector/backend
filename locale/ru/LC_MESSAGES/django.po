@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-11 13:45+0300\n"
+"POT-Creation-Date: 2021-05-20 09:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -315,19 +315,25 @@ msgstr " "
 msgid "VN__MEDIA"
 msgstr "Медиа"
 
+msgid "VN__FILE"
+msgstr "Файл"
+
+msgid "HT__FILE"
+msgstr " "
+
 msgid "VN__IMAGE"
 msgstr "Изображение"
 
 msgid "HT__IMAGE"
 msgstr " "
 
-msgid "VN__IMAGES"
-msgstr "Изображения"
+msgid "VN__FILES"
+msgstr "Файлы"
 
-msgid "VN__STORAGE_IMAGE"
-msgstr "Хранилище изображения"
+msgid "VN__STORAGE_FILE"
+msgstr "Хранилище файла"
 
-msgid "HT__STORAGE_IMAGE"
+msgid "HT__STORAGE_FILE"
 msgstr " "
 
 msgid "VN__ORIGINAL_FILENAME"
@@ -340,6 +346,15 @@ msgid "VN__OWNER"
 msgstr "Владелец"
 
 msgid "HT__OWNER"
+msgstr " "
+
+msgid "VN__IMAGES"
+msgstr "Изображения"
+
+msgid "VN__STORAGE_IMAGE"
+msgstr "Хранилище изображения"
+
+msgid "HT__STORAGE_IMAGE"
 msgstr " "
 
 msgid "VN__PROJECTS"
@@ -466,12 +481,6 @@ msgid "VN__PROJECT_ASSET_SOURCE"
 msgstr "Источник ресурса проекта"
 
 msgid "HT__PROJECT_ASSET_SOURCE"
-msgstr " "
-
-msgid "VN__FILE"
-msgstr "Файл"
-
-msgid "HT__FILE"
 msgstr " "
 
 msgid "VN__PROJECT_MEMBER"

@@ -4,7 +4,10 @@ mutation ($input: CreateProjectAssetInput!) {
       project {
         id
       }
-      file
+      file {
+        id
+        url
+      }
       source
     }
   }

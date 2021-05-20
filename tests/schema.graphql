@@ -89,6 +89,11 @@ type FigmaIntegration {
   token: String!
 }
 
+type File implements ModelRelayNode {
+  id: ID!
+  url: String
+}
+
 type GitHubIntegration {
   token: String!
 }
@@ -198,7 +203,7 @@ type Project implements ModelRelayNode {
 
 type ProjectAsset {
   project: Project
-  file: String
+  file: File
   source: String
   fileUrl: String
 }

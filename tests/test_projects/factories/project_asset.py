@@ -1,6 +1,7 @@
 import factory
 
 from apps.projects.models import ProjectAsset, ProjectAssetSource
+from tests.test_media.factories.file import FileFactory
 from tests.test_projects.factories.project import ProjectFactory
 
 
@@ -12,4 +13,4 @@ class ProjectAssetFactory(factory.django.DjangoModelFactory):
 
     project = factory.SubFactory(ProjectFactory)
     source = ProjectAssetSource.FIGMA
-    file = factory.django.FileField(filename="file.dat")  # noqa: WPS110
+    file = factory.SubFactory(FileFactory)  # noqa: WPS110

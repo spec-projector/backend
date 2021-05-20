@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import EnumField
 
 from apps.core.models.mixins import Timestamps
+from apps.media.models.fields import FileField
 
 
 def assets_upload_to(project_asset, filename: str) -> str:
@@ -37,13 +38,14 @@ class ProjectAsset(Timestamps):
         help_text=_("HT__PROJECT_ASSET_SOURCE"),
     )
 
-    file = models.FileField(  # noqa: WPS110
+    old_file = models.FileField(  # noqa: WPS110
         upload_to=assets_upload_to,
         max_length=256,  # noqa: WPS432
         blank=True,
         verbose_name=_("VN__FILE"),
         help_text=_("HT__FILE"),
     )
+    file = FileField()  # noqa: WPS110
     project = models.ForeignKey(
         "projects.Project",
         on_delete=models.SET_NULL,
