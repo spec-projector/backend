@@ -9,17 +9,17 @@ from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.validators import URLValidator
 
-from apps.media.logic.interfaces import IImageService
+from apps.media.logic.interfaces import IImageDownloadService
 from apps.media.models import Image
 
 logger = logging.getLogger(__name__)
 
 
-class ImageService(IImageService):
+class ImageDownloadService(IImageDownloadService):
     """Image service."""
 
-    def upload_image_from_url(self, image_link: str) -> Optional[Image]:
-        """Upload image from url."""
+    def download_image_from_url(self, image_link: str) -> Optional[Image]:
+        """Download image from url."""
         if not image_link:
             return None
 

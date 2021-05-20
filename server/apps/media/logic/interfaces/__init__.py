@@ -1,1 +1,1 @@
-from .image import IImageService
+from .image import IImageDownloadService
