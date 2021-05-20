@@ -8,9 +8,7 @@ from apps.core.utils.objects import get_instance_hash
 
 def get_upload_path(instance, filename) -> str:
     """Get upload path for instance."""
-    if isinstance(instance, Image):
-        return "images/{0}/{1}".format(get_instance_hash(instance), filename)
-    return instance.get_upload_path(filename)
+    return "images/{0}/{1}".format(get_instance_hash(instance)[:3], filename)
 
 
 class Image(Timestamps):
