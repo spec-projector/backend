@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 from apps.projects.models import ProjectAsset
@@ -26,13 +24,9 @@ def test_no_cleanup_project_assets_task(project_asset):
 def test_cleanup_with_file(project_asset):
     """Test cleanup success."""
     project_asset.project = None
+    project_asset.file = None
     project_asset.save()
-
-    file_path = project_asset.file.path
-
-    assert os.path.exists(file_path)
 
     cleanup_project_assets_task()
 
-    assert not os.path.exists(file_path)
     assert not ProjectAsset.objects.filter(id=project_asset.pk).exists()

@@ -8,6 +8,7 @@ from apps.projects.models import ProjectAsset
 class ProjectAssetAdmin(BaseModelAdmin):
     """Project asset admin."""
 
-    list_display = ("id", "project", "source", "file")
+    list_display = ("id", "project", "source")
     search_fields = ("source", "project__title")
     list_filter = ("source",)
+    exclude = ("old_file",)

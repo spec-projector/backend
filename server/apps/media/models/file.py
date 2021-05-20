@@ -8,21 +8,21 @@ from apps.core.utils.objects import get_instance_hash
 
 def get_upload_path(instance, filename) -> str:
     """Get upload path for instance."""
-    return "images/{0}/{1}".format(get_instance_hash(instance)[:3], filename)
+    return "files/{0}/{1}".format(get_instance_hash(instance)[:3], filename)
 
 
-class Image(Timestamps):
-    """Image."""
+class File(Timestamps):  # noqa: WPS110
+    """File."""
 
     class Meta:
-        verbose_name = _("VN__IMAGE")
-        verbose_name_plural = _("VN__IMAGES")
+        verbose_name = _("VN__FILE")
+        verbose_name_plural = _("VN__FILES")
 
-    storage_image = models.ImageField(
+    storage_file = models.ImageField(
         upload_to=get_upload_path,
         max_length=1000,
-        verbose_name=_("VN__STORAGE_IMAGE"),
-        help_text=_("HT__STORAGE_IMAGE"),
+        verbose_name=_("VN__STORAGE_FILE"),
+        help_text=_("HT__STORAGE_FILE"),
     )
     original_filename = models.CharField(
         max_length=512,  # noqa: WPS432
@@ -39,7 +39,7 @@ class Image(Timestamps):
     )
 
     def __str__(self):
-        """Image present."""
+        """File present."""
         return self.original_filename
 
     def save(self, *args, **kwargs) -> None:
@@ -50,11 +50,11 @@ class Image(Timestamps):
     @property
     def url(self):
         """Return absolute url."""
-        return get_absolute_path(self.storage_image)
+        return get_absolute_path(self.storage_file)
 
     def _fill_original_filename(self) -> None:
         """Fill original filename."""
         if self.original_filename:
             return
 
-        self.original_filename = self.storage_image.name  # noqa: WPS601
+        self.original_filename = self.storage_file.name  # noqa: WPS601

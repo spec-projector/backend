@@ -10,6 +10,6 @@ class MediaInfrastructureServicesModule(injector.Module):
     def configure(self, binder: injector.Binder) -> None:
         """Bind services."""
         binder.bind(
-            interfaces.IImageService,
-            services.ImageService,
+            interfaces.IImageDownloadService,
+            services.ImageDownloadService,
         )
