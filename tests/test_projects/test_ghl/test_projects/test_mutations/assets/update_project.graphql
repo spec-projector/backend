@@ -9,6 +9,10 @@ mutation ($id: ID!, $input: UpdateProjectInput!){
       figmaIntegration{
         token
       }
+      emblem {
+        id
+        url
+      }
     }
   }
 }
