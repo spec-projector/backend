@@ -13,3 +13,7 @@ class MediaInfrastructureServicesModule(injector.Module):
             interfaces.IImageDownloadService,
             services.ImageDownloadService,
         )
+        binder.bind(
+            interfaces.ICleanupMediaFilesService,
+            services.CleanupMediaFilesService,
+        )

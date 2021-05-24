@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")
@@ -23,6 +24,9 @@ def setup_periodic_tasks(sender, **kwargs):
         cleanup_project_assets_task,
     )
     from apps.core.tasks import send_emails_task  # noqa: WPS433
+    from apps.media.tasks import (  # noqa: WPS433
+        cleanup_orphaned_media_files_task,
+    )
 
     sender.add_periodic_task(
         timedelta(hours=1),
@@ -40,4 +44,10 @@ def setup_periodic_tasks(sender, **kwargs):
         timedelta(seconds=30),  # noqa: WPS432
         send_emails_task.s(),
         name="send emails",
+    )
+
+    sender.add_periodic_task(
+        crontab(minute=0, hour=1),  # noqa: WPS432
+        cleanup_orphaned_media_files_task.s(),
+        name="cleanup orphaned media files",
     )

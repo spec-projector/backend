@@ -5,7 +5,7 @@ from apps.media.models import Image
 
 
 class IImageDownloadService(abc.ABC):
-    """Image download service."""
+    """Image download service interface."""
 
     @abc.abstractmethod
     def download_image_from_url(self, inbound_url: str) -> Optional[Image]:
