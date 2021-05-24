@@ -8,7 +8,7 @@ from tests.test_projects.factories import ProjectFactory
 
 
 def test_no_cleanup(user):
-    """Test no clenup."""
+    """Test no cleanup."""
     user.avatar = ImageFactory.create()
     user.save()
     project = ProjectFactory.create(emblem=ImageFactory.create())
@@ -45,7 +45,7 @@ def test_cleanup_instances(user):
 
 def test_cleanup_storage_image(user):
     """Test cleanup storage image."""
-    image = ImageFactory.create().pk
+    image = ImageFactory.create()
     image_pk, image_file = image.pk, image.storage_image.name
 
     cleanup_orphaned_media_files_task()
@@ -56,7 +56,7 @@ def test_cleanup_storage_image(user):
 
 def test_cleanup_storage_file(user):
     """Test cleanup storage file."""
-    file_instance = FileFactory.create().pk
+    file_instance = FileFactory.create()
     file_pk, file_file = file_instance.pk, file_instance.storage_file.name
 
     cleanup_orphaned_media_files_task()
