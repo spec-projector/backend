@@ -28,3 +28,4 @@ class BaseProjectInput(graphene.InputObjectType):
     figma_integration = graphene.Field(UpdateFigmaIntegrationType)
     github_integration = graphene.Field(UpdateGitHubIntegrationType)
     gitlab_integration = graphene.Field(UpdateGitLabIntegrationType)
+    emblem = graphene.ID()

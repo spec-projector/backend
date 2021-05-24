@@ -8,6 +8,7 @@ from tests.test_media.factories.image import ImageFactory
 
 def test_query(user, ghl_client, project, ghl_raw):
     """Test update raw query."""
+    image = ImageFactory.create(owner=user)
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
@@ -16,6 +17,7 @@ def test_query(user, ghl_client, project, ghl_raw):
             "id": project.pk,
             "input": {
                 "title": "new_{0}".format(project.title),
+                "emblem": image.pk,
             },
         },
     )
@@ -23,6 +25,7 @@ def test_query(user, ghl_client, project, ghl_raw):
     dto = response["data"]["updateProject"]["project"]
     assert dto["id"] == str(project.id)
     assert dto["title"] == "new_{0}".format(project.title)
+    assert dto["emblem"]["id"] == str(image.pk)
 
 
 def test_success(user, ghl_auth_mock_info, update_project_mutation, project):

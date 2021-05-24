@@ -60,10 +60,10 @@ def test_success(
         },
     )
 
-    assert response.project is not None
     assert response.project.owner == user
     assert response.project.is_public
     assert response.project.description == "description"
+    assert response.project.emblem
     assert couchdb_service.create_database_called
 
 
