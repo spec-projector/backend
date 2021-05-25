@@ -1,4 +1,7 @@
 import graphene
+from jnt_django_graphene_toolbox.fields import BitField
+
+from apps.projects.models.enums import ProjectMemberRole
 
 
 class UpdateFigmaIntegrationType(graphene.InputObjectType):
@@ -29,3 +32,5 @@ class BaseProjectInput(graphene.InputObjectType):
     github_integration = graphene.Field(UpdateGitHubIntegrationType)
     gitlab_integration = graphene.Field(UpdateGitLabIntegrationType)
     emblem = graphene.ID()
+    public_permissions = BitField()
+    public_role = graphene.Enum.from_enum(ProjectMemberRole)()
