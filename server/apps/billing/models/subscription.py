@@ -4,12 +4,13 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.billing.models import Tariff
 from apps.billing.models.enums import SubscriptionStatus
+from apps.core.models import BaseModel
 from apps.core.models.helpers.enums import max_enum_len
 
 MAX_MERCHANT_ID_LENGTH = 128
 
 
-class Subscription(models.Model):
+class Subscription(BaseModel):
     """Subscription model."""
 
     class Meta:

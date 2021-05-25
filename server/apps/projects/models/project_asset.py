@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import EnumField
 
+from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
 from apps.media.models.fields import FileField
 
@@ -23,7 +24,7 @@ class ProjectAssetSource(models.TextChoices):
     FIGMA = "FIGMA", _("CH__FIGMA")  # noqa: WPS115
 
 
-class ProjectAsset(Timestamps):
+class ProjectAsset(Timestamps, BaseModel):
     """Project asset model."""
 
     class Meta:
@@ -48,7 +49,7 @@ class ProjectAsset(Timestamps):
     file = FileField()  # noqa: WPS110
     project = models.ForeignKey(
         "projects.Project",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True,
         verbose_name=_("VN__PROJECT"),
         help_text=_("HT__PROJECT"),

@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
 
 CODE_EXPIRE_AFTER_MIN = 10
@@ -21,7 +22,7 @@ def default_expired_at():
     return timezone.now() + timezone.timedelta(minutes=CODE_EXPIRE_AFTER_MIN)
 
 
-class ResetPasswordRequest(Timestamps):
+class ResetPasswordRequest(Timestamps, BaseModel):
     """Reset password request model."""
 
     class Meta:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-20 09:55+0300\n"
+"POT-Creation-Date: 2021-05-25 09:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -341,10 +341,10 @@ msgstr "Original filename"
 msgid "HT__ORIGINAL_FILENAME"
 msgstr " "
 
-msgid "VN__OWNER"
-msgstr "Owner"
+msgid "VN__CREATED_BY"
+msgstr "Created by"
 
-msgid "HT__OWNER"
+msgid "HT__CREATED_BY"
 msgstr " "
 
 msgid "VN__IMAGES"
@@ -465,6 +465,12 @@ msgid "VN__PUBLIC_ROLE"
 msgstr "Public role"
 
 msgid "HT__PUBLIC_ROLE"
+msgstr " "
+
+msgid "VN__OWNER"
+msgstr "Owner"
+
+msgid "HT__OWNER"
 msgstr " "
 
 msgid "CH__FIGMA"

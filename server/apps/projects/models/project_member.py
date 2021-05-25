@@ -3,11 +3,12 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import BitField
 
+from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
 from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 
 
-class ProjectMember(Timestamps):
+class ProjectMember(Timestamps, BaseModel):
     """Project member model."""
 
     class Meta:

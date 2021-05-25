@@ -3,8 +3,10 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import Token as BaseToken
 
+from apps.core.models import BaseModel
 
-class Token(BaseToken):
+
+class Token(BaseToken, BaseModel):
     """User token model."""
 
     class Meta:

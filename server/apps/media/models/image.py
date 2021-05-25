@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
 from apps.core.utils.media import get_absolute_path
 from apps.core.utils.objects import get_instance_hash
@@ -11,7 +12,7 @@ def get_upload_path(instance, filename) -> str:
     return "images/{0}/{1}".format(get_instance_hash(instance)[:3], filename)
 
 
-class Image(Timestamps):
+class Image(Timestamps, BaseModel):
     """Image."""
 
     class Meta:
@@ -30,12 +31,12 @@ class Image(Timestamps):
         verbose_name=_("VN__ORIGINAL_FILENAME"),
         help_text=_("HT__ORIGINAL_FILENAME"),
     )
-    owner = models.ForeignKey(
+    created_by = models.ForeignKey(
         "users.User",
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name=_("VN__OWNER"),
-        help_text=_("HT__OWNER"),
+        verbose_name=_("VN__CREATED_BY"),
+        help_text=_("HT__CREATED_BY"),
     )
 
     def __str__(self):

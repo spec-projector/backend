@@ -3,10 +3,11 @@ from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import BitField
 
 from apps.billing.models.enums import TariffFeatures
+from apps.core.models import BaseModel
 from apps.core.models.fields import MoneyField
 
 
-class Tariff(models.Model):
+class Tariff(BaseModel):
     """Tariff model."""
 
     class Meta:
