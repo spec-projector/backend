@@ -19,7 +19,3 @@ class ProjectInfrastructureServicesModule(injector.Module):
             services.IssuesService,
         )
         binder.bind(services.CouchDBCleanupService)
-        binder.bind(
-            services.ProjectAssetCleanupService,
-            scope=injector.singleton,
-        )
