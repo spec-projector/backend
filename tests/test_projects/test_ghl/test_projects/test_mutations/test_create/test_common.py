@@ -1,4 +1,3 @@
-import pytest
 from jnt_django_graphene_toolbox.errors import (
     GraphQLInputError,
     GraphQLPermissionDenied,
@@ -7,18 +6,7 @@ from jnt_django_graphene_toolbox.errors import (
 from apps.billing.logic.services.subscription import NoActiveSubscriptionError
 from apps.core.graphql.errors import GenericGraphQLError
 from apps.projects.models import Project
-from tests.test_billing.factories import SubscriptionFactory
 from tests.test_media.factories.image import ImageFactory
-
-
-@pytest.fixture()
-def user(user):
-    """Add subscription for user."""
-    SubscriptionFactory.create(
-        user=user,
-        tariff__max_projects=0,
-    )
-    return user
 
 
 def test_query(user, ghl_client, couchdb_service, ghl_raw):

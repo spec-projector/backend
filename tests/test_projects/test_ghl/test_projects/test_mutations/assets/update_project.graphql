@@ -13,6 +13,8 @@ mutation ($id: ID!, $input: UpdateProjectInput!){
         id
         url
       }
+      publicPermissions
+      publicRole
     }
   }
 }

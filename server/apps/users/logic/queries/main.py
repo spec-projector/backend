@@ -1,3 +1,6 @@
-from apps.users.logic.queries.user import allowed
+from apps.users.logic.queries.user import allowed, retrieve
 
-QUERIES = ((allowed.ListAllowedUsersQuery, allowed.QueryHandler),)
+QUERIES = (
+    (allowed.ListAllowedUsersQuery, allowed.QueryHandler),
+    (retrieve.FindUserQuery, retrieve.QueryHandler),
+)
