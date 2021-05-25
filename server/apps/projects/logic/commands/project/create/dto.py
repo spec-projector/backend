@@ -3,6 +3,7 @@ from typing import Union
 
 from rest_framework import serializers
 
+from apps.core.serializers.fields import BitField
 from apps.core.utils.objects import Empty, empty
 from apps.media.models import Image
 from apps.projects.logic.commands.project.dto import (
@@ -13,6 +14,7 @@ from apps.projects.logic.commands.project.dto import (
     GitLabIntegrationDto,
     GitLabIntegrationDtoValidator,
 )
+from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 
 
 class ProjectDtoValidator(serializers.Serializer):
@@ -39,6 +41,16 @@ class ProjectDtoValidator(serializers.Serializer):
         queryset=Image.objects,
         required=False,
     )
+    public_role = serializers.ChoiceField(
+        choices=ProjectMemberRole.choices,
+        default=ProjectMemberRole.VIEWER,
+        required=False,
+    )
+    public_permissions = BitField(
+        choices=ProjectPermission.choices,
+        default=0,
+        required=False,
+    )
 
 
 @dataclass(frozen=True)
@@ -52,3 +64,5 @@ class ProjectDto:
     github_integration: Union[str, GitHubIntegrationDto] = empty
     gitlab_integration: Union[str, GitLabIntegrationDto] = empty
     emblem: int = empty
+    public_role: str = empty
+    public_permissions: int = empty

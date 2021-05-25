@@ -38,6 +38,8 @@ class ProjectDto:
     gitlab_integration: Union[str, GitLabIntegrationDto] = empty
     users: List[ProjectMemberDto] = empty
     emblem: int = empty
+    public_role: str = empty
+    public_permissions: int = empty
 
 
 class _ProjectMemberValidator(serializers.Serializer):
@@ -83,5 +85,13 @@ class ProjectDtoValidator(serializers.Serializer):
     )
     emblem = serializers.PrimaryKeyRelatedField(
         queryset=Image.objects,
+        required=False,
+    )
+    public_role = serializers.ChoiceField(
+        choices=ProjectMemberRole.choices,
+        required=False,
+    )
+    public_permissions = BitField(
+        choices=ProjectPermission.choices,
         required=False,
     )
