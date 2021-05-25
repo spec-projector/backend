@@ -1,0 +1,12 @@
+query ($email: String!) {
+  user: findUser(email: $email) {
+    id
+    firstName
+    lastName
+    email
+    avatar {
+      url
+      id
+    }
+  }
+}

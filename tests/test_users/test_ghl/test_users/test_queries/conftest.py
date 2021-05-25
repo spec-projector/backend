@@ -11,3 +11,9 @@ def user_query(ghl_queries):
 def all_users_query(ghl_queries):
     """Provides all users graphql query."""
     return ghl_queries.fields["allUsers"].resolver
+
+
+@pytest.fixture(scope="session")
+def find_user_query(ghl_queries):
+    """Provides find user graphql query."""
+    return ghl_queries.fields["findUser"].resolver
