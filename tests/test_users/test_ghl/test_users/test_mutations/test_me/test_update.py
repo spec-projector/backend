@@ -8,7 +8,7 @@ NEW_NAME = "new User NaMe"
 
 def test_query(user, ghl_client, ghl_raw, image_in_memory):
     """Test raw query success."""
-    user.avatar = ImageFactory.create(owner=user)
+    user.avatar = ImageFactory.create(created_by=user)
     user.save()
 
     ghl_client.set_user(user)

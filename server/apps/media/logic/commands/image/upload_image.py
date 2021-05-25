@@ -64,6 +64,6 @@ class CommandHandler(
         return UploadImageCommandResult(
             Image.objects.create(
                 storage_image=cropped_image,
-                owner=command.user,
+                created_by=command.user,
             ),
         )

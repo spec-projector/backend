@@ -14,4 +14,4 @@ class FileFactory(factory.django.DjangoModelFactory):
     original_filename = factory.Sequence(
         lambda index: "File {0}.dat".format(index),
     )
-    owner = factory.SubFactory(UserFactory)
+    created_by = factory.SubFactory(UserFactory)
