@@ -8,7 +8,7 @@ from tests.test_media.factories.image import ImageFactory
 
 def test_query(user, ghl_client, project, ghl_raw):
     """Test update raw query."""
-    image = ImageFactory.create(owner=user)
+    image = ImageFactory.create(created_by=user)
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
@@ -111,7 +111,7 @@ def test_update_emblem(
     ghl_auth_mock_info,
 ):
     """Test update emblem."""
-    image = ImageFactory.create(owner=user)
+    image = ImageFactory.create(created_by=user)
     response = update_project_mutation(
         root=None,
         info=ghl_auth_mock_info,

@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.models import BaseModel
+
 MAX_TOKEN_LENGTH = 128
 
 
-class GitLabIntegration(models.Model):
+class GitLabIntegration(BaseModel):
     """GitLab integration model."""
 
     class Meta:

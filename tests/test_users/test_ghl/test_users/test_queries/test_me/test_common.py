@@ -22,7 +22,7 @@ def test_unauth(ghl_client, ghl_raw):
 def test_retrieve_avatar(user, ghl_client, ghl_raw):
     """Test retrieve avatar."""
     ghl_client.set_user(user)
-    user.avatar = ImageFactory.create(owner=user)
+    user.avatar = ImageFactory.create(created_by=user)
     user.save()
 
     response = ghl_client.execute(ghl_raw("me"))

@@ -1,10 +1,10 @@
 import hashlib
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.core.files.storage import default_storage
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.models import BaseModel
 from apps.media.models.fields import ImageField
 from apps.users.models.managers import UserManager
 
@@ -15,7 +15,7 @@ def avatar_upload_to(user, filename: str) -> str:
     return "users/{0}/{1}".format(user_hash, filename)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     """User model."""
 
     class Meta:
@@ -75,15 +75,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Text representation."""
         return self.email
-
-    def delete(self, *args, **kwargs):
-        """Delete user."""
-        image_path = self.avatar.path if self.avatar else None
-
-        super().delete(*args, **kwargs)
-
-        if image_path and default_storage.exists(image_path):
-            default_storage.delete(image_path)
 
     def get_short_name(self):
         """Get user short name."""

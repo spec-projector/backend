@@ -14,4 +14,4 @@ class ImageFactory(factory.django.DjangoModelFactory):
     original_filename = factory.Sequence(
         lambda index: "Image {0}.jpg".format(index),
     )
-    owner = factory.SubFactory(UserFactory)
+    created_by = factory.SubFactory(UserFactory)

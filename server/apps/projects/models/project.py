@@ -7,6 +7,7 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
 from jnt_django_toolbox.models.fields import BitField
 
+from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
 from apps.media.models.fields import ImageField
 from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
@@ -24,7 +25,7 @@ def get_new_id():
     return uid
 
 
-class Project(Timestamps):
+class Project(Timestamps, BaseModel):
     """Project model."""
 
     class Meta:

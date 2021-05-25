@@ -4,11 +4,12 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.billing.models import Subscription, Tariff
+from apps.core.models import BaseModel
 
 MAX_HASH_LENGTH = 128
 
 
-class ChangeSubscriptionRequest(models.Model):
+class ChangeSubscriptionRequest(BaseModel):
     """Change subscription model."""
 
     class Meta:
