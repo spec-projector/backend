@@ -52,6 +52,7 @@ input CreateProjectInput {
   figmaIntegration: UpdateFigmaIntegrationType
   githubIntegration: UpdateGitHubIntegrationType
   gitlabIntegration: UpdateGitLabIntegrationType
+  emblem: ID
 }
 
 type CreateProjectMutation {
@@ -248,6 +249,7 @@ type Query {
   tariff(id: ID!): Tariff
   allTariffs(offset: Int, sort: [TariffSort], before: String, after: String, first: Int, last: Int): TariffTypeConnection
   me: MeUserType
+  findUser(email: String!): User
   project(id: ID!): Project
   allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
   issue(input: IssueInput!): Issue
@@ -378,6 +380,7 @@ input UpdateProjectInput {
   figmaIntegration: UpdateFigmaIntegrationType
   githubIntegration: UpdateGitHubIntegrationType
   gitlabIntegration: UpdateGitLabIntegrationType
+  emblem: ID
   users: [ProjectMemberInput]
 }
 
