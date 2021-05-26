@@ -1,7 +1,7 @@
 from cloudant.database import CouchDatabase
 from cloudant.document import Document
 
-from apps.projects.management.commands.base_upgrade import (
+from apps.core.management.commands.base_upgrade import (
     BaseDatabaseUpgradeCommand,
 )
 

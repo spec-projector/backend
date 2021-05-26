@@ -5,7 +5,7 @@ from cloudant.document import Document
 from django.utils.baseconv import BASE62_ALPHABET
 from django.utils.crypto import get_random_string
 
-from apps.projects.management.commands.base_upgrade import (
+from apps.core.management.commands.base_upgrade import (
     BaseDatabaseUpgradeCommand,
 )
 
