@@ -36,7 +36,7 @@ class ProjectDto:
     figma_integration: Union[str, FigmaIntegrationDto] = empty
     github_integration: Union[str, GitHubIntegrationDto] = empty
     gitlab_integration: Union[str, GitLabIntegrationDto] = empty
-    users: List[ProjectMemberDto] = empty
+    members: List[ProjectMemberDto] = empty
     emblem: int = empty
     public_role: str = empty
     public_permissions: int = empty
@@ -68,7 +68,7 @@ class ProjectDtoValidator(serializers.Serializer):
     title = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
     is_public = serializers.BooleanField(required=False)
-    users = _ProjectMemberValidator(many=True, required=False)
+    members = _ProjectMemberValidator(many=True, required=False)
     figma_integration = FigmaIntegrationDtoValidator(
         allow_null=True,
         required=False,
