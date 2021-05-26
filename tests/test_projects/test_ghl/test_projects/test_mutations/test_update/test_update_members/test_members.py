@@ -3,6 +3,7 @@ from apps.core.graphql.errors import GenericGraphQLError
 from apps.projects.models import ProjectMember
 from apps.projects.models.enums import ProjectPermission
 from apps.projects.models.project_member import ProjectMemberRole
+from tests.helpers.bit_field import assert_bitfield
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 from tests.test_users.factories.user import UserFactory
 
@@ -60,7 +61,10 @@ def test_add_project_members(
         {
             "id": user3.id,
             "role": ProjectMemberRole.VIEWER,
-            "permissions": [ProjectPermission.EDIT_SPRINTS],
+            "permissions": [
+                ProjectPermission.EDIT_SPRINTS,
+                ProjectPermission.EDIT_MODULES,
+            ],
         },
     ]
 
@@ -75,8 +79,23 @@ def test_add_project_members(
         },
     )
 
-    assert project.members.count() == 2
-    assert set(project.members.all()) == {user2, user3}
+    members = {
+        member.user: member
+        for member in ProjectMember.objects.filter(project=project)
+    }
+    assert len(members) == 2
+    assert set(members.keys()) == {user2, user3}
+
+    assert_bitfield(
+        members[user2].permissions,
+        ProjectMember.permissions.EDIT_FEATURE_API,
+    )
+
+    assert_bitfield(
+        members[user3].permissions,
+        ProjectMember.permissions.EDIT_SPRINTS
+        | ProjectMember.permissions.EDIT_MODULES,
+    )
 
 
 def test_update_without_subscription(
