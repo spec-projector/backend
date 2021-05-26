@@ -23,7 +23,7 @@ class ProjectMemberInput(graphene.InputObjectType):
 class UpdateProjectInput(BaseProjectInput):
     """Input for update project."""
 
-    users = graphene.Argument(graphene.List(ProjectMemberInput))
+    members = graphene.Argument(graphene.List(ProjectMemberInput))
 
 
 class UpdateProjectMutation(BaseCommandMutation):

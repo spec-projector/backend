@@ -53,6 +53,8 @@ input CreateProjectInput {
   githubIntegration: UpdateGitHubIntegrationType
   gitlabIntegration: UpdateGitLabIntegrationType
   emblem: ID
+  publicPermissions: BitField
+  publicRole: ProjectMemberRole
 }
 
 type CreateProjectMutation {
@@ -381,7 +383,9 @@ input UpdateProjectInput {
   githubIntegration: UpdateGitHubIntegrationType
   gitlabIntegration: UpdateGitLabIntegrationType
   emblem: ID
-  users: [ProjectMemberInput]
+  publicPermissions: BitField
+  publicRole: ProjectMemberRole
+  members: [ProjectMemberInput]
 }
 
 type UpdateProjectMutation {

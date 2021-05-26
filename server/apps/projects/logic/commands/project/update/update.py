@@ -66,7 +66,7 @@ class CommandHandler(
             dto.ProjectDtoValidator,
         )
 
-        members = validated_data.pop("users", None)
+        members = validated_data.pop("members", None)
         if members is not None:
             self._tariff_limits_service.assert_project_member_count_allowed(
                 project,

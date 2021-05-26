@@ -32,7 +32,7 @@ def test_delete_project_members(
         info=ghl_auth_mock_info,
         id=project.pk,
         input={
-            "users": users,
+            "members": users,
         },
     )
 
@@ -71,7 +71,7 @@ def test_add_project_members(
         info=ghl_auth_mock_info,
         id=project.pk,
         input={
-            "users": users,
+            "members": users,
         },
     )
 
@@ -106,7 +106,7 @@ def test_update_without_subscription(
         info=ghl_auth_mock_info,
         id=project.pk,
         input={
-            "users": users,
+            "members": users,
         },
     )
 

@@ -44,7 +44,7 @@ def test_update_project_member_permissions(
         info=ghl_auth_mock_info,
         id=project.pk,
         input={
-            "users": users,
+            "members": users,
         },
     )
 
@@ -68,7 +68,7 @@ def test_roles_not_setted_validate(
         info=ghl_auth_mock_info,
         id=project.pk,
         input={
-            "users": users,
+            "members": users,
         },
     )
     assert isinstance(response, GraphQLInputError)
@@ -90,7 +90,7 @@ def test_roles_is_empty(
         info=ghl_auth_mock_info,
         id=project.pk,
         input={
-            "users": users,
+            "members": users,
         },
     )
 
@@ -113,7 +113,7 @@ def test_roles_not_valid(
         info=ghl_auth_mock_info,
         id=project.pk,
         input={
-            "users": users,
+            "members": users,
         },
     )
 
