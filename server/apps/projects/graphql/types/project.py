@@ -36,7 +36,7 @@ class ProjectType(types.BaseModelObjectType):
     gitlab_integration = graphene.Field(GitLabIntegrationType)
     emblem = graphene.Field(ImageType)
     public_role = graphene.Enum.from_enum(enums.ProjectMemberRole)()
-    public_permissions = fields.BitField()
+    public_permissions = fields.BitField(enums.ProjectPermission)
 
     @classmethod
     def get_queryset(
