@@ -1,7 +1,7 @@
 from jnt_django_toolbox.models.fields.bit.types import BitHandler
 
 
-def assert_bitfield(actual, expected):
+def assert_bitfield(actual, expected) -> None:
     """Assert bitfield value."""
     expected_bits = BitHandler(
         expected,
