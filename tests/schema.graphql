@@ -8,8 +8,6 @@ type Assignee {
   avatar: String
 }
 
-scalar BitField
-
 input ChangePasswordInput {
   password: String!
 }
@@ -53,7 +51,7 @@ input CreateProjectInput {
   githubIntegration: UpdateGitHubIntegrationType
   gitlabIntegration: UpdateGitLabIntegrationType
   emblem: ID
-  publicPermissions: BitField
+  publicPermissions: [ProjectPermission]
   publicRole: ProjectMemberRole
 }
 
@@ -201,7 +199,8 @@ type Project implements ModelRelayNode {
   gitlabIntegration: GitLabIntegration
   emblem: Image
   publicRole: ProjectMemberRole
-  publicPermissions: BitField
+  publicPermissions: [ProjectPermission]
+  me: ProjectMeType
 }
 
 type ProjectAsset {
@@ -211,10 +210,15 @@ type ProjectAsset {
   fileUrl: String
 }
 
+type ProjectMeType {
+  role: ProjectMemberRole
+  permissions: [ProjectPermission]
+}
+
 type ProjectMember implements ModelRelayNode {
   id: ID!
   role: ProjectMemberRole
-  permissions: BitField
+  permissions: [ProjectPermission]
   user: User
   createdAt: DateTime
   updatedAt: DateTime
@@ -223,12 +227,27 @@ type ProjectMember implements ModelRelayNode {
 input ProjectMemberInput {
   id: ID!
   role: ProjectMemberRole!
-  permissions: BitField!
+  permissions: [ProjectPermission]!
 }
 
 enum ProjectMemberRole {
   VIEWER
   EDITOR
+}
+
+enum ProjectPermission {
+  EDIT_FEATURES
+  EDIT_FEATURE_WORKFLOW
+  EDIT_FEATURE_STORY
+  EDIT_FEATURE_FRAMES
+  EDIT_FEATURE_RESOURCES
+  EDIT_FEATURE_API
+  EDIT_FEATURE_ISSUES
+  EDIT_TERMS
+  EDIT_MODEL
+  EDIT_MODULES
+  EDIT_SPRINTS
+  VIEW_CONTRACT
 }
 
 enum ProjectSort {
@@ -325,9 +344,18 @@ type Tariff implements ModelRelayNode {
   icon: String
   price: Float
   isActive: Boolean
-  features: BitField
+  features: [TariffFeatures]
   maxProjects: Int
   maxProjectMembers: Int
+}
+
+enum TariffFeatures {
+  PROJECT_MEMBERS_ROLES
+  PRINT_CONTRACT
+  EXPORT_IMPORT
+  COMMUNITY_CHAT
+  SLACK_SUPPORT
+  EXCLUSIVE_SLACK_SUPPORT
 }
 
 enum TariffSort {
@@ -383,7 +411,7 @@ input UpdateProjectInput {
   githubIntegration: UpdateGitHubIntegrationType
   gitlabIntegration: UpdateGitLabIntegrationType
   emblem: ID
-  publicPermissions: BitField
+  publicPermissions: [ProjectPermission]
   publicRole: ProjectMemberRole
   members: [ProjectMemberInput]
 }
