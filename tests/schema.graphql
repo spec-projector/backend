@@ -141,11 +141,6 @@ type LogoutMutation {
   status: String
 }
 
-type MeProjectPermissionType {
-  role: ProjectMemberRole
-  permissions: [ProjectPermission]
-}
-
 type MeUserType {
   id: ID
   firstName: String
@@ -205,7 +200,7 @@ type Project implements ModelRelayNode {
   emblem: Image
   publicRole: ProjectMemberRole
   publicPermissions: [ProjectPermission]
-  me: MeProjectPermissionType
+  me: ProjectMeType
 }
 
 type ProjectAsset {
@@ -213,6 +208,11 @@ type ProjectAsset {
   file: File
   source: String
   fileUrl: String
+}
+
+type ProjectMeType {
+  role: ProjectMemberRole
+  permissions: [ProjectPermission]
 }
 
 type ProjectMember implements ModelRelayNode {

@@ -3,7 +3,7 @@ from .figma_integration import FigmaIntegrationType
 from .github_integration import GitHubIntegrationType
 from .assignee import AssigneeType
 from .issue import IssueType
-from .me_project import MeProjectType
+from .project_me import ProjectMeType
 from .project_member import ProjectMemberType
 from .project import ProjectType
 from .project_asset import ProjectAssetType
