@@ -9,9 +9,10 @@ from apps.projects.graphql.types import (
     FigmaIntegrationType,
     GitHubIntegrationType,
     GitLabIntegrationType,
+    MeProjectType,
+    ProjectMemberType,
 )
-from apps.projects.graphql.types.project_member import ProjectMemberType
-from apps.projects.logic.queries.project import allowed
+from apps.projects.logic.queries.project import allowed, me_project
 from apps.projects.logic.queries.project_member import active
 from apps.projects.models import Project, enums
 from apps.users.graphql.types import UserType
@@ -37,6 +38,7 @@ class ProjectType(types.BaseModelObjectType):
     emblem = graphene.Field(ImageType)
     public_role = graphene.Enum.from_enum(enums.ProjectMemberRole)()
     public_permissions = fields.BitField(enums.ProjectPermission)
+    me = graphene.Field(MeProjectType)
 
     @classmethod
     def get_queryset(
@@ -60,6 +62,19 @@ class ProjectType(types.BaseModelObjectType):
         """Resolves project members."""
         return queries.execute_query(
             active.ListActiveProjectMembersQuery(
+                project=self,
+            ),
+        )
+
+    def resolve_me(
+        self: Project,
+        info: ResolveInfo,  # noqa: WPS110
+    ) -> me_project.MeProject:
+        """Resolve me project."""
+        user = info.context.user  # type: ignore
+        return queries.execute_query(
+            me_project.MeProjectQuery(
+                user=user,
                 project=self,
             ),
         )

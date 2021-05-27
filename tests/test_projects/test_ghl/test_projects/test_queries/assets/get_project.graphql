@@ -13,5 +13,9 @@ query ($id: ID!) {
         id
       }
     }
+    me {
+      role
+      permissions
+    }
   }
 }
