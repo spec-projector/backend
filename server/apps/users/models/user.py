@@ -58,13 +58,6 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         help_text=_("HT__IS_ACTIVE"),
     )
 
-    old_avatar = models.ImageField(
-        upload_to=avatar_upload_to,
-        max_length=256,  # noqa: WPS432
-        blank=True,
-        verbose_name=_("VN__AVATAR"),
-        help_text=_("HT__AVATAR"),
-    )
     avatar = ImageField(
         verbose_name=_("VN__AVATAR"),
         help_text=_("HT__AVATAR"),

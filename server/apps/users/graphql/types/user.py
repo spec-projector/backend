@@ -3,7 +3,6 @@ from django.db.models import QuerySet
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
-from apps.core.utils.media import get_absolute_path
 from apps.media.graphql.types import ImageType
 from apps.users.logic.queries.user import allowed
 from apps.users.models import User
@@ -20,7 +19,6 @@ class UserType(BaseModelObjectType):
     email = graphene.String()
     is_staff = graphene.Boolean()
     is_active = graphene.Boolean()
-    old_avatar = graphene.String()
     last_login = graphene.DateTime()
     avatar = graphene.Field(ImageType)
 
@@ -36,7 +34,3 @@ class UserType(BaseModelObjectType):
                 user=info.context.user,  # type: ignore
             ),
         )
-
-    def resolve_old_avatar(self, info):  # noqa: WPS110
-        """Resolve image absolute path."""
-        return get_absolute_path(self.old_avatar)

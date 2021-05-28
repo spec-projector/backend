@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from apps.core.logic import commands
@@ -42,7 +41,6 @@ class CommandHandler(
     ) -> MeUploadAvatarCommandResult:
         """Main logic here."""
         user = command.user
-        old_avatar = user.avatar.name
 
         cropped_image = crop_image(
             file_object=command.file,
@@ -57,8 +55,5 @@ class CommandHandler(
 
         user.avatar = cropped_image
         user.save()
-
-        if old_avatar and default_storage.exists(old_avatar):
-            default_storage.delete(old_avatar)
 
         return MeUploadAvatarCommandResult(user=user)

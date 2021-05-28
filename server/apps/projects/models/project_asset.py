@@ -39,13 +39,6 @@ class ProjectAsset(Timestamps, BaseModel):
         help_text=_("HT__PROJECT_ASSET_SOURCE"),
     )
 
-    old_file = models.FileField(  # noqa: WPS110
-        upload_to=assets_upload_to,
-        max_length=256,  # noqa: WPS432
-        blank=True,
-        verbose_name=_("VN__FILE"),
-        help_text=_("HT__FILE"),
-    )
     file = FileField()  # noqa: WPS110
     project = models.ForeignKey(
         "projects.Project",
