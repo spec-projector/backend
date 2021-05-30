@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from jnt_django_toolbox.models.fields import BitField
+from jnt_django_toolbox.models.fields.bit.types import BitHandler
 
 from apps.core.logic import queries
+from apps.core.utils.fields import get_all_selected_bitfield
 from apps.projects.models import Project, ProjectMember
+from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 from apps.users.models import User
 
 
@@ -13,7 +15,7 @@ class ProjectMe:
     """Me project object."""
 
     role: str
-    permissions: BitField
+    permissions: BitHandler
 
 
 @dataclass(frozen=True)
@@ -49,6 +51,12 @@ class QueryHandler(
         """Get project member permissions."""
         if not user:
             return None
+
+        if project.owner == user:
+            return ProjectMe(
+                role=ProjectMemberRole.EDITOR,
+                permissions=get_all_selected_bitfield(ProjectPermission),
+            )
 
         member = ProjectMember.objects.filter(
             user=user,
