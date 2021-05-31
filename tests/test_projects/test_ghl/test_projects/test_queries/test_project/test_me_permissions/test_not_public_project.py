@@ -1,5 +1,8 @@
 import pytest
 
+from apps.core.utils.fields import get_all_selected_bitfield
+from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
+
 
 @pytest.fixture()
 def project(project):
@@ -55,8 +58,8 @@ def test_not_public_as_owner(user, project, ghl_client, ghl_raw):
     assert project_response["id"] == str(project.id)
     _check_permissions(
         project_response["me"],
-        project.public_role,
-        project.public_permissions,
+        ProjectMemberRole.EDITOR,
+        get_all_selected_bitfield(ProjectPermission),
     )
 
 
