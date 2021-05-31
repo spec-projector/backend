@@ -10,7 +10,8 @@ def get_all_selected_bitfield(flags: models.TextChoices) -> BitHandler:
         list(flags_as_dict.keys()),
         list(flags_as_dict.values()),
     )
-    for bit_number in range(len(flags)):  # noqa: WPS518
-        bit_handler.set_bit(bit_number, true_or_false=True)
+
+    for flag_key in flags_as_dict.keys():
+        setattr(bit_handler, flag_key, True)
 
     return bit_handler
