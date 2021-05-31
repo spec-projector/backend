@@ -1,6 +1,6 @@
 import pytest
 
-from apps.core.utils.fields import get_all_selected_bitfield
+from apps.core.utils.bit_field import get_all_selected_bitfield
 from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 
 

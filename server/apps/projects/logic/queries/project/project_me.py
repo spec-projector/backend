@@ -4,7 +4,7 @@ from typing import Optional
 from jnt_django_toolbox.models.fields.bit.types import BitHandler
 
 from apps.core.logic import queries
-from apps.core.utils.fields import get_all_selected_bitfield
+from apps.core.utils.bit_field import get_all_selected_bitfield
 from apps.projects.models import Project, ProjectMember
 from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 from apps.users.models import User
