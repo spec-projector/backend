@@ -15,6 +15,7 @@ def _django_settings(settings, tmpdir_factory) -> None:
     )
     settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
     settings.DOMAIN_NAME = "testserver"
+    settings.LANGUAGE_CODE = "en"
 
 
 @pytest.fixture(autouse=True)
