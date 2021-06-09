@@ -108,7 +108,7 @@ def test_subsciption_user_not_exists(  # noqa: WPS211
     )
 
 
-def _register_mocks(gl_mocker, assets):
+def _register_mocks(gl_mocker, assets) -> None:
     gl_mocker.register_get(
         "/user",
         assets.read_json("gitlab_user_response"),

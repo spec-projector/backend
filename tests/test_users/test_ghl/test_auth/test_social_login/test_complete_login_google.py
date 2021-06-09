@@ -112,7 +112,7 @@ def test_subsciption_user_not_exists(  # noqa: WPS211
     )
 
 
-def _register_mocks(google_mocker, assets):
+def _register_mocks(google_mocker, assets) -> None:
     google_mocker.register_get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         assets.read_json("google_user_response"),
