@@ -70,9 +70,7 @@ def test_bad_response(
 ):
     """Test error upload."""
     register_figma_bad_response()
-
-    msg_exception = "Figma request error: Invalid token"
-    with pytest.raises(ApiFigmaError, match=msg_exception):
+    with pytest.raises(ApiFigmaError):
         upload_figma_asset_mutation(
             root=None,
             info=ghl_auth_mock_info,
