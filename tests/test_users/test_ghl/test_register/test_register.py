@@ -2,11 +2,10 @@ from typing import Dict
 
 import pytest
 
-from apps.core import injector
 from apps.users.logic.commands.register.errors import UserAlreadyExistsError
-from apps.users.logic.interfaces import IAuthenticationService
 from apps.users.models import Token, User
 from tests.fixtures.users import DEFAULT_USER_PASSWORD
+from tests.helpers import auth
 
 EMAIL = "new_user@mail.net"
 
@@ -32,7 +31,7 @@ def test_query(db, ghl_client, ghl_raw):
     token = Token.objects.get(user=user)
 
     assert response["data"]["register"]["token"]["key"] == token.key
-    _check_auth(register_data["email"], register_data["password"])
+    auth.check_auth(register_data["email"], register_data["password"])
 
 
 def test_success(db, ghl_mock_info, register_mutation):
@@ -47,7 +46,7 @@ def test_success(db, ghl_mock_info, register_mutation):
     )
 
     assert Token.objects.get(pk=response.token.pk, user__email=EMAIL)
-    _check_auth(register_data["email"], register_data["password"])
+    auth.check_auth(register_data["email"], register_data["password"])
 
 
 def test_wrong_register(
@@ -68,12 +67,6 @@ def test_wrong_register(
         )
 
     assert User.objects.count() == 1
-
-
-def _check_auth(email, password) -> None:
-    """Check success auth after register user."""
-    auth = injector.get(IAuthenticationService)
-    assert auth.auth(email, password)
 
 
 def _get_register_data() -> Dict[str, str]:

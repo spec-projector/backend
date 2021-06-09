@@ -11,4 +11,5 @@ pytest_plugins = (
     "tests.fixtures.http",
     "tests.fixtures.assets",
     "tests.fixtures.logic",
+    "tests.fixtures.billing",
 )

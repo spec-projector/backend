@@ -3,7 +3,6 @@ from dataclasses import asdict, dataclass
 import injector
 from rest_framework import serializers
 
-from apps.billing.logic.interfaces import ISubscriptionService
 from apps.core.logic import commands
 from apps.users.logic.commands.register.errors import (
     RegistrationInputError,
@@ -59,12 +58,10 @@ class CommandHandler(
         self,
         token_service: ITokenService,
         signup_service: ISignupService,
-        subscription_service: ISubscriptionService,
     ):
         """Initializing."""
         self._token_service = token_service
         self._signup_service = signup_service
-        self._subscription_service = subscription_service
 
     def execute(self, command: RegisterCommand) -> RegisterCommandResult:
         """Main logic here."""
@@ -78,8 +75,6 @@ class CommandHandler(
                 last_name=command.last_name,
             ),
         )
-
-        self._subscription_service.add_default_subscription(user)
 
         return RegisterCommandResult(
             token=self._token_service.create_user_token(user),

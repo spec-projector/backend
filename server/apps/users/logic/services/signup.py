@@ -3,6 +3,7 @@ from dataclasses import asdict
 import injector
 from django.contrib.auth.hashers import make_password
 
+from apps.billing.logic.interfaces import ISubscriptionService
 from apps.media.logic.interfaces import IImageDownloadService
 from apps.users.logic.interfaces import ISignupService
 from apps.users.logic.interfaces.signup import SignupData, SocialSignupData
@@ -13,9 +14,14 @@ class SignupService(ISignupService):
     """Service for signup new user."""
 
     @injector.inject
-    def __init__(self, image_service: IImageDownloadService):
+    def __init__(
+        self,
+        image_service: IImageDownloadService,
+        subscription_service: ISubscriptionService,
+    ):
         """Initialize."""
         self._image_service = image_service
+        self._subscription_service = subscription_service
 
     def signup(self, signup_data: SignupData) -> User:
         """Signup user by provided data."""
@@ -30,6 +36,8 @@ class SignupService(ISignupService):
         user.set_password(signup_data.password)
         user.save()
 
+        self._subscription_service.add_default_subscription(user)
+
         return user
 
     def signup_from_social(self, signup_data: SocialSignupData) -> User:
@@ -41,11 +49,15 @@ class SignupService(ISignupService):
             if avatar:
                 social_data["avatar"] = avatar
 
-        return self._create_user(
+        user = self._create_user(
             is_staff=False,
             **social_data,
             password=make_password(None),
         )
+
+        self._subscription_service.add_default_subscription(user)
+
+        return user
 
     def _create_user(self, **kwargs) -> User:
         """Validate and create user."""

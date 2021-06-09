@@ -1,6 +1,8 @@
 from httpretty import httpretty
 from social_core.backends.google import GoogleOAuth2
 
+from apps.billing.models import Subscription
+from apps.billing.models.enums import SubscriptionStatus
 from apps.users.logic.interfaces.social_login import SystemBackend
 from apps.users.models import Token, User
 
@@ -64,6 +66,53 @@ def test_user_not_in_system(
     """Test complete login. User will be created."""
     assert not User.objects.filter(email=CREATED_EMAIL).exists()
 
+    _register_mocks(google_mocker, assets)
+
+    response = social_login_complete_mutation(
+        root=None,
+        info=google_token_request_info,
+        code="test_code",
+        state=google_token_request_info.context.session["google-oauth2_state"],
+        system=SystemBackend.GOOGLE,
+    )
+
+    token = Token.objects.get(
+        pk=response.token.pk,
+        user__email=CREATED_EMAIL,
+    )
+    assert token.user.avatar
+
+
+def test_subsciption_user_not_exists(  # noqa: WPS211
+    db,
+    default_tariff_config,
+    default_tariff,
+    google_mocker,
+    social_login_complete_mutation,
+    google_token_request_info,
+    assets,
+):
+    """Test complete login. User will be created."""
+    assert not User.objects.filter(email=CREATED_EMAIL).exists()
+
+    _register_mocks(google_mocker, assets)
+
+    response = social_login_complete_mutation(
+        root=None,
+        info=google_token_request_info,
+        code="test_code",
+        state=google_token_request_info.context.session["google-oauth2_state"],
+        system=SystemBackend.GOOGLE,
+    )
+
+    assert Subscription.objects.filter(
+        user=response.token.user,
+        status=SubscriptionStatus.ACTIVE,
+        tariff=default_tariff,
+    )
+
+
+def _register_mocks(google_mocker, assets):
     google_mocker.register_get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         assets.read_json("google_user_response"),
@@ -84,17 +133,3 @@ def test_user_not_in_system(
             KEY_EXPIRES_IN: 7200,
         },
     )
-
-    response = social_login_complete_mutation(
-        root=None,
-        info=google_token_request_info,
-        code="test_code",
-        state=google_token_request_info.context.session["google-oauth2_state"],
-        system=SystemBackend.GOOGLE,
-    )
-
-    token = Token.objects.get(
-        pk=response.token.pk,
-        user__email=CREATED_EMAIL,
-    )
-    assert token.user.avatar
