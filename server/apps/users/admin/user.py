@@ -51,11 +51,12 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
                     "is_staff",
                     "is_active",
                     "last_login",
+                    "last_activity",
                 ),
             },
         ),
     )
-    readonly_fields = ("last_login",)
+    readonly_fields = ("last_login", "last_activity")
     change_password_form = AdminPasswordChangeForm
 
     @admin_field("Change password")
