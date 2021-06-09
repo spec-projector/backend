@@ -59,12 +59,8 @@ class FigmaService(IFigmaService):
         figma_api_response = self._get_response(image_params)
 
         if figma_api_response["err"]:
-            err = _(
-                "MSG__FIGMA_REQUEST_ERROR {error}".format(
-                    error=figma_api_response["err"],
-                ),
-            )
-            raise ApiFigmaError(err)
+            msg = _("MSG__FIGMA_REQUEST_ERROR {error}")
+            raise ApiFigmaError(msg.format(error=figma_api_response["err"]))
 
         return figma_api_response["images"][image_params.id]  # type: ignore
 

@@ -70,7 +70,6 @@ def test_bad_response(
 ):
     """Test error upload."""
     register_figma_bad_response()
-
     with pytest.raises(ApiFigmaError):
         upload_figma_asset_mutation(
             root=None,
