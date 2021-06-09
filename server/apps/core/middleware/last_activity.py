@@ -1,4 +1,5 @@
-from django.utils import timezone
+from apps.core.logic import commands
+from apps.users.logic.commands.user import UpdateUserActivityCommand
 
 
 class LastActivityMiddleware:
@@ -11,7 +12,8 @@ class LastActivityMiddleware:
     def __call__(self, request):
         """Call middleware."""
         if request.user.is_authenticated:
-            request.user.last_activity = timezone.now()
-            request.user.save()
+            commands.execute_command(
+                UpdateUserActivityCommand(request.user.pk),
+            )
 
         return self.get_response(request)

@@ -1,4 +1,4 @@
-from apps.users.logic.commands import change_password, register
+from apps.users.logic.commands import change_password, register, user
 from apps.users.logic.commands.auth import (
     login,
     logout,
@@ -25,4 +25,5 @@ COMMANDS = (
         send_password_reset.SendPasswordResetCommand,
         send_password_reset.CommandHandler,
     ),
+    (user.UpdateUserActivityCommand, user.CommandHandler),
 )
