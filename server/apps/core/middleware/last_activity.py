@@ -11,9 +11,10 @@ class LastActivityMiddleware:
 
     def __call__(self, request):
         """Call middleware."""
+        response = self.get_response(request)
         if request.user.is_authenticated:
             commands.execute_command(
                 UpdateUserActivityCommand(request.user.pk),
             )
 
-        return self.get_response(request)
+        return response
