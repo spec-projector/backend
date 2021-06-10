@@ -10,7 +10,7 @@ from apps.users.models import Token
 
 
 @dataclass(frozen=True)
-class SocialCompleteLoginCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Social login command."""
 
     request: HttpRequest
@@ -20,18 +20,13 @@ class SocialCompleteLoginCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class SocialCompleteLoginCommandResult:
+class CommandResult:
     """Social complete auth output dto."""
 
     token: Token
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        SocialCompleteLoginCommand,
-        SocialCompleteLoginCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Complete social login."""
 
     @injector.inject
@@ -39,10 +34,7 @@ class CommandHandler(
         """Initializing."""
         self._social_login_service = social_login_service
 
-    def execute(
-        self,
-        command: SocialCompleteLoginCommand,
-    ) -> SocialCompleteLoginCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         token = self._social_login_service.complete_login(
             command.request,
@@ -51,6 +43,6 @@ class CommandHandler(
             command.system,
         )
 
-        return SocialCompleteLoginCommandResult(
+        return CommandResult(
             token=token,
         )

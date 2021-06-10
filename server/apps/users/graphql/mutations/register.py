@@ -34,14 +34,14 @@ class RegisterMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Build command."""
-        return register.RegisterCommand(**kwargs["input"])
+        return register.Command(**kwargs["input"])
 
     @classmethod
     def get_response_data(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: register.RegisterCommandResult,
+        command_result: register.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

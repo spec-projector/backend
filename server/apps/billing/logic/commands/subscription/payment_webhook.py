@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
-class HandlePaymentWebhookCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Process payment webhook."""
 
     payment_data: Dict[str, str]
@@ -49,9 +49,7 @@ class ChangeRequestInactivePaymentWebhookError(BasePaymentWebhookError):
     message = _("MSG_CHANGE_SUBSCRIPTION_REQUEST_INACTIVE")
 
 
-class CommandHandler(
-    commands.ICommandHandler[HandlePaymentWebhookCommand, None],
-):
+class CommandHandler(commands.ICommandHandler[Command, None]):
     """Accept payment notification."""
 
     @injector.inject
@@ -64,7 +62,7 @@ class CommandHandler(
         self._subscription_service = subscription_service
         self._payment_service = payment_service
 
-    def execute(self, command: HandlePaymentWebhookCommand) -> None:
+    def execute(self, command: Command) -> None:
         """Main logic here."""
         payment_info = self._payment_service.handle_payment_webhook(
             command.payment_data,

@@ -40,7 +40,7 @@ class UploadImageMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Build command."""
-        return upload_image.UploadImageCommand(
+        return upload_image.Command(
             user=info.context.user,  # type: ignore
             image_data=upload_image.UploadImageDto(**kwargs["input"]),
         )
@@ -50,7 +50,7 @@ class UploadImageMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: upload_image.UploadImageCommandResult,
+        command_result: upload_image.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {"image": command_result.image}

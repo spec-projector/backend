@@ -8,19 +8,17 @@ from apps.projects.models import Project, ProjectMember
 
 
 @dataclass(frozen=True)
-class ListActiveProjectMembersQuery(queries.IQuery):
+class Query(queries.IQuery):
     """Get users query input data."""
 
     project: Project
     queryset: Optional[models.QuerySet] = None
 
 
-class QueryHandler(
-    queries.IQueryHandler[ListActiveProjectMembersQuery, models.QuerySet],
-):
+class QueryHandler(queries.IQueryHandler[Query, models.QuerySet]):
     """Active project members."""
 
-    def ask(self, query: ListActiveProjectMembersQuery) -> models.QuerySet:
+    def ask(self, query: Query) -> models.QuerySet:
         """Handler."""
         members = query.queryset
         if members is None:

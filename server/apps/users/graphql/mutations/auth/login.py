@@ -32,14 +32,14 @@ class LoginMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Create command."""
-        return login.LoginCommand(**kwargs["input"])
+        return login.Command(**kwargs["input"])
 
     @classmethod
     def get_response_data(
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: login.LoginCommandResult,
+        command_result: login.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

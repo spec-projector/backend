@@ -1,5 +1,5 @@
 from apps.core.logic import commands
-from apps.users.logic.commands.user import UpdateUserActivityCommand
+from apps.users.logic.commands.user import Command
 
 
 class LastActivityMiddleware:
@@ -14,7 +14,7 @@ class LastActivityMiddleware:
         response = self.get_response(request)
         if request.user.is_authenticated:
             commands.execute_command(
-                UpdateUserActivityCommand(request.user.pk),
+                Command(request.user.pk),
             )
 
         return response

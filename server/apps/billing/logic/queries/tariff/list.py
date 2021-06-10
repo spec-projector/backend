@@ -31,7 +31,7 @@ class _TariffsFilterSet(django_filters.FilterSet):
 
 
 @dataclass(frozen=True)
-class ListTariffsQuery(queries.IQuery):
+class Query(queries.IQuery):
     """Get tariffs query input data."""
 
     filters: Optional[TariffFilter] = None
@@ -39,12 +39,10 @@ class ListTariffsQuery(queries.IQuery):
     queryset: Optional[models.QuerySet] = None
 
 
-class QueryHandler(
-    queries.IQueryHandler[ListTariffsQuery, models.QuerySet],
-):
+class QueryHandler(queries.IQueryHandler[Query, models.QuerySet]):
     """Tariffs query."""
 
-    def ask(self, query: ListTariffsQuery) -> models.QuerySet:
+    def ask(self, query: Query) -> models.QuerySet:
         """Handler."""
         queryset = (
             Tariff.objects.all() if query.queryset is None else query.queryset

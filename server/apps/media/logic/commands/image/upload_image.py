@@ -21,7 +21,7 @@ class UploadImageDto:
 
 
 @dataclass(frozen=True)
-class UploadImageCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Upload image command."""
 
     user: User
@@ -29,24 +29,16 @@ class UploadImageCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class UploadImageCommandResult:
+class CommandResult:
     """Upload image command result."""
 
     image: Image
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        UploadImageCommand,
-        UploadImageCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Uploading image."""
 
-    def execute(
-        self,
-        command: UploadImageCommand,
-    ) -> UploadImageCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         image_data = command.image_data
 
@@ -61,7 +53,7 @@ class CommandHandler(
             ),
         )
 
-        return UploadImageCommandResult(
+        return CommandResult(
             Image.objects.create(
                 storage_image=cropped_image,
                 created_by=command.user,

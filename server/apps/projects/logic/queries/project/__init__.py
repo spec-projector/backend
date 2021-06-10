@@ -1,1 +1,1 @@
-from .allowed import ListAllowedProjectsQuery
+from .allowed import Query

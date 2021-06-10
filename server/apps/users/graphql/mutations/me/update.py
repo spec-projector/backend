@@ -36,7 +36,7 @@ class UpdateMeMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Create command."""
-        return update.MeUpdateCommand(
+        return update.Command(
             user=info.context.user,  # type: ignore
             **kwargs["input"],
         )
@@ -46,7 +46,7 @@ class UpdateMeMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: update.MeUpdateCommandResult,
+        command_result: update.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {"me": command_result.user}

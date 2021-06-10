@@ -8,17 +8,17 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class ChangePasswordCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Change password command."""
 
     password: str
     user: User
 
 
-class CommandHandler(commands.ICommandHandler[ChangePasswordCommand, None]):
+class CommandHandler(commands.ICommandHandler[Command, None]):
     """Change password."""
 
-    def execute(self, command: ChangePasswordCommand) -> None:
+    def execute(self, command: Command) -> None:
         """Main logic here."""
         password = self._validate_password(command.password)
 

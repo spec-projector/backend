@@ -13,7 +13,7 @@ from apps.users.models import Token, User
 
 
 @dataclass(frozen=True)
-class LoginCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Login command."""
 
     email: str
@@ -21,7 +21,7 @@ class LoginCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class LoginCommandResult:
+class CommandResult:
     """Login command result."""
 
     token: Token
@@ -38,9 +38,7 @@ class EmptyCredentialsError(LoginError):
     message = _("MSG__MUST_INCLUDE_EMAIL_AND_PASSWORD")
 
 
-class CommandHandler(
-    commands.ICommandHandler[LoginCommand, LoginCommandResult],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Login command handler."""
 
     @injector.inject
@@ -53,7 +51,7 @@ class CommandHandler(
         self._auth_service = auth_service
         self._token_service = token_service
 
-    def execute(self, command: LoginCommand) -> LoginCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Handle command."""
         self._validate_command(command)
 
@@ -67,11 +65,11 @@ class CommandHandler(
 
         self._update_user(user)
 
-        return LoginCommandResult(
+        return CommandResult(
             token=self._token_service.create_user_token(user),
         )
 
-    def _validate_command(self, command: LoginCommand) -> None:
+    def _validate_command(self, command: Command) -> None:
         if not command.email or not command.password:
             raise EmptyCredentialsError()
 

@@ -21,7 +21,7 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class UpdateProjectCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Update project command."""
 
     data: dto.ProjectDto  # noqa: WPS110
@@ -30,18 +30,13 @@ class UpdateProjectCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class UpdateProjectCommandResult:
+class CommandResult:
     """Update project output dto."""
 
     project: Project
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        UpdateProjectCommand,
-        UpdateProjectCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Updating projects."""
 
     @injector.inject
@@ -52,10 +47,7 @@ class CommandHandler(
         """Initialize."""
         self._tariff_limits_service = tariff_limits_service
 
-    def execute(
-        self,
-        command: UpdateProjectCommand,
-    ) -> UpdateProjectCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         project = Project.objects.filter(pk=command.project).first()
         if not project:
@@ -82,7 +74,7 @@ class CommandHandler(
             setattr(project, field, field_value)
         project.save()
 
-        return UpdateProjectCommandResult(project=project)
+        return CommandResult(project=project)
 
     def _update_members(self, project, members) -> None:
         project_members = []

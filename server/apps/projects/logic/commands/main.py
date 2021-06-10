@@ -7,19 +7,19 @@ from apps.projects.logic.commands.project_asset import (
 
 COMMANDS = (
     (
-        create_project_assets.CreateProjectAssetCommand,
+        create_project_assets.Command,
         create_project_assets.CommandHandler,
     ),
     (
-        delete_project.DeleteProjectCommand,
+        delete_project.Command,
         delete_project.CommandHandler,
     ),
     (
-        update_project.UpdateProjectCommand,
+        update_project.Command,
         update_project.CommandHandler,
     ),
     (
-        create_project.CreateProjectCommand,
+        create_project.Command,
         create_project.CommandHandler,
     ),
 )

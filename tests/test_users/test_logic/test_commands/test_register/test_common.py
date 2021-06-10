@@ -14,7 +14,7 @@ from apps.users.models import User
 def test_success(db, command_data):
     """Test success register."""
     command_result = commands.execute_command(
-        register.RegisterCommand(**command_data),
+        register.Command(**command_data),
     )
 
     user = command_result.token.user
@@ -31,7 +31,7 @@ def test_subscription(
 ):
     """Test auto create default subscription."""
     command_result = commands.execute_command(
-        register.RegisterCommand(**command_data),
+        register.Command(**command_data),
     )
 
     user = command_result.token.user
@@ -51,7 +51,7 @@ def test_exists_user(user, command_data):
     user.save()
 
     with pytest.raises(UserAlreadyExistsError):
-        commands.execute_command(register.RegisterCommand(**command_data))
+        commands.execute_command(register.Command(**command_data))
 
     assert User.objects.count() == 1
 
@@ -70,7 +70,7 @@ def test_wrong_input_data(command_data, user_field, field_value):
     command_data[user_field] = field_value
 
     with pytest.raises(RegistrationInputError):
-        commands.execute_command(register.RegisterCommand(**command_data))
+        commands.execute_command(register.Command(**command_data))
 
 
 def _assert_user(user, command_data) -> None:

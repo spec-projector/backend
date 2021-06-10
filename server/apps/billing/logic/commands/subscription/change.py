@@ -11,7 +11,7 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class ChangeSubscriptionCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Change user subscription command."""
 
     user: User
@@ -20,7 +20,7 @@ class ChangeSubscriptionCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class ChangeSubscriptionCommandResult:
+class CommandResult:
     """Change subscription result."""
 
     change_subcription_request: ChangeSubscriptionRequest
@@ -32,12 +32,7 @@ class _CommandValidator(serializers.Serializer):
     tariff = serializers.PrimaryKeyRelatedField(queryset=Tariff.objects)
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        ChangeSubscriptionCommand,
-        ChangeSubscriptionCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Command handler for initiate change subscription."""
 
     @injector.inject
@@ -45,10 +40,7 @@ class CommandHandler(
         """Initilize."""
         self._subscription_service = subscription_service
 
-    def execute(
-        self,
-        command: ChangeSubscriptionCommand,
-    ) -> ChangeSubscriptionCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         validated = validate_input(command, _CommandValidator)
         request = (
@@ -59,6 +51,6 @@ class CommandHandler(
             )
         )
 
-        return ChangeSubscriptionCommandResult(
+        return CommandResult(
             change_subcription_request=request,
         )

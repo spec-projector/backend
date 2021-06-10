@@ -30,7 +30,7 @@ class CloudPaymentsWebhookView(View):
 
         try:
             commands.execute_command(
-                payment_webhook.HandlePaymentWebhookCommand(
+                payment_webhook.Command(
                     payment_data=dict(request.POST.items()),
                     payment_meta=dict(request.headers.items()),
                     raw_body=raw_body,

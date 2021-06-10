@@ -10,18 +10,13 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class GetActiveSubscriptionQuery(queries.IQuery):
+class Query(queries.IQuery):
     """User active subscription."""
 
     user: User
 
 
-class QueryHandler(
-    queries.IQueryHandler[
-        GetActiveSubscriptionQuery,
-        Optional[Subscription],
-    ],
-):
+class QueryHandler(queries.IQueryHandler[Query, Optional[Subscription]]):
     """User active subsription query."""
 
     @injector.inject
@@ -29,6 +24,6 @@ class QueryHandler(
         """Initialize."""
         self._subscription_service = subscription_service
 
-    def ask(self, query: GetActiveSubscriptionQuery) -> Optional[Subscription]:
+    def ask(self, query: Query) -> Optional[Subscription]:
         """Handler."""
         return self._subscription_service.get_user_subscription(query.user)

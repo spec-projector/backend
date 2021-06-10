@@ -7,17 +7,15 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class ListAllowedUsersQuery(queries.IQuery):
+class Query(queries.IQuery):
     """Allowed users query."""
 
     user: User
 
 
-class QueryHandler(
-    queries.IQueryHandler[ListAllowedUsersQuery, models.QuerySet],
-):
+class QueryHandler(queries.IQueryHandler[Query, models.QuerySet]):
     """Users query."""
 
-    def ask(self, query: ListAllowedUsersQuery) -> models.QuerySet:
+    def ask(self, query: Query) -> models.QuerySet:
         """Handler."""
         return User.objects.filter(is_active=True)

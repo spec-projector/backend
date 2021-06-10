@@ -1,6 +1,6 @@
 import pytest
 
-from apps.projects.logic.queries.project import ListAllowedProjectsQuery
+from apps.projects.logic.queries.project import Query
 from tests.test_projects.factories.project import ProjectFactory
 from tests.test_projects.factories.project_member import ProjectMemberFactory
 
@@ -19,7 +19,7 @@ def project_member(user, project):
 
 def test_not_projects(user, project, query_bus):
     """Test empty projects."""
-    projects = query_bus.dispatch(ListAllowedProjectsQuery(user=user))
+    projects = query_bus.dispatch(Query(user=user))
     assert not projects.exists()
 
 
@@ -28,7 +28,7 @@ def test_projects_as_owner(user, project, query_bus):
     project.owner = user
     project.save()
 
-    projects = query_bus.dispatch(ListAllowedProjectsQuery(user=user))
+    projects = query_bus.dispatch(Query(user=user))
 
     assert projects.count() == 1
     assert projects.first() == project
@@ -36,7 +36,7 @@ def test_projects_as_owner(user, project, query_bus):
 
 def test_projects_as_project_member(user, project_member, query_bus):
     """Test empty projects."""
-    projects = query_bus.dispatch(ListAllowedProjectsQuery(user=user))
+    projects = query_bus.dispatch(Query(user=user))
 
     assert projects.count() == 1
     assert projects.first() == project_member.project

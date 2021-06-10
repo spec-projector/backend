@@ -34,7 +34,7 @@ class ProjectAssetDto:
 
 
 @dataclass(frozen=True)
-class CreateProjectAssetCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Create project asset input dto."""
 
     data: ProjectAssetDto  # noqa: WPS110
@@ -42,18 +42,13 @@ class CreateProjectAssetCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class CreateProjectAssetCommandResult:
+class CommandResult:
     """Create project output."""
 
     project_asset: ProjectAsset
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        CreateProjectAssetCommand,
-        CreateProjectAssetCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Create project asset."""
 
     @injector.inject
@@ -68,10 +63,7 @@ class CommandHandler(
         self._figma_service_factory = figma_service_factory
         self._external_files_service = external_files_service
 
-    def execute(
-        self,
-        command: CreateProjectAssetCommand,
-    ) -> CreateProjectAssetCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         validated_data = validate_input(
             command.data,
@@ -97,7 +89,7 @@ class CommandHandler(
         )
         project_asset.save()
 
-        return CreateProjectAssetCommandResult(
+        return CommandResult(
             project_asset=project_asset,
         )
 

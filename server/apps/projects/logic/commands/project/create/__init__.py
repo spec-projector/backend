@@ -1,6 +1,6 @@
 from .create import (
-    CreateProjectCommandResult,
-    CreateProjectCommand,
+    CommandResult,
+    Command,
     CommandHandler,
 )
 from .dto import ProjectDto

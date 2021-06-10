@@ -19,22 +19,17 @@ class ProjectMe:
 
 
 @dataclass(frozen=True)
-class ProjectMeQuery(queries.IQuery):
+class Query(queries.IQuery):
     """Me project query."""
 
     user: Optional[User]
     project: Project
 
 
-class QueryHandler(
-    queries.IQueryHandler[
-        ProjectMeQuery,
-        ProjectMe,
-    ],
-):
+class QueryHandler(queries.IQueryHandler[Query, ProjectMe]):
     """Found user by query."""
 
-    def ask(self, query: ProjectMeQuery) -> ProjectMe:
+    def ask(self, query: Query) -> ProjectMe:
         """Handler."""
         me_project_permissions = self._get_member_permissions(
             query.user,

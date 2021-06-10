@@ -4,7 +4,7 @@ from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
 from apps.core.logic import queries
 from apps.users.graphql.types import MeUserType, UserType
-from apps.users.logic.queries.user import retrieve
+from apps.users.logic.queries.user import find
 from apps.users.models import User
 
 
@@ -31,4 +31,4 @@ class UsersQueries(graphene.ObjectType):
         if not user.is_authenticated:
             raise GraphQLPermissionDenied()
 
-        return queries.execute_query(retrieve.FindUserQuery(kwargs["email"]))
+        return queries.execute_query(find.Query(kwargs["email"]))

@@ -18,7 +18,7 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class CreateProjectCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Create project input dto."""
 
     data: dto.ProjectDto  # noqa: WPS110
@@ -26,18 +26,13 @@ class CreateProjectCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class CreateProjectCommandResult:
+class CommandResult:
     """Create project output dto."""
 
     project: Project
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        CreateProjectCommand,
-        CreateProjectCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Creating projects."""
 
     @injector.inject
@@ -50,10 +45,7 @@ class CommandHandler(
         self._tariff_limits_service = tariff_limits_service
         self._couch_db_service = couch_db_service
 
-    def execute(
-        self,
-        command: CreateProjectCommand,
-    ) -> CreateProjectCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         validated_data = validate_input(
             command.data,
@@ -77,7 +69,7 @@ class CommandHandler(
 
         self._couch_db_service.create_database(project.db_name)
 
-        return CreateProjectCommandResult(project=project)
+        return CommandResult(project=project)
 
     def _add_figma_integration(self, project: Project, validated_data) -> None:
         integration = validated_data.get("figma_integration")

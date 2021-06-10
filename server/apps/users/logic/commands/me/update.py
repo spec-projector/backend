@@ -21,7 +21,7 @@ class MeUpdateDtoValidator(serializers.Serializer):
 
 
 @dataclass(frozen=True)
-class MeUpdateCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Update me."""
 
     user: User
@@ -31,22 +31,20 @@ class MeUpdateCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class MeUpdateCommandResult:
+class CommandResult:
     """Update me output dto."""
 
     user: User
 
 
-class CommandHandler(
-    commands.ICommandHandler[MeUpdateCommand, MeUpdateCommandResult],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Update user."""
 
-    def execute(self, command: MeUpdateCommand) -> MeUpdateCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
-        return MeUpdateCommandResult(user=self._update_user(command))
+        return CommandResult(user=self._update_user(command))
 
-    def _update_user(self, command: MeUpdateCommand) -> User:
+    def _update_user(self, command: Command) -> User:
         """Update user fields from input dto."""
         user_data = asdict(command)
         user = user_data.pop("user")

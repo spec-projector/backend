@@ -10,7 +10,7 @@ from apps.core.logic import queries
 class TariffConnectionField(BaseQueryConnectionField):
     """Handler for tariff collection."""
 
-    query = list.ListTariffsQuery
+    query = list.Query
 
     def __init__(self):
         """Initialize."""

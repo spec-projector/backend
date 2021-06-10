@@ -1,6 +1,6 @@
 from .update import (
     CommandHandler,
-    UpdateProjectCommand,
-    UpdateProjectCommandResult,
+    Command,
+    CommandResult,
 )
 from .dto import ProjectDto

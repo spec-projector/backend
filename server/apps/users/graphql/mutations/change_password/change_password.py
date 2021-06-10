@@ -33,7 +33,7 @@ class ChangePasswordMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Create command."""
-        return change_password.ChangePasswordCommand(
+        return change_password.Command(
             password=kwargs["input"]["password"],
             user=info.context.user,  # type: ignore
         )

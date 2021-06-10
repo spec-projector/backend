@@ -8,13 +8,13 @@ from apps.users.models import Token
 
 
 @dataclass(frozen=True)
-class LogoutCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Logout command."""
 
     token: Token
 
 
-class CommandHandler(commands.ICommandHandler[LogoutCommand, None]):
+class CommandHandler(commands.ICommandHandler[Command, None]):
     """Logout service."""
 
     @injector.inject
@@ -22,6 +22,6 @@ class CommandHandler(commands.ICommandHandler[LogoutCommand, None]):
         """Initializing."""
         self._token_service = token_service
 
-    def execute(self, command: LogoutCommand) -> None:
+    def execute(self, command: Command) -> None:
         """Main logic."""
         self._token_service.delete_token(command.token)

@@ -31,7 +31,7 @@ class ProjectFilter:
 
 
 @dataclass(frozen=True)
-class ListAllowedProjectsQuery(queries.IQuery):
+class Query(queries.IQuery):
     """List allowed projects."""
 
     user: User
@@ -41,12 +41,10 @@ class ListAllowedProjectsQuery(queries.IQuery):
     include_public: bool = False
 
 
-class QueryHandler(
-    queries.IQueryHandler[ListAllowedProjectsQuery, models.QuerySet],
-):
+class QueryHandler(queries.IQueryHandler[Query, models.QuerySet]):
     """Allowed projects for user query."""
 
-    def ask(self, query: ListAllowedProjectsQuery) -> models.QuerySet:
+    def ask(self, query: Query) -> models.QuerySet:
         """Handler."""
         projects = query.queryset
         if projects is None:

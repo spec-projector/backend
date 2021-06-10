@@ -16,7 +16,7 @@ class ProjectDeleteData:
 
 
 @dataclass(frozen=True)
-class DeleteProjectCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Delete project command."""
 
     data: ProjectDeleteData  # noqa: WPS110
@@ -29,10 +29,10 @@ class _DataValidator(serializers.Serializer):
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects)
 
 
-class CommandHandler(commands.ICommandHandler[DeleteProjectCommand, None]):
+class CommandHandler(commands.ICommandHandler[Command, None]):
     """Deleting projects."""
 
-    def execute(self, command: DeleteProjectCommand) -> None:
+    def execute(self, command: Command) -> None:
         """Main logic here."""
         validated_data = validate_input(
             command.data,

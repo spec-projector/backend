@@ -1,1 +1,1 @@
-from .main import ChangePasswordCommand, CommandHandler
+from .main import Command, CommandHandler

@@ -31,7 +31,7 @@ def command_data(user):
 def test_reset_success(user, command_data):
     """Test success reset."""
     command_result = commands.execute_command(
-        reset_command.ResetPasswordCommand(**command_data),
+        reset_command.Command(**command_data),
     )
 
     updated_user = command_result.token.user
@@ -45,7 +45,7 @@ def test_wrong_email(user, command_data):
 
     with pytest.raises(EmailNotExistsError):
         commands.execute_command(
-            reset_command.ResetPasswordCommand(**command_data),
+            reset_command.Command(**command_data),
         )
 
 
@@ -55,7 +55,7 @@ def test_wrong_code(user, command_data):
 
     with pytest.raises(CodeValidationError):
         commands.execute_command(
-            reset_command.ResetPasswordCommand(**command_data),
+            reset_command.Command(**command_data),
         )
 
 
@@ -69,5 +69,5 @@ def test_expired_code(user, command_data):
 
     with pytest.raises(CodeValidationError):
         commands.execute_command(
-            reset_command.ResetPasswordCommand(**command_data),
+            reset_command.Command(**command_data),
         )

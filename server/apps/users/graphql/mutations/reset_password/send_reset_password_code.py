@@ -34,7 +34,7 @@ class SendPasswordResetSecurityCodeMutation(BaseCommandMutation):
     ) -> commands.ICommand:
         """Build command."""
         input_data = kwargs["input"]
-        return send_password_reset.SendPasswordResetCommand(
+        return send_password_reset.Command(
             email=input_data["email"],
         )
 

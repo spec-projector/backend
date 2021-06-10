@@ -1,1 +1,1 @@
-from .update_activity import UpdateUserActivityCommand, CommandHandler
+from .update_activity import Command, CommandHandler

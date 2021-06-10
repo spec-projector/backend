@@ -16,7 +16,7 @@ from apps.projects.models import Project
 
 
 @dataclass(frozen=True)
-class GetIssueQuery(queries.IQuery):
+class Query(queries.IQuery):
     """Create issue input dto."""
 
     project: str
@@ -45,7 +45,7 @@ class _InputDtoValidator(serializers.Serializer):
     system = serializers.ChoiceField(choices=IssuesManagementSystem)
 
 
-class QueryHandler(queries.IQueryHandler[GetIssueQuery, Issue]):
+class QueryHandler(queries.IQueryHandler[Query, Issue]):
     """Get issue from external system."""
 
     @injector.inject
@@ -53,7 +53,7 @@ class QueryHandler(queries.IQueryHandler[GetIssueQuery, Issue]):
         """Initialize."""
         self._issues_service = issues_service
 
-    def ask(self, query: GetIssueQuery) -> Issue:
+    def ask(self, query: Query) -> Issue:
         """Handler."""
         validated_data = validate_input(query, _InputDtoValidator)
 

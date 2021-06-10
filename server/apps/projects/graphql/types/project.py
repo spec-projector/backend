@@ -48,7 +48,7 @@ class ProjectType(types.BaseModelObjectType):
     ) -> models.QuerySet:
         """Get queryset."""
         return queries.execute_query(
-            allowed.ListAllowedProjectsQuery(
+            allowed.Query(
                 user=info.context.user,  # type: ignore
                 queryset=queryset,
                 include_public=True,
@@ -61,7 +61,7 @@ class ProjectType(types.BaseModelObjectType):
     ) -> models.QuerySet:
         """Resolves project members."""
         return queries.execute_query(
-            active.ListActiveProjectMembersQuery(
+            active.Query(
                 project=self,
             ),
         )
@@ -73,7 +73,7 @@ class ProjectType(types.BaseModelObjectType):
         """Resolve me project."""
         user = info.context.user  # type: ignore
         return queries.execute_query(
-            project_me.ProjectMeQuery(
+            project_me.Query(
                 user=user if user.is_authenticated else None,
                 project=self,
             ),

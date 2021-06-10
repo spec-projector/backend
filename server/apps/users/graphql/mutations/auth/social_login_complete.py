@@ -31,7 +31,7 @@ class SocialLoginCompleteMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Create command."""
-        return social_complete_login.SocialCompleteLoginCommand(
+        return social_complete_login.Command(
             request=info.context,
             code=kwargs["code"],
             state=kwargs["state"],
@@ -43,7 +43,7 @@ class SocialLoginCompleteMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: social_complete_login.SocialCompleteLoginCommandResult,
+        command_result: social_complete_login.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

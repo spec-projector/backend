@@ -15,7 +15,7 @@ from apps.users.models import Token, User
 
 
 @dataclass(frozen=True)
-class ResetPasswordCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Password reset command."""
 
     email: str
@@ -24,18 +24,13 @@ class ResetPasswordCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class ResetPasswordCommandResult:
+class CommandResult:
     """Login output dto."""
 
     token: Token
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        ResetPasswordCommand,
-        ResetPasswordCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Reset password."""
 
     @injector.inject
@@ -48,10 +43,7 @@ class CommandHandler(
         self._token_service = token_service
         self._reset_password_service = reset_password_service
 
-    def execute(
-        self,
-        command: ResetPasswordCommand,
-    ) -> ResetPasswordCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         user = self._get_user(command)
 
@@ -59,7 +51,7 @@ class CommandHandler(
         user.set_password(command.password)
         user.save()
 
-        return ResetPasswordCommandResult(
+        return CommandResult(
             token=self._token_service.create_user_token(user),
         )
 

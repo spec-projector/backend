@@ -11,7 +11,7 @@ from apps.projects.logic.queries.project import allowed
 class ProjectConnectionField(BaseQueryConnectionField):
     """Handler for projects collections."""
 
-    query = allowed.ListAllowedProjectsQuery
+    query = allowed.Query
     auth_required = True
 
     def __init__(self):

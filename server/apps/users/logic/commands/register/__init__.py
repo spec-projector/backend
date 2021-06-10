@@ -1,1 +1,1 @@
-from .main import RegisterCommand, RegisterCommandResult, CommandHandler
+from .main import Command, CommandResult, CommandHandler

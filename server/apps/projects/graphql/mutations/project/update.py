@@ -46,7 +46,7 @@ class UpdateProjectMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Build command."""
-        return project_update.UpdateProjectCommand(
+        return project_update.Command(
             user=info.context.user,  # type: ignore
             project=kwargs["id"],
             data=project_update.ProjectDto(**kwargs.get("input")),
@@ -57,7 +57,7 @@ class UpdateProjectMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: project_update.UpdateProjectCommandResult,
+        command_result: project_update.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

@@ -40,7 +40,7 @@ class CreateProjectAssetMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Build command."""
-        return project_asset_create.CreateProjectAssetCommand(
+        return project_asset_create.Command(
             user=info.context.user,  # type: ignore
             data=project_asset_create.ProjectAssetDto(**kwargs.get("input")),
         )
@@ -50,7 +50,7 @@ class CreateProjectAssetMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: project_asset_create.CreateProjectAssetCommandResult,
+        command_result: project_asset_create.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

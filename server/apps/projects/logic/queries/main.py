@@ -3,8 +3,8 @@ from apps.projects.logic.queries.project import allowed, project_me
 from apps.projects.logic.queries.project_member import active
 
 QUERIES = (
-    (allowed.ListAllowedProjectsQuery, allowed.QueryHandler),
-    (retrieve.GetIssueQuery, retrieve.QueryHandler),
-    (active.ListActiveProjectMembersQuery, active.QueryHandler),
-    (project_me.ProjectMeQuery, project_me.QueryHandler),
+    (allowed.Query, allowed.QueryHandler),
+    (retrieve.Query, retrieve.QueryHandler),
+    (active.Query, active.QueryHandler),
+    (project_me.Query, project_me.QueryHandler),
 )

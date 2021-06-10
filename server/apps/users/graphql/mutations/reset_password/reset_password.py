@@ -34,7 +34,7 @@ class ResetPasswordMutation(BaseCommandMutation):
     ) -> commands.ICommand:
         """Build command."""
         input_data = kwargs["input"]
-        return reset.ResetPasswordCommand(
+        return reset.Command(
             email=input_data["email"],
             code=input_data["code"],
             password=input_data["password"],
@@ -45,7 +45,7 @@ class ResetPasswordMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: reset.ResetPasswordCommandResult,
+        command_result: reset.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

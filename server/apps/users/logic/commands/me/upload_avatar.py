@@ -8,7 +8,7 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class MeUploadAvatarCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Upload image command."""
 
     user: User
@@ -21,24 +21,16 @@ class MeUploadAvatarCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class MeUploadAvatarCommandResult:
+class CommandResult:
     """Upload image output dto."""
 
     user: User
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        MeUploadAvatarCommand,
-        MeUploadAvatarCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Update user avatar."""
 
-    def execute(
-        self,
-        command: MeUploadAvatarCommand,
-    ) -> MeUploadAvatarCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         user = command.user
 
@@ -56,4 +48,4 @@ class CommandHandler(
         user.avatar = cropped_image
         user.save()
 
-        return MeUploadAvatarCommandResult(user=user)
+        return CommandResult(user=user)

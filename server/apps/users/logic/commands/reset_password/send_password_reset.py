@@ -15,13 +15,13 @@ EMAIL_TEMPLATE = "email/password_reset.html"
 
 
 @dataclass(frozen=True)
-class SendPasswordResetCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Password reset input data."""
 
     email: str
 
 
-class CommandHandler(commands.ICommandHandler[SendPasswordResetCommand, None]):
+class CommandHandler(commands.ICommandHandler[Command, None]):
     """Retrieve issue."""
 
     @injector.inject
@@ -34,7 +34,7 @@ class CommandHandler(commands.ICommandHandler[SendPasswordResetCommand, None]):
         self._reset_password_service = reset_password_service
         self._email_service = email_service
 
-    def execute(self, command: SendPasswordResetCommand) -> None:
+    def execute(self, command: Command) -> None:
         """Main logic here."""
         user = self._get_user(command)
         reset_request = (
@@ -48,7 +48,7 @@ class CommandHandler(commands.ICommandHandler[SendPasswordResetCommand, None]):
             context={"secret_code": reset_request.code},
         )
 
-    def _get_user(self, command: SendPasswordResetCommand) -> User:
+    def _get_user(self, command: Command) -> User:
         """Get user by params from input dto."""
         user = User.objects.filter(email=command.email).first()
         if not user:

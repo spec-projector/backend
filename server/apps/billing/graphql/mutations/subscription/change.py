@@ -43,7 +43,7 @@ class ChangeSubscriptionMutation(BaseCommandMutation):
     ) -> commands.ICommand:
         """Build command."""
         input_dto = kwargs["input"]
-        return change_subscription.ChangeSubscriptionCommand(
+        return change_subscription.Command(
             user=info.context.user,  # type: ignore
             tariff=input_dto["tariff"],
             hash=input_dto["hash"],
@@ -54,7 +54,7 @@ class ChangeSubscriptionMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: change_subscription.ChangeSubscriptionCommandResult,
+        command_result: change_subscription.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {

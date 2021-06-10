@@ -40,7 +40,7 @@ class UploadMeAvatarMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Build command."""
-        return upload_avatar.MeUploadAvatarCommand(
+        return upload_avatar.Command(
             user=info.context.user,  # type: ignore
             **kwargs["input"],
         )
@@ -50,7 +50,7 @@ class UploadMeAvatarMutation(BaseCommandMutation):
         cls,
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
-        command_result: upload_avatar.MeUploadAvatarCommandResult,
+        command_result: upload_avatar.CommandResult,
     ) -> Dict[str, object]:
         """Prepare response data."""
         return {"user": command_result.user}

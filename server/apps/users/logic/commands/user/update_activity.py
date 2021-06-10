@@ -7,18 +7,16 @@ from apps.users.models import User
 
 
 @dataclass(frozen=True)
-class UpdateUserActivityCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Update user activity."""
 
     user_pk: int
 
 
-class CommandHandler(
-    commands.ICommandHandler[UpdateUserActivityCommand, None],
-):
+class CommandHandler(commands.ICommandHandler[Command, None]):
     """Update user activity."""
 
-    def execute(self, command: UpdateUserActivityCommand) -> None:
+    def execute(self, command: Command) -> None:
         """Main logic here."""
         User.objects.filter(pk=command.user_pk).update(
             last_activity=timezone.now(),

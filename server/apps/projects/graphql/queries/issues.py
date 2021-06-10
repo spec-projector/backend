@@ -35,7 +35,7 @@ class IssuesQueries(graphene.ObjectType):
 
         input_data = kwargs["input"]
         return queries.execute_query(
-            retrieve.GetIssueQuery(
+            retrieve.Query(
                 project=input_data.project,
                 url=input_data.url,
                 system=IssuesManagementSystem(input_data.system),

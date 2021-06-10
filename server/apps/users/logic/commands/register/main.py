@@ -32,7 +32,7 @@ class _InputValidator(serializers.Serializer):
 
 
 @dataclass(frozen=True)
-class RegisterCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Register command."""
 
     first_name: str
@@ -42,15 +42,13 @@ class RegisterCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class RegisterCommandResult:
+class CommandResult:
     """Register output dto."""
 
     token: Token
 
 
-class CommandHandler(
-    commands.ICommandHandler[RegisterCommand, RegisterCommandResult],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Register new user."""
 
     @injector.inject
@@ -63,7 +61,7 @@ class CommandHandler(
         self._token_service = token_service
         self._signup_service = signup_service
 
-    def execute(self, command: RegisterCommand) -> RegisterCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         self._validate_data(command)
 
@@ -76,7 +74,7 @@ class CommandHandler(
             ),
         )
 
-        return RegisterCommandResult(
+        return CommandResult(
             token=self._token_service.create_user_token(user),
         )
 

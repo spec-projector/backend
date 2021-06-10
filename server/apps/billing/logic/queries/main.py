@@ -8,12 +8,12 @@ from apps.billing.logic.queries.tariff import list as list_tariffs
 
 QUERIES = (
     (
-        active_change_subscription_request.GetActiveSubscriptionRequestQuery,
+        active_change_subscription_request.Query,
         active_change_subscription_request.QueryHandler,
     ),
     (
-        active_subscription_request.GetActiveSubscriptionQuery,
+        active_subscription_request.Query,
         active_subscription_request.QueryHandler,
     ),
-    (list_tariffs.ListTariffsQuery, list_tariffs.QueryHandler),
+    (list_tariffs.Query, list_tariffs.QueryHandler),
 )

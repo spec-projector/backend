@@ -11,7 +11,7 @@ def test_request_no_exists(user):
     """Test if request is not created."""
     tariff = TariffFactory.create()
     commands.execute_command(
-        payment_webhook.HandlePaymentWebhookCommand(
+        payment_webhook.Command(
             payment_data={
                 "OperationType": "Payment",
                 "SubscriptionId": "1111",
@@ -60,7 +60,7 @@ def test_request_exists(user):
     )
 
     commands.execute_command(
-        payment_webhook.HandlePaymentWebhookCommand(
+        payment_webhook.Command(
             payment_data={
                 "OperationType": "Payment",
                 "SubscriptionId": "1111",

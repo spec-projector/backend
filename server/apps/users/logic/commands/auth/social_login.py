@@ -9,7 +9,7 @@ from apps.users.logic.interfaces.social_login import SystemBackend
 
 
 @dataclass(frozen=True)
-class SocialLoginCommand(commands.ICommand):
+class Command(commands.ICommand):
     """Social login input data."""
 
     request: HttpRequest
@@ -17,18 +17,13 @@ class SocialLoginCommand(commands.ICommand):
 
 
 @dataclass(frozen=True)
-class SocialLoginCommandResult:
+class CommandResult:
     """Login output dto."""
 
     redirect_url: str
 
 
-class CommandHandler(
-    commands.ICommandHandler[
-        SocialLoginCommand,
-        SocialLoginCommandResult,
-    ],
-):
+class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Social login."""
 
     @injector.inject
@@ -36,13 +31,13 @@ class CommandHandler(
         """Initializing."""
         self._social_login_service = social_login_service
 
-    def execute(self, command: SocialLoginCommand) -> SocialLoginCommandResult:
+    def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         redirect_url = self._social_login_service.begin_login(
             command.request,
             command.system,
         )
 
-        return SocialLoginCommandResult(
+        return CommandResult(
             redirect_url=redirect_url,
         )

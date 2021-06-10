@@ -21,7 +21,7 @@ def test_send_reset_success(user, command_data):
     """Test success reset."""
     assert not ResetPasswordRequest.objects.filter(user=user).exists()
 
-    commands.execute_command(command.SendPasswordResetCommand(**command_data))
+    commands.execute_command(command.Command(**command_data))
 
     assert ResetPasswordRequest.objects.filter(user=user).exists()
     assert EmailMessage.objects.filter(to=command_data["email"]).exists()
@@ -33,7 +33,7 @@ def test_wrong_email(user, command_data):
 
     with pytest.raises(EmailNotExistsError):
         commands.execute_command(
-            command.SendPasswordResetCommand(**command_data),
+            command.Command(**command_data),
         )
 
     assert not EmailMessage.objects.filter(to=command_data["email"]).exists()

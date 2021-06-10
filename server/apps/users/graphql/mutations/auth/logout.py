@@ -24,7 +24,7 @@ class LogoutMutation(BaseCommandMutation):
         **kwargs,
     ) -> commands.ICommand:
         """Create command."""
-        return logout.LogoutCommand(
+        return logout.Command(
             token=info.context.auth,  # type: ignore
         )
 
