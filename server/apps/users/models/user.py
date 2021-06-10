@@ -58,6 +58,13 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         help_text=_("HT__IS_ACTIVE"),
     )
 
+    last_activity = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=_("VN__LAST_ACTIVITY"),
+        help_text=_("HT__LAST_ACTIVITY"),
+    )
+
     avatar = ImageField(
         verbose_name=_("VN__AVATAR"),
         help_text=_("HT__AVATAR"),
