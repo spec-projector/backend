@@ -18,6 +18,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
         "first_name",
         "last_name",
         "last_login",
+        "last_activity",
         "is_active",
         "is_staff",
         "change_password_link",
