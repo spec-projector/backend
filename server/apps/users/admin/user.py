@@ -25,7 +25,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
     )
     list_filter = ("is_active", "is_staff", "is_active")
     ordering = ("email",)
-    sortable_by = ()
+    sortable_by = ("last_activity",)
     autocomplete_fields = ("groups", "avatar")
     search_fields = ("email", "first_name", "last_name", "=id")
     add_fieldsets = (
