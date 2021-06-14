@@ -22,3 +22,11 @@ pre_commit_install:
 pre_commit_update:
 	@ pre-commit autoupdate
 
+run_env_docker:
+	@ ./develop/docker.sh
+
+run_env_local:
+	@ ./develop/local.sh
+
+stop_env:
+	@ ./develop/stop.sh

@@ -1,0 +1,36 @@
+version: '2.4'
+
+services:
+  postgres:
+    image: postgres:13.3
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    shm_size: '1gb'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: spec_projector
+      POSTGRES_DB: spec_projector
+      POSTGRES_USER: spec_projector
+
+  redis:
+    image: redis:6.0.6
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+
+  couchdb:
+    image: couchdb:3.0.1
+    restart: unless-stopped
+    ports:
+      - 5984:5984
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: admin
+    volumes:
+      - couch_data:/opt/couchdb/data
+
+volumes:
+  pg_data:
+  couch_data:
