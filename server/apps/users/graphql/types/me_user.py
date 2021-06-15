@@ -11,6 +11,8 @@ from apps.billing.logic.queries.change_subscription_request import (
 from apps.billing.logic.queries.subscription import active as subscription
 from apps.core.logic import queries
 from apps.media.graphql.types import ImageType
+from apps.users.graphql.types import UserAccessTokenType
+from apps.users.logic.queries.user import access_tokens
 
 
 class MeUserType(graphene.ObjectType):
@@ -26,6 +28,7 @@ class MeUserType(graphene.ObjectType):
     last_login = graphene.DateTime()
     subscription = graphene.Field(SubscriptionType)
     change_subscription_request = graphene.Field(ChangeSubscriptionRequestType)
+    access_tokens = graphene.List(UserAccessTokenType)
 
     def resolve_subscription(self, info: ResolveInfo):  # noqa: WPS110
         """Returns user subscription."""
@@ -45,3 +48,7 @@ class MeUserType(graphene.ObjectType):
                 user=self,
             ),
         )
+
+    def resolve_access_tokens(self, info: ResolveInfo):  # noqa: WPS110
+        """Return active user access tokens."""
+        return queries.execute_query(access_tokens.Query(user=self))

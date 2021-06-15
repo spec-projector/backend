@@ -1,5 +1,5 @@
 import graphene
-from django.db.models import QuerySet
+from django.db import models
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 
@@ -25,9 +25,9 @@ class UserType(BaseModelObjectType):
     @classmethod
     def get_queryset(
         cls,
-        queryset: QuerySet,
+        queryset: models.QuerySet,
         info: ResolveInfo,  # noqa: WPS110
-    ) -> QuerySet:
+    ) -> models.QuerySet:
         """Provides queryset."""
         return allowed.Query().execute(
             allowed.InputDto(

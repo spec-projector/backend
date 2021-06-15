@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-09 12:26+0300\n"
+"POT-Creation-Date: 2021-06-11 18:26+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -602,6 +602,24 @@ msgstr "Avatar"
 
 msgid "HT__AVATAR"
 msgstr "Avatar"
+
+msgid "VN__USER_ACCESS_TOKEN"
+msgstr "User access token"
+
+msgid "VN__USER_ACCESS_TOKENS"
+msgstr "User access tokens"
+
+msgid "VN__NAME"
+msgstr "Name"
+
+msgid "HT__NAME"
+msgstr " "
+
+msgid "VN__KEY"
+msgstr "Key"
+
+msgid "HT__KEY"
+msgstr " "
 
 msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"

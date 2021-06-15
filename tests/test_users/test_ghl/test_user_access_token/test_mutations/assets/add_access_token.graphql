@@ -1,0 +1,10 @@
+mutation ($name: String!) {
+  addAccessToken(name: $name) {
+    accessToken{
+      id
+      name
+      key
+      createdAt
+    }
+  }
+}

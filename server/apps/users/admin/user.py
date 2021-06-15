@@ -6,6 +6,7 @@ from django.utils.html import format_html
 from jnt_django_toolbox.admin.decorators import admin_field
 
 from apps.core.admin.mixins import AdminFormFieldsOverridesMixin
+from apps.users.admin.inlines import UserAccessTokenInline
 from apps.users.models import User
 
 
@@ -58,6 +59,7 @@ class UserAdmin(AdminFormFieldsOverridesMixin, DjangoUserAdmin):
         ),
     )
     readonly_fields = ("last_login", "last_activity")
+    inlines = (UserAccessTokenInline,)
     change_password_form = AdminPasswordChangeForm
 
     @admin_field("Change password")

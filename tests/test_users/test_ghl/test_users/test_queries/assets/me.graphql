@@ -9,5 +9,10 @@
     lastLogin
     firstName
     lastName
+    accessTokens {
+      id
+      name
+      createdAt
+    }
   }
 }

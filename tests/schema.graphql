@@ -3,6 +3,10 @@ schema {
   mutation: Mutation
 }
 
+type AddUserAccessTokenMutation {
+  accessToken: UserAccessTokenCreatedType
+}
+
 type Assignee {
   name: String
   avatar: String
@@ -62,6 +66,10 @@ type CreateProjectMutation {
 scalar DateTime
 
 type DeleteProjectMutation {
+  status: String
+}
+
+type DeleteUserAccessTokenMutation {
   status: String
 }
 
@@ -152,6 +160,7 @@ type MeUserType {
   lastLogin: DateTime
   subscription: Subscription
   changeSubscriptionRequest: ChangeSubscriptionRequest
+  accessTokens: [UserAccessToken]
 }
 
 interface ModelRelayNode {
@@ -171,6 +180,8 @@ type Mutation {
   changePassword(input: ChangePasswordInput!): ChangePasswordMutation
   updateMe(input: UpdateMeInput!): UpdateMeMutation
   uploadMeAvatar(input: UploadMeAvatarInput!): UploadMeAvatarMutation
+  addAccessToken(name: String!): AddUserAccessTokenMutation
+  deleteAccessToken(id: ID!): DeleteUserAccessTokenMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -457,4 +468,17 @@ type User implements ModelRelayNode {
   isActive: Boolean
   lastLogin: DateTime
   avatar: Image
+}
+
+type UserAccessToken implements ModelRelayNode {
+  id: ID!
+  name: String
+  createdAt: DateTime
+}
+
+type UserAccessTokenCreatedType {
+  id: ID
+  key: String
+  name: String
+  createdAt: DateTime
 }

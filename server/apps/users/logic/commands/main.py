@@ -7,6 +7,10 @@ from apps.users.logic.commands.auth import (
 )
 from apps.users.logic.commands.me import update, upload_avatar
 from apps.users.logic.commands.reset_password import reset, send_password_reset
+from apps.users.logic.commands.user_access_token import (
+    add_access_token,
+    delete_access_token,
+)
 
 COMMANDS = (
     (login.Command, login.CommandHandler),
@@ -26,4 +30,6 @@ COMMANDS = (
         send_password_reset.CommandHandler,
     ),
     (user.Command, user.CommandHandler),
+    (add_access_token.Command, add_access_token.CommandHandler),
+    (delete_access_token.Command, delete_access_token.CommandHandler),
 )
