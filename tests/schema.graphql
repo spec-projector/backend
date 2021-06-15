@@ -152,6 +152,7 @@ type MeUserType {
   lastLogin: DateTime
   subscription: Subscription
   changeSubscriptionRequest: ChangeSubscriptionRequest
+  accessTokens: [UserAccessToken]
 }
 
 interface ModelRelayNode {
@@ -457,4 +458,10 @@ type User implements ModelRelayNode {
   isActive: Boolean
   lastLogin: DateTime
   avatar: Image
+}
+
+type UserAccessToken implements ModelRelayNode {
+  id: ID!
+  name: String
+  createdAt: DateTime
 }

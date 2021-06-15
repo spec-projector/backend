@@ -42,7 +42,7 @@ class UserAccessToken(BaseModel):
         related_name="access_tokens",
     )
 
-    def __str__(self) -> str:
+    def __str__(self):
         """String present object."""
         return self.name
 
