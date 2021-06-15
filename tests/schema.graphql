@@ -3,6 +3,10 @@ schema {
   mutation: Mutation
 }
 
+type AddUserAccessTokenMutation {
+  accessToken: UserAccessTokenCreatedType
+}
+
 type Assignee {
   name: String
   avatar: String
@@ -172,6 +176,7 @@ type Mutation {
   changePassword(input: ChangePasswordInput!): ChangePasswordMutation
   updateMe(input: UpdateMeInput!): UpdateMeMutation
   uploadMeAvatar(input: UploadMeAvatarInput!): UploadMeAvatarMutation
+  addAccessToken(name: String!): AddUserAccessTokenMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
@@ -462,6 +467,13 @@ type User implements ModelRelayNode {
 
 type UserAccessToken implements ModelRelayNode {
   id: ID!
+  name: String
+  createdAt: DateTime
+}
+
+type UserAccessTokenCreatedType {
+  id: ID
+  key: String
   name: String
   createdAt: DateTime
 }
