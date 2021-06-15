@@ -69,6 +69,10 @@ type DeleteProjectMutation {
   status: String
 }
 
+type DeleteUserAccessTokenMutation {
+  status: String
+}
+
 type DjangoDebug {
   sql: [DjangoDebugSQL]
 }
@@ -177,6 +181,7 @@ type Mutation {
   updateMe(input: UpdateMeInput!): UpdateMeMutation
   uploadMeAvatar(input: UploadMeAvatarInput!): UploadMeAvatarMutation
   addAccessToken(name: String!): AddUserAccessTokenMutation
+  deleteAccessToken(id: ID!): DeleteUserAccessTokenMutation
   uploadFigmaAsset(input: CreateProjectAssetInput!): CreateProjectAssetMutation
   createProject(input: CreateProjectInput): CreateProjectMutation
   updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation

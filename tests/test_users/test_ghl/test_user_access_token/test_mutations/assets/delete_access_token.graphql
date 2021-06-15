@@ -1,0 +1,5 @@
+mutation ($id: ID!) {
+  deleteAccessToken(id: $id) {
+    status
+  }
+}

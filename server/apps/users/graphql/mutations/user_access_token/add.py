@@ -39,7 +39,7 @@ class AddUserAccessTokenMutation(BaseCommandMutation):
         root: Optional[object],
         info: ResolveInfo,  # noqa: WPS110
         command_result: add_access_token.CommandResult,
-    ) -> Dict["str", object]:
+    ) -> Dict[str, object]:
         """Prepare response data."""
         user_access_token = command_result.access_token
         return {
@@ -47,6 +47,6 @@ class AddUserAccessTokenMutation(BaseCommandMutation):
                 "id": user_access_token.id,
                 "name": user_access_token.name,
                 "key": user_access_token.key,
-                "createdAt": user_access_token.created_at,
+                "created_at": user_access_token.created_at,
             },
         }

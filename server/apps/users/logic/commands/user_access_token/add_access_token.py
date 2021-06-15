@@ -27,7 +27,7 @@ class CommandResult:
 
 
 class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
-    """Adding user access token."""
+    """Add user access token."""
 
     def execute(self, command: Command) -> CommandResult:
         """Main logic here."""

@@ -10,14 +10,6 @@ from jnt_django_graphene_toolbox.errors.input import INPUT_ERROR
 from apps.projects.models import Project
 from tests.test_projects.factories.project import ProjectFactory
 
-GHL_QUERY_DELETE_PROJECT = """
-mutation ($id: ID!) {
-    deleteProject(project: $id) {
-        status
-    }
-}
-"""
-
 PROJECT_DB_NAME = "db-1"
 
 
@@ -27,12 +19,12 @@ def project():
     return ProjectFactory.create(db_name=PROJECT_DB_NAME)
 
 
-def test_query(user, ghl_client, project):
+def test_query(user, ghl_client, project, ghl_raw):
     """Test delete project raw query."""
     ghl_client.set_user(user)
 
     response = ghl_client.execute(
-        GHL_QUERY_DELETE_PROJECT,
+        ghl_raw("delete_project"),
         variable_values={"id": project.pk},
     )
 

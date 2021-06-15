@@ -22,3 +22,6 @@ class UsersMutations:
     upload_me_avatar = me.UploadMeAvatarMutation.Field()
 
     add_access_token = user_access_token.AddUserAccessTokenMutation.Field()
+    delete_access_token = (
+        user_access_token.DeleteUserAccessTokenMutation.Field()
+    )
