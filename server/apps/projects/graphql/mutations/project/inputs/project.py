@@ -32,5 +32,4 @@ class BaseProjectInput(graphene.InputObjectType):
     github_integration = graphene.Field(UpdateGitHubIntegrationType)
     gitlab_integration = graphene.Field(UpdateGitLabIntegrationType)
     emblem = graphene.ID()
-    public_permissions = BitField(ProjectPermission)
     public_role = graphene.Enum.from_enum(ProjectMemberRole)()

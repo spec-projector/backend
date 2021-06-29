@@ -1,4 +1,4 @@
-from apps.projects.models import Project
+from apps.core.utils.bit_field import get_all_selected_bitfield
 from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
 
 
@@ -33,16 +33,9 @@ def test_create_public_permissions(
         info=ghl_auth_mock_info,
         input={
             "title": "my project",
-            "public_permissions": [
-                ProjectPermission.VIEW_CONTRACT,
-                ProjectPermission.EDIT_SPRINTS,
-                ProjectPermission.EDIT_MODEL,
-            ],
         },
     )
 
-    assert int(response.project.public_permissions) == (
-        Project.public_permissions.VIEW_CONTRACT
-        | Project.public_permissions.EDIT_SPRINTS
-        | Project.public_permissions.EDIT_MODEL
+    assert response.project.public_permissions == get_all_selected_bitfield(
+        ProjectPermission,
     )
