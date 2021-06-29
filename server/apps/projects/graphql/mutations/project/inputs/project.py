@@ -1,7 +1,6 @@
 import graphene
-from jnt_django_graphene_toolbox.fields import BitField
 
-from apps.projects.models.enums import ProjectMemberRole, ProjectPermission
+from apps.projects.models.enums import ProjectMemberRole
 
 
 class UpdateFigmaIntegrationType(graphene.InputObjectType):
