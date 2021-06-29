@@ -6,6 +6,7 @@ from apps.billing.logic.interfaces import ITariffLimitsService
 from apps.core.logic import commands
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.interfaces import ICouchDBService
+from apps.core.utils.bit_field import get_all_selected_bitfield
 from apps.core.utils.objects import empty
 from apps.projects.logic.commands.project.create import dto
 from apps.projects.models import (
@@ -14,6 +15,7 @@ from apps.projects.models import (
     GitLabIntegration,
     Project,
 )
+from apps.projects.models.enums import ProjectPermission
 from apps.users.models import User
 
 
@@ -59,8 +61,8 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
             description=validated_data["description"],
             owner=command.user,
             emblem=validated_data.get("emblem"),
-            public_permissions=validated_data.get("public_permissions"),
             public_role=validated_data.get("public_role"),
+            public_permissions=get_all_selected_bitfield(ProjectPermission),
         )
 
         self._add_figma_integration(project, validated_data)

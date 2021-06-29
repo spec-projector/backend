@@ -24,6 +24,7 @@ class UpdateProjectInput(BaseProjectInput):
     """Input for update project."""
 
     members = graphene.Argument(graphene.List(ProjectMemberInput))
+    public_permissions = BitField(ProjectPermission)
 
 
 class UpdateProjectMutation(BaseCommandMutation):
