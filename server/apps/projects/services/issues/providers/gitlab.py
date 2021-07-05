@@ -1,9 +1,9 @@
 from typing import Optional, Tuple
 from urllib.parse import urlparse
 
-import gitlab
 from django.conf import settings
-from gitlab.v4.objects import Issue
+from gitlab.client import Gitlab
+from gitlab.v4.objects.issues import Issue
 
 from apps.projects.logic.interfaces.issues import AssigneeMeta, IssueMeta
 from apps.projects.services.issues.providers.base import BaseProvider
@@ -33,9 +33,9 @@ class GitlabProvider(BaseProvider):
 
         return project.issues.get(issue_id)
 
-    def _get_gitlab_client(self) -> gitlab.Gitlab:
+    def _get_gitlab_client(self) -> Gitlab:
         """Getting Gitlab client."""
-        return gitlab.Gitlab(settings.GITLAB_HOST, self._token)
+        return Gitlab(settings.GITLAB_HOST, self._token)
 
     def _parse_url(self, url: str) -> Tuple[str, str]:
         """Getting project id and issue id."""

@@ -1,5 +1,6 @@
-from dataclasses import dataclass
 import typing as ty
+from dataclasses import dataclass
+
 from django import forms
 from django.apps import apps
 from django.contrib import admin

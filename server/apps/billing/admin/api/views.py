@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.admin.views.autocomplete import AutocompleteJsonView
 from django.core.exceptions import PermissionDenied
+from django.db import models
 from django.http import JsonResponse
 from rest_framework import serializers
 
 from apps.billing.models import Tariff
-from django.db import models
 
 
 class TariffSerializer(serializers.ModelSerializer):
