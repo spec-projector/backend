@@ -6,18 +6,23 @@ from django.urls import include, path
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 
+from apps.billing.admin.api.views import BillingTariffAutocompleteView
 from gql import get_api_graphql_view, get_graphql_view
 
 admin.site.site_header = _("VN__ADMIN_DASHBOARD")
 constance_admin = admin.site._registry.get(Config)  # noqa: WPS437
 
 admin_urls = (
-    *admin.site.urls[0],
     path(
         "configuration/",
         constance_admin.admin_site.admin_view(constance_admin.changelist_view),
         name="configuration",
     ),
+    path(
+        "billing/tariff/autocomplete/",
+        BillingTariffAutocompleteView.as_view(),
+    ),
+    *admin.site.urls[0],
 )
 
 urlpatterns = [
