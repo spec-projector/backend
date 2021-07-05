@@ -43,6 +43,7 @@ fluent-logger = "^0.10.0"
 tqdm = "^4.60.0"
 requests = "*"
 types-requests = "*"
+types-python-dateutil = "*"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
