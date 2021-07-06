@@ -12,12 +12,12 @@ admin.site.site_header = _("VN__ADMIN_DASHBOARD")
 constance_admin = admin.site._registry.get(Config)  # noqa: WPS437
 
 admin_urls = (
-    *admin.site.urls[0],
     path(
         "configuration/",
         constance_admin.admin_site.admin_view(constance_admin.changelist_view),
         name="configuration",
     ),
+    *admin.site.urls[0],
 )
 
 urlpatterns = [

@@ -1,9 +1,11 @@
+from pathlib import Path
+
 from server import BASE_DIR
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR.joinpath("server", "templates")],
+        "DIRS": [Path(BASE_DIR.joinpath("server", "templates"))],
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
