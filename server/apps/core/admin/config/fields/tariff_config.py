@@ -1,9 +1,9 @@
+from apps.billing.models import Tariff
 from apps.core.admin.config.fields import BaseForeignConfigField
 
 
 class TariffConfigField(BaseForeignConfigField):
     """Tariff config field."""
 
-    def get_url(self) -> str:
-        """Get autocomplete url."""
-        return "/admin/billing/tariff/autocomplete/"
+    model = Tariff
+    autocomplete_url = "/admin/billing/tariff/autocomplete/"

@@ -20,6 +20,8 @@ class AutocompleteSerializer(serializers.Serializer):
 class BaseAutocompleteView(AutocompleteJsonView):
     """Billing tariff autocomplete view."""
 
+    model: models.Model
+
     def __init__(self, *args, **kwargs) -> None:
         """Init view."""
         super().__init__(*args, **kwargs)
@@ -61,4 +63,4 @@ class BaseAutocompleteView(AutocompleteJsonView):
 
     def get_model_admin(self) -> admin.ModelAdmin:  # noqa: WPS615
         """Get model admin for autocomplete view."""
-        raise NotImplementedError
+        return admin.site._registry.get(self.model)  # noqa: WPS437

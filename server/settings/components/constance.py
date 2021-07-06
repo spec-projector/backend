@@ -5,7 +5,7 @@ CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_ADDITIONAL_FIELDS = {
     "default_tariff": [
         "apps.core.admin.config.fields.TariffConfigField",
-        {"model": "billing.Tariff", "field_name": "default_tariff"},
+        {"field_name": "default_tariff"},
     ],
 }
 

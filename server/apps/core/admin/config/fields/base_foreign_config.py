@@ -2,7 +2,6 @@ import typing as ty
 from dataclasses import dataclass
 
 from django import forms
-from django.apps import apps
 from django.contrib import admin
 from django.contrib.admin.widgets import AutocompleteSelect
 from django.db import models
@@ -20,24 +19,26 @@ class MockRelation:
 class BaseForeignConfigField(forms.ModelChoiceField):
     """Base foreign config field."""
 
-    def __init__(self, model: str, field_name: str, *args, **kwargs) -> None:
+    model: models.Model
+    autocomplete_url: str
+
+    def __init__(self, field_name: str, *args, **kwargs) -> None:
         """Init foreign config field."""
         self._field_name = field_name
-        current_model = apps.get_model(*model.split("."))
 
-        kwargs["queryset"] = current_model.objects.all()
-        kwargs["widget"] = self._get_widget(current_model)
+        kwargs["queryset"] = self.model.objects.all()
+        kwargs["widget"] = self._get_widget()
         kwargs["required"] = False
 
         super().__init__(*args, **kwargs)
 
     def get_url(self) -> str:
         """Get autocomplete url."""
-        raise NotImplementedError
+        return self.autocomplete_url
 
-    def _get_widget(self, current_model) -> AutocompleteSelect:
+    def _get_widget(self) -> AutocompleteSelect:
         """Get widget for current model."""
-        mock_rel = MockRelation(current_model, self._field_name)
+        mock_rel = MockRelation(self.model, self._field_name)
         mock_rel.remote_field = mock_rel
 
         widget = AutocompleteSelect(
