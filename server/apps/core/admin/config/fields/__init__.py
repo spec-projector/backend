@@ -1,1 +1,2 @@
-from .foreign_config_field import ForeignConfigField
+from .base_foreign_config import BaseForeignConfigField
+from .tariff_config import TariffConfigField

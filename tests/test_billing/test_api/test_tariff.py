@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from apps.billing.admin.api.views import TariffSerializer
+from apps.core.admin.api.autocomplete_view import AutocompleteSerializer
 from tests.test_billing.factories import TariffFactory
 
 API_URL = "/admin/billing/tariff/autocomplete/"
@@ -16,7 +16,7 @@ def test_success(admin_user, tariff, admin_client):
 
     assert (
         response_data["results"]
-        == TariffSerializer(instance=[tariff], many=True).data
+        == AutocompleteSerializer(instance=[tariff], many=True).data
     )
 
 
@@ -43,7 +43,7 @@ def test_find(admin_user, tariff, admin_client):
 
     assert (
         response_data["results"]
-        == TariffSerializer(instance=[tariff], many=True).data
+        == AutocompleteSerializer(instance=[tariff], many=True).data
     )
 
 
