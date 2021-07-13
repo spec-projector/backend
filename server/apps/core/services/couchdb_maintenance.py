@@ -89,4 +89,4 @@ class CouchDBMaintenanceService:
         if not stdout:
             return
 
-        stdout.write(text, ending="")
+        stdout.write(text, ending="")  # type: ignore
