@@ -287,20 +287,20 @@ class ProjectSpecification(General):
     def _get_id_list_in_document(self, id2: str) -> list:
         s = []
         with Document(db, id2) as doc:
-            for i in doc:
-                y = doc[i]
-                if str(i) == '_id':
+            for i1 in doc:
+                y = doc[i1]
+                if str(i1) == '_id':
                     s.append([str(y), ":"])
                 if type(y) == list:
-                    for ii in y:
-                        for iii in ii:
-                            if str(iii) == "_id":
-                                s.append([str(i), str(ii[iii])])
+                    for i2 in y:
+                        for i3 in i2:
+                            if str(i3) == "_id":
+                                s.append([str(i1), str(i2[i3])])
                 elif type(y) == dict or type(y) == str:
-                    for ii in y:
-                        if type(ii) != str or len(ii) != 1:
-                            if str(ii) == '_id':
-                                s.append([str(i), str(y[ii])])
+                    for i2 in y:
+                        if type(i2) != str or len(i2) != 1:
+                            if str(i2) == '_id':
+                                s.append([str(i1), str(y[i2])])
         return s
 
     def show_ids_in_database(self) -> print:
@@ -330,12 +330,21 @@ class ProjectSpecification(General):
                                                     print(p * 5 + i6[0])
                                                     if i6[1] != ":":
                                                         print(p * 6 + i6[1])
+# ProjectSpecification(db, 'spec').show_ids_in_database()
 
 
-# print(ProjectSpecification(db, 'spec').actors[1].name)
-# print(ProjectSpecification(db, 'spec').actors[1].features[1].title)
+class SpecRepresenter():
+    def __init__(self, spec: ProjectSpecification):
+        self._spec = spec
 
-# dict2 = ProjectSpecification(db, 'spec').to_dict()
-# print(json.dumps(dict2, indent=4, ensure_ascii=False))
-#
-ProjectSpecification(db, 'spec').show_ids_in_database()
+    def print(self) -> print:
+        dict = self._spec.to_dict()
+        print(json.dumps(dict, indent=4, ensure_ascii=False))
+
+
+def load_spec(db: CouchDB) -> print:
+    spec = ProjectSpecification(db, 'spec')
+    printer = SpecRepresenter(spec)
+    printer.print()
+
+load_spec(db)
