@@ -2,11 +2,11 @@ from cloudant.client import CouchDB
 from cloudant.document import Document
 import json
 
-USERNAME = 'admin'
-PASSWORD = 'admin'
-URL = 'http://127.0.0.1:5984'
+USERNAME = "admin"
+PASSWORD = "admin"
+URL = "http://127.0.0.1:5984"
 client = CouchDB(USERNAME, PASSWORD, url=URL, connect=True, auto_renew=True)
-db = client['b6a0cce0-fa1b-45e8-bbb2-3ff859ad8a0c']
+db = client["b6a0cce0-fa1b-45e8-bbb2-3ff859ad8a0c"]
 
 
 class General:
@@ -33,28 +33,24 @@ class General:
     @property
     def name(self) -> str:
         if self._name is None:
-            self._name = self._doc['name']
+            self._name = self._doc["name"]
         return self._name
 
     @property
     def title(self) -> str:
         if self._title is None:
-            self._title = self._doc['title']
+            self._title = self._doc["title"]
         return self._title
 
 
 class Graphql(General):
     def to_dict(self) -> dict:
-        return {
-            "title": self.title
-        }
+        return {"title": self.title}
 
 
 class Workflow(General):
     def to_dict(self) -> dict:
-        return {
-            "story": self._doc['story']
-        }
+        return {"story": self._doc["story"]}
 
 
 class Api(General):
@@ -65,28 +61,26 @@ class Api(General):
         return self._graphql
 
     def _load_graphql(self) -> list:
-        return [Graphql(self._db, doc_graphql['_id']) for doc_graphql in self._doc['graphql']]
+        return [
+            Graphql(self._db, doc_graphql["_id"])
+            for doc_graphql in self._doc["graphql"]
+        ]
 
     def to_dict(self) -> dict:
         return {
-            "_id": self._doc['_id'],
-            "graphql": [graphql.to_dict() for graphql in self.graphql]
+            "_id": self._doc["_id"],
+            "graphql": [graphql.to_dict() for graphql in self.graphql],
         }
 
 
 class Tool(General):
     def to_dict(self) -> dict:
-        return {
-            "_id": self._doc['_id']
-        }
+        return {"_id": self._doc["_id"]}
 
 
 class Field(General):
     def to_dict(self) -> dict:
-        return {
-            "title": self.title,
-            "name": self.name
-        }
+        return {"title": self.title, "name": self.name}
 
 
 class Entity(General):
@@ -97,12 +91,15 @@ class Entity(General):
         return self._fields
 
     def _load_fields(self) -> list:
-        return [Field(self._db, doc_fields['_id']) for doc_fields in self._doc['fields']]
+        return [
+            Field(self._db, doc_fields["_id"])
+            for doc_fields in self._doc["fields"]
+        ]
 
     def to_dict(self) -> dict:
         return {
             "title": self.title,
-            "entities": [entity.to_dict() for entity in self.fields]
+            "entities": [entity.to_dict() for entity in self.fields],
         }
 
 
@@ -114,12 +111,15 @@ class Model(General):
         return self._entities
 
     def _load_entities(self) -> list:
-        return [Entity(self._db, doc_entity['_id']) for doc_entity in self._doc['entities']]
+        return [
+            Entity(self._db, doc_entity["_id"])
+            for doc_entity in self._doc["entities"]
+        ]
 
     def to_dict(self) -> dict:
         return {
-            "title": '-',
-            "entities": [entity.to_dict() for entity in self.entities]
+            "title": "-",
+            "entities": [entity.to_dict() for entity in self.entities],
         }
 
 
@@ -127,13 +127,13 @@ class Feature(General):
     @property
     def title_text(self) -> str:
         if self._title is None:
-            self._title = self._doc['title'][0]['text']
+            self._title = self._doc["title"][0]["text"]
         return self._title
 
     @property
     def api(self) -> Api:
         if self._api is None:
-            self._api = Api(self._db, self._doc['api']['_id'])
+            self._api = Api(self._db, self._doc["api"]["_id"])
         return self._api
 
     def api_to_dict(self):
@@ -145,7 +145,7 @@ class Feature(General):
     @property
     def workflow(self) -> Workflow:
         if self._workflow is None:
-            self._workflow = Workflow(self._db, self._doc['workflow']['_id'])
+            self._workflow = Workflow(self._db, self._doc["workflow"]["_id"])
         return self._workflow
 
     def workflow_to_dict(self):
@@ -162,18 +162,15 @@ class Feature(General):
         elif self.api_to_dict() is None:
             return {
                 "title": self.title_text,
-                "workflow": self.workflow_to_dict()
+                "workflow": self.workflow_to_dict(),
             }
         elif self.workflow_to_dict() is None:
-            return {
-                "title": self.title_text,
-                "api": self.api_to_dict()
-            }
+            return {"title": self.title_text, "api": self.api_to_dict()}
         else:
             return {
                 "title": self.title_text,
                 "api": self.api_to_dict(),
-                "workflow": self.workflow_to_dict()
+                "workflow": self.workflow_to_dict(),
             }
 
 
@@ -192,12 +189,15 @@ class Module(General):
         return self._features
 
     def _load_features(self) -> list:
-        return [Feature(self._db, doc_features['_id']) for doc_features in self._doc['features']]
+        return [
+            Feature(self._db, doc_features["_id"])
+            for doc_features in self._doc["features"]
+        ]
 
     def to_dict(self) -> dict:
         return {
             "name": self.title,
-            "features": [feature.to_dict() for feature in self.features]
+            "features": [feature.to_dict() for feature in self.features],
         }
 
 
@@ -209,12 +209,15 @@ class Actor(General):
         return self._features
 
     def _load_features(self) -> list:
-        return [Feature(self._db, doc_features['_id']) for doc_features in self._doc['features']]
+        return [
+            Feature(self._db, doc_features["_id"])
+            for doc_features in self._doc["features"]
+        ]
 
     def to_dict(self) -> dict:
         return {
             "name": self.name,
-            "features": [feature.to_dict() for feature in self.features]
+            "features": [feature.to_dict() for feature in self.features],
         }
 
 
@@ -222,19 +225,19 @@ class ProjectSpecification(General):
     @property
     def version(self) -> str:
         if self._version is None:
-            self._version = self._doc['scheme']['version']
+            self._version = self._doc["scheme"]["version"]
         return self._version
 
     @property
     def model(self) -> Model:
         if self._model is None:
-            self._model = Model(self._db, self._doc['model']['_id'])
+            self._model = Model(self._db, self._doc["model"]["_id"])
         return self._model
 
     @property
     def tools(self) -> Tool:
         if self._tools is None:
-            self._tools = Tool(self._db, self._doc['model']['_id'])
+            self._tools = Tool(self._db, self._doc["model"]["_id"])
         return self._tools
 
     @property
@@ -244,7 +247,7 @@ class ProjectSpecification(General):
         return self._resourceTypes
 
     def _load_resourceTypes(self) -> list:
-        return [rT['title'] for rT in self._doc['resourceTypes']]
+        return [rT["title"] for rT in self._doc["resourceTypes"]]
 
     @property
     def actors(self) -> list:
@@ -253,7 +256,10 @@ class ProjectSpecification(General):
         return self._actors
 
     def _load_actors(self) -> list:
-        return [Actor(self._db, doc_actors['_id']) for doc_actors in self._doc['actors']]
+        return [
+            Actor(self._db, doc_actors["_id"])
+            for doc_actors in self._doc["actors"]
+        ]
 
     @property
     def modules(self) -> list:
@@ -262,7 +268,10 @@ class ProjectSpecification(General):
         return self._modules
 
     def _load_modules(self) -> list:
-        return [Module(self._db, doc_module['_id']) for doc_module in self._doc['modules']]
+        return [
+            Module(self._db, doc_module["_id"])
+            for doc_module in self._doc["modules"]
+        ]
 
     @property
     def terms(self) -> list:
@@ -271,17 +280,19 @@ class ProjectSpecification(General):
         return self._terms
 
     def _load_terms(self) -> list:
-        return [Term(self._db, doc_term['_id']) for doc_term in self._doc['terms']]
+        return [
+            Term(self._db, doc_term["_id"]) for doc_term in self._doc["terms"]
+        ]
 
     def to_dict(self) -> dict:
         return {
-            'version': self.version,
-            'model': self.model.to_dict(),
-            'tools': self.tools.to_dict(),
-            'resourceTypes': self.resourceTypes,
-            'actors': [actor.to_dict() for actor in self.actors],
-            'modules': [module.to_dict() for module in self.modules],
-            'terms': [term.to_dict() for term in self.terms]
+            "version": self.version,
+            "model": self.model.to_dict(),
+            "tools": self.tools.to_dict(),
+            "resourceTypes": self.resourceTypes,
+            "actors": [actor.to_dict() for actor in self.actors],
+            "modules": [module.to_dict() for module in self.modules],
+            "terms": [term.to_dict() for term in self.terms],
         }
 
     def _get_id_list_in_document(self, id2: str) -> list:
@@ -289,7 +300,7 @@ class ProjectSpecification(General):
         with Document(db, id2) as doc:
             for i1 in doc:
                 y = doc[i1]
-                if str(i1) == '_id':
+                if str(i1) == "_id":
                     s.append([str(y), ":"])
                 if type(y) == list:
                     for i2 in y:
@@ -299,12 +310,12 @@ class ProjectSpecification(General):
                 elif type(y) == dict or type(y) == str:
                     for i2 in y:
                         if type(i2) != str or len(i2) != 1:
-                            if str(i2) == '_id':
+                            if str(i2) == "_id":
                                 s.append([str(i1), str(y[i2])])
         return s
 
     def show_ids_in_database(self) -> print:
-        s1 = self._get_id_list_in_document('spec')
+        s1 = self._get_id_list_in_document("spec")
         p = "    "
         for i1 in s1:
             print(p * 0 + i1[0])
@@ -321,19 +332,25 @@ class ProjectSpecification(General):
                                 for i4 in s4:
                                     print(p * 3 + i4[0])
                                     if i4[1] != ":":
-                                        s5 = self._get_id_list_in_document(i4[1])
+                                        s5 = self._get_id_list_in_document(
+                                            i4[1]
+                                        )
                                         for i5 in s5:
                                             print(p * 4 + i5[0])
                                             if i5[1] != ":":
-                                                s6 = self._get_id_list_in_document(i5[1])
+                                                s6 = self._get_id_list_in_document(
+                                                    i5[1]
+                                                )
                                                 for i6 in s6:
                                                     print(p * 5 + i6[0])
                                                     if i6[1] != ":":
                                                         print(p * 6 + i6[1])
+
+
 # ProjectSpecification(db, 'spec').show_ids_in_database()
 
 
-class SpecRepresenter():
+class SpecRepresenter:
     def __init__(self, spec: ProjectSpecification):
         self._spec = spec
 
@@ -343,8 +360,9 @@ class SpecRepresenter():
 
 
 def load_spec(db: CouchDB) -> print:
-    spec = ProjectSpecification(db, 'spec')
+    spec = ProjectSpecification(db, "spec")
     printer = SpecRepresenter(spec)
     printer.print()
+
 
 load_spec(db)
