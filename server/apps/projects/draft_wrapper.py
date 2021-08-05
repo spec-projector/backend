@@ -153,7 +153,7 @@ class Feature(General):
         }
 
 
-class ActorOrModule(General):  # w
+class Actor(General):  # w
     """Actor class. Actors are listed in the "spec" document."""
 
     _features = None
@@ -169,6 +169,32 @@ class ActorOrModule(General):  # w
         """Returns dictionary."""
         return {
             "name": self.name,
+            "features": [feature.to_dict() for feature in self.features],
+        }
+
+    def _load_features(self) -> list:
+        return [
+            Feature(self._db_couch, doc_features["_id"])
+            for doc_features in self._doc["features"]
+        ]
+
+
+class Module(General):  # w
+    """Module class. Modules are listed in the "spec" document."""
+
+    _features = None
+
+    @property
+    def features(self) -> list:
+        """Returns list of Feature objects."""
+        if self._features is None:
+            self._features = self._load_features()
+        return self._features
+
+    def to_dict(self) -> dict:
+        """Returns dictionary."""
+        return {
+            "name": self.title,
             "features": [feature.to_dict() for feature in self.features],
         }
 
@@ -331,13 +357,13 @@ class ProjectSpecification(General):  # w
 
     def _load_actors(self) -> list:
         return [
-            ActorOrModule(self._db_couch, doc_actors["_id"])
+            Actor(self._db_couch, doc_actors["_id"])
             for doc_actors in self._doc["actors"]
         ]
 
     def _load_modules(self) -> list:
         return [
-            ActorOrModule(self._db_couch, doc_module["_id"])
+            Module(self._db_couch, doc_module["_id"])
             for doc_module in self._doc["modules"]
         ]
 
