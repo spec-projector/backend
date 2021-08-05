@@ -21,14 +21,14 @@ class General:
         self._name = None
 
     @property
-    def name(self) -> list:
+    def name(self) -> str:
         """Returns name of document."""
         if self._name is None:
             self._name = self._doc["name"]
         return self._name
 
     @property
-    def title(self) -> list:
+    def title(self) -> str:
         """Returns title of document."""
         if self._title is None:
             self._title = self._doc["title"]
@@ -38,7 +38,7 @@ class General:
 class Term(General):
     """Term class. Terms is listed in the "spec" document."""
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str]:
         """Returns dictionary with name of document."""
         return {"name": self.name}
 
@@ -46,7 +46,7 @@ class Term(General):
 class Workflow(General):
     """Workflow class. Workflow are listed in documents of type "features"."""
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str]:
         """Returns dictionary with name of document workflow history."""
         return {"story": self._doc["story"]}
 
@@ -54,31 +54,31 @@ class Workflow(General):
 class Graphql(General):
     """Graphql class. Graphql are listed in documents of type "api"."""
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str]:
         """Returns dictionary with title of document."""
         return {"title": self.title}
 
 
-class Api(General):  # w
+class Api(General):
     """Api class. Api are listed in documents of type "features"."""
 
     _graphql = None
 
     @property
-    def graphql(self) -> list:
+    def graphql(self) -> list[Graphql]:
         """Returns list of Graphql objects."""
         if self._graphql is None:
             self._graphql = self._load_graphql()
         return self._graphql
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, any]:
         """Returns dictionary."""
         return {
             "_id": self._doc["_id"],
             "graphql": [graphql.to_dict() for graphql in self.graphql],
         }
 
-    def _load_graphql(self) -> list:
+    def _load_graphql(self) -> list[Graphql]:
         return [
             Graphql(self._db_couch, doc_graphql["_id"])
             for doc_graphql in self._doc["graphql"]
@@ -119,21 +119,21 @@ class Feature(General):
             )
         return self._workflow
 
-    def api_to_dict(self):
+    def api_to_dict(self) -> dict[str, any] or None:
         """Returns dictionary."""
         try:
             return self.api.to_dict()
         except KeyError:
             return self._api
 
-    def workflow_to_dict(self):
+    def workflow_to_dict(self) -> dict[str, str] or None:
         """Returns dictionary."""
         try:
             return self.workflow.to_dict()
         except KeyError:
             return self._workflow
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, any]:
         """Returns dictionary."""
         if self.api_to_dict() is None and self.workflow_to_dict() is None:
             return {
@@ -153,52 +153,52 @@ class Feature(General):
         }
 
 
-class Actor(General):  # w
+class Actor(General):
     """Actor class. Actors are listed in the "spec" document."""
 
     _features = None
 
     @property
-    def features(self) -> list:
+    def features(self) -> list[Feature]:
         """Returns list of Feature objects."""
         if self._features is None:
             self._features = self._load_features()
         return self._features
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, any]:
         """Returns dictionary."""
         return {
             "name": self.name,
             "features": [feature.to_dict() for feature in self.features],
         }
 
-    def _load_features(self) -> list:
+    def _load_features(self) -> list[Feature]:
         return [
             Feature(self._db_couch, doc_features["_id"])
             for doc_features in self._doc["features"]
         ]
 
 
-class Module(General):  # w
+class Module(General):
     """Module class. Modules are listed in the "spec" document."""
 
     _features = None
 
     @property
-    def features(self) -> list:
+    def features(self) -> list[Feature]:
         """Returns list of Feature objects."""
         if self._features is None:
             self._features = self._load_features()
         return self._features
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, any]:
         """Returns dictionary."""
         return {
             "name": self.title,
             "features": [feature.to_dict() for feature in self.features],
         }
 
-    def _load_features(self) -> list:
+    def _load_features(self) -> list[Feature]:
         return [
             Feature(self._db_couch, doc_features["_id"])
             for doc_features in self._doc["features"]
@@ -208,7 +208,7 @@ class Module(General):  # w
 class Tool(General):
     """Tool class. The tool is listed in the "spec" document."""
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str]:
         """Returns dictionary."""
         return {"_id": self._doc["_id"]}
 
@@ -216,64 +216,64 @@ class Tool(General):
 class Field(General):
     """Field class. The fields are listed in documents of type "entities"."""
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str]:
         """Returns dictionary."""
         return {"title": self.title, "name": self.name}
 
 
-class Entity(General):  # w
+class Entity(General):
     """Entity class. Entities are listed in documents of type "model"."""
 
     _fields = None
 
     @property
-    def fields(self) -> list:
+    def fields(self) -> list[Field]:
         """Returns list of Field objects."""
         if self._fields is None:
             self._fields = self._load_fields()
         return self._fields
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, any]:
         """Returns dictionary."""
         return {
             "title": self.title,
             "fields": [field.to_dict() for field in self.fields],
         }
 
-    def _load_fields(self) -> list:
+    def _load_fields(self) -> list[Field]:
         return [
             Field(self._db_couch, doc_fields["_id"])
             for doc_fields in self._doc["fields"]
         ]
 
 
-class Model(General):  # w
+class Model(General):
     """Model class. The model is listed in the "spec" document."""
 
     _entities = None
 
     @property
-    def entities(self) -> list:
+    def entities(self) -> list[Entity]:
         """Returns list of Entity objects."""
         if self._entities is None:
             self._entities = self._load_entities()
         return self._entities
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, any]:
         """Returns dictionary."""
         return {
             "title": "-",
             "entities": [entity.to_dict() for entity in self.entities],
         }
 
-    def _load_entities(self) -> list:
+    def _load_entities(self) -> list[Entity]:
         return [
             Entity(self._db_couch, doc_entity["_id"])
             for doc_entity in self._doc["entities"]
         ]
 
 
-class ProjectSpecification(General):  # w
+class ProjectSpecification(General):
     """Stores and collects the project specification."""
 
     _version = None
@@ -306,7 +306,7 @@ class ProjectSpecification(General):  # w
         return self._tools
 
     @property
-    def resource_types(self) -> list:
+    def resource_types(self) -> list[str]:
         """
         Resource types function.
 
@@ -317,27 +317,27 @@ class ProjectSpecification(General):  # w
         return self._resource_types
 
     @property
-    def actors(self) -> list:
+    def actors(self) -> list[Actor]:
         """Returns list of ActorOrModule objects."""
         if self._actors is None:
             self._actors = self._load_actors()
         return self._actors
 
     @property
-    def modules(self) -> list:
+    def modules(self) -> list[Module]:
         """Returns list of ActorOrModule objects."""
         if self._modules is None:
             self._modules = self._load_modules()
         return self._modules
 
     @property
-    def terms(self) -> list:
+    def terms(self) -> list[Term]:
         """Returns list of Term objects."""
         if self._terms is None:
             self._terms = self._load_terms()
         return self._terms
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, any]:
         """Returns dictionary."""
         return {
             "version": self.version,
@@ -349,25 +349,25 @@ class ProjectSpecification(General):  # w
             "terms": [term.to_dict() for term in self.terms],
         }
 
-    def _load_resource_types(self) -> list:
+    def _load_resource_types(self) -> list[str]:
         return [
             resource_type["title"]
             for resource_type in self._doc["resourceTypes"]
         ]
 
-    def _load_actors(self) -> list:
+    def _load_actors(self) -> list[Actor]:
         return [
             Actor(self._db_couch, doc_actors["_id"])
             for doc_actors in self._doc["actors"]
         ]
 
-    def _load_modules(self) -> list:
+    def _load_modules(self) -> list[Module]:
         return [
             Module(self._db_couch, doc_module["_id"])
             for doc_module in self._doc["modules"]
         ]
 
-    def _load_terms(self) -> list:
+    def _load_terms(self) -> list[Term]:
         return [
             Term(self._db_couch, doc_term["_id"])
             for doc_term in self._doc["terms"]
@@ -381,17 +381,17 @@ class SpecRepresenter:
         """Initialization."""
         self._spec = spec
 
-    def print(self) -> print:
+    def print(self):
         """Prints database shell."""
         spec_dict = self._spec.to_dict()
-        print(json.dumps(spec_dict, indent=4, ensure_ascii=False))
+        return print(json.dumps(spec_dict, indent=4, ensure_ascii=False))
 
 
-def load_spec(db_couch: CouchDB) -> print:
+def load_spec(db_couch: CouchDB):
     """Dumps database shell."""
     spec = ProjectSpecification(db_couch, "spec")
     printer = SpecRepresenter(spec)
-    printer.print()
+    return printer.print()
 
 
 load_spec(client_couchdb)
