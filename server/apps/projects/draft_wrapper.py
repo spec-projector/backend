@@ -71,7 +71,7 @@ class Api(General):
         self._graphql = self._load_graphql()
         return self._graphql
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self) -> Dict[str, Union[str, List[Dict[str, str]]]]:
         """Returns dictionary."""
         return {
             "_id": self._doc["_id"],
@@ -127,7 +127,7 @@ class Feature(General):
         except KeyError:
             return None
 
-    def to_dict(self) -> Dict[str, Union[str, List[str]]]:
+    def to_dict(self):  # -> Dict[str, any]]:
         """Returns dictionary."""
         if self.api_to_dict() is None and self.workflow_to_dict() is None:
             return {
@@ -183,7 +183,7 @@ class Module(General):
         self._features = self._load_features()
         return self._features
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self):  # -> Dict[str, any]:
         """Returns dictionary."""
         return {
             "name": self.title,
@@ -224,7 +224,7 @@ class Entity(General):
         self._fields = self._load_fields()
         return self._fields
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self) -> Dict[str, List[Dict[str, str]]]:
         """Returns dictionary."""
         return {
             "title": self.title,
@@ -249,7 +249,7 @@ class Model(General):
         self._entities = self._load_entities()
         return self._entities
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self):  # -> Dict[str, any]:
         """Returns dictionary."""
         return {
             "title": "-",
@@ -320,7 +320,7 @@ class ProjectSpecification(General):
         self._terms = self._load_terms()
         return self._terms
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self):  # -> Dict[str, any]:
         """Returns dictionary."""
         return {
             "version": self.version,
@@ -357,11 +357,11 @@ class ProjectSpecification(General):
         ]
 
 
-def load_spec(db_couch: CouchDB) -> json:
+def load_spec(db_couch: CouchDB):
     """Dumps database shell."""
     spec = ProjectSpecification(db_couch, "spec")
     spec_dict = spec.to_dict()
     return json.dumps(spec_dict, indent=4, ensure_ascii=False)
 
 
-load_spec(client_couchdb)
+print(load_spec(client_couchdb))
