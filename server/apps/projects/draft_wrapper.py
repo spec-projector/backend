@@ -134,7 +134,9 @@ class Feature(General):
     ) -> Dict[
         str,
         Union[
-            str, Dict[str, str], Dict[str, Union[str, List[Dict[str, str]]]]
+            str,
+            Optional[Dict[str, str]],
+            Optional[Dict[str, Union[str, List[Dict[str, str]]]]],
         ],
     ]:
         """Returns dictionary."""
@@ -178,8 +180,8 @@ class Actor(General):
                     str,
                     Union[
                         str,
-                        Dict[str, str],
-                        Dict[str, Union[str, List[Dict[str, str]]]],
+                        Optional[Dict[str, str]],
+                        Optional[Dict[str, Union[str, List[Dict[str, str]]]]],
                     ],
                 ]
             ],
@@ -220,8 +222,8 @@ class Module(General):
                     str,
                     Union[
                         str,
-                        Dict[str, str],
-                        Dict[str, Union[str, List[Dict[str, str]]]],
+                        Optional[Dict[str, str]],
+                        Optional[Dict[str, Union[str, List[Dict[str, str]]]]],
                     ],
                 ]
             ],
@@ -267,7 +269,7 @@ class Entity(General):
         self._fields = self._load_fields()
         return self._fields
 
-    def to_dict(self) -> Dict[str, List[Dict[str, str]]]:
+    def to_dict(self) -> Dict[str, Union[str, List[Dict[str, str]]]]:
         """Returns dictionary."""
         return {
             "title": self.title,
@@ -294,7 +296,7 @@ class Model(General):
 
     def to_dict(
         self,
-    ) -> Dict[str, Union[str, List[Dict[str, List[Dict[str, str]]]]]]:
+    ) -> Dict[str, Union[str, Dict[str, Union[str, List[Dict[str, str]]]]]]:
         """Returns dictionary."""
         return {
             "title": "-",
@@ -371,7 +373,7 @@ class ProjectSpecification(General):
         str,
         Union[
             str,
-            Dict[str, Union[str, List[Dict[str, List[Dict[str, str]]]]]],
+            Dict[str, Union[str, Dict[str, Union[str, List[Dict[str, str]]]]]],
             Dict[str, str],
             List[str],
             List[
@@ -384,9 +386,12 @@ class ProjectSpecification(General):
                                 str,
                                 Union[
                                     str,
-                                    Dict[str, str],
-                                    Dict[
-                                        str, Union[str, List[Dict[str, str]]]
+                                    Optional[Dict[str, str]],
+                                    Optional[
+                                        Dict[
+                                            str,
+                                            Union[str, List[Dict[str, str]]],
+                                        ]
                                     ],
                                 ],
                             ]
@@ -433,11 +438,24 @@ class ProjectSpecification(General):
         ]
 
 
+class SpecRepresenter:
+    """Represents wrapper of spec-project."""
+
+    def __init__(self, spec: ProjectSpecification):
+        """Initialization."""
+        self._spec = spec
+
+    def print(self):
+        """Prints database shell."""
+        spec_dict = self._spec.to_dict()
+        return print(json.dumps(spec_dict, indent=4, ensure_ascii=False))
+
+
 def load_spec(db_couch: CouchDB):
     """Dumps database shell."""
     spec = ProjectSpecification(db_couch, "spec")
-    spec_dict = spec.to_dict()
-    return json.dumps(spec_dict, indent=4, ensure_ascii=False)
+    printer = SpecRepresenter(spec)
+    return printer.print()
 
 
-print(load_spec(client_couchdb))
+load_spec(client_couchdb)
