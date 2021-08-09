@@ -14,23 +14,24 @@ client_couchdb = client["b6a0cce0-fa1b-45e8-bbb2-3ff859ad8a0c"]
 class General:
     """Base class for all classes from the CouchDB shell."""
 
+    _title: str
+    _name: str
+
     def __init__(self, db_couch: CouchDB, id_doc: str):
         """General variable."""
         self._db_couch = db_couch
         with Document(db_couch, id_doc) as doc:
             self._doc = doc
-        self._title: str
-        self._name: str
 
     @property
-    def name(self) -> Optional[str]:
+    def name(self) -> str:
         """Returns name of document."""
         if self._name is None:
             self._name = self._doc["name"]
         return self._name
 
     @property
-    def title(self) -> Optional[str]:
+    def title(self) -> str:
         """Returns title of document."""
         if self._title is None:
             self._title = self._doc["title"]
