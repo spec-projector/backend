@@ -39,7 +39,7 @@ class General:
 class Term(General):
     """Term class. Terms is listed in the "spec" document."""
 
-    def to_dict(self):  # -> Dict[str, str]:
+    def to_dict(self) -> Dict[str, str]:
         """Returns dictionary with name of document."""
         return {"name": self.name}
 
@@ -47,7 +47,7 @@ class Term(General):
 class Workflow(General):
     """Workflow class. Workflow are listed in documents of type "features"."""
 
-    def to_dict(self):  # -> Dict[str, str]:
+    def to_dict(self) -> Dict[str, str]:
         """Returns dictionary with name of document workflow history."""
         return {"story": self._doc["story"]}
 
@@ -55,7 +55,7 @@ class Workflow(General):
 class Graphql(General):
     """Graphql class. Graphql are listed in documents of type "api"."""
 
-    def to_dict(self):  # -> Dict[str, str]:
+    def to_dict(self) -> Dict[str, str]:
         """Returns dictionary with title of document."""
         return {"title": self.title}
 
@@ -71,7 +71,7 @@ class Api(General):
         self._graphql = self._load_graphql()
         return self._graphql
 
-    def to_dict(self):  # -> Dict[str, Union[str, List[Dict[str, str]]]]:
+    def to_dict(self) -> Dict[str, Union[str, List[Dict[str, str]]]]:
         """Returns dictionary."""
         return {
             "_id": self._doc["_id"],
@@ -122,14 +122,21 @@ class Feature(General):
         except KeyError:
             return None
 
-    def workflow_to_dict(self):  # -> Optional[Dict[str, str]]:
+    def workflow_to_dict(self) -> Optional[Dict[str, str]]:
         """Returns dictionary."""
         try:
             return self.workflow.to_dict()
         except KeyError:
             return None
 
-    def to_dict(self):  # -> Dict[str, any]]:
+    def to_dict(
+        self,
+    ) -> Dict[
+        str,
+        Union[
+            str, Dict[str, str], Dict[str, Union[str, List[Dict[str, str]]]]
+        ],
+    ]:
         """Returns dictionary."""
         if self.api_to_dict() is None and self.workflow_to_dict() is None:
             return {
@@ -160,7 +167,24 @@ class Actor(General):
         self._features = self._load_features()
         return self._features
 
-    def to_dict(self):  # -> Dict[str, any]:
+    def to_dict(
+        self,
+    ) -> Dict[
+        str,
+        Union[
+            str,
+            List[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, str],
+                        Dict[str, Union[str, List[Dict[str, str]]]],
+                    ],
+                ]
+            ],
+        ],
+    ]:
         """Returns dictionary."""
         return {
             "name": self.name,
@@ -185,7 +209,24 @@ class Module(General):
         self._features = self._load_features()
         return self._features
 
-    def to_dict(self):  # -> Dict[str, any]:
+    def to_dict(
+        self,
+    ) -> Dict[
+        str,
+        Union[
+            str,
+            List[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        Dict[str, str],
+                        Dict[str, Union[str, List[Dict[str, str]]]],
+                    ],
+                ]
+            ],
+        ],
+    ]:
         """Returns dictionary."""
         return {
             "name": self.title,
@@ -202,7 +243,7 @@ class Module(General):
 class Tool(General):
     """Tool class. The tool is listed in the "spec" document."""
 
-    def to_dict(self):  # -> Dict[str, str]:
+    def to_dict(self) -> Dict[str, str]:
         """Returns dictionary."""
         return {"_id": self._doc["_id"]}
 
@@ -210,7 +251,7 @@ class Tool(General):
 class Field(General):
     """Field class. The fields are listed in documents of type "entities"."""
 
-    def to_dict(self):  # -> Dict[str, str]:
+    def to_dict(self) -> Dict[str, str]:
         """Returns dictionary."""
         return {"title": self.title, "name": self.name}
 
@@ -226,7 +267,7 @@ class Entity(General):
         self._fields = self._load_fields()
         return self._fields
 
-    def to_dict(self):  # -> Dict[str, List[Dict[str, str]]]:
+    def to_dict(self) -> Dict[str, List[Dict[str, str]]]:
         """Returns dictionary."""
         return {
             "title": self.title,
@@ -251,7 +292,9 @@ class Model(General):
         self._entities = self._load_entities()
         return self._entities
 
-    def to_dict(self):  # -> Dict[str, any]:
+    def to_dict(
+        self,
+    ) -> Dict[str, Union[str, List[Dict[str, List[Dict[str, str]]]]]]:
         """Returns dictionary."""
         return {
             "title": "-",
@@ -322,7 +365,38 @@ class ProjectSpecification(General):
         self._terms = self._load_terms()
         return self._terms
 
-    def to_dict(self):  # -> Dict[str, any]:
+    def to_dict(
+        self,
+    ) -> Dict[
+        str,
+        Union[
+            str,
+            Dict[str, Union[str, List[Dict[str, List[Dict[str, str]]]]]],
+            Dict[str, str],
+            List[str],
+            List[
+                Dict[
+                    str,
+                    Union[
+                        str,
+                        List[
+                            Dict[
+                                str,
+                                Union[
+                                    str,
+                                    Dict[str, str],
+                                    Dict[
+                                        str, Union[str, List[Dict[str, str]]]
+                                    ],
+                                ],
+                            ]
+                        ],
+                    ],
+                ]
+            ],
+            List[Dict[str, str]],
+        ],
+    ]:
         """Returns dictionary."""
         return {
             "version": self.version,
