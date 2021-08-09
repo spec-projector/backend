@@ -1,5 +1,8 @@
 from collections.abc import Sequence
-from typing import *
+from typing import List
+from typing import Dict
+from typing import Tuple
+from typing import NewType
 
 
 def greeting(name: str) -> str:
