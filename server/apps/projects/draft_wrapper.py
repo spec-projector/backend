@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from cloudant.client import CouchDB
 from cloudant.document import Document
@@ -39,7 +39,7 @@ class General:
 class Term(General):
     """Term class. Terms is listed in the "spec" document."""
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self):  # -> Dict[str, str]:
         """Returns dictionary with name of document."""
         return {"name": self.name}
 
@@ -47,7 +47,7 @@ class Term(General):
 class Workflow(General):
     """Workflow class. Workflow are listed in documents of type "features"."""
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self):  # -> Dict[str, str]:
         """Returns dictionary with name of document workflow history."""
         return {"story": self._doc["story"]}
 
@@ -55,7 +55,7 @@ class Workflow(General):
 class Graphql(General):
     """Graphql class. Graphql are listed in documents of type "api"."""
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self):  # -> Dict[str, str]:
         """Returns dictionary with title of document."""
         return {"title": self.title}
 
@@ -71,7 +71,7 @@ class Api(General):
         self._graphql = self._load_graphql()
         return self._graphql
 
-    def to_dict(self) -> Dict[str, Union[str, List[Dict[str, str]]]]:
+    def to_dict(self):  # -> Dict[str, Union[str, List[Dict[str, str]]]]:
         """Returns dictionary."""
         return {
             "_id": self._doc["_id"],
@@ -113,14 +113,16 @@ class Feature(General):
         self._workflow = Workflow(self._db_couch, self._doc["workflow"]["_id"])
         return self._workflow
 
-    def api_to_dict(self) -> Union[Dict[str, str], None]:
+    def api_to_dict(
+        self,
+    ) -> Optional[Dict[str, Union[str, List[Dict[str, str]]]]]:
         """Returns dictionary."""
         try:
             return self.api.to_dict()
         except KeyError:
             return None
 
-    def workflow_to_dict(self) -> Union[Dict[str, str], None]:
+    def workflow_to_dict(self):  # -> Optional[Dict[str, str]]:
         """Returns dictionary."""
         try:
             return self.workflow.to_dict()
@@ -158,7 +160,7 @@ class Actor(General):
         self._features = self._load_features()
         return self._features
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self):  # -> Dict[str, any]:
         """Returns dictionary."""
         return {
             "name": self.name,
@@ -200,7 +202,7 @@ class Module(General):
 class Tool(General):
     """Tool class. The tool is listed in the "spec" document."""
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self):  # -> Dict[str, str]:
         """Returns dictionary."""
         return {"_id": self._doc["_id"]}
 
@@ -208,7 +210,7 @@ class Tool(General):
 class Field(General):
     """Field class. The fields are listed in documents of type "entities"."""
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self):  # -> Dict[str, str]:
         """Returns dictionary."""
         return {"title": self.title, "name": self.name}
 
@@ -224,7 +226,7 @@ class Entity(General):
         self._fields = self._load_fields()
         return self._fields
 
-    def to_dict(self) -> Dict[str, List[Dict[str, str]]]:
+    def to_dict(self):  # -> Dict[str, List[Dict[str, str]]]:
         """Returns dictionary."""
         return {
             "title": self.title,
