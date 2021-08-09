@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Union
 
 from cloudant.client import CouchDB
 from cloudant.document import Document
@@ -14,8 +14,8 @@ client_couchdb = client["b6a0cce0-fa1b-45e8-bbb2-3ff859ad8a0c"]
 class General:
     """Base class for all classes from the CouchDB shell."""
 
-    _title: str = None
-    _name: str = None
+    _title: str
+    _name: str
 
     def __init__(self, db_couch: CouchDB, id_doc: str):
         """General variable."""
@@ -26,15 +26,13 @@ class General:
     @property
     def name(self) -> str:
         """Returns name of document."""
-        if self._name is None:
-            self._name = self._doc["name"]
+        self._name = self._doc["name"]
         return self._name
 
     @property
     def title(self) -> str:
         """Returns title of document."""
-        if self._title is None:
-            self._title = self._doc["title"]
+        self._title = self._doc["title"]
         return self._title
 
 
@@ -65,13 +63,12 @@ class Graphql(General):
 class Api(General):
     """Api class. Api are listed in documents of type "features"."""
 
-    _graphql: List[Graphql] = None
+    _graphql: List[Graphql]
 
     @property
-    def graphql(self) -> Optional[List[Graphql]]:
+    def graphql(self) -> List[Graphql]:
         """Returns list of Graphql objects."""
-        if self._graphql is None:
-            self._graphql = self._load_graphql()
+        self._graphql = self._load_graphql()
         return self._graphql
 
     def to_dict(self) -> Dict[str, any]:
@@ -95,31 +92,25 @@ class Feature(General):
     Features are listed in documents of type "Module" and "Actor".
     """
 
-    _api: Api = None
-    _workflow: Workflow = None
+    _api: Api
+    _workflow: Workflow
 
     @property
-    def title_text(self) -> Optional[str]:
+    def title_text(self) -> str:
         """Returns title of document."""
-        if self._title is None:
-            self._title = self._doc["title"][0]["text"]
+        self._title = self._doc["title"][0]["text"]
         return self._title
 
     @property
-    def api(self) -> Optional[Api]:
+    def api(self) -> Api:
         """Returns Api object."""
-        if self._api is None:
-            self._api = Api(self._db_couch, self._doc["api"]["_id"])
+        self._api = Api(self._db_couch, self._doc["api"]["_id"])
         return self._api
 
     @property
-    def workflow(self) -> Optional[Workflow]:
+    def workflow(self) -> Workflow:
         """Returns Workflow object."""
-        if self._workflow is None:
-            self._workflow = Workflow(
-                self._db_couch,
-                self._doc["workflow"]["_id"],
-            )
+        self._workflow = Workflow(self._db_couch, self._doc["workflow"]["_id"])
         return self._workflow
 
     def api_to_dict(self) -> Union[Dict[str, str], None]:
@@ -159,13 +150,12 @@ class Feature(General):
 class Actor(General):
     """Actor class. Actors are listed in the "spec" document."""
 
-    _features: List[Feature] = None
+    _features: List[Feature]
 
     @property
-    def features(self) -> Optional[List[Feature]]:
+    def features(self) -> List[Feature]:
         """Returns list of Feature objects."""
-        if self._features is None:
-            self._features = self._load_features()
+        self._features = self._load_features()
         return self._features
 
     def to_dict(self) -> Dict[str, any]:
@@ -185,13 +175,12 @@ class Actor(General):
 class Module(General):
     """Module class. Modules are listed in the "spec" document."""
 
-    _features: List[Feature] = None
+    _features: List[Feature]
 
     @property
-    def features(self) -> Optional[List[Feature]]:
+    def features(self) -> List[Feature]:
         """Returns list of Feature objects."""
-        if self._features is None:
-            self._features = self._load_features()
+        self._features = self._load_features()
         return self._features
 
     def to_dict(self) -> Dict[str, any]:
@@ -227,13 +216,12 @@ class Field(General):
 class Entity(General):
     """Entity class. Entities are listed in documents of type "model"."""
 
-    _fields: List[Field] = None
+    _fields: List[Field]
 
     @property
-    def fields(self) -> Optional[List[Field]]:
+    def fields(self) -> List[Field]:
         """Returns list of Field objects."""
-        if self._fields is None:
-            self._fields = self._load_fields()
+        self._fields = self._load_fields()
         return self._fields
 
     def to_dict(self) -> Dict[str, any]:
@@ -253,13 +241,12 @@ class Entity(General):
 class Model(General):
     """Model class. The model is listed in the "spec" document."""
 
-    _entities: List[Entity] = None
+    _entities: List[Entity]
 
     @property
-    def entities(self) -> Optional[List[Entity]]:
+    def entities(self) -> List[Entity]:
         """Returns list of Entity objects."""
-        if self._entities is None:
-            self._entities = self._load_entities()
+        self._entities = self._load_entities()
         return self._entities
 
     def to_dict(self) -> Dict[str, any]:
@@ -279,65 +266,58 @@ class Model(General):
 class ProjectSpecification(General):
     """Stores and collects the project specification."""
 
-    _version: str = None
-    _model: Model = None
-    _tools: Tool = None
-    _resource_types: List[str] = None
-    _actors: List[Actor] = None
-    _modules: List[Module] = None
-    _terms: List[Term] = None
+    _version: str
+    _model: Model
+    _tools: Tool
+    _resource_types: List[str]
+    _actors: List[Actor]
+    _modules: List[Module]
+    _terms: List[Term]
 
     @property
-    def version(self) -> Optional[str]:
+    def version(self) -> str:
         """Version function. The version is listed in the "spec" document."""
-        if self._version is None:
-            self._version = self._doc["scheme"]["version"]
+        self._version = self._doc["scheme"]["version"]
         return self._version
 
     @property
-    def model(self) -> Optional[Model]:
+    def model(self) -> Model:
         """Returns Model object."""
-        if self._model is None:
-            self._model = Model(self._db_couch, self._doc["model"]["_id"])
+        self._model = Model(self._db_couch, self._doc["model"]["_id"])
         return self._model
 
     @property
-    def tools(self) -> Optional[Tool]:
+    def tools(self) -> Tool:
         """Returns Tool object."""
-        if self._tools is None:
-            self._tools = Tool(self._db_couch, self._doc["model"]["_id"])
+        self._tools = Tool(self._db_couch, self._doc["model"]["_id"])
         return self._tools
 
     @property
-    def resource_types(self) -> Optional[List[str]]:
+    def resource_types(self) -> List[str]:
         """
         Resource types function.
 
         The resource types are listed in the "spec" document.
         """
-        if self._resource_types is None:
-            self._resource_types = self._load_resource_types()
+        self._resource_types = self._load_resource_types()
         return self._resource_types
 
     @property
-    def actors(self) -> Optional[List[Actor]]:
+    def actors(self) -> List[Actor]:
         """Returns list of ActorOrModule objects."""
-        if self._actors is None:
-            self._actors = self._load_actors()
+        self._actors = self._load_actors()
         return self._actors
 
     @property
-    def modules(self) -> Optional[List[Module]]:
+    def modules(self) -> List[Module]:
         """Returns list of ActorOrModule objects."""
-        if self._modules is None:
-            self._modules = self._load_modules()
+        self._modules = self._load_modules()
         return self._modules
 
     @property
-    def terms(self) -> Optional[List[Term]]:
+    def terms(self) -> List[Term]:
         """Returns list of Term objects."""
-        if self._terms is None:
-            self._terms = self._load_terms()
+        self._terms = self._load_terms()
         return self._terms
 
     def to_dict(self) -> Dict[str, any]:
