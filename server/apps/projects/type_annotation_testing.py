@@ -1,8 +1,4 @@
-from collections.abc import Sequence
-from typing import List
-from typing import Dict
-from typing import Tuple
-from typing import NewType
+from typing import Dict, List, NewType, Tuple
 
 
 def greeting(name: str) -> str:
@@ -23,10 +19,12 @@ Address = Tuple[str, int]
 Server = Tuple[Address, ConnectionOptions]
 
 
-def broadcast_message(message: str, servers: Sequence[Server]) -> None:
+def broadcast_message(message: str) -> None or str:
     """I want to become an astronaut."""
-    global vec
-    vec = 965483
+    tea = None
+    if tea is None:
+        tea = "sweet tea"
+    return tea
 
 
 UserId = NewType("UserId", int)
