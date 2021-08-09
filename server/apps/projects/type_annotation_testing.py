@@ -1,5 +1,5 @@
 from collections.abc import Sequence
-from typing import NewType
+from typing import *
 
 
 def greeting(name: str) -> str:
@@ -7,7 +7,7 @@ def greeting(name: str) -> str:
     return "Hello: {0}".format(name)
 
 
-Vector = list[float]
+Vector = List[float]
 
 
 def scale(scalar: float, vector: Vector) -> Vector:
@@ -15,9 +15,9 @@ def scale(scalar: float, vector: Vector) -> Vector:
     return [scalar * num for num in vector]
 
 
-ConnectionOptions = dict[str, str]
-Address = tuple[str, int]
-Server = tuple[Address, ConnectionOptions]
+ConnectionOptions = Dict[str, str]
+Address = Tuple[str, int]
+Server = Tuple[Address, ConnectionOptions]
 
 
 def broadcast_message(message: str, servers: Sequence[Server]) -> None:
