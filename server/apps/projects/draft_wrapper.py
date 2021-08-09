@@ -1,5 +1,5 @@
 import json
-from typing import ClassVar, Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 from cloudant.client import CouchDB
 from cloudant.document import Document
@@ -14,8 +14,8 @@ client_couchdb = client["b6a0cce0-fa1b-45e8-bbb2-3ff859ad8a0c"]
 class General:
     """Base class for all classes from the CouchDB shell."""
 
-    _title: str
-    _name: str
+    _title: str = None
+    _name: str = None
 
     def __init__(self, db_couch: CouchDB, id_doc: str):
         """General variable."""
@@ -65,7 +65,7 @@ class Graphql(General):
 class Api(General):
     """Api class. Api are listed in documents of type "features"."""
 
-    _graphql: List[Graphql]
+    _graphql: List[Graphql] = None
 
     @property
     def graphql(self) -> Optional[List[Graphql]]:
@@ -95,8 +95,8 @@ class Feature(General):
     Features are listed in documents of type "Module" and "Actor".
     """
 
-    _api: Api
-    _workflow: Workflow
+    _api: Api = None
+    _workflow: Workflow = None
 
     @property
     def title_text(self) -> Optional[str]:
@@ -122,21 +122,21 @@ class Feature(General):
             )
         return self._workflow
 
-    def api_to_dict(self) -> Union[Dict[str, any], Api]:
+    def api_to_dict(self) -> Union[Dict[str, str], None]:
         """Returns dictionary."""
         try:
             return self.api.to_dict()
         except KeyError:
-            return self._api
+            return None
 
-    def workflow_to_dict(self) -> Union[Dict[str, any], Workflow]:
+    def workflow_to_dict(self) -> Union[Dict[str, str], None]:
         """Returns dictionary."""
         try:
             return self.workflow.to_dict()
         except KeyError:
-            return self._workflow
+            return None
 
-    def to_dict(self) -> Dict[str, any]:
+    def to_dict(self) -> Dict[str, Union[str, List[str]]]:
         """Returns dictionary."""
         if self.api_to_dict() is None and self.workflow_to_dict() is None:
             return {
@@ -159,7 +159,7 @@ class Feature(General):
 class Actor(General):
     """Actor class. Actors are listed in the "spec" document."""
 
-    _features: List[Feature]
+    _features: List[Feature] = None
 
     @property
     def features(self) -> Optional[List[Feature]]:
@@ -185,7 +185,7 @@ class Actor(General):
 class Module(General):
     """Module class. Modules are listed in the "spec" document."""
 
-    _features: List[Feature]
+    _features: List[Feature] = None
 
     @property
     def features(self) -> Optional[List[Feature]]:
@@ -227,7 +227,7 @@ class Field(General):
 class Entity(General):
     """Entity class. Entities are listed in documents of type "model"."""
 
-    _fields: List[Field]
+    _fields: List[Field] = None
 
     @property
     def fields(self) -> Optional[List[Field]]:
@@ -253,7 +253,7 @@ class Entity(General):
 class Model(General):
     """Model class. The model is listed in the "spec" document."""
 
-    _entities: List[Entity]
+    _entities: List[Entity] = None
 
     @property
     def entities(self) -> Optional[List[Entity]]:
@@ -279,13 +279,13 @@ class Model(General):
 class ProjectSpecification(General):
     """Stores and collects the project specification."""
 
-    _version: str
-    _model: Model
-    _tools: Tool
-    _resource_types: List[str]
-    _actors = List[Actor]
-    _modules = List[Module]
-    _terms = List[Term]
+    _version: str = None
+    _model: Model = None
+    _tools: Tool = None
+    _resource_types: List[str] = None
+    _actors: List[Actor] = None
+    _modules: List[Module] = None
+    _terms: List[Term] = None
 
     @property
     def version(self) -> Optional[str]:
