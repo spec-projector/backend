@@ -296,7 +296,10 @@ class Model(General):
 
     def to_dict(
         self,
-    ) -> Dict[str, Union[str, Dict[str, Union[str, List[Dict[str, str]]]]]]:
+    ) -> Dict[
+        str,
+        Union[str, List[Dict[str, Union[str, List[Dict[str, str]]]]]],
+    ]:
         """Returns dictionary."""
         return {
             "title": "-",
@@ -373,7 +376,10 @@ class ProjectSpecification(General):
         str,
         Union[
             str,
-            Dict[str, Union[str, Dict[str, Union[str, List[Dict[str, str]]]]]],
+            Dict[
+                str,
+                Union[str, List[Dict[str, Union[str, List[Dict[str, str]]]]]],
+            ],
             Dict[str, str],
             List[str],
             List[
@@ -445,17 +451,17 @@ class SpecRepresenter:
         """Initialization."""
         self._spec = spec
 
-    def print(self):
+    def print(self) -> None:
         """Prints database shell."""
         spec_dict = self._spec.to_dict()
-        return print(json.dumps(spec_dict, indent=4, ensure_ascii=False))
+        print(json.dumps(spec_dict, indent=4, ensure_ascii=False))
 
 
-def load_spec(db_couch: CouchDB):
+def load_spec(db_couch: CouchDB) -> None:
     """Dumps database shell."""
     spec = ProjectSpecification(db_couch, "spec")
     printer = SpecRepresenter(spec)
-    return printer.print()
+    printer.print()
 
 
 load_spec(client_couchdb)
