@@ -10,6 +10,27 @@ URL = "http://127.0.0.1:5984"
 client = CouchDB(USERNAME, PASSWORD, url=URL, connect=True, auto_renew=True)
 client_couchdb = client["b6a0cce0-fa1b-45e8-bbb2-3ff859ad8a0c"]
 
+t_list_graphql = List[Dict[str, str]]
+t_o_workflow = Optional[Dict[str, str]]
+t_api = Dict[str, Union[str, t_list_graphql]]
+t_o_api = Optional[t_api]
+t_list_feature = List[Dict[str, Union[str, t_o_api, t_o_workflow]]]
+t_list_field = List[Dict[str, str]]
+t_list_entity = List[Dict[str, Union[str, t_list_field]]]
+t_model = Dict[str, Union[str, t_list_entity]]
+t_tools = Dict[str, str]
+t_resource_types = List[str]
+t_actor = Dict[str, Union[str, t_list_feature]]
+t_list_term = List[Dict[str, str]]
+t_union_spec = Union[
+    str,
+    t_model,
+    t_tools,
+    t_resource_types,
+    List[t_actor],
+    t_list_term,
+]
+
 
 class General:
     """Base class for all classes from the CouchDB shell."""
@@ -71,7 +92,7 @@ class Api(General):
         self._graphql = self._load_graphql()
         return self._graphql
 
-    def to_dict(self) -> Dict[str, Union[str, List[Dict[str, str]]]]:
+    def to_dict(self) -> Dict[str, Union[str, t_list_graphql]]:
         """Returns dictionary."""
         return {
             "_id": self._doc["_id"],
@@ -113,9 +134,7 @@ class Feature(General):
         self._workflow = Workflow(self._db_couch, self._doc["workflow"]["_id"])
         return self._workflow
 
-    def api_to_dict(
-        self,
-    ) -> Optional[Dict[str, Union[str, List[Dict[str, str]]]]]:
+    def api_to_dict(self) -> Optional[t_api]:
         """Returns dictionary."""
         try:
             return self.api.to_dict()
@@ -129,16 +148,7 @@ class Feature(General):
         except KeyError:
             return None
 
-    def to_dict(
-        self,
-    ) -> Dict[
-        str,
-        Union[
-            str,
-            Optional[Dict[str, str]],
-            Optional[Dict[str, Union[str, List[Dict[str, str]]]]],
-        ],
-    ]:
+    def to_dict(self) -> Dict[str, Union[str, t_o_api, t_o_workflow]]:
         """Returns dictionary."""
         if self.api_to_dict() is None and self.workflow_to_dict() is None:
             return {
@@ -169,24 +179,7 @@ class Actor(General):
         self._features = self._load_features()
         return self._features
 
-    def to_dict(
-        self,
-    ) -> Dict[
-        str,
-        Union[
-            str,
-            List[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Optional[Dict[str, str]],
-                        Optional[Dict[str, Union[str, List[Dict[str, str]]]]],
-                    ],
-                ]
-            ],
-        ],
-    ]:
+    def to_dict(self) -> Dict[str, Union[str, t_list_feature]]:
         """Returns dictionary."""
         return {
             "name": self.name,
@@ -211,24 +204,7 @@ class Module(General):
         self._features = self._load_features()
         return self._features
 
-    def to_dict(
-        self,
-    ) -> Dict[
-        str,
-        Union[
-            str,
-            List[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        Optional[Dict[str, str]],
-                        Optional[Dict[str, Union[str, List[Dict[str, str]]]]],
-                    ],
-                ]
-            ],
-        ],
-    ]:
+    def to_dict(self) -> Dict[str, Union[str, t_list_feature]]:
         """Returns dictionary."""
         return {
             "name": self.title,
@@ -269,7 +245,7 @@ class Entity(General):
         self._fields = self._load_fields()
         return self._fields
 
-    def to_dict(self) -> Dict[str, Union[str, List[Dict[str, str]]]]:
+    def to_dict(self) -> Dict[str, Union[str, t_list_field]]:
         """Returns dictionary."""
         return {
             "title": self.title,
@@ -294,12 +270,7 @@ class Model(General):
         self._entities = self._load_entities()
         return self._entities
 
-    def to_dict(
-        self,
-    ) -> Dict[
-        str,
-        Union[str, List[Dict[str, Union[str, List[Dict[str, str]]]]]],
-    ]:
+    def to_dict(self) -> Dict[str, Union[str, t_list_entity]]:
         """Returns dictionary."""
         return {
             "title": "-",
@@ -370,44 +341,7 @@ class ProjectSpecification(General):
         self._terms = self._load_terms()
         return self._terms
 
-    def to_dict(
-        self,
-    ) -> Dict[
-        str,
-        Union[
-            str,
-            Dict[
-                str,
-                Union[str, List[Dict[str, Union[str, List[Dict[str, str]]]]]],
-            ],
-            Dict[str, str],
-            List[str],
-            List[
-                Dict[
-                    str,
-                    Union[
-                        str,
-                        List[
-                            Dict[
-                                str,
-                                Union[
-                                    str,
-                                    Optional[Dict[str, str]],
-                                    Optional[
-                                        Dict[
-                                            str,
-                                            Union[str, List[Dict[str, str]]],
-                                        ]
-                                    ],
-                                ],
-                            ]
-                        ],
-                    ],
-                ]
-            ],
-            List[Dict[str, str]],
-        ],
-    ]:
+    def to_dict(self) -> Dict[str, t_union_spec]:
         """Returns dictionary."""
         return {
             "version": self.version,
@@ -444,24 +378,11 @@ class ProjectSpecification(General):
         ]
 
 
-class SpecRepresenter:
-    """Represents wrapper of spec-project."""
-
-    def __init__(self, spec: ProjectSpecification):
-        """Initialization."""
-        self._spec = spec
-
-    def print(self) -> None:
-        """Prints database shell."""
-        spec_dict = self._spec.to_dict()
-        print(json.dumps(spec_dict, indent=4, ensure_ascii=False))
-
-
-def load_spec(db_couch: CouchDB) -> None:
+def load_spec(db_couch: CouchDB) -> json:
     """Dumps database shell."""
     spec = ProjectSpecification(db_couch, "spec")
-    printer = SpecRepresenter(spec)
-    printer.print()
+    spec_dict = spec.to_dict()
+    return json.dumps(spec_dict, indent=4, ensure_ascii=False)
 
 
 load_spec(client_couchdb)
