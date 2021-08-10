@@ -378,7 +378,7 @@ class ProjectSpecification(General):
         ]
 
 
-def load_spec(db_couch: CouchDB) -> json:
+def load_spec(db_couch: CouchDB):
     """Dumps database shell."""
     spec = ProjectSpecification(db_couch, "spec")
     spec_dict = spec.to_dict()
